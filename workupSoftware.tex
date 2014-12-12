@@ -1,0 +1,47 @@
+\documentclass[10pt]{book}
+\newif\ifshowall
+\showalltrue
+%\showallfalse
+%\documentclass[twocolumn,nofootinbib]{revtex4}
+\usepackage{cmap}
+\usepackage[T1]{fontenc}
+\usepackage{mynotebook}
+%\usepackage[english,greek]{babel}
+\synctex=1
+%DIF PREAMBLE EXTENSION ADDED BY LATEXDIFF
+%DIF UNDERLINE PREAMBLE %DIF PREAMBLE
+\RequirePackage[normalem]{ulem} %DIF PREAMBLE
+\RequirePackage{color}\definecolor{RED}{rgb}{1,0,0}\definecolor{BLUE}{rgb}{0,0,1} %DIF PREAMBLE
+%\providecommand{\DIFadd}[1]{\begingroup\protect\color{blue}\uwave{#1}\endgroup} %DIF PREAMBLE
+\providecommand{\DIFadd}[1]{#1} %DIF PREAMBLE
+%\providecommand{\DIFdel}[1]{\begingroup\protect\color{red}\sout{#1}\endgroup}                      %DIF PREAMBLE
+\providecommand{\DIFdel}[1]{#1}                      %DIF PREAMBLE
+%DIF SAFE PREAMBLE %DIF PREAMBLE
+\providecommand{\DIFaddbegin}{\color{blue}} %DIF PREAMBLE
+\providecommand{\DIFaddend}{\color{black}} %DIF PREAMBLE
+\providecommand{\DIFdelbegin}{} %DIF PREAMBLE
+\providecommand{\DIFdelend}{} %DIF PREAMBLE
+%DIF FLOATSAFE PREAMBLE %DIF PREAMBLE
+\providecommand{\DIFaddFL}[1]{\DIFadd{#1}} %DIF PREAMBLE
+\providecommand{\DIFdelFL}[1]{\DIFdel{#1}} %DIF PREAMBLE
+\providecommand{\DIFaddbeginFL}{} %DIF PREAMBLE
+\providecommand{\DIFaddendFL}{} %DIF PREAMBLE
+\providecommand{\DIFdelbeginFL}{} %DIF PREAMBLE
+\providecommand{\DIFdelendFL}{} %DIF PREAMBLE
+%DIF END PREAMBLE EXTENSION ADDED BY LATEXDIFF
+\usepackage[nolandscape]{mylists}
+
+\author{Ryan Barnes}
+\title{ODNP Workup Software}
+\date{\today}
+\begin{document}
+\maketitle
+\section{Introduction}
+This guide outlines, in very rough detail, the how to of operating the ODNP workup software with python. Right now this is fairly unorganized but I would appreciate your help in making this work towards what you need it for. 
+
+\section{Random Collection of Thoughts and Notes for now}
+Really I'm sorry to do it like this for now but I'm not sure of an organization so for the time being this will have to do.
+
+After you run the code $'returnIntegrals.py'$ and $'plots.pdf'$ opens scroll through the $T_1$ series plots and make sure the fits look good. If you see that one or many fits did not converge change the parameter \o[$'t1StartingGuess'$]{} in $'returnIntegrals.py'$, this is the starting guess for the $T_1$ value (in seconds) of the fit as long as it's within a second of the actual value it should be good.
+
+\end{document}
