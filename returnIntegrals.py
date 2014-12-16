@@ -23,16 +23,16 @@ fl = figlistl()
 # The sample name should be date_sample_site_concentration_bindingPartner
 header = '/Users/StupidRobot/exp_data/'
 path = 'ryan_cnsi/nmr/'
-name = '140724_CheY_CtermC_400uM_ODNP'
+name = '141201_P6C_Cterm_None_600uM_RT_ODNP'
 name = raw_input('What is the experiment file name that you wish to work up? ')
 name = str(name)
 
 fullPath = header + path + name
-dnpExps = r_[5:35]
-t1Exp = r_[36:46,304]
+dnpExps = r_[5:27]
+t1Exp = r_[28:38,304]
 integrationWidth = 1.5e2
 t1StartingGuess = 1.14 ### This is the best guess for what your T1's are, if your T1 fits don't come out change this guess!!
-RetrunKSigma = True ### This needs to be False because my code is broken
+ReturnKSigma = True ### This needs to be False because my code is broken
 
 
 #{{{ Index Files
@@ -64,8 +64,8 @@ plot(enhancementSeries.copy().set_error(None),'b',alpha = 0.5)
 title('NMR Enhancement')
 #}}}
 
-#{{{ T1 Power and Integration
-### The T1 of Power Series
+#{{{ T1 Integration
+### The T1 Series
 # Power File
 t1SeriesList = []
 t1DataList = []
@@ -102,7 +102,7 @@ t1Series = nddata(array(t1DataList)).rename('value','expNum').labels(['expNum'],
 ### Work up the power files#{{{
 # The enhancement series#{{{
 fl.figurelist.append({'print_string':r'\subparagraph{Enhancement Power Measurement}' + '\n\n'})
-enhancementPowers,fl.figurelist = auto_steps(fullPath + '/' + 'power.mat',minstdev = 0.034,first_figure = fl.figurelist)
+enhancementPowers,fl.figurelist = returnSplitPowers(fullPath,'power.mat',expTimeMin = 70,dnpPowers = True,threshold = 0.3,firstFigure = fl.figurelist)
 enhancementPowers = list(enhancementPowers)
 enhancementPowers.insert(0,-100)
 enhancementPowers = array(enhancementPowers)
@@ -134,11 +134,11 @@ timesE = powerFile.pop('timelist')
 timesE = [x for i in timesE for x in i]
 #}}}
 
-# The T1 series#{{{
+# The T1 Power Series#{{{
 fl.figurelist.append({'print_string':r'\subparagraph{$T_1$ Power Measurement}' + '\n\n'})
-t1Power,fl.figurelist = auto_steps(fullPath+'/t1_powers.mat',threshold = -35,minstdev=0.10,t_minlength = 5.0*60,t_maxlen = 40*60, t_start = 4.9*60.,t_stop = inf,first_figure = fl.figurelist,title_name = 't1PowerSeries')
+t1Power,fl.figurelist = returnSplitPowers(fullPath,'t1_powers.mat',expTimeMin = 100,dnpPowers = False,threshold = 0.3,firstFigure = fl.figurelist)
 t1Power = list(t1Power)
-t1Power.append(-99.0)
+t1Power.append(-99.0) # Add the zero power for experiment 304
 t1Power = array(t1Power)
 t1Power = dbm_to_power(t1Power)
 # Open the t1 powers file and dump to csv
@@ -150,16 +150,37 @@ timesT1 = powerFile.pop('timelist')
 timesT1 = [x for i in timesT1 for x in i]
 try:
     t1PowerSeries = nddata(array(t1DataList)).rename('value','power').labels(['power'],[array(t1Power)]).set_error(array(t1ErrList))
+    fl.figurelist = nextfigure(fl.figurelist,'T1PowerSeries')
+    plot(t1PowerSeries,'r.')
+    xlim(t1PowerSeries.getaxis('power').min()-0.2,t1PowerSeries.getaxis('power').max()+0.2)
+    title('$T_1$ Power Series')
 except:
     t1PowerSeries = False
     fl.figurelist.append({'print_string':r"I couldn't match the power indecies to the $T_1$ series. You will have to do this manually in the csv file 't1Powers.csv'" + '\n\n'})
 #}}}
 #}}}
 
-### Compute kSigma if the powers files worked out
-if RetrunKSigma and enhancementPowerSeries and t1PowerSeries: # Both power series worked out
+### Compute kSigma if the powers files worked out#{{{
+if ReturnKSigma and enhancementPowerSeries and t1PowerSeries: # Both power series worked out
     R1 = nddata(t1Series['expNum',lambda x: x == 304].data).set_error(t1Series['expNum',lambda x: x == 304].get_error())
-    rateFit = 1./t1PowerSeries
+    #{{{ Fit the relaxation rate power series
+    rateSeries = 1/t1PowerSeries.runcopy(real)
+    powers = linspace(0,t1PowerSeries.getaxis('power').max(),100)
+    ### 2nd order fit
+    c,fit = rateSeries.copy().polyfit('power',order = 2)
+    fit.set_error(array(rateSeries.get_error())) # this is really not right but for now just winging something this'll put us in the ball park
+    rateFit = nddata(c[0] + c[1]*powers + c[2]*powers**2).rename('value','power').labels(['power'],[powers])
+    #### 1st order fit
+    #c,fit = rateSeries.polyfit('power',order = 1)
+    #fit.set_error(array(rateSeries.get_error())) # this is really not right but for now just winging something this'll put us in the ball park
+    #rateFit = nddata(c[0] + c[1]*powers).rename('value','power').labels(['power'],[powers])
+    fl.figurelist = nextfigure(fl.figurelist,'Rate Series')
+    plot(rateSeries,'r.')
+    plot(rateFit)
+    xlim(rateSeries.getaxis('power').min() - 0.1*rateSeries.getaxis('power').max(), rateSeries.getaxis('power').max() + 0.1*rateSeries.getaxis('power').max())
+    ylim(0,rateSeries.data.max() + 0.1)
+    title('Rate Series')
+    #}}}
     kSigmaUCCurve = (1-enhancementPowerSeries.copy())*R1*(1./659.33)
     kSigmaUCCurve.popdim('value') # For some reason it picks this up from R1, I'm not sure how to do the above nicely 
     kSigmaUCCurve.set_error(None)
@@ -183,7 +204,7 @@ if RetrunKSigma and enhancementPowerSeries and t1PowerSeries: # Both power serie
     text(0.5,0.25,kSigmaUCCurve.latex(),transform = ax.transAxes,size = 'x-large', horizontalalignment = 'center',color = 'b')
     title('$k_{\\sigma} \\ S_{max}\\ Conc$')
     legend(loc=4)
-
+#}}}
 
 #{{{ ### Write everything to a csv file as well
 try:
@@ -194,7 +215,7 @@ except:
 
 ### Write the enhancement power file 
 if enhancementPowerSeries:
-    enhancementPowersWriter = [('power (W)','Integral')] + zip(list(enhancementPowerSeries.getaxis('power')),list(enhancementPowerSeries.data)) + [('\n')] +  [('power (W)','time (s)')] + zip(list(powersE),list(timesE))
+    enhancementPowersWriter = [('power (W)','Integral','Exp Num')] + zip(list(enhancementPowerSeries.getaxis('power')),list(enhancementPowerSeries.data),list(enhancementSeries.getaxis('expNum'))) + [('\n')] +  [('power (W)','time (s)')] + zip(list(powersE),list(timesE))
 else:
     enhancementPowersWriter = [('power (W)',)] + zip(list(enhancementPowers)) + [('\n')] +  [('power (W)','time (s)')] + zip(list(powersE),list(timesE))
 with open(name + '/enhancementPowers.csv','wb') as csvFile:
@@ -203,7 +224,7 @@ with open(name + '/enhancementPowers.csv','wb') as csvFile:
 
 ### Write the T1 power file 
 if t1PowerSeries:
-    t1PowersWriter = [('power (W)','T_1 (s)','T_1 error (s)')] + zip(list(t1PowerSeries.getaxis('power')),list(t1PowerSeries.data),list(t1PowerSeries.get_error())) + [('\n')] +  [('power (W)','time (s)')] + zip(list(powersT1),list(timesT1))
+    t1PowersWriter = [('power (W)','T_1 (s)','T_1 error (s)','Exp Num')] + zip(list(t1PowerSeries.getaxis('power')),list(t1PowerSeries.data),list(t1PowerSeries.get_error()),list(t1Series.getaxis('expNum'))) + [('\n')] +  [('power (W)','time (s)')] + zip(list(powersT1),list(timesT1))
 else:
     t1PowersWriter = [('power (W)',)] + zip(list(t1Power)) + [('\n')] +  [('power (W)','time (s)')] + zip(list(powersT1),list(timesT1))
 with open(name + '/t1Powers.csv','wb') as csvFile:
@@ -227,6 +248,11 @@ for count,t1Set in enumerate(t1SeriesList):
     with open(name + '/t1Integral%d.csv'%t1Exp[count],'wb') as csvFile:
         writer = csv.writer(csvFile,delimiter =',')
         writer.writerows(t1SetWriter)
+if ReturnKSigma:
+    kSigmaWriter = [('kSigma','error')] + zip(list(kSigmaC.data),list(kSigmaC.get_error())) + [('\n')] + [('kSigma','power')] + zip(list(kSigmaCCurve.runcopy(real).data),list(kSigmaCCurve.getaxis('power')))
+    with open(name + '/kSigma.csv','wb') as csvFile:
+        writer = csv.writer(csvFile,delimiter =',')
+        writer.writerows(kSigmaWriter)
 #}}}
 
 #{{{ Compile the pdf output

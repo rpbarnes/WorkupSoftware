@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2012.6.30)  12 DEC 2014 09:12
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2012.6.30)  12 DEC 2014 22:12
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**140724_CheY_CtermC_400uM_ODNP/plots.tex
-(./140724_CheY_CtermC_400uM_ODNP/plots.tex
+**141201_P6C_Cterm_None_600uM_RT_ODNP/plots.tex
+(./141201_P6C_Cterm_None_600uM_RT_ODNP/plots.tex
 LaTeX2e <2011/06/27>
 Babel <v3.8m> and hyphenation patterns for english, dumylang, nohyphenation, ge
 rman-x-2012-05-30, ngerman-x-2012-05-30, afrikaans, ancientgreek, ibycus, arabi
@@ -1171,49 +1171,51 @@ File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 LaTeX Font Info:    Font shape `OT1/pcr/bx/n' in size <9> not available
 (Font)              Font shape `OT1/pcr/b/n' tried instead on input line 17.
 
-<auto_figures/phcycchan_140724_CheY_CtermC_400uM_ODNP.pdf, id=29, 578.16pt x 43
-3.62pt>
-File: auto_figures/phcycchan_140724_CheY_CtermC_400uM_ODNP.pdf Graphic file (ty
-pe pdf)
- <use auto_figures/phcycchan_140724_CheY_CtermC_400uM_ODNP.pdf>
-Package pdftex.def Info: auto_figures/phcycchan_140724_CheY_CtermC_400uM_ODNP.p
-df used on input line 37.
+<auto_figures/phcycchan_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf, id=29, 578.16p
+t x 433.62pt>
+File: auto_figures/phcycchan_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf Graphic fi
+le (type pdf)
+
+<use auto_figures/phcycchan_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/phcycchan_141201_P6C_Cterm_None_600uM_RT_
+ODNP.pdf used on input line 37.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 37--37
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- phcycchan _ 140724 _ CheY _ CtermC _ 400uM _
+ phcycchan _ 141201 _ P6C _ Cterm _ None _ 600uM _
  []
 
 
-<auto_figures/intpeaks_140724_CheY_CtermC_400uM_ODNP.pdf, id=31, 578.16pt x 433
-.62pt>
-File: auto_figures/intpeaks_140724_CheY_CtermC_400uM_ODNP.pdf Graphic file (typ
-e pdf)
- <use auto_figures/intpeaks_140724_CheY_CtermC_400uM_ODNP.pdf>
-Package pdftex.def Info: auto_figures/intpeaks_140724_CheY_CtermC_400uM_ODNP.pd
-f used on input line 51.
+<auto_figures/intpeaks_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf, id=31, 578.16pt
+ x 433.62pt>
+File: auto_figures/intpeaks_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf Graphic fil
+e (type pdf)
+
+<use auto_figures/intpeaks_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/intpeaks_141201_P6C_Cterm_None_600uM_RT_O
+DNP.pdf used on input line 51.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 51--51
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- intpeaks _ 140724 _ CheY _ CtermC _ 400uM _ ODNP .
+ intpeaks _ 141201 _ P6C _ Cterm _ None _ 600uM _
  []
 
 
-<auto_figures/EnhancementExpSeries_140724_CheY_CtermC_400uM_ODNP.pdf, id=33, 57
-8.16pt x 433.62pt>
-File: auto_figures/EnhancementExpSeries_140724_CheY_CtermC_400uM_ODNP.pdf Graph
-ic file (type pdf)
+<auto_figures/EnhancementExpSeries_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf, id=
+33, 578.16pt x 433.62pt>
+File: auto_figures/EnhancementExpSeries_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf
+ Graphic file (type pdf)
 
-<use auto_figures/EnhancementExpSeries_140724_CheY_CtermC_400uM_ODNP.pdf>
-Package pdftex.def Info: auto_figures/EnhancementExpSeries_140724_CheY_CtermC_4
-00uM_ODNP.pdf used on input line 65.
+<use auto_figures/EnhancementExpSeries_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/EnhancementExpSeries_141201_P6C_Cterm_Non
+e_600uM_RT_ODNP.pdf used on input line 65.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 65--65
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- EnhancementExpSeries _ 140724 _ CheY _
+ EnhancementExpSeries _ 141201 _ P6C _ Cterm _
  []
 
 
@@ -1222,51 +1224,51 @@ Overfull \hbox (21.24393pt too wide) in paragraph at lines 37--66
  []
 
 
-<auto_figures/phcycchant1Expno_36_140724_CheY_CtermC_400uM_ODNP.pdf, id=35, 578
-.16pt x 433.62pt>
-File: auto_figures/phcycchant1Expno_36_140724_CheY_CtermC_400uM_ODNP.pdf Graphi
-c file (type pdf)
+<auto_figures/phcycchant1Expno_28_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf, id=3
+5, 578.16pt x 433.62pt>
+File: auto_figures/phcycchant1Expno_28_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf 
+Graphic file (type pdf)
 
-<use auto_figures/phcycchant1Expno_36_140724_CheY_CtermC_400uM_ODNP.pdf>
-Package pdftex.def Info: auto_figures/phcycchant1Expno_36_140724_CheY_CtermC_40
-0uM_ODNP.pdf used on input line 97.
+<use auto_figures/phcycchant1Expno_28_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/phcycchant1Expno_28_141201_P6C_Cterm_None
+_600uM_RT_ODNP.pdf used on input line 97.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 97--97
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- phcycchant1Expno _ 36 _ 140724 _ CheY _ CtermC _
+ phcycchant1Expno _ 28 _ 141201 _ P6C _ Cterm _
  []
 
 
-<auto_figures/intpeakst1Expno_36_140724_CheY_CtermC_400uM_ODNP.pdf, id=37, 578.
-16pt x 433.62pt>
-File: auto_figures/intpeakst1Expno_36_140724_CheY_CtermC_400uM_ODNP.pdf Graphic
- file (type pdf)
+<auto_figures/intpeakst1Expno_28_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf, id=37
+, 578.16pt x 433.62pt>
+File: auto_figures/intpeakst1Expno_28_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf G
+raphic file (type pdf)
 
-<use auto_figures/intpeakst1Expno_36_140724_CheY_CtermC_400uM_ODNP.pdf>
-Package pdftex.def Info: auto_figures/intpeakst1Expno_36_140724_CheY_CtermC_400
-uM_ODNP.pdf used on input line 111.
+<use auto_figures/intpeakst1Expno_28_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/intpeakst1Expno_28_141201_P6C_Cterm_None_
+600uM_RT_ODNP.pdf used on input line 111.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 111--111
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- intpeakst1Expno _ 36 _ 140724 _ CheY _ CtermC _
+ intpeakst1Expno _ 28 _ 141201 _ P6C _ Cterm _
  []
 
 
-<auto_figures/t1RawDataExp36_140724_CheY_CtermC_400uM_ODNP.pdf, id=39, 578.16pt
- x 433.62pt>
-File: auto_figures/t1RawDataExp36_140724_CheY_CtermC_400uM_ODNP.pdf Graphic fil
-e (type pdf)
+<auto_figures/t1RawDataExp28_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf, id=39, 57
+8.16pt x 433.62pt>
+File: auto_figures/t1RawDataExp28_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf Graph
+ic file (type pdf)
 
-<use auto_figures/t1RawDataExp36_140724_CheY_CtermC_400uM_ODNP.pdf>
-Package pdftex.def Info: auto_figures/t1RawDataExp36_140724_CheY_CtermC_400uM_O
-DNP.pdf used on input line 125.
+<use auto_figures/t1RawDataExp28_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/t1RawDataExp28_141201_P6C_Cterm_None_600u
+M_RT_ODNP.pdf used on input line 125.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 125--125
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- t1RawDataExp36 _ 140724 _ CheY _ CtermC _
+ t1RawDataExp28 _ 141201 _ P6C _ Cterm _ None _
  []
 
 
@@ -1275,51 +1277,51 @@ Overfull \hbox (21.24393pt too wide) in paragraph at lines 97--126
  []
 
 
-<auto_figures/phcycchant1Expno_37_140724_CheY_CtermC_400uM_ODNP.pdf, id=41, 578
-.16pt x 433.62pt>
-File: auto_figures/phcycchant1Expno_37_140724_CheY_CtermC_400uM_ODNP.pdf Graphi
-c file (type pdf)
+<auto_figures/phcycchant1Expno_29_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf, id=4
+1, 578.16pt x 433.62pt>
+File: auto_figures/phcycchant1Expno_29_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf 
+Graphic file (type pdf)
 
-<use auto_figures/phcycchant1Expno_37_140724_CheY_CtermC_400uM_ODNP.pdf>
-Package pdftex.def Info: auto_figures/phcycchant1Expno_37_140724_CheY_CtermC_40
-0uM_ODNP.pdf used on input line 148.
+<use auto_figures/phcycchant1Expno_29_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/phcycchant1Expno_29_141201_P6C_Cterm_None
+_600uM_RT_ODNP.pdf used on input line 148.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 148--148
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- phcycchant1Expno _ 37 _ 140724 _ CheY _ CtermC _
+ phcycchant1Expno _ 29 _ 141201 _ P6C _ Cterm _
  []
 
 
-<auto_figures/intpeakst1Expno_37_140724_CheY_CtermC_400uM_ODNP.pdf, id=43, 578.
-16pt x 433.62pt>
-File: auto_figures/intpeakst1Expno_37_140724_CheY_CtermC_400uM_ODNP.pdf Graphic
- file (type pdf)
+<auto_figures/intpeakst1Expno_29_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf, id=43
+, 578.16pt x 433.62pt>
+File: auto_figures/intpeakst1Expno_29_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf G
+raphic file (type pdf)
 
-<use auto_figures/intpeakst1Expno_37_140724_CheY_CtermC_400uM_ODNP.pdf>
-Package pdftex.def Info: auto_figures/intpeakst1Expno_37_140724_CheY_CtermC_400
-uM_ODNP.pdf used on input line 162.
+<use auto_figures/intpeakst1Expno_29_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/intpeakst1Expno_29_141201_P6C_Cterm_None_
+600uM_RT_ODNP.pdf used on input line 162.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 162--162
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- intpeakst1Expno _ 37 _ 140724 _ CheY _ CtermC _
+ intpeakst1Expno _ 29 _ 141201 _ P6C _ Cterm _
  []
 
 
-<auto_figures/t1RawDataExp37_140724_CheY_CtermC_400uM_ODNP.pdf, id=45, 578.16pt
- x 433.62pt>
-File: auto_figures/t1RawDataExp37_140724_CheY_CtermC_400uM_ODNP.pdf Graphic fil
-e (type pdf)
+<auto_figures/t1RawDataExp29_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf, id=45, 57
+8.16pt x 433.62pt>
+File: auto_figures/t1RawDataExp29_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf Graph
+ic file (type pdf)
 
-<use auto_figures/t1RawDataExp37_140724_CheY_CtermC_400uM_ODNP.pdf>
-Package pdftex.def Info: auto_figures/t1RawDataExp37_140724_CheY_CtermC_400uM_O
-DNP.pdf used on input line 176.
+<use auto_figures/t1RawDataExp29_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/t1RawDataExp29_141201_P6C_Cterm_None_600u
+M_RT_ODNP.pdf used on input line 176.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 176--176
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- t1RawDataExp37 _ 140724 _ CheY _ CtermC _
+ t1RawDataExp29 _ 141201 _ P6C _ Cterm _ None _
  []
 
 
@@ -1328,51 +1330,51 @@ Overfull \hbox (21.24393pt too wide) in paragraph at lines 148--177
  []
 
 
-<auto_figures/phcycchant1Expno_38_140724_CheY_CtermC_400uM_ODNP.pdf, id=47, 578
-.16pt x 433.62pt>
-File: auto_figures/phcycchant1Expno_38_140724_CheY_CtermC_400uM_ODNP.pdf Graphi
-c file (type pdf)
+<auto_figures/phcycchant1Expno_30_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf, id=4
+7, 578.16pt x 433.62pt>
+File: auto_figures/phcycchant1Expno_30_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf 
+Graphic file (type pdf)
 
-<use auto_figures/phcycchant1Expno_38_140724_CheY_CtermC_400uM_ODNP.pdf>
-Package pdftex.def Info: auto_figures/phcycchant1Expno_38_140724_CheY_CtermC_40
-0uM_ODNP.pdf used on input line 199.
+<use auto_figures/phcycchant1Expno_30_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/phcycchant1Expno_30_141201_P6C_Cterm_None
+_600uM_RT_ODNP.pdf used on input line 199.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 199--199
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- phcycchant1Expno _ 38 _ 140724 _ CheY _ CtermC _
+ phcycchant1Expno _ 30 _ 141201 _ P6C _ Cterm _
  []
 
 
-<auto_figures/intpeakst1Expno_38_140724_CheY_CtermC_400uM_ODNP.pdf, id=49, 578.
-16pt x 433.62pt>
-File: auto_figures/intpeakst1Expno_38_140724_CheY_CtermC_400uM_ODNP.pdf Graphic
- file (type pdf)
+<auto_figures/intpeakst1Expno_30_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf, id=49
+, 578.16pt x 433.62pt>
+File: auto_figures/intpeakst1Expno_30_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf G
+raphic file (type pdf)
 
-<use auto_figures/intpeakst1Expno_38_140724_CheY_CtermC_400uM_ODNP.pdf>
-Package pdftex.def Info: auto_figures/intpeakst1Expno_38_140724_CheY_CtermC_400
-uM_ODNP.pdf used on input line 213.
+<use auto_figures/intpeakst1Expno_30_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/intpeakst1Expno_30_141201_P6C_Cterm_None_
+600uM_RT_ODNP.pdf used on input line 213.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 213--213
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- intpeakst1Expno _ 38 _ 140724 _ CheY _ CtermC _
+ intpeakst1Expno _ 30 _ 141201 _ P6C _ Cterm _
  []
 
 
-<auto_figures/t1RawDataExp38_140724_CheY_CtermC_400uM_ODNP.pdf, id=51, 578.16pt
- x 433.62pt>
-File: auto_figures/t1RawDataExp38_140724_CheY_CtermC_400uM_ODNP.pdf Graphic fil
-e (type pdf)
+<auto_figures/t1RawDataExp30_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf, id=51, 57
+8.16pt x 433.62pt>
+File: auto_figures/t1RawDataExp30_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf Graph
+ic file (type pdf)
 
-<use auto_figures/t1RawDataExp38_140724_CheY_CtermC_400uM_ODNP.pdf>
-Package pdftex.def Info: auto_figures/t1RawDataExp38_140724_CheY_CtermC_400uM_O
-DNP.pdf used on input line 227.
+<use auto_figures/t1RawDataExp30_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/t1RawDataExp30_141201_P6C_Cterm_None_600u
+M_RT_ODNP.pdf used on input line 227.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 227--227
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- t1RawDataExp38 _ 140724 _ CheY _ CtermC _
+ t1RawDataExp30 _ 141201 _ P6C _ Cterm _ None _
  []
 
 
@@ -1383,93 +1385,93 @@ Overfull \hbox (21.24393pt too wide) in paragraph at lines 199--228
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [2 <./auto_figures/phcycchan_140724_CheY_CtermC_400uM_ODNP.pdf> <./auto_figure
-s/intpeaks_140724_CheY_CtermC_400uM_ODNP.pdf
+ [2 <./auto_figures/phcycchan_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf> <./auto_
+figures/intpeaks_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf
 
-pdfTeX warning: pdflatex (file ./auto_figures/intpeaks_140724_CheY_CtermC_400uM
-_ODNP.pdf): PDF inclusion: multiple pdfs with page group included in a single p
-age
-> <./auto_figures/EnhancementExpSeries_140724_CheY_CtermC_400uM_ODNP.pdf
+pdfTeX warning: pdflatex (file ./auto_figures/intpeaks_141201_P6C_Cterm_None_60
+0uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group included in a si
+ngle page
+> <./auto_figures/EnhancementExpSeries_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf
 
-pdfTeX warning: pdflatex (file ./auto_figures/EnhancementExpSeries_140724_CheY_
-CtermC_400uM_ODNP.pdf): PDF inclusion: multiple pdfs with page group included i
+pdfTeX warning: pdflatex (file ./auto_figures/EnhancementExpSeries_141201_P6C_C
+term_None_600uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group incl
+uded in a single page
+> <./auto_figures/phcycchant1Expno_28_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf
+
+pdfTeX warning: pdflatex (file ./auto_figures/phcycchant1Expno_28_141201_P6C_Ct
+erm_None_600uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group inclu
+ded in a single page
+> <./auto_figures/intpeakst1Expno_28_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf
+
+pdfTeX warning: pdflatex (file ./auto_figures/intpeakst1Expno_28_141201_P6C_Cte
+rm_None_600uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group includ
+ed in a single page
+> <./auto_figures/t1RawDataExp28_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf
+
+pdfTeX warning: pdflatex (file ./auto_figures/t1RawDataExp28_141201_P6C_Cterm_N
+one_600uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group included i
 n a single page
-> <./auto_figures/phcycchant1Expno_36_140724_CheY_CtermC_400uM_ODNP.pdf
+> <./auto_figures/phcycchant1Expno_29_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf
 
-pdfTeX warning: pdflatex (file ./auto_figures/phcycchant1Expno_36_140724_CheY_C
-termC_400uM_ODNP.pdf): PDF inclusion: multiple pdfs with page group included in
- a single page
-> <./auto_figures/intpeakst1Expno_36_140724_CheY_CtermC_400uM_ODNP.pdf
+pdfTeX warning: pdflatex (file ./auto_figures/phcycchant1Expno_29_141201_P6C_Ct
+erm_None_600uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group inclu
+ded in a single page
+> <./auto_figures/intpeakst1Expno_29_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf
 
-pdfTeX warning: pdflatex (file ./auto_figures/intpeakst1Expno_36_140724_CheY_Ct
-ermC_400uM_ODNP.pdf): PDF inclusion: multiple pdfs with page group included in 
-a single page
-> <./auto_figures/t1RawDataExp36_140724_CheY_CtermC_400uM_ODNP.pdf
+pdfTeX warning: pdflatex (file ./auto_figures/intpeakst1Expno_29_141201_P6C_Cte
+rm_None_600uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group includ
+ed in a single page
+> <./auto_figures/t1RawDataExp29_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf
 
-pdfTeX warning: pdflatex (file ./auto_figures/t1RawDataExp36_140724_CheY_CtermC
-_400uM_ODNP.pdf): PDF inclusion: multiple pdfs with page group included in a si
-ngle page
-> <./auto_figures/phcycchant1Expno_37_140724_CheY_CtermC_400uM_ODNP.pdf
-
-pdfTeX warning: pdflatex (file ./auto_figures/phcycchant1Expno_37_140724_CheY_C
-termC_400uM_ODNP.pdf): PDF inclusion: multiple pdfs with page group included in
- a single page
-> <./auto_figures/intpeakst1Expno_37_140724_CheY_CtermC_400uM_ODNP.pdf
-
-pdfTeX warning: pdflatex (file ./auto_figures/intpeakst1Expno_37_140724_CheY_Ct
-ermC_400uM_ODNP.pdf): PDF inclusion: multiple pdfs with page group included in 
-a single page
-> <./auto_figures/t1RawDataExp37_140724_CheY_CtermC_400uM_ODNP.pdf
-
-pdfTeX warning: pdflatex (file ./auto_figures/t1RawDataExp37_140724_CheY_CtermC
-_400uM_ODNP.pdf): PDF inclusion: multiple pdfs with page group included in a si
-ngle page
+pdfTeX warning: pdflatex (file ./auto_figures/t1RawDataExp29_141201_P6C_Cterm_N
+one_600uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group included i
+n a single page
 >]
-<auto_figures/phcycchant1Expno_39_140724_CheY_CtermC_400uM_ODNP.pdf, id=453, 57
-8.16pt x 433.62pt>
-File: auto_figures/phcycchant1Expno_39_140724_CheY_CtermC_400uM_ODNP.pdf Graphi
-c file (type pdf)
+<auto_figures/phcycchant1Expno_31_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf, id=4
+50, 578.16pt x 433.62pt>
+File: auto_figures/phcycchant1Expno_31_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf 
+Graphic file (type pdf)
 
-<use auto_figures/phcycchant1Expno_39_140724_CheY_CtermC_400uM_ODNP.pdf>
-Package pdftex.def Info: auto_figures/phcycchant1Expno_39_140724_CheY_CtermC_40
-0uM_ODNP.pdf used on input line 250.
+<use auto_figures/phcycchant1Expno_31_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/phcycchant1Expno_31_141201_P6C_Cterm_None
+_600uM_RT_ODNP.pdf used on input line 250.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 250--250
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- phcycchant1Expno _ 39 _ 140724 _ CheY _ CtermC _
+ phcycchant1Expno _ 31 _ 141201 _ P6C _ Cterm _
  []
 
 
-<auto_figures/intpeakst1Expno_39_140724_CheY_CtermC_400uM_ODNP.pdf, id=455, 578
-.16pt x 433.62pt>
-File: auto_figures/intpeakst1Expno_39_140724_CheY_CtermC_400uM_ODNP.pdf Graphic
- file (type pdf)
+<auto_figures/intpeakst1Expno_31_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf, id=45
+2, 578.16pt x 433.62pt>
+File: auto_figures/intpeakst1Expno_31_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf G
+raphic file (type pdf)
 
-<use auto_figures/intpeakst1Expno_39_140724_CheY_CtermC_400uM_ODNP.pdf>
-Package pdftex.def Info: auto_figures/intpeakst1Expno_39_140724_CheY_CtermC_400
-uM_ODNP.pdf used on input line 264.
+<use auto_figures/intpeakst1Expno_31_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/intpeakst1Expno_31_141201_P6C_Cterm_None_
+600uM_RT_ODNP.pdf used on input line 264.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 264--264
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- intpeakst1Expno _ 39 _ 140724 _ CheY _ CtermC _
+ intpeakst1Expno _ 31 _ 141201 _ P6C _ Cterm _
  []
 
 
-<auto_figures/t1RawDataExp39_140724_CheY_CtermC_400uM_ODNP.pdf, id=457, 578.16p
-t x 433.62pt>
-File: auto_figures/t1RawDataExp39_140724_CheY_CtermC_400uM_ODNP.pdf Graphic fil
-e (type pdf)
+<auto_figures/t1RawDataExp31_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf, id=454, 5
+78.16pt x 433.62pt>
+File: auto_figures/t1RawDataExp31_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf Graph
+ic file (type pdf)
 
-<use auto_figures/t1RawDataExp39_140724_CheY_CtermC_400uM_ODNP.pdf>
-Package pdftex.def Info: auto_figures/t1RawDataExp39_140724_CheY_CtermC_400uM_O
-DNP.pdf used on input line 278.
+<use auto_figures/t1RawDataExp31_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/t1RawDataExp31_141201_P6C_Cterm_None_600u
+M_RT_ODNP.pdf used on input line 278.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 278--278
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- t1RawDataExp39 _ 140724 _ CheY _ CtermC _
+ t1RawDataExp31 _ 141201 _ P6C _ Cterm _ None _
  []
 
 
@@ -1478,51 +1480,51 @@ Overfull \hbox (21.24393pt too wide) in paragraph at lines 250--279
  []
 
 
-<auto_figures/phcycchant1Expno_40_140724_CheY_CtermC_400uM_ODNP.pdf, id=459, 57
-8.16pt x 433.62pt>
-File: auto_figures/phcycchant1Expno_40_140724_CheY_CtermC_400uM_ODNP.pdf Graphi
-c file (type pdf)
+<auto_figures/phcycchant1Expno_32_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf, id=4
+56, 578.16pt x 433.62pt>
+File: auto_figures/phcycchant1Expno_32_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf 
+Graphic file (type pdf)
 
-<use auto_figures/phcycchant1Expno_40_140724_CheY_CtermC_400uM_ODNP.pdf>
-Package pdftex.def Info: auto_figures/phcycchant1Expno_40_140724_CheY_CtermC_40
-0uM_ODNP.pdf used on input line 301.
+<use auto_figures/phcycchant1Expno_32_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/phcycchant1Expno_32_141201_P6C_Cterm_None
+_600uM_RT_ODNP.pdf used on input line 301.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 301--301
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- phcycchant1Expno _ 40 _ 140724 _ CheY _ CtermC _
+ phcycchant1Expno _ 32 _ 141201 _ P6C _ Cterm _
  []
 
 
-<auto_figures/intpeakst1Expno_40_140724_CheY_CtermC_400uM_ODNP.pdf, id=461, 578
-.16pt x 433.62pt>
-File: auto_figures/intpeakst1Expno_40_140724_CheY_CtermC_400uM_ODNP.pdf Graphic
- file (type pdf)
+<auto_figures/intpeakst1Expno_32_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf, id=45
+8, 578.16pt x 433.62pt>
+File: auto_figures/intpeakst1Expno_32_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf G
+raphic file (type pdf)
 
-<use auto_figures/intpeakst1Expno_40_140724_CheY_CtermC_400uM_ODNP.pdf>
-Package pdftex.def Info: auto_figures/intpeakst1Expno_40_140724_CheY_CtermC_400
-uM_ODNP.pdf used on input line 315.
+<use auto_figures/intpeakst1Expno_32_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/intpeakst1Expno_32_141201_P6C_Cterm_None_
+600uM_RT_ODNP.pdf used on input line 315.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 315--315
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- intpeakst1Expno _ 40 _ 140724 _ CheY _ CtermC _
+ intpeakst1Expno _ 32 _ 141201 _ P6C _ Cterm _
  []
 
 
-<auto_figures/t1RawDataExp40_140724_CheY_CtermC_400uM_ODNP.pdf, id=463, 578.16p
-t x 433.62pt>
-File: auto_figures/t1RawDataExp40_140724_CheY_CtermC_400uM_ODNP.pdf Graphic fil
-e (type pdf)
+<auto_figures/t1RawDataExp32_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf, id=460, 5
+78.16pt x 433.62pt>
+File: auto_figures/t1RawDataExp32_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf Graph
+ic file (type pdf)
 
-<use auto_figures/t1RawDataExp40_140724_CheY_CtermC_400uM_ODNP.pdf>
-Package pdftex.def Info: auto_figures/t1RawDataExp40_140724_CheY_CtermC_400uM_O
-DNP.pdf used on input line 329.
+<use auto_figures/t1RawDataExp32_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/t1RawDataExp32_141201_P6C_Cterm_None_600u
+M_RT_ODNP.pdf used on input line 329.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 329--329
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- t1RawDataExp40 _ 140724 _ CheY _ CtermC _
+ t1RawDataExp32 _ 141201 _ P6C _ Cterm _ None _
  []
 
 
@@ -1531,51 +1533,51 @@ Overfull \hbox (21.24393pt too wide) in paragraph at lines 301--330
  []
 
 
-<auto_figures/phcycchant1Expno_41_140724_CheY_CtermC_400uM_ODNP.pdf, id=465, 57
-8.16pt x 433.62pt>
-File: auto_figures/phcycchant1Expno_41_140724_CheY_CtermC_400uM_ODNP.pdf Graphi
-c file (type pdf)
+<auto_figures/phcycchant1Expno_33_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf, id=4
+62, 578.16pt x 433.62pt>
+File: auto_figures/phcycchant1Expno_33_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf 
+Graphic file (type pdf)
 
-<use auto_figures/phcycchant1Expno_41_140724_CheY_CtermC_400uM_ODNP.pdf>
-Package pdftex.def Info: auto_figures/phcycchant1Expno_41_140724_CheY_CtermC_40
-0uM_ODNP.pdf used on input line 352.
+<use auto_figures/phcycchant1Expno_33_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/phcycchant1Expno_33_141201_P6C_Cterm_None
+_600uM_RT_ODNP.pdf used on input line 352.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 352--352
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- phcycchant1Expno _ 41 _ 140724 _ CheY _ CtermC _
+ phcycchant1Expno _ 33 _ 141201 _ P6C _ Cterm _
  []
 
 
-<auto_figures/intpeakst1Expno_41_140724_CheY_CtermC_400uM_ODNP.pdf, id=467, 578
-.16pt x 433.62pt>
-File: auto_figures/intpeakst1Expno_41_140724_CheY_CtermC_400uM_ODNP.pdf Graphic
- file (type pdf)
+<auto_figures/intpeakst1Expno_33_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf, id=46
+4, 578.16pt x 433.62pt>
+File: auto_figures/intpeakst1Expno_33_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf G
+raphic file (type pdf)
 
-<use auto_figures/intpeakst1Expno_41_140724_CheY_CtermC_400uM_ODNP.pdf>
-Package pdftex.def Info: auto_figures/intpeakst1Expno_41_140724_CheY_CtermC_400
-uM_ODNP.pdf used on input line 366.
+<use auto_figures/intpeakst1Expno_33_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/intpeakst1Expno_33_141201_P6C_Cterm_None_
+600uM_RT_ODNP.pdf used on input line 366.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 366--366
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- intpeakst1Expno _ 41 _ 140724 _ CheY _ CtermC _
+ intpeakst1Expno _ 33 _ 141201 _ P6C _ Cterm _
  []
 
 
-<auto_figures/t1RawDataExp41_140724_CheY_CtermC_400uM_ODNP.pdf, id=469, 578.16p
-t x 433.62pt>
-File: auto_figures/t1RawDataExp41_140724_CheY_CtermC_400uM_ODNP.pdf Graphic fil
-e (type pdf)
+<auto_figures/t1RawDataExp33_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf, id=466, 5
+78.16pt x 433.62pt>
+File: auto_figures/t1RawDataExp33_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf Graph
+ic file (type pdf)
 
-<use auto_figures/t1RawDataExp41_140724_CheY_CtermC_400uM_ODNP.pdf>
-Package pdftex.def Info: auto_figures/t1RawDataExp41_140724_CheY_CtermC_400uM_O
-DNP.pdf used on input line 380.
+<use auto_figures/t1RawDataExp33_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/t1RawDataExp33_141201_P6C_Cterm_None_600u
+M_RT_ODNP.pdf used on input line 380.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 380--380
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- t1RawDataExp41 _ 140724 _ CheY _ CtermC _
+ t1RawDataExp33 _ 141201 _ P6C _ Cterm _ None _
  []
 
 
@@ -1586,93 +1588,93 @@ Overfull \hbox (21.24393pt too wide) in paragraph at lines 352--381
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [3 <./auto_figures/phcycchant1Expno_38_140724_CheY_CtermC_400uM_ODNP.pdf> <./a
-uto_figures/intpeakst1Expno_38_140724_CheY_CtermC_400uM_ODNP.pdf
+ [3 <./auto_figures/phcycchant1Expno_30_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf
+> <./auto_figures/intpeakst1Expno_30_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf
 
-pdfTeX warning: pdflatex (file ./auto_figures/intpeakst1Expno_38_140724_CheY_Ct
-ermC_400uM_ODNP.pdf): PDF inclusion: multiple pdfs with page group included in 
-a single page
-> <./auto_figures/t1RawDataExp38_140724_CheY_CtermC_400uM_ODNP.pdf
+pdfTeX warning: pdflatex (file ./auto_figures/intpeakst1Expno_30_141201_P6C_Cte
+rm_None_600uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group includ
+ed in a single page
+> <./auto_figures/t1RawDataExp30_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf
 
-pdfTeX warning: pdflatex (file ./auto_figures/t1RawDataExp38_140724_CheY_CtermC
-_400uM_ODNP.pdf): PDF inclusion: multiple pdfs with page group included in a si
-ngle page
-> <./auto_figures/phcycchant1Expno_39_140724_CheY_CtermC_400uM_ODNP.pdf
+pdfTeX warning: pdflatex (file ./auto_figures/t1RawDataExp30_141201_P6C_Cterm_N
+one_600uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group included i
+n a single page
+> <./auto_figures/phcycchant1Expno_31_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf
 
-pdfTeX warning: pdflatex (file ./auto_figures/phcycchant1Expno_39_140724_CheY_C
-termC_400uM_ODNP.pdf): PDF inclusion: multiple pdfs with page group included in
- a single page
-> <./auto_figures/intpeakst1Expno_39_140724_CheY_CtermC_400uM_ODNP.pdf
+pdfTeX warning: pdflatex (file ./auto_figures/phcycchant1Expno_31_141201_P6C_Ct
+erm_None_600uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group inclu
+ded in a single page
+> <./auto_figures/intpeakst1Expno_31_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf
 
-pdfTeX warning: pdflatex (file ./auto_figures/intpeakst1Expno_39_140724_CheY_Ct
-ermC_400uM_ODNP.pdf): PDF inclusion: multiple pdfs with page group included in 
-a single page
-> <./auto_figures/t1RawDataExp39_140724_CheY_CtermC_400uM_ODNP.pdf
+pdfTeX warning: pdflatex (file ./auto_figures/intpeakst1Expno_31_141201_P6C_Cte
+rm_None_600uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group includ
+ed in a single page
+> <./auto_figures/t1RawDataExp31_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf
 
-pdfTeX warning: pdflatex (file ./auto_figures/t1RawDataExp39_140724_CheY_CtermC
-_400uM_ODNP.pdf): PDF inclusion: multiple pdfs with page group included in a si
-ngle page
-> <./auto_figures/phcycchant1Expno_40_140724_CheY_CtermC_400uM_ODNP.pdf
+pdfTeX warning: pdflatex (file ./auto_figures/t1RawDataExp31_141201_P6C_Cterm_N
+one_600uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group included i
+n a single page
+> <./auto_figures/phcycchant1Expno_32_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf
 
-pdfTeX warning: pdflatex (file ./auto_figures/phcycchant1Expno_40_140724_CheY_C
-termC_400uM_ODNP.pdf): PDF inclusion: multiple pdfs with page group included in
- a single page
-> <./auto_figures/intpeakst1Expno_40_140724_CheY_CtermC_400uM_ODNP.pdf
+pdfTeX warning: pdflatex (file ./auto_figures/phcycchant1Expno_32_141201_P6C_Ct
+erm_None_600uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group inclu
+ded in a single page
+> <./auto_figures/intpeakst1Expno_32_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf
 
-pdfTeX warning: pdflatex (file ./auto_figures/intpeakst1Expno_40_140724_CheY_Ct
-ermC_400uM_ODNP.pdf): PDF inclusion: multiple pdfs with page group included in 
-a single page
-> <./auto_figures/t1RawDataExp40_140724_CheY_CtermC_400uM_ODNP.pdf
+pdfTeX warning: pdflatex (file ./auto_figures/intpeakst1Expno_32_141201_P6C_Cte
+rm_None_600uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group includ
+ed in a single page
+> <./auto_figures/t1RawDataExp32_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf
 
-pdfTeX warning: pdflatex (file ./auto_figures/t1RawDataExp40_140724_CheY_CtermC
-_400uM_ODNP.pdf): PDF inclusion: multiple pdfs with page group included in a si
-ngle page
+pdfTeX warning: pdflatex (file ./auto_figures/t1RawDataExp32_141201_P6C_Cterm_N
+one_600uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group included i
+n a single page
 >]
-<auto_figures/phcycchant1Expno_42_140724_CheY_CtermC_400uM_ODNP.pdf, id=918, 57
-8.16pt x 433.62pt>
-File: auto_figures/phcycchant1Expno_42_140724_CheY_CtermC_400uM_ODNP.pdf Graphi
-c file (type pdf)
+<auto_figures/phcycchant1Expno_34_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf, id=9
+10, 578.16pt x 433.62pt>
+File: auto_figures/phcycchant1Expno_34_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf 
+Graphic file (type pdf)
 
-<use auto_figures/phcycchant1Expno_42_140724_CheY_CtermC_400uM_ODNP.pdf>
-Package pdftex.def Info: auto_figures/phcycchant1Expno_42_140724_CheY_CtermC_40
-0uM_ODNP.pdf used on input line 403.
+<use auto_figures/phcycchant1Expno_34_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/phcycchant1Expno_34_141201_P6C_Cterm_None
+_600uM_RT_ODNP.pdf used on input line 403.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 403--403
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- phcycchant1Expno _ 42 _ 140724 _ CheY _ CtermC _
+ phcycchant1Expno _ 34 _ 141201 _ P6C _ Cterm _
  []
 
 
-<auto_figures/intpeakst1Expno_42_140724_CheY_CtermC_400uM_ODNP.pdf, id=920, 578
-.16pt x 433.62pt>
-File: auto_figures/intpeakst1Expno_42_140724_CheY_CtermC_400uM_ODNP.pdf Graphic
- file (type pdf)
+<auto_figures/intpeakst1Expno_34_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf, id=91
+2, 578.16pt x 433.62pt>
+File: auto_figures/intpeakst1Expno_34_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf G
+raphic file (type pdf)
 
-<use auto_figures/intpeakst1Expno_42_140724_CheY_CtermC_400uM_ODNP.pdf>
-Package pdftex.def Info: auto_figures/intpeakst1Expno_42_140724_CheY_CtermC_400
-uM_ODNP.pdf used on input line 417.
+<use auto_figures/intpeakst1Expno_34_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/intpeakst1Expno_34_141201_P6C_Cterm_None_
+600uM_RT_ODNP.pdf used on input line 417.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 417--417
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- intpeakst1Expno _ 42 _ 140724 _ CheY _ CtermC _
+ intpeakst1Expno _ 34 _ 141201 _ P6C _ Cterm _
  []
 
 
-<auto_figures/t1RawDataExp42_140724_CheY_CtermC_400uM_ODNP.pdf, id=922, 578.16p
-t x 433.62pt>
-File: auto_figures/t1RawDataExp42_140724_CheY_CtermC_400uM_ODNP.pdf Graphic fil
-e (type pdf)
+<auto_figures/t1RawDataExp34_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf, id=914, 5
+78.16pt x 433.62pt>
+File: auto_figures/t1RawDataExp34_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf Graph
+ic file (type pdf)
 
-<use auto_figures/t1RawDataExp42_140724_CheY_CtermC_400uM_ODNP.pdf>
-Package pdftex.def Info: auto_figures/t1RawDataExp42_140724_CheY_CtermC_400uM_O
-DNP.pdf used on input line 431.
+<use auto_figures/t1RawDataExp34_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/t1RawDataExp34_141201_P6C_Cterm_None_600u
+M_RT_ODNP.pdf used on input line 431.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 431--431
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- t1RawDataExp42 _ 140724 _ CheY _ CtermC _
+ t1RawDataExp34 _ 141201 _ P6C _ Cterm _ None _
  []
 
 
@@ -1681,51 +1683,51 @@ Overfull \hbox (21.24393pt too wide) in paragraph at lines 403--432
  []
 
 
-<auto_figures/phcycchant1Expno_43_140724_CheY_CtermC_400uM_ODNP.pdf, id=924, 57
-8.16pt x 433.62pt>
-File: auto_figures/phcycchant1Expno_43_140724_CheY_CtermC_400uM_ODNP.pdf Graphi
-c file (type pdf)
+<auto_figures/phcycchant1Expno_35_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf, id=9
+16, 578.16pt x 433.62pt>
+File: auto_figures/phcycchant1Expno_35_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf 
+Graphic file (type pdf)
 
-<use auto_figures/phcycchant1Expno_43_140724_CheY_CtermC_400uM_ODNP.pdf>
-Package pdftex.def Info: auto_figures/phcycchant1Expno_43_140724_CheY_CtermC_40
-0uM_ODNP.pdf used on input line 454.
+<use auto_figures/phcycchant1Expno_35_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/phcycchant1Expno_35_141201_P6C_Cterm_None
+_600uM_RT_ODNP.pdf used on input line 454.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 454--454
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- phcycchant1Expno _ 43 _ 140724 _ CheY _ CtermC _
+ phcycchant1Expno _ 35 _ 141201 _ P6C _ Cterm _
  []
 
 
-<auto_figures/intpeakst1Expno_43_140724_CheY_CtermC_400uM_ODNP.pdf, id=926, 578
-.16pt x 433.62pt>
-File: auto_figures/intpeakst1Expno_43_140724_CheY_CtermC_400uM_ODNP.pdf Graphic
- file (type pdf)
+<auto_figures/intpeakst1Expno_35_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf, id=91
+8, 578.16pt x 433.62pt>
+File: auto_figures/intpeakst1Expno_35_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf G
+raphic file (type pdf)
 
-<use auto_figures/intpeakst1Expno_43_140724_CheY_CtermC_400uM_ODNP.pdf>
-Package pdftex.def Info: auto_figures/intpeakst1Expno_43_140724_CheY_CtermC_400
-uM_ODNP.pdf used on input line 468.
+<use auto_figures/intpeakst1Expno_35_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/intpeakst1Expno_35_141201_P6C_Cterm_None_
+600uM_RT_ODNP.pdf used on input line 468.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 468--468
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- intpeakst1Expno _ 43 _ 140724 _ CheY _ CtermC _
+ intpeakst1Expno _ 35 _ 141201 _ P6C _ Cterm _
  []
 
 
-<auto_figures/t1RawDataExp43_140724_CheY_CtermC_400uM_ODNP.pdf, id=928, 578.16p
-t x 433.62pt>
-File: auto_figures/t1RawDataExp43_140724_CheY_CtermC_400uM_ODNP.pdf Graphic fil
-e (type pdf)
+<auto_figures/t1RawDataExp35_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf, id=920, 5
+78.16pt x 433.62pt>
+File: auto_figures/t1RawDataExp35_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf Graph
+ic file (type pdf)
 
-<use auto_figures/t1RawDataExp43_140724_CheY_CtermC_400uM_ODNP.pdf>
-Package pdftex.def Info: auto_figures/t1RawDataExp43_140724_CheY_CtermC_400uM_O
-DNP.pdf used on input line 482.
+<use auto_figures/t1RawDataExp35_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/t1RawDataExp35_141201_P6C_Cterm_None_600u
+M_RT_ODNP.pdf used on input line 482.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 482--482
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- t1RawDataExp43 _ 140724 _ CheY _ CtermC _
+ t1RawDataExp35 _ 141201 _ P6C _ Cterm _ None _
  []
 
 
@@ -1734,51 +1736,51 @@ Overfull \hbox (21.24393pt too wide) in paragraph at lines 454--483
  []
 
 
-<auto_figures/phcycchant1Expno_44_140724_CheY_CtermC_400uM_ODNP.pdf, id=930, 57
-8.16pt x 433.62pt>
-File: auto_figures/phcycchant1Expno_44_140724_CheY_CtermC_400uM_ODNP.pdf Graphi
-c file (type pdf)
+<auto_figures/phcycchant1Expno_36_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf, id=9
+22, 578.16pt x 433.62pt>
+File: auto_figures/phcycchant1Expno_36_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf 
+Graphic file (type pdf)
 
-<use auto_figures/phcycchant1Expno_44_140724_CheY_CtermC_400uM_ODNP.pdf>
-Package pdftex.def Info: auto_figures/phcycchant1Expno_44_140724_CheY_CtermC_40
-0uM_ODNP.pdf used on input line 505.
+<use auto_figures/phcycchant1Expno_36_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/phcycchant1Expno_36_141201_P6C_Cterm_None
+_600uM_RT_ODNP.pdf used on input line 505.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 505--505
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- phcycchant1Expno _ 44 _ 140724 _ CheY _ CtermC _
+ phcycchant1Expno _ 36 _ 141201 _ P6C _ Cterm _
  []
 
 
-<auto_figures/intpeakst1Expno_44_140724_CheY_CtermC_400uM_ODNP.pdf, id=932, 578
-.16pt x 433.62pt>
-File: auto_figures/intpeakst1Expno_44_140724_CheY_CtermC_400uM_ODNP.pdf Graphic
- file (type pdf)
+<auto_figures/intpeakst1Expno_36_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf, id=92
+4, 578.16pt x 433.62pt>
+File: auto_figures/intpeakst1Expno_36_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf G
+raphic file (type pdf)
 
-<use auto_figures/intpeakst1Expno_44_140724_CheY_CtermC_400uM_ODNP.pdf>
-Package pdftex.def Info: auto_figures/intpeakst1Expno_44_140724_CheY_CtermC_400
-uM_ODNP.pdf used on input line 519.
+<use auto_figures/intpeakst1Expno_36_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/intpeakst1Expno_36_141201_P6C_Cterm_None_
+600uM_RT_ODNP.pdf used on input line 519.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 519--519
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- intpeakst1Expno _ 44 _ 140724 _ CheY _ CtermC _
+ intpeakst1Expno _ 36 _ 141201 _ P6C _ Cterm _
  []
 
 
-<auto_figures/t1RawDataExp44_140724_CheY_CtermC_400uM_ODNP.pdf, id=934, 578.16p
-t x 433.62pt>
-File: auto_figures/t1RawDataExp44_140724_CheY_CtermC_400uM_ODNP.pdf Graphic fil
-e (type pdf)
+<auto_figures/t1RawDataExp36_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf, id=926, 5
+78.16pt x 433.62pt>
+File: auto_figures/t1RawDataExp36_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf Graph
+ic file (type pdf)
 
-<use auto_figures/t1RawDataExp44_140724_CheY_CtermC_400uM_ODNP.pdf>
-Package pdftex.def Info: auto_figures/t1RawDataExp44_140724_CheY_CtermC_400uM_O
-DNP.pdf used on input line 533.
+<use auto_figures/t1RawDataExp36_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/t1RawDataExp36_141201_P6C_Cterm_None_600u
+M_RT_ODNP.pdf used on input line 533.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 533--533
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- t1RawDataExp44 _ 140724 _ CheY _ CtermC _
+ t1RawDataExp36 _ 141201 _ P6C _ Cterm _ None _
  []
 
 
@@ -1789,93 +1791,93 @@ Overfull \hbox (21.24393pt too wide) in paragraph at lines 505--534
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [4 <./auto_figures/phcycchant1Expno_41_140724_CheY_CtermC_400uM_ODNP.pdf> <./a
-uto_figures/intpeakst1Expno_41_140724_CheY_CtermC_400uM_ODNP.pdf
+ [4 <./auto_figures/phcycchant1Expno_33_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf
+> <./auto_figures/intpeakst1Expno_33_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf
 
-pdfTeX warning: pdflatex (file ./auto_figures/intpeakst1Expno_41_140724_CheY_Ct
-ermC_400uM_ODNP.pdf): PDF inclusion: multiple pdfs with page group included in 
-a single page
-> <./auto_figures/t1RawDataExp41_140724_CheY_CtermC_400uM_ODNP.pdf
+pdfTeX warning: pdflatex (file ./auto_figures/intpeakst1Expno_33_141201_P6C_Cte
+rm_None_600uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group includ
+ed in a single page
+> <./auto_figures/t1RawDataExp33_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf
 
-pdfTeX warning: pdflatex (file ./auto_figures/t1RawDataExp41_140724_CheY_CtermC
-_400uM_ODNP.pdf): PDF inclusion: multiple pdfs with page group included in a si
-ngle page
-> <./auto_figures/phcycchant1Expno_42_140724_CheY_CtermC_400uM_ODNP.pdf
+pdfTeX warning: pdflatex (file ./auto_figures/t1RawDataExp33_141201_P6C_Cterm_N
+one_600uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group included i
+n a single page
+> <./auto_figures/phcycchant1Expno_34_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf
 
-pdfTeX warning: pdflatex (file ./auto_figures/phcycchant1Expno_42_140724_CheY_C
-termC_400uM_ODNP.pdf): PDF inclusion: multiple pdfs with page group included in
- a single page
-> <./auto_figures/intpeakst1Expno_42_140724_CheY_CtermC_400uM_ODNP.pdf
+pdfTeX warning: pdflatex (file ./auto_figures/phcycchant1Expno_34_141201_P6C_Ct
+erm_None_600uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group inclu
+ded in a single page
+> <./auto_figures/intpeakst1Expno_34_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf
 
-pdfTeX warning: pdflatex (file ./auto_figures/intpeakst1Expno_42_140724_CheY_Ct
-ermC_400uM_ODNP.pdf): PDF inclusion: multiple pdfs with page group included in 
-a single page
-> <./auto_figures/t1RawDataExp42_140724_CheY_CtermC_400uM_ODNP.pdf
+pdfTeX warning: pdflatex (file ./auto_figures/intpeakst1Expno_34_141201_P6C_Cte
+rm_None_600uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group includ
+ed in a single page
+> <./auto_figures/t1RawDataExp34_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf
 
-pdfTeX warning: pdflatex (file ./auto_figures/t1RawDataExp42_140724_CheY_CtermC
-_400uM_ODNP.pdf): PDF inclusion: multiple pdfs with page group included in a si
-ngle page
-> <./auto_figures/phcycchant1Expno_43_140724_CheY_CtermC_400uM_ODNP.pdf
+pdfTeX warning: pdflatex (file ./auto_figures/t1RawDataExp34_141201_P6C_Cterm_N
+one_600uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group included i
+n a single page
+> <./auto_figures/phcycchant1Expno_35_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf
 
-pdfTeX warning: pdflatex (file ./auto_figures/phcycchant1Expno_43_140724_CheY_C
-termC_400uM_ODNP.pdf): PDF inclusion: multiple pdfs with page group included in
- a single page
-> <./auto_figures/intpeakst1Expno_43_140724_CheY_CtermC_400uM_ODNP.pdf
+pdfTeX warning: pdflatex (file ./auto_figures/phcycchant1Expno_35_141201_P6C_Ct
+erm_None_600uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group inclu
+ded in a single page
+> <./auto_figures/intpeakst1Expno_35_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf
 
-pdfTeX warning: pdflatex (file ./auto_figures/intpeakst1Expno_43_140724_CheY_Ct
-ermC_400uM_ODNP.pdf): PDF inclusion: multiple pdfs with page group included in 
-a single page
-> <./auto_figures/t1RawDataExp43_140724_CheY_CtermC_400uM_ODNP.pdf
+pdfTeX warning: pdflatex (file ./auto_figures/intpeakst1Expno_35_141201_P6C_Cte
+rm_None_600uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group includ
+ed in a single page
+> <./auto_figures/t1RawDataExp35_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf
 
-pdfTeX warning: pdflatex (file ./auto_figures/t1RawDataExp43_140724_CheY_CtermC
-_400uM_ODNP.pdf): PDF inclusion: multiple pdfs with page group included in a si
-ngle page
+pdfTeX warning: pdflatex (file ./auto_figures/t1RawDataExp35_141201_P6C_Cterm_N
+one_600uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group included i
+n a single page
 >]
-<auto_figures/phcycchant1Expno_45_140724_CheY_CtermC_400uM_ODNP.pdf, id=1376, 5
-78.16pt x 433.62pt>
-File: auto_figures/phcycchant1Expno_45_140724_CheY_CtermC_400uM_ODNP.pdf Graphi
-c file (type pdf)
+<auto_figures/phcycchant1Expno_37_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf, id=1
+369, 578.16pt x 433.62pt>
+File: auto_figures/phcycchant1Expno_37_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf 
+Graphic file (type pdf)
 
-<use auto_figures/phcycchant1Expno_45_140724_CheY_CtermC_400uM_ODNP.pdf>
-Package pdftex.def Info: auto_figures/phcycchant1Expno_45_140724_CheY_CtermC_40
-0uM_ODNP.pdf used on input line 556.
+<use auto_figures/phcycchant1Expno_37_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/phcycchant1Expno_37_141201_P6C_Cterm_None
+_600uM_RT_ODNP.pdf used on input line 556.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 556--556
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- phcycchant1Expno _ 45 _ 140724 _ CheY _ CtermC _
+ phcycchant1Expno _ 37 _ 141201 _ P6C _ Cterm _
  []
 
 
-<auto_figures/intpeakst1Expno_45_140724_CheY_CtermC_400uM_ODNP.pdf, id=1378, 57
-8.16pt x 433.62pt>
-File: auto_figures/intpeakst1Expno_45_140724_CheY_CtermC_400uM_ODNP.pdf Graphic
- file (type pdf)
+<auto_figures/intpeakst1Expno_37_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf, id=13
+71, 578.16pt x 433.62pt>
+File: auto_figures/intpeakst1Expno_37_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf G
+raphic file (type pdf)
 
-<use auto_figures/intpeakst1Expno_45_140724_CheY_CtermC_400uM_ODNP.pdf>
-Package pdftex.def Info: auto_figures/intpeakst1Expno_45_140724_CheY_CtermC_400
-uM_ODNP.pdf used on input line 570.
+<use auto_figures/intpeakst1Expno_37_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/intpeakst1Expno_37_141201_P6C_Cterm_None_
+600uM_RT_ODNP.pdf used on input line 570.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 570--570
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- intpeakst1Expno _ 45 _ 140724 _ CheY _ CtermC _
+ intpeakst1Expno _ 37 _ 141201 _ P6C _ Cterm _
  []
 
 
-<auto_figures/t1RawDataExp45_140724_CheY_CtermC_400uM_ODNP.pdf, id=1380, 578.16
-pt x 433.62pt>
-File: auto_figures/t1RawDataExp45_140724_CheY_CtermC_400uM_ODNP.pdf Graphic fil
-e (type pdf)
+<auto_figures/t1RawDataExp37_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf, id=1373, 
+578.16pt x 433.62pt>
+File: auto_figures/t1RawDataExp37_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf Graph
+ic file (type pdf)
 
-<use auto_figures/t1RawDataExp45_140724_CheY_CtermC_400uM_ODNP.pdf>
-Package pdftex.def Info: auto_figures/t1RawDataExp45_140724_CheY_CtermC_400uM_O
-DNP.pdf used on input line 584.
+<use auto_figures/t1RawDataExp37_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/t1RawDataExp37_141201_P6C_Cterm_None_600u
+M_RT_ODNP.pdf used on input line 584.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 584--584
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- t1RawDataExp45 _ 140724 _ CheY _ CtermC _
+ t1RawDataExp37 _ 141201 _ P6C _ Cterm _ None _
  []
 
 
@@ -1884,51 +1886,51 @@ Overfull \hbox (21.24393pt too wide) in paragraph at lines 556--585
  []
 
 
-<auto_figures/phcycchant1Expno_304_140724_CheY_CtermC_400uM_ODNP.pdf, id=1382, 
-578.16pt x 433.62pt>
-File: auto_figures/phcycchant1Expno_304_140724_CheY_CtermC_400uM_ODNP.pdf Graph
-ic file (type pdf)
+<auto_figures/phcycchant1Expno_304_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf, id=
+1375, 578.16pt x 433.62pt>
+File: auto_figures/phcycchant1Expno_304_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf
+ Graphic file (type pdf)
 
-<use auto_figures/phcycchant1Expno_304_140724_CheY_CtermC_400uM_ODNP.pdf>
-Package pdftex.def Info: auto_figures/phcycchant1Expno_304_140724_CheY_CtermC_4
-00uM_ODNP.pdf used on input line 607.
+<use auto_figures/phcycchant1Expno_304_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/phcycchant1Expno_304_141201_P6C_Cterm_Non
+e_600uM_RT_ODNP.pdf used on input line 607.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 607--607
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- phcycchant1Expno _ 304 _ 140724 _ CheY _
+ phcycchant1Expno _ 304 _ 141201 _ P6C _ Cterm _
  []
 
 
-<auto_figures/intpeakst1Expno_304_140724_CheY_CtermC_400uM_ODNP.pdf, id=1384, 5
-78.16pt x 433.62pt>
-File: auto_figures/intpeakst1Expno_304_140724_CheY_CtermC_400uM_ODNP.pdf Graphi
-c file (type pdf)
+<auto_figures/intpeakst1Expno_304_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf, id=1
+377, 578.16pt x 433.62pt>
+File: auto_figures/intpeakst1Expno_304_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf 
+Graphic file (type pdf)
 
-<use auto_figures/intpeakst1Expno_304_140724_CheY_CtermC_400uM_ODNP.pdf>
-Package pdftex.def Info: auto_figures/intpeakst1Expno_304_140724_CheY_CtermC_40
-0uM_ODNP.pdf used on input line 621.
+<use auto_figures/intpeakst1Expno_304_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/intpeakst1Expno_304_141201_P6C_Cterm_None
+_600uM_RT_ODNP.pdf used on input line 621.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 621--621
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- intpeakst1Expno _ 304 _ 140724 _ CheY _ CtermC _
+ intpeakst1Expno _ 304 _ 141201 _ P6C _ Cterm _
  []
 
 
-<auto_figures/t1RawDataExp304_140724_CheY_CtermC_400uM_ODNP.pdf, id=1386, 578.1
-6pt x 433.62pt>
-File: auto_figures/t1RawDataExp304_140724_CheY_CtermC_400uM_ODNP.pdf Graphic fi
-le (type pdf)
+<auto_figures/t1RawDataExp304_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf, id=1379,
+ 578.16pt x 433.62pt>
+File: auto_figures/t1RawDataExp304_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf Grap
+hic file (type pdf)
 
-<use auto_figures/t1RawDataExp304_140724_CheY_CtermC_400uM_ODNP.pdf>
-Package pdftex.def Info: auto_figures/t1RawDataExp304_140724_CheY_CtermC_400uM_
-ODNP.pdf used on input line 635.
+<use auto_figures/t1RawDataExp304_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/t1RawDataExp304_141201_P6C_Cterm_None_600
+uM_RT_ODNP.pdf used on input line 635.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 635--635
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- t1RawDataExp304 _ 140724 _ CheY _ CtermC _
+ t1RawDataExp304 _ 141201 _ P6C _ Cterm _ None _
  []
 
 
@@ -1937,51 +1939,53 @@ Overfull \hbox (21.24393pt too wide) in paragraph at lines 607--636
  []
 
 
-<auto_figures/powerlog_rawpower_140724_CheY_CtermC_400uM_ODNP.pdf, id=1388, 578
-.16pt x 433.62pt>
-File: auto_figures/powerlog_rawpower_140724_CheY_CtermC_400uM_ODNP.pdf Graphic 
-file (type pdf)
+<auto_figures/DerivativePowerSeriespower_141201_P6C_Cterm_None_600uM_RT_ODNP.pd
+f, id=1381, 578.16pt x 433.62pt>
+File: auto_figures/DerivativePowerSeriespower_141201_P6C_Cterm_None_600uM_RT_OD
+NP.pdf Graphic file (type pdf)
 
-<use auto_figures/powerlog_rawpower_140724_CheY_CtermC_400uM_ODNP.pdf>
-Package pdftex.def Info: auto_figures/powerlog_rawpower_140724_CheY_CtermC_400u
-M_ODNP.pdf used on input line 658.
+<use auto_figures/DerivativePowerSeriespower_141201_P6C_Cterm_None_600uM_RT_ODN
+P.pdf>
+Package pdftex.def Info: auto_figures/DerivativePowerSeriespower_141201_P6C_Cte
+rm_None_600uM_RT_ODNP.pdf used on input line 658.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 658--658
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- powerlog _ rawpower _ 140724 _ CheY _ CtermC _
+ DerivativePowerSeriespower _ 141201 _ P6C _
  []
 
 
-<auto_figures/powerlogpower_140724_CheY_CtermC_400uM_ODNP.pdf, id=1390, 578.16p
-t x 433.62pt>
-File: auto_figures/powerlogpower_140724_CheY_CtermC_400uM_ODNP.pdf Graphic file
- (type pdf)
+<auto_figures/PowerSeriespower_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf, id=1383
+, 578.16pt x 433.62pt>
+File: auto_figures/PowerSeriespower_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf Gra
+phic file (type pdf)
 
-<use auto_figures/powerlogpower_140724_CheY_CtermC_400uM_ODNP.pdf>
-Package pdftex.def Info: auto_figures/powerlogpower_140724_CheY_CtermC_400uM_OD
-NP.pdf used on input line 672.
+<use auto_figures/PowerSeriespower_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/PowerSeriespower_141201_P6C_Cterm_None_60
+0uM_RT_ODNP.pdf used on input line 672.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 672--672
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- powerlogpower _ 140724 _ CheY _ CtermC _ 400uM _
+ PowerSeriespower _ 141201 _ P6C _ Cterm _ None _
  []
 
 
-<auto_figures/EnhancementPowerSeries_140724_CheY_CtermC_400uM_ODNP.pdf, id=1392
-, 578.16pt x 433.62pt>
-File: auto_figures/EnhancementPowerSeries_140724_CheY_CtermC_400uM_ODNP.pdf Gra
-phic file (type pdf)
+<auto_figures/EnhancementPowerSeries_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf, i
+d=1385, 578.16pt x 433.62pt>
+File: auto_figures/EnhancementPowerSeries_141201_P6C_Cterm_None_600uM_RT_ODNP.p
+df Graphic file (type pdf)
 
-<use auto_figures/EnhancementPowerSeries_140724_CheY_CtermC_400uM_ODNP.pdf>
-Package pdftex.def Info: auto_figures/EnhancementPowerSeries_140724_CheY_CtermC
-_400uM_ODNP.pdf used on input line 686.
+<use auto_figures/EnhancementPowerSeries_141201_P6C_Cterm_None_600uM_RT_ODNP.pd
+f>
+Package pdftex.def Info: auto_figures/EnhancementPowerSeries_141201_P6C_Cterm_N
+one_600uM_RT_ODNP.pdf used on input line 686.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 686--686
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- EnhancementPowerSeries _ 140724 _ CheY _
+ EnhancementPowerSeries _ 141201 _ P6C _
  []
 
 
@@ -1992,47 +1996,47 @@ Overfull \hbox (21.24393pt too wide) in paragraph at lines 658--687
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [5 <./auto_figures/phcycchant1Expno_44_140724_CheY_CtermC_400uM_ODNP.pdf> <./a
-uto_figures/intpeakst1Expno_44_140724_CheY_CtermC_400uM_ODNP.pdf
+ [5 <./auto_figures/phcycchant1Expno_36_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf
+> <./auto_figures/intpeakst1Expno_36_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf
 
-pdfTeX warning: pdflatex (file ./auto_figures/intpeakst1Expno_44_140724_CheY_Ct
-ermC_400uM_ODNP.pdf): PDF inclusion: multiple pdfs with page group included in 
-a single page
-> <./auto_figures/t1RawDataExp44_140724_CheY_CtermC_400uM_ODNP.pdf
+pdfTeX warning: pdflatex (file ./auto_figures/intpeakst1Expno_36_141201_P6C_Cte
+rm_None_600uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group includ
+ed in a single page
+> <./auto_figures/t1RawDataExp36_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf
 
-pdfTeX warning: pdflatex (file ./auto_figures/t1RawDataExp44_140724_CheY_CtermC
-_400uM_ODNP.pdf): PDF inclusion: multiple pdfs with page group included in a si
-ngle page
-> <./auto_figures/phcycchant1Expno_45_140724_CheY_CtermC_400uM_ODNP.pdf
-
-pdfTeX warning: pdflatex (file ./auto_figures/phcycchant1Expno_45_140724_CheY_C
-termC_400uM_ODNP.pdf): PDF inclusion: multiple pdfs with page group included in
- a single page
-> <./auto_figures/intpeakst1Expno_45_140724_CheY_CtermC_400uM_ODNP.pdf
-
-pdfTeX warning: pdflatex (file ./auto_figures/intpeakst1Expno_45_140724_CheY_Ct
-ermC_400uM_ODNP.pdf): PDF inclusion: multiple pdfs with page group included in 
-a single page
-> <./auto_figures/t1RawDataExp45_140724_CheY_CtermC_400uM_ODNP.pdf
-
-pdfTeX warning: pdflatex (file ./auto_figures/t1RawDataExp45_140724_CheY_CtermC
-_400uM_ODNP.pdf): PDF inclusion: multiple pdfs with page group included in a si
-ngle page
-> <./auto_figures/phcycchant1Expno_304_140724_CheY_CtermC_400uM_ODNP.pdf
-
-pdfTeX warning: pdflatex (file ./auto_figures/phcycchant1Expno_304_140724_CheY_
-CtermC_400uM_ODNP.pdf): PDF inclusion: multiple pdfs with page group included i
+pdfTeX warning: pdflatex (file ./auto_figures/t1RawDataExp36_141201_P6C_Cterm_N
+one_600uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group included i
 n a single page
-> <./auto_figures/intpeakst1Expno_304_140724_CheY_CtermC_400uM_ODNP.pdf
+> <./auto_figures/phcycchant1Expno_37_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf
 
-pdfTeX warning: pdflatex (file ./auto_figures/intpeakst1Expno_304_140724_CheY_C
-termC_400uM_ODNP.pdf): PDF inclusion: multiple pdfs with page group included in
- a single page
-> <./auto_figures/t1RawDataExp304_140724_CheY_CtermC_400uM_ODNP.pdf
+pdfTeX warning: pdflatex (file ./auto_figures/phcycchant1Expno_37_141201_P6C_Ct
+erm_None_600uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group inclu
+ded in a single page
+> <./auto_figures/intpeakst1Expno_37_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf
 
-pdfTeX warning: pdflatex (file ./auto_figures/t1RawDataExp304_140724_CheY_Cterm
-C_400uM_ODNP.pdf): PDF inclusion: multiple pdfs with page group included in a s
-ingle page
+pdfTeX warning: pdflatex (file ./auto_figures/intpeakst1Expno_37_141201_P6C_Cte
+rm_None_600uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group includ
+ed in a single page
+> <./auto_figures/t1RawDataExp37_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf
+
+pdfTeX warning: pdflatex (file ./auto_figures/t1RawDataExp37_141201_P6C_Cterm_N
+one_600uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group included i
+n a single page
+> <./auto_figures/phcycchant1Expno_304_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf
+
+pdfTeX warning: pdflatex (file ./auto_figures/phcycchant1Expno_304_141201_P6C_C
+term_None_600uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group incl
+uded in a single page
+> <./auto_figures/intpeakst1Expno_304_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf
+
+pdfTeX warning: pdflatex (file ./auto_figures/intpeakst1Expno_304_141201_P6C_Ct
+erm_None_600uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group inclu
+ded in a single page
+> <./auto_figures/t1RawDataExp304_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf
+
+pdfTeX warning: pdflatex (file ./auto_figures/t1RawDataExp304_141201_P6C_Cterm_
+None_600uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group included 
+in a single page
 >]
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
@@ -2043,76 +2047,156 @@ Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
 (hyperref)                removing `math shift' on input line 689.
 
 
-<auto_figures/powerlog_rawt1PowerSeries_140724_CheY_CtermC_400uM_ODNP.pdf, id=1
-840, 578.16pt x 433.62pt>
-File: auto_figures/powerlog_rawt1PowerSeries_140724_CheY_CtermC_400uM_ODNP.pdf 
-Graphic file (type pdf)
+<auto_figures/DerivativePowerSeriest1_powers_141201_P6C_Cterm_None_600uM_RT_ODN
+P.pdf, id=1828, 578.16pt x 433.62pt>
+File: auto_figures/DerivativePowerSeriest1_powers_141201_P6C_Cterm_None_600uM_R
+T_ODNP.pdf Graphic file (type pdf)
 
-<use auto_figures/powerlog_rawt1PowerSeries_140724_CheY_CtermC_400uM_ODNP.pdf>
-Package pdftex.def Info: auto_figures/powerlog_rawt1PowerSeries_140724_CheY_Cte
-rmC_400uM_ODNP.pdf used on input line 709.
+<use auto_figures/DerivativePowerSeriest1_powers_141201_P6C_Cterm_None_600uM_RT
+_ODNP.pdf>
+Package pdftex.def Info: auto_figures/DerivativePowerSeriest1_powers_141201_P6C
+_Cterm_None_600uM_RT_ODNP.pdf used on input line 709.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 709--709
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- powerlog _ rawt1PowerSeries _ 140724 _ CheY _
+ DerivativePowerSeriest1 _ powers _ 141201 _
  []
 
 
-<auto_figures/powerlogt1PowerSeries_140724_CheY_CtermC_400uM_ODNP.pdf, id=1842,
- 578.16pt x 433.62pt>
-File: auto_figures/powerlogt1PowerSeries_140724_CheY_CtermC_400uM_ODNP.pdf Grap
-hic file (type pdf)
+<auto_figures/PowerSeriest1_powers_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf, id=
+1830, 578.16pt x 433.62pt>
+File: auto_figures/PowerSeriest1_powers_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf
+ Graphic file (type pdf)
 
-<use auto_figures/powerlogt1PowerSeries_140724_CheY_CtermC_400uM_ODNP.pdf>
-Package pdftex.def Info: auto_figures/powerlogt1PowerSeries_140724_CheY_CtermC_
-400uM_ODNP.pdf used on input line 723.
+<use auto_figures/PowerSeriest1_powers_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/PowerSeriest1_powers_141201_P6C_Cterm_Non
+e_600uM_RT_ODNP.pdf used on input line 723.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 723--723
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- powerlogt1PowerSeries _ 140724 _ CheY _
+ PowerSeriest1 _ powers _ 141201 _ P6C _ Cterm _
  []
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 724.
-[6 <./auto_figures/powerlog_rawpower_140724_CheY_CtermC_400uM_ODNP.pdf> <./auto
-_figures/powerlogpower_140724_CheY_CtermC_400uM_ODNP.pdf
 
-pdfTeX warning: pdflatex (file ./auto_figures/powerlogpower_140724_CheY_CtermC_
-400uM_ODNP.pdf): PDF inclusion: multiple pdfs with page group included in a sin
-gle page
-> <./auto_figures/EnhancementPowerSeries_140724_CheY_CtermC_400uM_ODNP.pdf
+<auto_figures/T1PowerSeries_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf, id=1832, 5
+78.16pt x 433.62pt>
+File: auto_figures/T1PowerSeries_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf Graphi
+c file (type pdf)
 
-pdfTeX warning: pdflatex (file ./auto_figures/EnhancementPowerSeries_140724_Che
-Y_CtermC_400uM_ODNP.pdf): PDF inclusion: multiple pdfs with page group included
+<use auto_figures/T1PowerSeries_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/T1PowerSeries_141201_P6C_Cterm_None_600uM
+_RT_ODNP.pdf used on input line 737.
+(pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 737--737
+[]\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
+ T1PowerSeries _ 141201 _ P6C _ Cterm _ None _
+ []
+
+
+LaTeX Warning: File `auto_figures/Rate Series_141201_P6C_Cterm_None_600uM_RT_OD
+NP.pdf' not found on input line 751.
+
+
+<auto_figures/Rate Series_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf, id=1834, 578
+.16pt x 433.62pt>
+File: auto_figures/Rate Series_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf Graphic 
+file (type pdf)
+
+<use auto_figures/Rate Series_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/Rate Series_141201_P6C_Cterm_None_600uM_R
+T_ODNP.pdf used on input line 751.
+(pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
+
+Overfull \hbox (66.45366pt too wide) in paragraph at lines 751--751
+[]\OT1/ppl/m/n/10 Series_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 751--751
+[]\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
+ RateSeries _ 141201 _ P6C _ Cterm _ None _ 600uM _
+ []
+
+
+<auto_figures/kSigma_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf, id=1836, 578.16pt
+ x 433.62pt>
+File: auto_figures/kSigma_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf Graphic file 
+(type pdf)
+ <use auto_figures/kSigma_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/kSigma_141201_P6C_Cterm_None_600uM_RT_ODN
+P.pdf used on input line 765.
+(pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 765--765
+[]\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
+ kSigma _ 141201 _ P6C _ Cterm _ None _ 600uM _ RT _
+ []
+
+
+Overfull \hbox (21.24393pt too wide) in paragraph at lines 709--766
+[][] [] []
+ []
+
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 766.
+[6 <./auto_figures/DerivativePowerSeriespower_141201_P6C_Cterm_None_600uM_RT_OD
+NP.pdf> <./auto_figures/PowerSeriespower_141201_P6C_Cterm_None_600uM_RT_ODNP.pd
+f
+
+pdfTeX warning: pdflatex (file ./auto_figures/PowerSeriespower_141201_P6C_Cterm
+_None_600uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group included
  in a single page
-> <./auto_figures/powerlog_rawt1PowerSeries_140724_CheY_CtermC_400uM_ODNP.pdf
+> <./auto_figures/EnhancementPowerSeries_141201_P6C_Cterm_None_600uM_RT_ODNP.pd
+f
 
-pdfTeX warning: pdflatex (file ./auto_figures/powerlog_rawt1PowerSeries_140724_
-CheY_CtermC_400uM_ODNP.pdf): PDF inclusion: multiple pdfs with page group inclu
-ded in a single page
-> <./auto_figures/powerlogt1PowerSeries_140724_CheY_CtermC_400uM_ODNP.pdf
+pdfTeX warning: pdflatex (file ./auto_figures/EnhancementPowerSeries_141201_P6C
+_Cterm_None_600uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group in
+cluded in a single page
+> <./auto_figures/DerivativePowerSeriest1_powers_141201_P6C_Cterm_None_600uM_RT
+_ODNP.pdf
 
-pdfTeX warning: pdflatex (file ./auto_figures/powerlogt1PowerSeries_140724_CheY
-_CtermC_400uM_ODNP.pdf): PDF inclusion: multiple pdfs with page group included 
-in a single page
+pdfTeX warning: pdflatex (file ./auto_figures/DerivativePowerSeriest1_powers_14
+1201_P6C_Cterm_None_600uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page 
+group included in a single page
+> <./auto_figures/PowerSeriest1_powers_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf
+
+pdfTeX warning: pdflatex (file ./auto_figures/PowerSeriest1_powers_141201_P6C_C
+term_None_600uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group incl
+uded in a single page
+> <./auto_figures/T1PowerSeries_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf
+
+pdfTeX warning: pdflatex (file ./auto_figures/T1PowerSeries_141201_P6C_Cterm_No
+ne_600uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group included in
+ a single page
+> <./auto_figures/Rate Series_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf
+
+pdfTeX warning: pdflatex (file ./auto_figures/Rate Series_141201_P6C_Cterm_None
+_600uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group included in a
+ single page
+> <./auto_figures/kSigma_141201_P6C_Cterm_None_600uM_RT_ODNP.pdf
+
+pdfTeX warning: pdflatex (file ./auto_figures/kSigma_141201_P6C_Cterm_None_600u
+M_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group included in a sing
+le page
 >]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 724.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 766.
  (./plots.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 724.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 724.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 766.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 766.
 Package rerunfilecheck Info: File `plots.out' has not changed.
 (rerunfilecheck)             Checksum: ED38C7B1EA92E03F2871001A98CE2276;222.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 724.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 766.
  ) 
 Here is how much of TeX's memory you used:
- 20048 strings out of 493488
- 348763 string characters out of 3141326
- 466444 words of memory out of 3000000
- 22806 multiletter control sequences out of 15000+200000
+ 20063 strings out of 493488
+ 351011 string characters out of 3141326
+ 467450 words of memory out of 3000000
+ 22818 multiletter control sequences out of 15000+200000
  19938 words of font info for 66 fonts, out of 3000000 for 9000
  957 hyphenation exceptions out of 8191
- 60i,12n,94p,993b,374s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 60i,12n,94p,999b,374s stack positions out of 5000i,500n,10000p,200000b,50000s
 {/usr/local/texlive/2012/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
 exlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/te
 xlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/local/texl
@@ -2121,10 +2205,10 @@ ive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive
 12/texmf-dist/fonts/type1/urw/courier/ucrb8a.pfb></usr/local/texlive/2012/texmf
 -dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2012/texmf-dist/fo
 nts/type1/urw/palatino/uplr8a.pfb>
-Output written on plots.pdf (6 pages, 1508788 bytes).
+Output written on plots.pdf (6 pages, 1248242 bytes).
 PDF statistics:
- 2123 PDF objects out of 2487 (max. 8388607)
- 576 compressed objects within 6 object streams
+ 2284 PDF objects out of 2487 (max. 8388607)
+ 645 compressed objects within 7 object streams
  11 named destinations out of 1000 (max. 500000)
- 250 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 265 words of extra memory for PDF output out of 10000 (max. 10000000)
 

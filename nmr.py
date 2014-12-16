@@ -215,6 +215,68 @@ def auto_steps(filename,threshold = -35, upper_threshold = 30.0, t_minlength = 0
 #}}}
 
 #}}} This is modified to just take power and time arrays instead of a power file, Depending on the shiz this may not be necessary, power_nddata should be an nddata with an axis labeled 't'
+
+def returnSplitPowers(fullPath,powerfile,expTimeMin = 80,dnpPowers = True,threshold = 0.5,firstFigure = []): #{{{ Return the powers
+    openfile = loadmat(fullPath + '/' + powerfile)
+    power = openfile.pop('powerlist')
+    power = array([x for i in power for x in i])
+    time = openfile.pop('timelist')
+    time = array([x for i in time for x in i])
+
+    ### Take the derivative of the power list
+    step = time[1]-time[0] 
+    dp = []
+    for i in range(len(power) - 1):
+        dp.append((power[i+1] - power[i])/step)
+    dp = abs(array(dp))
+    ### Go through and threshold the powers
+    timeBreak = []
+    for i in range(len(dp)):
+        if dp[i] >= threshold:
+            timeBreak.append(time[i])
+    firstFigure = nextfigure(firstFigure,'DerivativePowerSeries' + powerfile.split('.')[0])
+    plot(time[:-1],dp)
+    ylabel('$dP/dt$ $(dBm/s)$')
+    xlabel('seconds')
+    axhline(y=threshold,color='k')
+    title('Derivative Powers')
+
+    badTimes = []
+    count = 0
+    while count < (len(timeBreak) - 1):
+        if (timeBreak[count+1] - timeBreak[count]) <= expTimeMin:
+            badTimes.append(timeBreak[count+1])
+            timeBreak.pop(count+1) # Drop that time value
+            count -= 1 # you must force the counter to roll back and account for throwing away a value
+        count += 1
+
+    if dnpPowers:
+        # This is for the DNP power experiment. Experiment 6 is performed at the attenuation that the amp was warmed up at and thus the algorithm does not pick it up so we want to add this
+        expTime = timeBreak[1] - timeBreak[0] # The time for an experiment
+        timeBreak.insert(0,timeBreak[0] - expTime)
+
+    for val in timeBreak:
+        axvline(x=val, ymin=0, ymax = 1.0,color='r',alpha = 0.5)
+    ylim(-0.5,2)
+
+    firstFigure = nextfigure(firstFigure,'PowerSeries' + powerfile.split('.')[0])
+    expPowers = nddata(power).rename('value','time').labels(['time'],[time])
+    plot(expPowers)
+    powers = []
+    ### Average the power over the time breaks 
+    for i in range(len(timeBreak)-1):
+        meanVal = expPowers['time',lambda x: logical_and(x>timeBreak[i],x<timeBreak[i+1])].mean('time').data
+        powers.append(meanVal)
+        hlines(y=meanVal,xmin=timeBreak[i],xmax=timeBreak[i+1],color='k',linewidth = 4,alpha = 0.8)
+    for val in timeBreak:
+        axvline(x=val, ymin=0, ymax = 1.0,color='r',linewidth = 1,alpha = 0.5)
+    ylim(-45,10)
+    title('Power Steps')
+    ylabel('$(dBm)$')
+    xlabel('seconds')
+    return powers,firstFigure
+              #}}}
+
 def auto_steps_array(power_nddata,threshold = -35, upper_threshold = 30.0, t_minlength = 0.5*60,minstdev = 0.1,showplots = True, showdebug = False,t_start=0,t_stop=60*1000,tolerance = 2,t_maxlen = inf,return_lastspike = False,first_figure = None,title_name = 'power',time_step = 0.5):
     r'Plot the raw power output in figure 1, and chop into different powers in plot 2'
     figurelist = figlistini_old(first_figure)
