@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2012.6.30)  19 DEC 2014 13:36
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2012.6.30)  23 DEC 2014 09:20
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**141216_ox63_in40p_trehalose/plots.tex
-(./141216_ox63_in40p_trehalose/plots.tex
+**140922_CheY_E37C_10mMFliM_241uM_RT_ODNP/plots.tex
+(./140922_CheY_E37C_10mMFliM_241uM_RT_ODNP/plots.tex
 LaTeX2e <2011/06/27>
 Babel <v3.8m> and hyphenation patterns for english, dumylang, nohyphenation, ge
 rman-x-2012-05-30, ngerman-x-2012-05-30, afrikaans, ancientgreek, ibycus, arabi
@@ -1171,1007 +1171,1077 @@ File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 LaTeX Font Info:    Font shape `OT1/pcr/bx/n' in size <9> not available
 (Font)              Font shape `OT1/pcr/b/n' tried instead on input line 17.
 
-<auto_figures/phcycchan_141216_ox63_in40p_trehalose.pdf, id=29, 578.16pt x 433.
-62pt>
-File: auto_figures/phcycchan_141216_ox63_in40p_trehalose.pdf Graphic file (type
- pdf)
- <use auto_figures/phcycchan_141216_ox63_in40p_trehalose.pdf>
-Package pdftex.def Info: auto_figures/phcycchan_141216_ox63_in40p_trehalose.pdf
- used on input line 37.
+<auto_figures/DerivativePowerSeriespower_140922_CheY_E37C_10mMFliM_241uM_RT_ODN
+P.pdf, id=17, 578.16pt x 433.62pt>
+File: auto_figures/DerivativePowerSeriespower_140922_CheY_E37C_10mMFliM_241uM_R
+T_ODNP.pdf Graphic file (type pdf)
+
+<use auto_figures/DerivativePowerSeriespower_140922_CheY_E37C_10mMFliM_241uM_RT
+_ODNP.pdf>
+Package pdftex.def Info: auto_figures/DerivativePowerSeriespower_140922_CheY_E3
+7C_10mMFliM_241uM_RT_ODNP.pdf used on input line 37.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 37--37
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- phcycchan _ 141216 _ ox63 _ in40p _ trehalose .
+ DerivativePowerSeriespower _ 140922 _ CheY _
  []
 
 
-<auto_figures/intpeaks_141216_ox63_in40p_trehalose.pdf, id=31, 578.16pt x 433.6
-2pt>
-File: auto_figures/intpeaks_141216_ox63_in40p_trehalose.pdf Graphic file (type 
-pdf)
- <use auto_figures/intpeaks_141216_ox63_in40p_trehalose.pdf>
-Package pdftex.def Info: auto_figures/intpeaks_141216_ox63_in40p_trehalose.pdf 
-used on input line 51.
+<auto_figures/PowerSeriespower_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf, id=
+19, 578.16pt x 433.62pt>
+File: auto_figures/PowerSeriespower_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf
+ Graphic file (type pdf)
+
+<use auto_figures/PowerSeriespower_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/PowerSeriespower_140922_CheY_E37C_10mMFli
+M_241uM_RT_ODNP.pdf used on input line 51.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 51--51
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- intpeaks _ 141216 _ ox63 _ in40p _ trehalose .
+ PowerSeriespower _ 140922 _ CheY _ E37C _
  []
 
 
-<auto_figures/EnhancementExpSeries_141216_ox63_in40p_trehalose.pdf, id=33, 578.
-16pt x 433.62pt>
-File: auto_figures/EnhancementExpSeries_141216_ox63_in40p_trehalose.pdf Graphic
- file (type pdf)
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 54.
 
-<use auto_figures/EnhancementExpSeries_141216_ox63_in40p_trehalose.pdf>
-Package pdftex.def Info: auto_figures/EnhancementExpSeries_141216_ox63_in40p_tr
-ehalose.pdf used on input line 65.
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 54.
+
+
+<auto_figures/DerivativePowerSeriest1_powers_140922_CheY_E37C_10mMFliM_241uM_RT
+_ODNP.pdf, id=21, 578.16pt x 433.62pt>
+File: auto_figures/DerivativePowerSeriest1_powers_140922_CheY_E37C_10mMFliM_241
+uM_RT_ODNP.pdf Graphic file (type pdf)
+
+<use auto_figures/DerivativePowerSeriest1_powers_140922_CheY_E37C_10mMFliM_241u
+M_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/DerivativePowerSeriest1_powers_140922_Che
+Y_E37C_10mMFliM_241uM_RT_ODNP.pdf used on input line 74.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 65--65
+Underfull \hbox (badness 10000) in paragraph at lines 74--74
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- EnhancementExpSeries _ 141216 _ ox63 _ in40p _
+ DerivativePowerSeriest1 _ powers _ 140922 _
  []
 
 
-Overfull \hbox (21.24393pt too wide) in paragraph at lines 37--66
-[][] [] [] 
- []
+<auto_figures/PowerSeriest1_powers_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf,
+ id=23, 578.16pt x 433.62pt>
+File: auto_figures/PowerSeriest1_powers_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP
+.pdf Graphic file (type pdf)
 
-
-<auto_figures/phcycchant1Expno_28_141216_ox63_in40p_trehalose.pdf, id=35, 578.1
-6pt x 433.62pt>
-File: auto_figures/phcycchant1Expno_28_141216_ox63_in40p_trehalose.pdf Graphic 
-file (type pdf)
-
-<use auto_figures/phcycchant1Expno_28_141216_ox63_in40p_trehalose.pdf>
-Package pdftex.def Info: auto_figures/phcycchant1Expno_28_141216_ox63_in40p_tre
-halose.pdf used on input line 97.
+<use auto_figures/PowerSeriest1_powers_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.
+pdf>
+Package pdftex.def Info: auto_figures/PowerSeriest1_powers_140922_CheY_E37C_10m
+MFliM_241uM_RT_ODNP.pdf used on input line 88.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 97--97
+Underfull \hbox (badness 10000) in paragraph at lines 88--88
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- phcycchant1Expno _ 28 _ 141216 _ ox63 _ in40p _
+ PowerSeriest1 _ powers _ 140922 _ CheY _ E37C _
  []
 
 
-<auto_figures/intpeakst1Expno_28_141216_ox63_in40p_trehalose.pdf, id=37, 578.16
-pt x 433.62pt>
-File: auto_figures/intpeakst1Expno_28_141216_ox63_in40p_trehalose.pdf Graphic f
-ile (type pdf)
+<auto_figures/phcycchan_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf, id=25, 578
+.16pt x 433.62pt>
+File: auto_figures/phcycchan_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf Graphi
+c file (type pdf)
 
-<use auto_figures/intpeakst1Expno_28_141216_ox63_in40p_trehalose.pdf>
-Package pdftex.def Info: auto_figures/intpeakst1Expno_28_141216_ox63_in40p_treh
-alose.pdf used on input line 111.
+<use auto_figures/phcycchan_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/phcycchan_140922_CheY_E37C_10mMFliM_241uM
+_RT_ODNP.pdf used on input line 111.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 111--111
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- intpeakst1Expno _ 28 _ 141216 _ ox63 _ in40p _
+ phcycchan _ 140922 _ CheY _ E37C _ 10mMFliM _
  []
 
 
-<auto_figures/t1RawDataExp28_141216_ox63_in40p_trehalose.pdf, id=39, 578.16pt x
- 433.62pt>
-File: auto_figures/t1RawDataExp28_141216_ox63_in40p_trehalose.pdf Graphic file 
-(type pdf)
- <use auto_figures/t1RawDataExp28_141216_ox63_in40p_trehalose.pdf>
-Package pdftex.def Info: auto_figures/t1RawDataExp28_141216_ox63_in40p_trehalos
-e.pdf used on input line 125.
+<auto_figures/intpeaks_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf, id=27, 578.
+16pt x 433.62pt>
+File: auto_figures/intpeaks_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf Graphic
+ file (type pdf)
+
+<use auto_figures/intpeaks_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/intpeaks_140922_CheY_E37C_10mMFliM_241uM_
+RT_ODNP.pdf used on input line 125.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 125--125
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- t1RawDataExp28 _ 141216 _ ox63 _ in40p _
+ intpeaks _ 140922 _ CheY _ E37C _ 10mMFliM _
  []
 
 
-Overfull \hbox (21.24393pt too wide) in paragraph at lines 97--126
-[][] [] [] 
- []
+<auto_figures/EnhancementExpSeries_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf,
+ id=29, 578.16pt x 433.62pt>
+File: auto_figures/EnhancementExpSeries_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP
+.pdf Graphic file (type pdf)
 
-
-<auto_figures/phcycchant1Expno_29_141216_ox63_in40p_trehalose.pdf, id=41, 578.1
-6pt x 433.62pt>
-File: auto_figures/phcycchant1Expno_29_141216_ox63_in40p_trehalose.pdf Graphic 
-file (type pdf)
-
-<use auto_figures/phcycchant1Expno_29_141216_ox63_in40p_trehalose.pdf>
-Package pdftex.def Info: auto_figures/phcycchant1Expno_29_141216_ox63_in40p_tre
-halose.pdf used on input line 148.
+<use auto_figures/EnhancementExpSeries_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.
+pdf>
+Package pdftex.def Info: auto_figures/EnhancementExpSeries_140922_CheY_E37C_10m
+MFliM_241uM_RT_ODNP.pdf used on input line 139.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 148--148
+Underfull \hbox (badness 10000) in paragraph at lines 139--139
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- phcycchant1Expno _ 29 _ 141216 _ ox63 _ in40p _
+ EnhancementExpSeries _ 140922 _ CheY _ E37C _
  []
 
 
-<auto_figures/intpeakst1Expno_29_141216_ox63_in40p_trehalose.pdf, id=43, 578.16
-pt x 433.62pt>
-File: auto_figures/intpeakst1Expno_29_141216_ox63_in40p_trehalose.pdf Graphic f
-ile (type pdf)
+<auto_figures/EnhancementPowerSeries_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pd
+f, id=31, 578.16pt x 433.62pt>
+File: auto_figures/EnhancementPowerSeries_140922_CheY_E37C_10mMFliM_241uM_RT_OD
+NP.pdf Graphic file (type pdf)
 
-<use auto_figures/intpeakst1Expno_29_141216_ox63_in40p_trehalose.pdf>
-Package pdftex.def Info: auto_figures/intpeakst1Expno_29_141216_ox63_in40p_treh
-alose.pdf used on input line 162.
+<use auto_figures/EnhancementPowerSeries_140922_CheY_E37C_10mMFliM_241uM_RT_ODN
+P.pdf>
+Package pdftex.def Info: auto_figures/EnhancementPowerSeries_140922_CheY_E37C_1
+0mMFliM_241uM_RT_ODNP.pdf used on input line 153.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 162--162
+Underfull \hbox (badness 10000) in paragraph at lines 153--153
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- intpeakst1Expno _ 29 _ 141216 _ ox63 _ in40p _
+ EnhancementPowerSeries _ 140922 _ CheY _
  []
 
 
-<auto_figures/t1RawDataExp29_141216_ox63_in40p_trehalose.pdf, id=45, 578.16pt x
- 433.62pt>
-File: auto_figures/t1RawDataExp29_141216_ox63_in40p_trehalose.pdf Graphic file 
-(type pdf)
- <use auto_figures/t1RawDataExp29_141216_ox63_in40p_trehalose.pdf>
-Package pdftex.def Info: auto_figures/t1RawDataExp29_141216_ox63_in40p_trehalos
-e.pdf used on input line 176.
+Overfull \hbox (21.24393pt too wide) in paragraph at lines 111--154
+[][] [] []
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [2 <./auto_figures/DerivativePowerSeriespower_140922_CheY_E37C_10mMFliM_241uM_
+RT_ODNP.pdf> <./auto_figures/PowerSeriespower_140922_CheY_E37C_10mMFliM_241uM_R
+T_ODNP.pdf
+
+pdfTeX warning: pdflatex (file ./auto_figures/PowerSeriespower_140922_CheY_E37C
+_10mMFliM_241uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group incl
+uded in a single page
+> <./auto_figures/DerivativePowerSeriest1_powers_140922_CheY_E37C_10mMFliM_241u
+M_RT_ODNP.pdf
+
+pdfTeX warning: pdflatex (file ./auto_figures/DerivativePowerSeriest1_powers_14
+0922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with p
+age group included in a single page
+> <./auto_figures/PowerSeriest1_powers_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.
+pdf
+
+pdfTeX warning: pdflatex (file ./auto_figures/PowerSeriest1_powers_140922_CheY_
+E37C_10mMFliM_241uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group 
+included in a single page
+> <./auto_figures/phcycchan_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf
+
+pdfTeX warning: pdflatex (file ./auto_figures/phcycchan_140922_CheY_E37C_10mMFl
+iM_241uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group included in
+ a single page
+> <./auto_figures/intpeaks_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf
+
+pdfTeX warning: pdflatex (file ./auto_figures/intpeaks_140922_CheY_E37C_10mMFli
+M_241uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group included in 
+a single page
+> <./auto_figures/EnhancementExpSeries_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.
+pdf
+
+pdfTeX warning: pdflatex (file ./auto_figures/EnhancementExpSeries_140922_CheY_
+E37C_10mMFliM_241uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group 
+included in a single page
+>]
+<auto_figures/phcycchant1Expno_28_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf, 
+id=352, 578.16pt x 433.62pt>
+File: auto_figures/phcycchant1Expno_28_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.
+pdf Graphic file (type pdf)
+
+<use auto_figures/phcycchant1Expno_28_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.p
+df>
+Package pdftex.def Info: auto_figures/phcycchant1Expno_28_140922_CheY_E37C_10mM
+FliM_241uM_RT_ODNP.pdf used on input line 185.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 176--176
+Underfull \hbox (badness 10000) in paragraph at lines 185--185
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- t1RawDataExp29 _ 141216 _ ox63 _ in40p _
+ phcycchant1Expno _ 28 _ 140922 _ CheY _ E37C _
  []
 
 
-Overfull \hbox (21.24393pt too wide) in paragraph at lines 148--177
-[][] [] [] 
- []
+<auto_figures/intpeakst1Expno_28_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf, i
+d=354, 578.16pt x 433.62pt>
+File: auto_figures/intpeakst1Expno_28_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.p
+df Graphic file (type pdf)
 
-
-<auto_figures/phcycchant1Expno_30_141216_ox63_in40p_trehalose.pdf, id=47, 578.1
-6pt x 433.62pt>
-File: auto_figures/phcycchant1Expno_30_141216_ox63_in40p_trehalose.pdf Graphic 
-file (type pdf)
-
-<use auto_figures/phcycchant1Expno_30_141216_ox63_in40p_trehalose.pdf>
-Package pdftex.def Info: auto_figures/phcycchant1Expno_30_141216_ox63_in40p_tre
-halose.pdf used on input line 199.
+<use auto_figures/intpeakst1Expno_28_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pd
+f>
+Package pdftex.def Info: auto_figures/intpeakst1Expno_28_140922_CheY_E37C_10mMF
+liM_241uM_RT_ODNP.pdf used on input line 199.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 199--199
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- phcycchant1Expno _ 30 _ 141216 _ ox63 _ in40p _
+ intpeakst1Expno _ 28 _ 140922 _ CheY _ E37C _
  []
 
 
-<auto_figures/intpeakst1Expno_30_141216_ox63_in40p_trehalose.pdf, id=49, 578.16
-pt x 433.62pt>
-File: auto_figures/intpeakst1Expno_30_141216_ox63_in40p_trehalose.pdf Graphic f
-ile (type pdf)
+<auto_figures/t1RawDataExp28_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf, id=35
+6, 578.16pt x 433.62pt>
+File: auto_figures/t1RawDataExp28_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf G
+raphic file (type pdf)
 
-<use auto_figures/intpeakst1Expno_30_141216_ox63_in40p_trehalose.pdf>
-Package pdftex.def Info: auto_figures/intpeakst1Expno_30_141216_ox63_in40p_treh
-alose.pdf used on input line 213.
+<use auto_figures/t1RawDataExp28_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/t1RawDataExp28_140922_CheY_E37C_10mMFliM_
+241uM_RT_ODNP.pdf used on input line 213.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 213--213
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- intpeakst1Expno _ 30 _ 141216 _ ox63 _ in40p _
+ t1RawDataExp28 _ 140922 _ CheY _ E37C _
  []
 
 
-<auto_figures/t1RawDataExp30_141216_ox63_in40p_trehalose.pdf, id=51, 578.16pt x
- 433.62pt>
-File: auto_figures/t1RawDataExp30_141216_ox63_in40p_trehalose.pdf Graphic file 
-(type pdf)
- <use auto_figures/t1RawDataExp30_141216_ox63_in40p_trehalose.pdf>
-Package pdftex.def Info: auto_figures/t1RawDataExp30_141216_ox63_in40p_trehalos
-e.pdf used on input line 227.
-(pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 227--227
-[]\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- t1RawDataExp30 _ 141216 _ ox63 _ in40p _
- []
-
-
-Overfull \hbox (21.24393pt too wide) in paragraph at lines 199--228
+Overfull \hbox (21.24393pt too wide) in paragraph at lines 185--214
 [][] [] [] 
  []
 
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
+<auto_figures/phcycchant1Expno_29_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf, 
+id=358, 578.16pt x 433.62pt>
+File: auto_figures/phcycchant1Expno_29_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.
+pdf Graphic file (type pdf)
 
- [2 <./auto_figures/phcycchan_141216_ox63_in40p_trehalose.pdf> <./auto_figures/
-intpeaks_141216_ox63_in40p_trehalose.pdf
+<use auto_figures/phcycchant1Expno_29_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.p
+df>
+Package pdftex.def Info: auto_figures/phcycchant1Expno_29_140922_CheY_E37C_10mM
+FliM_241uM_RT_ODNP.pdf used on input line 236.
+(pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
-pdfTeX warning: pdflatex (file ./auto_figures/intpeaks_141216_ox63_in40p_trehal
-ose.pdf): PDF inclusion: multiple pdfs with page group included in a single pag
-e
-> <./auto_figures/EnhancementExpSeries_141216_ox63_in40p_trehalose.pdf
+Underfull \hbox (badness 10000) in paragraph at lines 236--236
+[]\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
+ phcycchant1Expno _ 29 _ 140922 _ CheY _ E37C _
+ []
 
-pdfTeX warning: pdflatex (file ./auto_figures/EnhancementExpSeries_141216_ox63_
-in40p_trehalose.pdf): PDF inclusion: multiple pdfs with page group included in 
-a single page
-> <./auto_figures/phcycchant1Expno_28_141216_ox63_in40p_trehalose.pdf
 
-pdfTeX warning: pdflatex (file ./auto_figures/phcycchant1Expno_28_141216_ox63_i
-n40p_trehalose.pdf): PDF inclusion: multiple pdfs with page group included in a
- single page
-> <./auto_figures/intpeakst1Expno_28_141216_ox63_in40p_trehalose.pdf
+<auto_figures/intpeakst1Expno_29_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf, i
+d=360, 578.16pt x 433.62pt>
+File: auto_figures/intpeakst1Expno_29_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.p
+df Graphic file (type pdf)
 
-pdfTeX warning: pdflatex (file ./auto_figures/intpeakst1Expno_28_141216_ox63_in
-40p_trehalose.pdf): PDF inclusion: multiple pdfs with page group included in a 
-single page
-> <./auto_figures/t1RawDataExp28_141216_ox63_in40p_trehalose.pdf
-
-pdfTeX warning: pdflatex (file ./auto_figures/t1RawDataExp28_141216_ox63_in40p_
-trehalose.pdf): PDF inclusion: multiple pdfs with page group included in a sing
-le page
-> <./auto_figures/phcycchant1Expno_29_141216_ox63_in40p_trehalose.pdf
-
-pdfTeX warning: pdflatex (file ./auto_figures/phcycchant1Expno_29_141216_ox63_i
-n40p_trehalose.pdf): PDF inclusion: multiple pdfs with page group included in a
- single page
-> <./auto_figures/intpeakst1Expno_29_141216_ox63_in40p_trehalose.pdf
-
-pdfTeX warning: pdflatex (file ./auto_figures/intpeakst1Expno_29_141216_ox63_in
-40p_trehalose.pdf): PDF inclusion: multiple pdfs with page group included in a 
-single page
-> <./auto_figures/t1RawDataExp29_141216_ox63_in40p_trehalose.pdf
-
-pdfTeX warning: pdflatex (file ./auto_figures/t1RawDataExp29_141216_ox63_in40p_
-trehalose.pdf): PDF inclusion: multiple pdfs with page group included in a sing
-le page
->]
-<auto_figures/phcycchant1Expno_31_141216_ox63_in40p_trehalose.pdf, id=437, 578.
-16pt x 433.62pt>
-File: auto_figures/phcycchant1Expno_31_141216_ox63_in40p_trehalose.pdf Graphic 
-file (type pdf)
-
-<use auto_figures/phcycchant1Expno_31_141216_ox63_in40p_trehalose.pdf>
-Package pdftex.def Info: auto_figures/phcycchant1Expno_31_141216_ox63_in40p_tre
-halose.pdf used on input line 250.
+<use auto_figures/intpeakst1Expno_29_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pd
+f>
+Package pdftex.def Info: auto_figures/intpeakst1Expno_29_140922_CheY_E37C_10mMF
+liM_241uM_RT_ODNP.pdf used on input line 250.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 250--250
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- phcycchant1Expno _ 31 _ 141216 _ ox63 _ in40p _
+ intpeakst1Expno _ 29 _ 140922 _ CheY _ E37C _
  []
 
 
-<auto_figures/intpeakst1Expno_31_141216_ox63_in40p_trehalose.pdf, id=439, 578.1
-6pt x 433.62pt>
-File: auto_figures/intpeakst1Expno_31_141216_ox63_in40p_trehalose.pdf Graphic f
-ile (type pdf)
+<auto_figures/t1RawDataExp29_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf, id=36
+2, 578.16pt x 433.62pt>
+File: auto_figures/t1RawDataExp29_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf G
+raphic file (type pdf)
 
-<use auto_figures/intpeakst1Expno_31_141216_ox63_in40p_trehalose.pdf>
-Package pdftex.def Info: auto_figures/intpeakst1Expno_31_141216_ox63_in40p_treh
-alose.pdf used on input line 264.
+<use auto_figures/t1RawDataExp29_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/t1RawDataExp29_140922_CheY_E37C_10mMFliM_
+241uM_RT_ODNP.pdf used on input line 264.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 264--264
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- intpeakst1Expno _ 31 _ 141216 _ ox63 _ in40p _
+ t1RawDataExp29 _ 140922 _ CheY _ E37C _
  []
 
 
-<auto_figures/t1RawDataExp31_141216_ox63_in40p_trehalose.pdf, id=441, 578.16pt 
-x 433.62pt>
-File: auto_figures/t1RawDataExp31_141216_ox63_in40p_trehalose.pdf Graphic file 
-(type pdf)
- <use auto_figures/t1RawDataExp31_141216_ox63_in40p_trehalose.pdf>
-Package pdftex.def Info: auto_figures/t1RawDataExp31_141216_ox63_in40p_trehalos
-e.pdf used on input line 278.
-(pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 278--278
-[]\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- t1RawDataExp31 _ 141216 _ ox63 _ in40p _
- []
-
-
-Overfull \hbox (21.24393pt too wide) in paragraph at lines 250--279
+Overfull \hbox (21.24393pt too wide) in paragraph at lines 236--265
 [][] [] [] 
  []
 
 
-<auto_figures/phcycchant1Expno_32_141216_ox63_in40p_trehalose.pdf, id=443, 578.
-16pt x 433.62pt>
-File: auto_figures/phcycchant1Expno_32_141216_ox63_in40p_trehalose.pdf Graphic 
-file (type pdf)
+<auto_figures/phcycchant1Expno_30_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf, 
+id=364, 578.16pt x 433.62pt>
+File: auto_figures/phcycchant1Expno_30_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.
+pdf Graphic file (type pdf)
 
-<use auto_figures/phcycchant1Expno_32_141216_ox63_in40p_trehalose.pdf>
-Package pdftex.def Info: auto_figures/phcycchant1Expno_32_141216_ox63_in40p_tre
-halose.pdf used on input line 301.
+<use auto_figures/phcycchant1Expno_30_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.p
+df>
+Package pdftex.def Info: auto_figures/phcycchant1Expno_30_140922_CheY_E37C_10mM
+FliM_241uM_RT_ODNP.pdf used on input line 287.
+(pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 287--287
+[]\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
+ phcycchant1Expno _ 30 _ 140922 _ CheY _ E37C _
+ []
+
+
+<auto_figures/intpeakst1Expno_30_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf, i
+d=366, 578.16pt x 433.62pt>
+File: auto_figures/intpeakst1Expno_30_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.p
+df Graphic file (type pdf)
+
+<use auto_figures/intpeakst1Expno_30_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pd
+f>
+Package pdftex.def Info: auto_figures/intpeakst1Expno_30_140922_CheY_E37C_10mMF
+liM_241uM_RT_ODNP.pdf used on input line 301.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 301--301
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- phcycchant1Expno _ 32 _ 141216 _ ox63 _ in40p _
+ intpeakst1Expno _ 30 _ 140922 _ CheY _ E37C _
  []
 
 
-<auto_figures/intpeakst1Expno_32_141216_ox63_in40p_trehalose.pdf, id=445, 578.1
-6pt x 433.62pt>
-File: auto_figures/intpeakst1Expno_32_141216_ox63_in40p_trehalose.pdf Graphic f
-ile (type pdf)
+<auto_figures/t1RawDataExp30_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf, id=36
+8, 578.16pt x 433.62pt>
+File: auto_figures/t1RawDataExp30_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf G
+raphic file (type pdf)
 
-<use auto_figures/intpeakst1Expno_32_141216_ox63_in40p_trehalose.pdf>
-Package pdftex.def Info: auto_figures/intpeakst1Expno_32_141216_ox63_in40p_treh
-alose.pdf used on input line 315.
+<use auto_figures/t1RawDataExp30_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/t1RawDataExp30_140922_CheY_E37C_10mMFliM_
+241uM_RT_ODNP.pdf used on input line 315.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 315--315
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- intpeakst1Expno _ 32 _ 141216 _ ox63 _ in40p _
+ t1RawDataExp30 _ 140922 _ CheY _ E37C _
  []
 
 
-<auto_figures/t1RawDataExp32_141216_ox63_in40p_trehalose.pdf, id=447, 578.16pt 
-x 433.62pt>
-File: auto_figures/t1RawDataExp32_141216_ox63_in40p_trehalose.pdf Graphic file 
-(type pdf)
- <use auto_figures/t1RawDataExp32_141216_ox63_in40p_trehalose.pdf>
-Package pdftex.def Info: auto_figures/t1RawDataExp32_141216_ox63_in40p_trehalos
-e.pdf used on input line 329.
-(pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 329--329
-[]\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- t1RawDataExp32 _ 141216 _ ox63 _ in40p _
- []
-
-
-Overfull \hbox (21.24393pt too wide) in paragraph at lines 301--330
+Overfull \hbox (21.24393pt too wide) in paragraph at lines 287--316
 [][] [] [] 
  []
 
 
-<auto_figures/phcycchant1Expno_33_141216_ox63_in40p_trehalose.pdf, id=449, 578.
-16pt x 433.62pt>
-File: auto_figures/phcycchant1Expno_33_141216_ox63_in40p_trehalose.pdf Graphic 
-file (type pdf)
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-<use auto_figures/phcycchant1Expno_33_141216_ox63_in40p_trehalose.pdf>
-Package pdftex.def Info: auto_figures/phcycchant1Expno_33_141216_ox63_in40p_tre
-halose.pdf used on input line 352.
+ [3 <./auto_figures/EnhancementPowerSeries_140922_CheY_E37C_10mMFliM_241uM_RT_O
+DNP.pdf> <./auto_figures/phcycchant1Expno_28_140922_CheY_E37C_10mMFliM_241uM_RT
+_ODNP.pdf
+
+pdfTeX warning: pdflatex (file ./auto_figures/phcycchant1Expno_28_140922_CheY_E
+37C_10mMFliM_241uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group i
+ncluded in a single page
+> <./auto_figures/intpeakst1Expno_28_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pd
+f
+
+pdfTeX warning: pdflatex (file ./auto_figures/intpeakst1Expno_28_140922_CheY_E3
+7C_10mMFliM_241uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group in
+cluded in a single page
+> <./auto_figures/t1RawDataExp28_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf
+
+pdfTeX warning: pdflatex (file ./auto_figures/t1RawDataExp28_140922_CheY_E37C_1
+0mMFliM_241uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group includ
+ed in a single page
+> <./auto_figures/phcycchant1Expno_29_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.p
+df
+
+pdfTeX warning: pdflatex (file ./auto_figures/phcycchant1Expno_29_140922_CheY_E
+37C_10mMFliM_241uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group i
+ncluded in a single page
+> <./auto_figures/intpeakst1Expno_29_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pd
+f
+
+pdfTeX warning: pdflatex (file ./auto_figures/intpeakst1Expno_29_140922_CheY_E3
+7C_10mMFliM_241uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group in
+cluded in a single page
+> <./auto_figures/t1RawDataExp29_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf
+
+pdfTeX warning: pdflatex (file ./auto_figures/t1RawDataExp29_140922_CheY_E37C_1
+0mMFliM_241uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group includ
+ed in a single page
+>]
+<auto_figures/phcycchant1Expno_31_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf, 
+id=731, 578.16pt x 433.62pt>
+File: auto_figures/phcycchant1Expno_31_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.
+pdf Graphic file (type pdf)
+
+<use auto_figures/phcycchant1Expno_31_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.p
+df>
+Package pdftex.def Info: auto_figures/phcycchant1Expno_31_140922_CheY_E37C_10mM
+FliM_241uM_RT_ODNP.pdf used on input line 338.
+(pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 338--338
+[]\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
+ phcycchant1Expno _ 31 _ 140922 _ CheY _ E37C _
+ []
+
+
+<auto_figures/intpeakst1Expno_31_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf, i
+d=733, 578.16pt x 433.62pt>
+File: auto_figures/intpeakst1Expno_31_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.p
+df Graphic file (type pdf)
+
+<use auto_figures/intpeakst1Expno_31_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pd
+f>
+Package pdftex.def Info: auto_figures/intpeakst1Expno_31_140922_CheY_E37C_10mMF
+liM_241uM_RT_ODNP.pdf used on input line 352.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 352--352
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- phcycchant1Expno _ 33 _ 141216 _ ox63 _ in40p _
+ intpeakst1Expno _ 31 _ 140922 _ CheY _ E37C _
  []
 
 
-<auto_figures/intpeakst1Expno_33_141216_ox63_in40p_trehalose.pdf, id=451, 578.1
-6pt x 433.62pt>
-File: auto_figures/intpeakst1Expno_33_141216_ox63_in40p_trehalose.pdf Graphic f
-ile (type pdf)
+<auto_figures/t1RawDataExp31_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf, id=73
+5, 578.16pt x 433.62pt>
+File: auto_figures/t1RawDataExp31_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf G
+raphic file (type pdf)
 
-<use auto_figures/intpeakst1Expno_33_141216_ox63_in40p_trehalose.pdf>
-Package pdftex.def Info: auto_figures/intpeakst1Expno_33_141216_ox63_in40p_treh
-alose.pdf used on input line 366.
+<use auto_figures/t1RawDataExp31_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/t1RawDataExp31_140922_CheY_E37C_10mMFliM_
+241uM_RT_ODNP.pdf used on input line 366.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 366--366
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- intpeakst1Expno _ 33 _ 141216 _ ox63 _ in40p _
+ t1RawDataExp31 _ 140922 _ CheY _ E37C _
  []
 
 
-<auto_figures/t1RawDataExp33_141216_ox63_in40p_trehalose.pdf, id=453, 578.16pt 
-x 433.62pt>
-File: auto_figures/t1RawDataExp33_141216_ox63_in40p_trehalose.pdf Graphic file 
-(type pdf)
- <use auto_figures/t1RawDataExp33_141216_ox63_in40p_trehalose.pdf>
-Package pdftex.def Info: auto_figures/t1RawDataExp33_141216_ox63_in40p_trehalos
-e.pdf used on input line 380.
-(pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 380--380
-[]\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- t1RawDataExp33 _ 141216 _ ox63 _ in40p _
- []
-
-
-Overfull \hbox (21.24393pt too wide) in paragraph at lines 352--381
+Overfull \hbox (21.24393pt too wide) in paragraph at lines 338--367
 [][] [] [] 
  []
 
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
+<auto_figures/phcycchant1Expno_32_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf, 
+id=737, 578.16pt x 433.62pt>
+File: auto_figures/phcycchant1Expno_32_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.
+pdf Graphic file (type pdf)
 
- [3 <./auto_figures/phcycchant1Expno_30_141216_ox63_in40p_trehalose.pdf> <./aut
-o_figures/intpeakst1Expno_30_141216_ox63_in40p_trehalose.pdf
+<use auto_figures/phcycchant1Expno_32_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.p
+df>
+Package pdftex.def Info: auto_figures/phcycchant1Expno_32_140922_CheY_E37C_10mM
+FliM_241uM_RT_ODNP.pdf used on input line 389.
+(pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
-pdfTeX warning: pdflatex (file ./auto_figures/intpeakst1Expno_30_141216_ox63_in
-40p_trehalose.pdf): PDF inclusion: multiple pdfs with page group included in a 
-single page
-> <./auto_figures/t1RawDataExp30_141216_ox63_in40p_trehalose.pdf
+Underfull \hbox (badness 10000) in paragraph at lines 389--389
+[]\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
+ phcycchant1Expno _ 32 _ 140922 _ CheY _ E37C _
+ []
 
-pdfTeX warning: pdflatex (file ./auto_figures/t1RawDataExp30_141216_ox63_in40p_
-trehalose.pdf): PDF inclusion: multiple pdfs with page group included in a sing
-le page
-> <./auto_figures/phcycchant1Expno_31_141216_ox63_in40p_trehalose.pdf
 
-pdfTeX warning: pdflatex (file ./auto_figures/phcycchant1Expno_31_141216_ox63_i
-n40p_trehalose.pdf): PDF inclusion: multiple pdfs with page group included in a
- single page
-> <./auto_figures/intpeakst1Expno_31_141216_ox63_in40p_trehalose.pdf
+<auto_figures/intpeakst1Expno_32_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf, i
+d=739, 578.16pt x 433.62pt>
+File: auto_figures/intpeakst1Expno_32_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.p
+df Graphic file (type pdf)
 
-pdfTeX warning: pdflatex (file ./auto_figures/intpeakst1Expno_31_141216_ox63_in
-40p_trehalose.pdf): PDF inclusion: multiple pdfs with page group included in a 
-single page
-> <./auto_figures/t1RawDataExp31_141216_ox63_in40p_trehalose.pdf
-
-pdfTeX warning: pdflatex (file ./auto_figures/t1RawDataExp31_141216_ox63_in40p_
-trehalose.pdf): PDF inclusion: multiple pdfs with page group included in a sing
-le page
-> <./auto_figures/phcycchant1Expno_32_141216_ox63_in40p_trehalose.pdf
-
-pdfTeX warning: pdflatex (file ./auto_figures/phcycchant1Expno_32_141216_ox63_i
-n40p_trehalose.pdf): PDF inclusion: multiple pdfs with page group included in a
- single page
-> <./auto_figures/intpeakst1Expno_32_141216_ox63_in40p_trehalose.pdf
-
-pdfTeX warning: pdflatex (file ./auto_figures/intpeakst1Expno_32_141216_ox63_in
-40p_trehalose.pdf): PDF inclusion: multiple pdfs with page group included in a 
-single page
-> <./auto_figures/t1RawDataExp32_141216_ox63_in40p_trehalose.pdf
-
-pdfTeX warning: pdflatex (file ./auto_figures/t1RawDataExp32_141216_ox63_in40p_
-trehalose.pdf): PDF inclusion: multiple pdfs with page group included in a sing
-le page
->]
-<auto_figures/phcycchant1Expno_34_141216_ox63_in40p_trehalose.pdf, id=879, 578.
-16pt x 433.62pt>
-File: auto_figures/phcycchant1Expno_34_141216_ox63_in40p_trehalose.pdf Graphic 
-file (type pdf)
-
-<use auto_figures/phcycchant1Expno_34_141216_ox63_in40p_trehalose.pdf>
-Package pdftex.def Info: auto_figures/phcycchant1Expno_34_141216_ox63_in40p_tre
-halose.pdf used on input line 403.
+<use auto_figures/intpeakst1Expno_32_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pd
+f>
+Package pdftex.def Info: auto_figures/intpeakst1Expno_32_140922_CheY_E37C_10mMF
+liM_241uM_RT_ODNP.pdf used on input line 403.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 403--403
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- phcycchant1Expno _ 34 _ 141216 _ ox63 _ in40p _
+ intpeakst1Expno _ 32 _ 140922 _ CheY _ E37C _
  []
 
 
-<auto_figures/intpeakst1Expno_34_141216_ox63_in40p_trehalose.pdf, id=881, 578.1
-6pt x 433.62pt>
-File: auto_figures/intpeakst1Expno_34_141216_ox63_in40p_trehalose.pdf Graphic f
-ile (type pdf)
+<auto_figures/t1RawDataExp32_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf, id=74
+1, 578.16pt x 433.62pt>
+File: auto_figures/t1RawDataExp32_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf G
+raphic file (type pdf)
 
-<use auto_figures/intpeakst1Expno_34_141216_ox63_in40p_trehalose.pdf>
-Package pdftex.def Info: auto_figures/intpeakst1Expno_34_141216_ox63_in40p_treh
-alose.pdf used on input line 417.
+<use auto_figures/t1RawDataExp32_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/t1RawDataExp32_140922_CheY_E37C_10mMFliM_
+241uM_RT_ODNP.pdf used on input line 417.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 417--417
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- intpeakst1Expno _ 34 _ 141216 _ ox63 _ in40p _
+ t1RawDataExp32 _ 140922 _ CheY _ E37C _
  []
 
 
-<auto_figures/t1RawDataExp34_141216_ox63_in40p_trehalose.pdf, id=883, 578.16pt 
-x 433.62pt>
-File: auto_figures/t1RawDataExp34_141216_ox63_in40p_trehalose.pdf Graphic file 
-(type pdf)
- <use auto_figures/t1RawDataExp34_141216_ox63_in40p_trehalose.pdf>
-Package pdftex.def Info: auto_figures/t1RawDataExp34_141216_ox63_in40p_trehalos
-e.pdf used on input line 431.
-(pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 431--431
-[]\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- t1RawDataExp34 _ 141216 _ ox63 _ in40p _
- []
-
-
-Overfull \hbox (21.24393pt too wide) in paragraph at lines 403--432
+Overfull \hbox (21.24393pt too wide) in paragraph at lines 389--418
 [][] [] [] 
  []
 
 
-<auto_figures/phcycchant1Expno_35_141216_ox63_in40p_trehalose.pdf, id=885, 578.
-16pt x 433.62pt>
-File: auto_figures/phcycchant1Expno_35_141216_ox63_in40p_trehalose.pdf Graphic 
-file (type pdf)
+<auto_figures/phcycchant1Expno_33_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf, 
+id=743, 578.16pt x 433.62pt>
+File: auto_figures/phcycchant1Expno_33_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.
+pdf Graphic file (type pdf)
 
-<use auto_figures/phcycchant1Expno_35_141216_ox63_in40p_trehalose.pdf>
-Package pdftex.def Info: auto_figures/phcycchant1Expno_35_141216_ox63_in40p_tre
-halose.pdf used on input line 454.
+<use auto_figures/phcycchant1Expno_33_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.p
+df>
+Package pdftex.def Info: auto_figures/phcycchant1Expno_33_140922_CheY_E37C_10mM
+FliM_241uM_RT_ODNP.pdf used on input line 440.
+(pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 440--440
+[]\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
+ phcycchant1Expno _ 33 _ 140922 _ CheY _ E37C _
+ []
+
+
+<auto_figures/intpeakst1Expno_33_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf, i
+d=745, 578.16pt x 433.62pt>
+File: auto_figures/intpeakst1Expno_33_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.p
+df Graphic file (type pdf)
+
+<use auto_figures/intpeakst1Expno_33_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pd
+f>
+Package pdftex.def Info: auto_figures/intpeakst1Expno_33_140922_CheY_E37C_10mMF
+liM_241uM_RT_ODNP.pdf used on input line 454.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 454--454
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- phcycchant1Expno _ 35 _ 141216 _ ox63 _ in40p _
+ intpeakst1Expno _ 33 _ 140922 _ CheY _ E37C _
  []
 
 
-<auto_figures/intpeakst1Expno_35_141216_ox63_in40p_trehalose.pdf, id=887, 578.1
-6pt x 433.62pt>
-File: auto_figures/intpeakst1Expno_35_141216_ox63_in40p_trehalose.pdf Graphic f
-ile (type pdf)
+<auto_figures/t1RawDataExp33_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf, id=74
+7, 578.16pt x 433.62pt>
+File: auto_figures/t1RawDataExp33_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf G
+raphic file (type pdf)
 
-<use auto_figures/intpeakst1Expno_35_141216_ox63_in40p_trehalose.pdf>
-Package pdftex.def Info: auto_figures/intpeakst1Expno_35_141216_ox63_in40p_treh
-alose.pdf used on input line 468.
+<use auto_figures/t1RawDataExp33_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/t1RawDataExp33_140922_CheY_E37C_10mMFliM_
+241uM_RT_ODNP.pdf used on input line 468.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 468--468
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- intpeakst1Expno _ 35 _ 141216 _ ox63 _ in40p _
+ t1RawDataExp33 _ 140922 _ CheY _ E37C _
  []
 
 
-<auto_figures/t1RawDataExp35_141216_ox63_in40p_trehalose.pdf, id=889, 578.16pt 
-x 433.62pt>
-File: auto_figures/t1RawDataExp35_141216_ox63_in40p_trehalose.pdf Graphic file 
-(type pdf)
- <use auto_figures/t1RawDataExp35_141216_ox63_in40p_trehalose.pdf>
-Package pdftex.def Info: auto_figures/t1RawDataExp35_141216_ox63_in40p_trehalos
-e.pdf used on input line 482.
-(pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 482--482
-[]\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- t1RawDataExp35 _ 141216 _ ox63 _ in40p _
- []
-
-
-Overfull \hbox (21.24393pt too wide) in paragraph at lines 454--483
+Overfull \hbox (21.24393pt too wide) in paragraph at lines 440--469
 [][] [] [] 
  []
 
 
-<auto_figures/phcycchant1Expno_36_141216_ox63_in40p_trehalose.pdf, id=891, 578.
-16pt x 433.62pt>
-File: auto_figures/phcycchant1Expno_36_141216_ox63_in40p_trehalose.pdf Graphic 
-file (type pdf)
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-<use auto_figures/phcycchant1Expno_36_141216_ox63_in40p_trehalose.pdf>
-Package pdftex.def Info: auto_figures/phcycchant1Expno_36_141216_ox63_in40p_tre
-halose.pdf used on input line 505.
+ [4 <./auto_figures/phcycchant1Expno_30_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP
+.pdf> <./auto_figures/intpeakst1Expno_30_140922_CheY_E37C_10mMFliM_241uM_RT_ODN
+P.pdf
+
+pdfTeX warning: pdflatex (file ./auto_figures/intpeakst1Expno_30_140922_CheY_E3
+7C_10mMFliM_241uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group in
+cluded in a single page
+> <./auto_figures/t1RawDataExp30_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf
+
+pdfTeX warning: pdflatex (file ./auto_figures/t1RawDataExp30_140922_CheY_E37C_1
+0mMFliM_241uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group includ
+ed in a single page
+> <./auto_figures/phcycchant1Expno_31_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.p
+df
+
+pdfTeX warning: pdflatex (file ./auto_figures/phcycchant1Expno_31_140922_CheY_E
+37C_10mMFliM_241uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group i
+ncluded in a single page
+> <./auto_figures/intpeakst1Expno_31_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pd
+f
+
+pdfTeX warning: pdflatex (file ./auto_figures/intpeakst1Expno_31_140922_CheY_E3
+7C_10mMFliM_241uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group in
+cluded in a single page
+> <./auto_figures/t1RawDataExp31_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf
+
+pdfTeX warning: pdflatex (file ./auto_figures/t1RawDataExp31_140922_CheY_E37C_1
+0mMFliM_241uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group includ
+ed in a single page
+> <./auto_figures/phcycchant1Expno_32_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.p
+df
+
+pdfTeX warning: pdflatex (file ./auto_figures/phcycchant1Expno_32_140922_CheY_E
+37C_10mMFliM_241uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group i
+ncluded in a single page
+> <./auto_figures/intpeakst1Expno_32_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pd
+f
+
+pdfTeX warning: pdflatex (file ./auto_figures/intpeakst1Expno_32_140922_CheY_E3
+7C_10mMFliM_241uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group in
+cluded in a single page
+> <./auto_figures/t1RawDataExp32_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf
+
+pdfTeX warning: pdflatex (file ./auto_figures/t1RawDataExp32_140922_CheY_E37C_1
+0mMFliM_241uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group includ
+ed in a single page
+>]
+<auto_figures/phcycchant1Expno_34_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf, 
+id=1191, 578.16pt x 433.62pt>
+File: auto_figures/phcycchant1Expno_34_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.
+pdf Graphic file (type pdf)
+
+<use auto_figures/phcycchant1Expno_34_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.p
+df>
+Package pdftex.def Info: auto_figures/phcycchant1Expno_34_140922_CheY_E37C_10mM
+FliM_241uM_RT_ODNP.pdf used on input line 491.
+(pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 491--491
+[]\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
+ phcycchant1Expno _ 34 _ 140922 _ CheY _ E37C _
+ []
+
+
+<auto_figures/intpeakst1Expno_34_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf, i
+d=1193, 578.16pt x 433.62pt>
+File: auto_figures/intpeakst1Expno_34_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.p
+df Graphic file (type pdf)
+
+<use auto_figures/intpeakst1Expno_34_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pd
+f>
+Package pdftex.def Info: auto_figures/intpeakst1Expno_34_140922_CheY_E37C_10mMF
+liM_241uM_RT_ODNP.pdf used on input line 505.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 505--505
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- phcycchant1Expno _ 36 _ 141216 _ ox63 _ in40p _
+ intpeakst1Expno _ 34 _ 140922 _ CheY _ E37C _
  []
 
 
-<auto_figures/intpeakst1Expno_36_141216_ox63_in40p_trehalose.pdf, id=893, 578.1
-6pt x 433.62pt>
-File: auto_figures/intpeakst1Expno_36_141216_ox63_in40p_trehalose.pdf Graphic f
-ile (type pdf)
+<auto_figures/t1RawDataExp34_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf, id=11
+95, 578.16pt x 433.62pt>
+File: auto_figures/t1RawDataExp34_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf G
+raphic file (type pdf)
 
-<use auto_figures/intpeakst1Expno_36_141216_ox63_in40p_trehalose.pdf>
-Package pdftex.def Info: auto_figures/intpeakst1Expno_36_141216_ox63_in40p_treh
-alose.pdf used on input line 519.
+<use auto_figures/t1RawDataExp34_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/t1RawDataExp34_140922_CheY_E37C_10mMFliM_
+241uM_RT_ODNP.pdf used on input line 519.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 519--519
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- intpeakst1Expno _ 36 _ 141216 _ ox63 _ in40p _
+ t1RawDataExp34 _ 140922 _ CheY _ E37C _
  []
 
 
-<auto_figures/t1RawDataExp36_141216_ox63_in40p_trehalose.pdf, id=895, 578.16pt 
-x 433.62pt>
-File: auto_figures/t1RawDataExp36_141216_ox63_in40p_trehalose.pdf Graphic file 
-(type pdf)
- <use auto_figures/t1RawDataExp36_141216_ox63_in40p_trehalose.pdf>
-Package pdftex.def Info: auto_figures/t1RawDataExp36_141216_ox63_in40p_trehalos
-e.pdf used on input line 533.
-(pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 533--533
-[]\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- t1RawDataExp36 _ 141216 _ ox63 _ in40p _
- []
-
-
-Overfull \hbox (21.24393pt too wide) in paragraph at lines 505--534
+Overfull \hbox (21.24393pt too wide) in paragraph at lines 491--520
 [][] [] [] 
  []
 
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
+<auto_figures/phcycchant1Expno_35_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf, 
+id=1197, 578.16pt x 433.62pt>
+File: auto_figures/phcycchant1Expno_35_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.
+pdf Graphic file (type pdf)
 
- [4 <./auto_figures/phcycchant1Expno_33_141216_ox63_in40p_trehalose.pdf> <./aut
-o_figures/intpeakst1Expno_33_141216_ox63_in40p_trehalose.pdf
+<use auto_figures/phcycchant1Expno_35_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.p
+df>
+Package pdftex.def Info: auto_figures/phcycchant1Expno_35_140922_CheY_E37C_10mM
+FliM_241uM_RT_ODNP.pdf used on input line 542.
+(pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
-pdfTeX warning: pdflatex (file ./auto_figures/intpeakst1Expno_33_141216_ox63_in
-40p_trehalose.pdf): PDF inclusion: multiple pdfs with page group included in a 
-single page
-> <./auto_figures/t1RawDataExp33_141216_ox63_in40p_trehalose.pdf
+Underfull \hbox (badness 10000) in paragraph at lines 542--542
+[]\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
+ phcycchant1Expno _ 35 _ 140922 _ CheY _ E37C _
+ []
 
-pdfTeX warning: pdflatex (file ./auto_figures/t1RawDataExp33_141216_ox63_in40p_
-trehalose.pdf): PDF inclusion: multiple pdfs with page group included in a sing
-le page
-> <./auto_figures/phcycchant1Expno_34_141216_ox63_in40p_trehalose.pdf
 
-pdfTeX warning: pdflatex (file ./auto_figures/phcycchant1Expno_34_141216_ox63_i
-n40p_trehalose.pdf): PDF inclusion: multiple pdfs with page group included in a
- single page
-> <./auto_figures/intpeakst1Expno_34_141216_ox63_in40p_trehalose.pdf
+<auto_figures/intpeakst1Expno_35_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf, i
+d=1199, 578.16pt x 433.62pt>
+File: auto_figures/intpeakst1Expno_35_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.p
+df Graphic file (type pdf)
 
-pdfTeX warning: pdflatex (file ./auto_figures/intpeakst1Expno_34_141216_ox63_in
-40p_trehalose.pdf): PDF inclusion: multiple pdfs with page group included in a 
-single page
-> <./auto_figures/t1RawDataExp34_141216_ox63_in40p_trehalose.pdf
-
-pdfTeX warning: pdflatex (file ./auto_figures/t1RawDataExp34_141216_ox63_in40p_
-trehalose.pdf): PDF inclusion: multiple pdfs with page group included in a sing
-le page
-> <./auto_figures/phcycchant1Expno_35_141216_ox63_in40p_trehalose.pdf
-
-pdfTeX warning: pdflatex (file ./auto_figures/phcycchant1Expno_35_141216_ox63_i
-n40p_trehalose.pdf): PDF inclusion: multiple pdfs with page group included in a
- single page
-> <./auto_figures/intpeakst1Expno_35_141216_ox63_in40p_trehalose.pdf
-
-pdfTeX warning: pdflatex (file ./auto_figures/intpeakst1Expno_35_141216_ox63_in
-40p_trehalose.pdf): PDF inclusion: multiple pdfs with page group included in a 
-single page
-> <./auto_figures/t1RawDataExp35_141216_ox63_in40p_trehalose.pdf
-
-pdfTeX warning: pdflatex (file ./auto_figures/t1RawDataExp35_141216_ox63_in40p_
-trehalose.pdf): PDF inclusion: multiple pdfs with page group included in a sing
-le page
->]
-<auto_figures/phcycchant1Expno_37_141216_ox63_in40p_trehalose.pdf, id=1318, 578
-.16pt x 433.62pt>
-File: auto_figures/phcycchant1Expno_37_141216_ox63_in40p_trehalose.pdf Graphic 
-file (type pdf)
-
-<use auto_figures/phcycchant1Expno_37_141216_ox63_in40p_trehalose.pdf>
-Package pdftex.def Info: auto_figures/phcycchant1Expno_37_141216_ox63_in40p_tre
-halose.pdf used on input line 556.
+<use auto_figures/intpeakst1Expno_35_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pd
+f>
+Package pdftex.def Info: auto_figures/intpeakst1Expno_35_140922_CheY_E37C_10mMF
+liM_241uM_RT_ODNP.pdf used on input line 556.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 556--556
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- phcycchant1Expno _ 37 _ 141216 _ ox63 _ in40p _
+ intpeakst1Expno _ 35 _ 140922 _ CheY _ E37C _
  []
 
 
-<auto_figures/intpeakst1Expno_37_141216_ox63_in40p_trehalose.pdf, id=1320, 578.
-16pt x 433.62pt>
-File: auto_figures/intpeakst1Expno_37_141216_ox63_in40p_trehalose.pdf Graphic f
-ile (type pdf)
+<auto_figures/t1RawDataExp35_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf, id=12
+01, 578.16pt x 433.62pt>
+File: auto_figures/t1RawDataExp35_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf G
+raphic file (type pdf)
 
-<use auto_figures/intpeakst1Expno_37_141216_ox63_in40p_trehalose.pdf>
-Package pdftex.def Info: auto_figures/intpeakst1Expno_37_141216_ox63_in40p_treh
-alose.pdf used on input line 570.
+<use auto_figures/t1RawDataExp35_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/t1RawDataExp35_140922_CheY_E37C_10mMFliM_
+241uM_RT_ODNP.pdf used on input line 570.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 570--570
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- intpeakst1Expno _ 37 _ 141216 _ ox63 _ in40p _
+ t1RawDataExp35 _ 140922 _ CheY _ E37C _
  []
 
 
-<auto_figures/t1RawDataExp37_141216_ox63_in40p_trehalose.pdf, id=1322, 578.16pt
- x 433.62pt>
-File: auto_figures/t1RawDataExp37_141216_ox63_in40p_trehalose.pdf Graphic file 
-(type pdf)
- <use auto_figures/t1RawDataExp37_141216_ox63_in40p_trehalose.pdf>
-Package pdftex.def Info: auto_figures/t1RawDataExp37_141216_ox63_in40p_trehalos
-e.pdf used on input line 584.
-(pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 584--584
-[]\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- t1RawDataExp37 _ 141216 _ ox63 _ in40p _
- []
-
-
-Overfull \hbox (21.24393pt too wide) in paragraph at lines 556--585
+Overfull \hbox (21.24393pt too wide) in paragraph at lines 542--571
 [][] [] [] 
  []
 
 
-<auto_figures/phcycchant1Expno_304_141216_ox63_in40p_trehalose.pdf, id=1324, 57
-8.16pt x 433.62pt>
-File: auto_figures/phcycchant1Expno_304_141216_ox63_in40p_trehalose.pdf Graphic
- file (type pdf)
+<auto_figures/phcycchant1Expno_36_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf, 
+id=1203, 578.16pt x 433.62pt>
+File: auto_figures/phcycchant1Expno_36_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.
+pdf Graphic file (type pdf)
 
-<use auto_figures/phcycchant1Expno_304_141216_ox63_in40p_trehalose.pdf>
-Package pdftex.def Info: auto_figures/phcycchant1Expno_304_141216_ox63_in40p_tr
-ehalose.pdf used on input line 607.
+<use auto_figures/phcycchant1Expno_36_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.p
+df>
+Package pdftex.def Info: auto_figures/phcycchant1Expno_36_140922_CheY_E37C_10mM
+FliM_241uM_RT_ODNP.pdf used on input line 593.
+(pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 593--593
+[]\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
+ phcycchant1Expno _ 36 _ 140922 _ CheY _ E37C _
+ []
+
+
+<auto_figures/intpeakst1Expno_36_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf, i
+d=1205, 578.16pt x 433.62pt>
+File: auto_figures/intpeakst1Expno_36_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.p
+df Graphic file (type pdf)
+
+<use auto_figures/intpeakst1Expno_36_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pd
+f>
+Package pdftex.def Info: auto_figures/intpeakst1Expno_36_140922_CheY_E37C_10mMF
+liM_241uM_RT_ODNP.pdf used on input line 607.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 607--607
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- phcycchant1Expno _ 304 _ 141216 _ ox63 _ in40p _
+ intpeakst1Expno _ 36 _ 140922 _ CheY _ E37C _
  []
 
 
-<auto_figures/intpeakst1Expno_304_141216_ox63_in40p_trehalose.pdf, id=1326, 578
-.16pt x 433.62pt>
-File: auto_figures/intpeakst1Expno_304_141216_ox63_in40p_trehalose.pdf Graphic 
-file (type pdf)
+<auto_figures/t1RawDataExp36_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf, id=12
+07, 578.16pt x 433.62pt>
+File: auto_figures/t1RawDataExp36_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf G
+raphic file (type pdf)
 
-<use auto_figures/intpeakst1Expno_304_141216_ox63_in40p_trehalose.pdf>
-Package pdftex.def Info: auto_figures/intpeakst1Expno_304_141216_ox63_in40p_tre
-halose.pdf used on input line 621.
+<use auto_figures/t1RawDataExp36_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/t1RawDataExp36_140922_CheY_E37C_10mMFliM_
+241uM_RT_ODNP.pdf used on input line 621.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 621--621
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- intpeakst1Expno _ 304 _ 141216 _ ox63 _ in40p _
+ t1RawDataExp36 _ 140922 _ CheY _ E37C _
  []
 
 
-<auto_figures/t1RawDataExp304_141216_ox63_in40p_trehalose.pdf, id=1328, 578.16p
-t x 433.62pt>
-File: auto_figures/t1RawDataExp304_141216_ox63_in40p_trehalose.pdf Graphic file
- (type pdf)
-
-<use auto_figures/t1RawDataExp304_141216_ox63_in40p_trehalose.pdf>
-Package pdftex.def Info: auto_figures/t1RawDataExp304_141216_ox63_in40p_trehalo
-se.pdf used on input line 635.
-(pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 635--635
-[]\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- t1RawDataExp304 _ 141216 _ ox63 _ in40p _
- []
-
-
-Overfull \hbox (21.24393pt too wide) in paragraph at lines 607--636
-[][] [] [] 
- []
-
-
-<auto_figures/DerivativePowerSeriespower_141216_ox63_in40p_trehalose.pdf, id=13
-30, 578.16pt x 433.62pt>
-File: auto_figures/DerivativePowerSeriespower_141216_ox63_in40p_trehalose.pdf G
-raphic file (type pdf)
-
-<use auto_figures/DerivativePowerSeriespower_141216_ox63_in40p_trehalose.pdf>
-Package pdftex.def Info: auto_figures/DerivativePowerSeriespower_141216_ox63_in
-40p_trehalose.pdf used on input line 658.
-(pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 658--658
-[]\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- DerivativePowerSeriespower _ 141216 _ ox63 _
- []
-
-
-<auto_figures/PowerSeriespower_141216_ox63_in40p_trehalose.pdf, id=1332, 578.16
-pt x 433.62pt>
-File: auto_figures/PowerSeriespower_141216_ox63_in40p_trehalose.pdf Graphic fil
-e (type pdf)
-
-<use auto_figures/PowerSeriespower_141216_ox63_in40p_trehalose.pdf>
-Package pdftex.def Info: auto_figures/PowerSeriespower_141216_ox63_in40p_trehal
-ose.pdf used on input line 672.
-(pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 672--672
-[]\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- PowerSeriespower _ 141216 _ ox63 _ in40p _
- []
-
-
-<auto_figures/EnhancementPowerSeries_141216_ox63_in40p_trehalose.pdf, id=1334, 
-578.16pt x 433.62pt>
-File: auto_figures/EnhancementPowerSeries_141216_ox63_in40p_trehalose.pdf Graph
-ic file (type pdf)
-
-<use auto_figures/EnhancementPowerSeries_141216_ox63_in40p_trehalose.pdf>
-Package pdftex.def Info: auto_figures/EnhancementPowerSeries_141216_ox63_in40p_
-trehalose.pdf used on input line 686.
-(pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 686--686
-[]\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- EnhancementPowerSeries _ 141216 _ ox63 _
- []
-
-
-Overfull \hbox (21.24393pt too wide) in paragraph at lines 658--687
+Overfull \hbox (21.24393pt too wide) in paragraph at lines 593--622
 [][] [] [] 
  []
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [5 <./auto_figures/phcycchant1Expno_36_141216_ox63_in40p_trehalose.pdf> <./aut
-o_figures/intpeakst1Expno_36_141216_ox63_in40p_trehalose.pdf
+ [5 <./auto_figures/phcycchant1Expno_33_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP
+.pdf> <./auto_figures/intpeakst1Expno_33_140922_CheY_E37C_10mMFliM_241uM_RT_ODN
+P.pdf
 
-pdfTeX warning: pdflatex (file ./auto_figures/intpeakst1Expno_36_141216_ox63_in
-40p_trehalose.pdf): PDF inclusion: multiple pdfs with page group included in a 
-single page
-> <./auto_figures/t1RawDataExp36_141216_ox63_in40p_trehalose.pdf
+pdfTeX warning: pdflatex (file ./auto_figures/intpeakst1Expno_33_140922_CheY_E3
+7C_10mMFliM_241uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group in
+cluded in a single page
+> <./auto_figures/t1RawDataExp33_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf
 
-pdfTeX warning: pdflatex (file ./auto_figures/t1RawDataExp36_141216_ox63_in40p_
-trehalose.pdf): PDF inclusion: multiple pdfs with page group included in a sing
-le page
-> <./auto_figures/phcycchant1Expno_37_141216_ox63_in40p_trehalose.pdf
+pdfTeX warning: pdflatex (file ./auto_figures/t1RawDataExp33_140922_CheY_E37C_1
+0mMFliM_241uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group includ
+ed in a single page
+> <./auto_figures/phcycchant1Expno_34_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.p
+df
 
-pdfTeX warning: pdflatex (file ./auto_figures/phcycchant1Expno_37_141216_ox63_i
-n40p_trehalose.pdf): PDF inclusion: multiple pdfs with page group included in a
- single page
-> <./auto_figures/intpeakst1Expno_37_141216_ox63_in40p_trehalose.pdf
+pdfTeX warning: pdflatex (file ./auto_figures/phcycchant1Expno_34_140922_CheY_E
+37C_10mMFliM_241uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group i
+ncluded in a single page
+> <./auto_figures/intpeakst1Expno_34_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pd
+f
 
-pdfTeX warning: pdflatex (file ./auto_figures/intpeakst1Expno_37_141216_ox63_in
-40p_trehalose.pdf): PDF inclusion: multiple pdfs with page group included in a 
-single page
-> <./auto_figures/t1RawDataExp37_141216_ox63_in40p_trehalose.pdf
+pdfTeX warning: pdflatex (file ./auto_figures/intpeakst1Expno_34_140922_CheY_E3
+7C_10mMFliM_241uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group in
+cluded in a single page
+> <./auto_figures/t1RawDataExp34_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf
 
-pdfTeX warning: pdflatex (file ./auto_figures/t1RawDataExp37_141216_ox63_in40p_
-trehalose.pdf): PDF inclusion: multiple pdfs with page group included in a sing
-le page
-> <./auto_figures/phcycchant1Expno_304_141216_ox63_in40p_trehalose.pdf
+pdfTeX warning: pdflatex (file ./auto_figures/t1RawDataExp34_140922_CheY_E37C_1
+0mMFliM_241uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group includ
+ed in a single page
+> <./auto_figures/phcycchant1Expno_35_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.p
+df
 
-pdfTeX warning: pdflatex (file ./auto_figures/phcycchant1Expno_304_141216_ox63_
-in40p_trehalose.pdf): PDF inclusion: multiple pdfs with page group included in 
-a single page
-> <./auto_figures/intpeakst1Expno_304_141216_ox63_in40p_trehalose.pdf
+pdfTeX warning: pdflatex (file ./auto_figures/phcycchant1Expno_35_140922_CheY_E
+37C_10mMFliM_241uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group i
+ncluded in a single page
+> <./auto_figures/intpeakst1Expno_35_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pd
+f
 
-pdfTeX warning: pdflatex (file ./auto_figures/intpeakst1Expno_304_141216_ox63_i
-n40p_trehalose.pdf): PDF inclusion: multiple pdfs with page group included in a
- single page
-> <./auto_figures/t1RawDataExp304_141216_ox63_in40p_trehalose.pdf
+pdfTeX warning: pdflatex (file ./auto_figures/intpeakst1Expno_35_140922_CheY_E3
+7C_10mMFliM_241uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group in
+cluded in a single page
+> <./auto_figures/t1RawDataExp35_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf
 
-pdfTeX warning: pdflatex (file ./auto_figures/t1RawDataExp304_141216_ox63_in40p
-_trehalose.pdf): PDF inclusion: multiple pdfs with page group included in a sin
-gle page
+pdfTeX warning: pdflatex (file ./auto_figures/t1RawDataExp35_140922_CheY_E37C_1
+0mMFliM_241uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group includ
+ed in a single page
 >]
+<auto_figures/phcycchant1Expno_37_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf, 
+id=1651, 578.16pt x 433.62pt>
+File: auto_figures/phcycchant1Expno_37_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.
+pdf Graphic file (type pdf)
 
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 689.
+<use auto_figures/phcycchant1Expno_37_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.p
+df>
+Package pdftex.def Info: auto_figures/phcycchant1Expno_37_140922_CheY_E37C_10mM
+FliM_241uM_RT_ODNP.pdf used on input line 644.
+(pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 644--644
+[]\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
+ phcycchant1Expno _ 37 _ 140922 _ CheY _ E37C _
+ []
 
 
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 689.
-
-
-<auto_figures/DerivativePowerSeriest1_powers_141216_ox63_in40p_trehalose.pdf, i
-d=1762, 578.16pt x 433.62pt>
-File: auto_figures/DerivativePowerSeriest1_powers_141216_ox63_in40p_trehalose.p
+<auto_figures/intpeakst1Expno_37_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf, i
+d=1653, 578.16pt x 433.62pt>
+File: auto_figures/intpeakst1Expno_37_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.p
 df Graphic file (type pdf)
 
-<use auto_figures/DerivativePowerSeriest1_powers_141216_ox63_in40p_trehalose.pd
+<use auto_figures/intpeakst1Expno_37_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pd
 f>
-Package pdftex.def Info: auto_figures/DerivativePowerSeriest1_powers_141216_ox6
-3_in40p_trehalose.pdf used on input line 709.
+Package pdftex.def Info: auto_figures/intpeakst1Expno_37_140922_CheY_E37C_10mMF
+liM_241uM_RT_ODNP.pdf used on input line 658.
+(pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 658--658
+[]\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
+ intpeakst1Expno _ 37 _ 140922 _ CheY _ E37C _
+ []
+
+
+<auto_figures/t1RawDataExp37_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf, id=16
+55, 578.16pt x 433.62pt>
+File: auto_figures/t1RawDataExp37_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf G
+raphic file (type pdf)
+
+<use auto_figures/t1RawDataExp37_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/t1RawDataExp37_140922_CheY_E37C_10mMFliM_
+241uM_RT_ODNP.pdf used on input line 672.
+(pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 672--672
+[]\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
+ t1RawDataExp37 _ 140922 _ CheY _ E37C _
+ []
+
+
+Overfull \hbox (21.24393pt too wide) in paragraph at lines 644--673
+[][] [] [] 
+ []
+
+
+<auto_figures/phcycchant1Expno_304_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf,
+ id=1657, 578.16pt x 433.62pt>
+File: auto_figures/phcycchant1Expno_304_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP
+.pdf Graphic file (type pdf)
+
+<use auto_figures/phcycchant1Expno_304_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.
+pdf>
+Package pdftex.def Info: auto_figures/phcycchant1Expno_304_140922_CheY_E37C_10m
+MFliM_241uM_RT_ODNP.pdf used on input line 695.
+(pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 695--695
+[]\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
+ phcycchant1Expno _ 304 _ 140922 _ CheY _ E37C _
+ []
+
+
+<auto_figures/intpeakst1Expno_304_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf, 
+id=1659, 578.16pt x 433.62pt>
+File: auto_figures/intpeakst1Expno_304_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.
+pdf Graphic file (type pdf)
+
+<use auto_figures/intpeakst1Expno_304_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.p
+df>
+Package pdftex.def Info: auto_figures/intpeakst1Expno_304_140922_CheY_E37C_10mM
+FliM_241uM_RT_ODNP.pdf used on input line 709.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 709--709
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- DerivativePowerSeriest1 _ powers _ 141216 _
+ intpeakst1Expno _ 304 _ 140922 _ CheY _ E37C _
  []
 
 
-<auto_figures/PowerSeriest1_powers_141216_ox63_in40p_trehalose.pdf, id=1764, 57
-8.16pt x 433.62pt>
-File: auto_figures/PowerSeriest1_powers_141216_ox63_in40p_trehalose.pdf Graphic
- file (type pdf)
+<auto_figures/t1RawDataExp304_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf, id=1
+661, 578.16pt x 433.62pt>
+File: auto_figures/t1RawDataExp304_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf 
+Graphic file (type pdf)
 
-<use auto_figures/PowerSeriest1_powers_141216_ox63_in40p_trehalose.pdf>
-Package pdftex.def Info: auto_figures/PowerSeriest1_powers_141216_ox63_in40p_tr
-ehalose.pdf used on input line 723.
+<use auto_figures/t1RawDataExp304_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/t1RawDataExp304_140922_CheY_E37C_10mMFliM
+_241uM_RT_ODNP.pdf used on input line 723.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 723--723
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- PowerSeriest1 _ powers _ 141216 _ ox63 _ in40p _
+ t1RawDataExp304 _ 140922 _ CheY _ E37C _
  []
 
 
-<auto_figures/T1PowerSeries_141216_ox63_in40p_trehalose.pdf, id=1766, 578.16pt 
-x 433.62pt>
-File: auto_figures/T1PowerSeries_141216_ox63_in40p_trehalose.pdf Graphic file (
-type pdf)
- <use auto_figures/T1PowerSeries_141216_ox63_in40p_trehalose.pdf>
-Package pdftex.def Info: auto_figures/T1PowerSeries_141216_ox63_in40p_trehalose
-.pdf used on input line 737.
+<auto_figures/T1PowerSeries_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf, id=166
+3, 578.16pt x 433.62pt>
+File: auto_figures/T1PowerSeries_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf Gr
+aphic file (type pdf)
+
+<use auto_figures/T1PowerSeries_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/T1PowerSeries_140922_CheY_E37C_10mMFliM_2
+41uM_RT_ODNP.pdf used on input line 737.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 737--737
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- T1PowerSeries _ 141216 _ ox63 _ in40p _
+ T1PowerSeries _ 140922 _ CheY _ E37C _
  []
 
 
-LaTeX Warning: File `auto_figures/Rate Series_141216_ox63_in40p_trehalose.pdf' 
-not found on input line 751.
+LaTeX Warning: File `auto_figures/Rate Series_140922_CheY_E37C_10mMFliM_241uM_R
+T_ODNP.pdf' not found on input line 751.
 
 
-<auto_figures/Rate Series_141216_ox63_in40p_trehalose.pdf, id=1768, 578.16pt x 
-433.62pt>
-File: auto_figures/Rate Series_141216_ox63_in40p_trehalose.pdf Graphic file (ty
-pe pdf)
- <use auto_figures/Rate Series_141216_ox63_in40p_trehalose.pdf>
-Package pdftex.def Info: auto_figures/Rate Series_141216_ox63_in40p_trehalose.p
-df used on input line 751.
+<auto_figures/Rate Series_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf, id=1665,
+ 578.16pt x 433.62pt>
+File: auto_figures/Rate Series_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf Grap
+hic file (type pdf)
+
+<use auto_figures/Rate Series_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/Rate Series_140922_CheY_E37C_10mMFliM_241
+uM_RT_ODNP.pdf used on input line 751.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
-Overfull \hbox (2.33391pt too wide) in paragraph at lines 751--751
-[]\OT1/ppl/m/n/10 Series_141216_ox63_in40p_trehalose.pdf
+Overfull \hbox (92.72368pt too wide) in paragraph at lines 751--751
+[]\OT1/ppl/m/n/10 Series_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 751--751
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- RateSeries _ 141216 _ ox63 _ in40p _ trehalose .
+ RateSeries _ 140922 _ CheY _ E37C _ 10mMFliM _
  []
 
 
-<auto_figures/kSigma_141216_ox63_in40p_trehalose.pdf, id=1770, 578.16pt x 433.6
-2pt>
-File: auto_figures/kSigma_141216_ox63_in40p_trehalose.pdf Graphic file (type pd
-f)
- <use auto_figures/kSigma_141216_ox63_in40p_trehalose.pdf>
-Package pdftex.def Info: auto_figures/kSigma_141216_ox63_in40p_trehalose.pdf us
-ed on input line 765.
+<auto_figures/kSigma_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf, id=1667, 578.
+16pt x 433.62pt>
+File: auto_figures/kSigma_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf Graphic f
+ile (type pdf)
+
+<use auto_figures/kSigma_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf>
+Package pdftex.def Info: auto_figures/kSigma_140922_CheY_E37C_10mMFliM_241uM_RT
+_ODNP.pdf used on input line 765.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
-Overfull \hbox (21.24393pt too wide) in paragraph at lines 709--766
+Underfull \hbox (badness 10000) in paragraph at lines 765--765
+[]\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
+ kSigma _ 140922 _ CheY _ E37C _ 10mMFliM _ 241uM _
+ []
+
+
+Overfull \hbox (21.24393pt too wide) in paragraph at lines 695--766
 [][] [] []
  []
 
+
+Overfull \hbox (6.24393pt too wide) in paragraph at lines 695--766
+[] [] [] 
+ []
+
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 766.
-[6 <./auto_figures/DerivativePowerSeriespower_141216_ox63_in40p_trehalose.pdf> 
-<./auto_figures/PowerSeriespower_141216_ox63_in40p_trehalose.pdf
 
-pdfTeX warning: pdflatex (file ./auto_figures/PowerSeriespower_141216_ox63_in40
-p_trehalose.pdf): PDF inclusion: multiple pdfs with page group included in a si
-ngle page
-> <./auto_figures/EnhancementPowerSeries_141216_ox63_in40p_trehalose.pdf
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-pdfTeX warning: pdflatex (file ./auto_figures/EnhancementPowerSeries_141216_ox6
-3_in40p_trehalose.pdf): PDF inclusion: multiple pdfs with page group included i
-n a single page
-> <./auto_figures/DerivativePowerSeriest1_powers_141216_ox63_in40p_trehalose.pd
+ [6 <./auto_figures/phcycchant1Expno_36_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP
+.pdf> <./auto_figures/intpeakst1Expno_36_140922_CheY_E37C_10mMFliM_241uM_RT_ODN
+P.pdf
+
+pdfTeX warning: pdflatex (file ./auto_figures/intpeakst1Expno_36_140922_CheY_E3
+7C_10mMFliM_241uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group in
+cluded in a single page
+> <./auto_figures/t1RawDataExp36_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf
+
+pdfTeX warning: pdflatex (file ./auto_figures/t1RawDataExp36_140922_CheY_E37C_1
+0mMFliM_241uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group includ
+ed in a single page
+> <./auto_figures/phcycchant1Expno_37_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.p
+df
+
+pdfTeX warning: pdflatex (file ./auto_figures/phcycchant1Expno_37_140922_CheY_E
+37C_10mMFliM_241uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group i
+ncluded in a single page
+> <./auto_figures/intpeakst1Expno_37_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pd
 f
 
-pdfTeX warning: pdflatex (file ./auto_figures/DerivativePowerSeriest1_powers_14
-1216_ox63_in40p_trehalose.pdf): PDF inclusion: multiple pdfs with page group in
+pdfTeX warning: pdflatex (file ./auto_figures/intpeakst1Expno_37_140922_CheY_E3
+7C_10mMFliM_241uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group in
 cluded in a single page
-> <./auto_figures/PowerSeriest1_powers_141216_ox63_in40p_trehalose.pdf
+> <./auto_figures/t1RawDataExp37_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf
 
-pdfTeX warning: pdflatex (file ./auto_figures/PowerSeriest1_powers_141216_ox63_
-in40p_trehalose.pdf): PDF inclusion: multiple pdfs with page group included in 
-a single page
-> <./auto_figures/T1PowerSeries_141216_ox63_in40p_trehalose.pdf
+pdfTeX warning: pdflatex (file ./auto_figures/t1RawDataExp37_140922_CheY_E37C_1
+0mMFliM_241uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group includ
+ed in a single page
+> <./auto_figures/phcycchant1Expno_304_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.
+pdf
 
-pdfTeX warning: pdflatex (file ./auto_figures/T1PowerSeries_141216_ox63_in40p_t
-rehalose.pdf): PDF inclusion: multiple pdfs with page group included in a singl
-e page
-> <./auto_figures/Rate Series_141216_ox63_in40p_trehalose.pdf
+pdfTeX warning: pdflatex (file ./auto_figures/phcycchant1Expno_304_140922_CheY_
+E37C_10mMFliM_241uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group 
+included in a single page
+> <./auto_figures/intpeakst1Expno_304_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.p
+df
 
-pdfTeX warning: pdflatex (file ./auto_figures/Rate Series_141216_ox63_in40p_tre
-halose.pdf): PDF inclusion: multiple pdfs with page group included in a single 
-page
-> <./auto_figures/kSigma_141216_ox63_in40p_trehalose.pdf
+pdfTeX warning: pdflatex (file ./auto_figures/intpeakst1Expno_304_140922_CheY_E
+37C_10mMFliM_241uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group i
+ncluded in a single page
+> <./auto_figures/t1RawDataExp304_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf
 
-pdfTeX warning: pdflatex (file ./auto_figures/kSigma_141216_ox63_in40p_trehalos
-e.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+pdfTeX warning: pdflatex (file ./auto_figures/t1RawDataExp304_140922_CheY_E37C_
+10mMFliM_241uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group inclu
+ded in a single page
+>] [7 <./auto_figures/T1PowerSeries_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf
+> <./auto_figures/Rate Series_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf
+
+pdfTeX warning: pdflatex (file ./auto_figures/Rate Series_140922_CheY_E37C_10mM
+FliM_241uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group included 
+in a single page
+> <./auto_figures/kSigma_140922_CheY_E37C_10mMFliM_241uM_RT_ODNP.pdf
+
+pdfTeX warning: pdflatex (file ./auto_figures/kSigma_140922_CheY_E37C_10mMFliM_
+241uM_RT_ODNP.pdf): PDF inclusion: multiple pdfs with page group included in a 
+single page
 >]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 766.
  (./plots.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 766.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 766.
-Package rerunfilecheck Info: File `plots.out' has not changed.
-(rerunfilecheck)             Checksum: ED38C7B1EA92E03F2871001A98CE2276;222.
+
+
+Package rerunfilecheck Warning: File `plots.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `plots.out':
+(rerunfilecheck)             Before: 20CDCD2E624B22CA48F69426B10FB32B;46
+(rerunfilecheck)             After:  EC9F2DFF2A53375247A21DA09D9DAF31;222.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 766.
  ) 
 Here is how much of TeX's memory you used:
- 20063 strings out of 493488
- 349235 string characters out of 3141326
- 466442 words of memory out of 3000000
- 22818 multiletter control sequences out of 15000+200000
+ 20061 strings out of 493488
+ 351869 string characters out of 3141326
+ 468454 words of memory out of 3000000
+ 22815 multiletter control sequences out of 15000+200000
  19938 words of font info for 66 fonts, out of 3000000 for 9000
  957 hyphenation exceptions out of 8191
- 60i,12n,94p,991b,374s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 60i,12n,94p,1003b,374s stack positions out of 5000i,500n,10000p,200000b,50000s
 {/usr/local/texlive/2012/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
 exlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/te
 xlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/local/texl
@@ -2180,10 +2250,10 @@ ive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive
 12/texmf-dist/fonts/type1/urw/courier/ucrb8a.pfb></usr/local/texlive/2012/texmf
 -dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2012/texmf-dist/fo
 nts/type1/urw/palatino/uplr8a.pfb>
-Output written on plots.pdf (6 pages, 1312131 bytes).
+Output written on plots.pdf (7 pages, 1281585 bytes).
 PDF statistics:
- 2221 PDF objects out of 2487 (max. 8388607)
- 600 compressed objects within 6 object streams
- 11 named destinations out of 1000 (max. 500000)
- 265 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 2293 PDF objects out of 2487 (max. 8388607)
+ 642 compressed objects within 7 object streams
+ 12 named destinations out of 1000 (max. 500000)
+ 241 words of extra memory for PDF output out of 10000 (max. 10000000)
 

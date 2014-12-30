@@ -44,4 +44,25 @@ Really I'm sorry to do it like this for now but I'm not sure of an organization 
 
 After you run the code $'returnIntegrals.py'$ and $'plots.pdf'$ opens scroll through the $T_1$ series plots and make sure the fits look good. If you see that one or many fits did not converge change the parameter \o[$'t1StartingGuess'$]{} in $'returnIntegrals.py'$, this is the starting guess for the $T_1$ value (in seconds) of the fit as long as it's within a second of the actual value it should be good.
 
+\section{EPR Integral Workup}
+Is this necessary for the ODNP? It might be nice to do this as standard this way you can tell if the double integrals are the same.
+
+\section{Database Information}
+I'm using mongodb to database all the worked up data according to a hierarchical scheme. This will allow a user to search the database for entries based on certain parameters. 
+
+Currently the search headings include:
+\begin{enumerate}
+    \item \o{operator} - this is the experimenter's name e.g. Ryan Barnes.
+    \item \o{date} - this is the date of the experiment
+    \item \o{setType} - this is the data set type e.g. (kSigma, T1Series, enhancementSeries, T10)
+    \item \o{macroMolecule} - this is the macromolecule in the sample e.g. protein, liposome. \o[If there is no macromolecule this is set to none.]{} 
+    \item \o{bindingPartner} - this is the other macromolecule in sample that is not spin labeled. \o[If there is no other macromolecule in the sample this is set to none.]{} 
+    \item \o{concentration} - this is the concentration of the \o{macroMolecule}, this assumes the spin label is the same concentration.
+    \item \o{temperature(K)} - this is the temperature of the experiment set in Kelvin.
+    \item \o{solvent} - this is the solvent for the experiment.
+    \item \o{osmolyte} - This might be nice for Jinsuk for now this isn't used.
+    \item \o{aggregationAgent} - this is more a place holder for experiments with the tau protein.
+\end{enumerate}
+
+
 \end{document}

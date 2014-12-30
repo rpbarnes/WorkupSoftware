@@ -216,7 +216,7 @@ def auto_steps(filename,threshold = -35, upper_threshold = 30.0, t_minlength = 0
 
 #}}} This is modified to just take power and time arrays instead of a power file, Depending on the shiz this may not be necessary, power_nddata should be an nddata with an axis labeled 't'
 
-def returnSplitPowers(fullPath,powerfile,expTimeMin = 80,dnpPowers = True,threshold = 0.5,firstFigure = []): #{{{ Return the powers
+def returnSplitPowers(fullPath,powerfile,expTimeMin = 80,dnpPowers = True,threshold = 0.5,titleString = '',firstFigure = []): #{{{ Return the powers
     openfile = loadmat(fullPath + '/' + powerfile)
     power = openfile.pop('powerlist')
     power = array([x for i in power for x in i])
@@ -239,7 +239,7 @@ def returnSplitPowers(fullPath,powerfile,expTimeMin = 80,dnpPowers = True,thresh
     ylabel('$dP/dt$ $(dBm/s)$')
     xlabel('seconds')
     axhline(y=threshold,color='k')
-    title('Derivative Powers')
+    title(titleString + 'Derivative Powers')
 
     badTimes = []
     count = 0
@@ -271,7 +271,7 @@ def returnSplitPowers(fullPath,powerfile,expTimeMin = 80,dnpPowers = True,thresh
     for val in timeBreak:
         axvline(x=val, ymin=0, ymax = 1.0,color='r',linewidth = 1,alpha = 0.5)
     ylim(-45,10)
-    title('Power Steps')
+    title(titleString + 'Power Steps')
     ylabel('$(dBm)$')
     xlabel('seconds')
     return powers,firstFigure
