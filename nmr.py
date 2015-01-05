@@ -216,12 +216,15 @@ def auto_steps(filename,threshold = -35, upper_threshold = 30.0, t_minlength = 0
 
 #}}} This is modified to just take power and time arrays instead of a power file, Depending on the shiz this may not be necessary, power_nddata should be an nddata with an axis labeled 't'
 
-def returnSplitPowers(fullPath,powerfile,expTimeMin = 80,dnpPowers = True,threshold = 0.5,titleString = '',firstFigure = []): #{{{ Return the powers
+def returnSplitPowers(fullPath,powerfile,expTimeMin = 80,expTimeMax = 100,dnpPowers = True,threshold = 0.5,timeDropStart=False,titleString = '',firstFigure = []): #{{{ Return the powers
     openfile = loadmat(fullPath + '/' + powerfile)
     power = openfile.pop('powerlist')
     power = array([x for i in power for x in i])
     time = openfile.pop('timelist')
     time = array([x for i in time for x in i])
+    if timeDropStart:
+        power = power[timeDropStart:-1]
+        time = time[timeDropStart:-1]
 
     ### Take the derivative of the power list
     step = time[1]-time[0] 
@@ -248,6 +251,10 @@ def returnSplitPowers(fullPath,powerfile,expTimeMin = 80,dnpPowers = True,thresh
             badTimes.append(timeBreak[count+1])
             timeBreak.pop(count+1) # Drop that time value
             count -= 1 # you must force the counter to roll back and account for throwing away a value
+        if (timeBreak[count+1] - timeBreak[count]) >= expTimeMax: # This is most likely the first glitch
+            badTimes.append(timeBreak[count])
+            timeBreak.pop(count) # Drop that time value
+            count -= 1 # you must force the counter to roll back and account for throwing away a value
         count += 1
 
     if dnpPowers:
@@ -268,6 +275,7 @@ def returnSplitPowers(fullPath,powerfile,expTimeMin = 80,dnpPowers = True,thresh
         meanVal = expPowers['time',lambda x: logical_and(x>timeBreak[i],x<timeBreak[i+1])].mean('time').data
         powers.append(meanVal)
         hlines(y=meanVal,xmin=timeBreak[i],xmax=timeBreak[i+1],color='k',linewidth = 4,alpha = 0.8)
+        text(timeBreak[i]+1,meanVal+.8,'%0.2f'%(timeBreak[i+1]-timeBreak[i]),fontsize=5)
     for val in timeBreak:
         axvline(x=val, ymin=0, ymax = 1.0,color='r',linewidth = 1,alpha = 0.5)
     ylim(-45,10)
@@ -276,6 +284,35 @@ def returnSplitPowers(fullPath,powerfile,expTimeMin = 80,dnpPowers = True,thresh
     xlabel('seconds')
     return powers,firstFigure
               #}}}
+
+def returnExpTimes(fullPath,exps,dnpExp):#{{{
+    expTime = []
+    for exp in exps:
+        try:
+            opened = open(fullPath + '/%s/audita.txt'%exp)
+            lines = opened.readlines()
+            start = lines[8].split(' ')[3]
+            start = start.split(':') # hours,min,second
+            hour = int(start[0],10)*3600
+            minute = int(start[1],10)*60
+            second = int(start[2].split('.')[0],10)
+            start = second+minute+hour # in seconds
+            stop = lines[6].split(' ')[4]
+            stop = stop.split(':')
+            hour = int(stop[0],10)*3600
+            minute = int(stop[1],10)*60
+            second = int(stop[2].split('.')[0],10)
+            stop = second+minute+hour # in seconds
+            expTime.append(stop-start)
+        except:
+            if dnpExp:
+                print "\n\n%d is not a valid enhancement experiment number. Please re-run and set dnpExps appropriately. Note you will also need to change t1Exp. \n\n" 
+                return False,False
+            else:
+                print "\n\n%d is not a valid T1 experiment number. Please re-run and set t1Exp appropriately. Note you will also need to change dnpExps. \n\n" 
+                return False,False
+
+    return array(expTime),nddata(array(expTime)).mean('value').set_error(std(array(expTime)))#}}}
 
 def auto_steps_array(power_nddata,threshold = -35, upper_threshold = 30.0, t_minlength = 0.5*60,minstdev = 0.1,showplots = True, showdebug = False,t_start=0,t_stop=60*1000,tolerance = 2,t_maxlen = inf,return_lastspike = False,first_figure = None,title_name = 'power',time_step = 0.5):
     r'Plot the raw power output in figure 1, and chop into different powers in plot 2'

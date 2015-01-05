@@ -33,9 +33,7 @@ def compilePDF(name):
         '\\newcommand{\\autoDir}{/Users/StupidRobot/Projects/WorkupSoftware/notebook/auto_figures/}',
         '\\usepackage{cite}', 
         '\\usepackage{ulem}',
-
         '\\title{workup %s}'%name,
-
         '\\date{\\today}',
         '\\begin{document}',
         '\\maketitle',]
@@ -146,14 +144,15 @@ if not expExists: # If we don't have the exp specific parameters file yet make t
                         'otherNotes':otherNotes,
                         'expName':name
                         }
-        writeDict(defaultDataParamsFile,databaseParamsDict) # write the default params dict
     else: # pull the database parameters from the default file
         databaseParamsDict = loadDict(defaultDataParamsFile)
+        databaseParamsDict.update({'expName':name})
     ### Write the parameter Dictionary to the file in the experiment directory
     writeDict(databaseParametersFile,databaseParamsDict)
 else:
     ### Pull all the parameters from the file stored specifically for this experiment
     databaseParamsDict = loadDict(databaseParametersFile)
+databaseParamsDict.update({'expName':name})
 #}}}
 #}}}
 
@@ -247,6 +246,11 @@ writeDict(expParametersFile,parameterDict)
 
 #{{{ Modify the database parameters dictionary
 if writeToDB:
+    MONGODB_URI = 'mongodb://rbarnes:tgb47atgb47a@ds047040.mongolab.com:47040/magresdata' # This is the address to the database hosted at MongoLab.com
+    # Make the connection to the server as client
+    conn = pymongo.MongoClient(MONGODB_URI) # Connect to the database that I purchased
+    db = conn.magresdata ### 'dynamicalTransition' is the name of my test database
+    collection = db.dnpData
     columnWidth = 25
     answer = True
     while answer:
@@ -269,7 +273,9 @@ if writeToDB:
                 answer = eval(answer)
                 answerArray = r_[0:len(keys) + 1]
                 if answer in answerArray: # This is a correct answer but I want to return to the inside loop
-                    newAnswer = raw_input("The current value of " + keys[answer] + " is " + databaseParamsDict[keys[answer]] + ". If you would like to change this enter the new value below. If you would like the value to remain the same simply hit enter.\n\n--> ")
+                    keyVals = [str(k) for k in collection.distinct(keys[answer])]
+                    print "\nThe current database values for %s are %s.\n"%(keys[answer],keyVals)
+                    newAnswer = raw_input("If you would like to change this enter the new value below. If you would like the value to remain the same simply hit enter.\n\n--> ")
                     if newAnswer == '':
                         answer = True
                     else:
@@ -288,7 +294,11 @@ print "\n\nRunning Workup\n\n"
 if dnpexp: # only work up files if DNP experiment
     # The enhancement series#{{{
     fl.figurelist.append({'print_string':r'\subparagraph{Enhancement Power Measurement}' + '\n\n'})
-    enhancementPowers,fl.figurelist = returnSplitPowers(fullPath,'power.mat',expTimeMin = 70,dnpPowers = True,threshold = parameterDict['thresholdE'],titleString = 'Enhancement ',firstFigure = fl.figurelist)
+    expTimes,expTimeMin = returnExpTimes(fullPath,dnpExps,dnpExp = True) # this is not a good way because the experiment numbers must be set right.
+    if not expTimeMin:
+        print expTitles
+        raise ValueError("\n\nThe experiment numbers are not set appropriately, please scroll through the experiment titles above and set values appropriately")
+    enhancementPowers,fl.figurelist = returnSplitPowers(fullPath,'power.mat',expTimeMin = expTimeMin.data,expTimeMax = expTimeMin.data + expTimeMin.data/2,timeDropStart = 10,dnpPowers = True,threshold = parameterDict['thresholdE'],titleString = 'Enhancement ',firstFigure = fl.figurelist)
     enhancementPowers = list(enhancementPowers)
     enhancementPowers.insert(0,-100)
     enhancementPowers = array(enhancementPowers)
@@ -296,7 +306,7 @@ if dnpexp: # only work up files if DNP experiment
     ### Error handling for the enhancement powers and integration file#{{{
     if len(enhancementPowers) != len(parameterDict['dnpExps']): ### There is something wrong. Show the power series plot and print the dnpExps
         fl.figurelist.append({'print_string':r'\subsection{\large{ERROR: Read Below to fix!!}}' + '\n\n'})#{{{ Error text
-        fl.figurelist.append({'print_string':"Before you start, the terminal (commandline) is still alive and will walk you through making edits to the necessary parameters to resolve this issue. \n\n \large(Issue) The number of power values, %d, and the number of enhancement integrals, %d, does not match. This is either because \n\n (1) I didn't return the correct number of powers or \n\n (2) You didn't enter the correct number of dnp experiments. \n\n If case (1) look at plot 'Enhancement Derivative powers' the black line is determined by 'parameterDict['thresholdE']' in the code. Adjust the threshold value such that the black line is below all of the blue peaks that you suspect are valid power jumps. \n\n If case (2) look through the experiment titles, listed below and make sure you have set 'dnpExps' correctly. Also shown below. Recall that the last experiment in both the DNP and T1 sets is empty."%(len(enhancementPowers),len(parameterDict['dnpExps'])) + '\n\n'})
+        fl.figurelist.append({'print_string':"Before you start, the terminal (commandline) is still alive and will walk you through making edits to the necessary parameters to resolve this issue. \n\n \large(Issue) The number of power values, %d, and the number of enhancement experiments, %d, does not match. This is either because \n\n (1) I didn't return the correct number of powers or \n\n (2) You didn't enter the correct number of dnp experiments. \n\n If case (1) look at plot 'Enhancement Derivative powers' the black line is determined by 'parameterDict['thresholdE']' in the code. Adjust the threshold value such that the black line is below all of the blue peaks that you suspect are valid power jumps. \n\n If case (2) look through the experiment titles, listed below and make sure you have set 'dnpExps' correctly. Also shown below. Recall that the last experiment in both the DNP and T1 sets is empty."%(len(enhancementPowers),len(parameterDict['dnpExps'])) + '\n\n'})
         fl.figurelist.append({'print_string':r'\subsection{Experiment Titles and Experiment Number}' + '\n\n'})
         for title in expTitles:
             fl.figurelist.append({'print_string':"%s"%title + '\n\n'})#}}}
@@ -323,7 +333,11 @@ if dnpexp: # only work up files if DNP experiment
 
     # The T1 Power Series#{{{
     fl.figurelist.append({'print_string':r'\subparagraph{$T_1$ Power Measurement}' + '\n\n'})
-    t1Power,fl.figurelist = returnSplitPowers(fullPath,'t1_powers.mat',expTimeMin = 100,dnpPowers = False,threshold = parameterDict['thresholdT1'],titleString = 'T1 ',firstFigure = fl.figurelist)
+    expTimes,expTimeMin = returnExpTimes(fullPath,t1Exp,dnpExp = False) # this is not a good way because the experiment numbers must be set right.
+    if not expTimeMin:
+        print expTitles
+        raise ValueError("\n\nThe experiment numbers are not set appropriately, please scroll through the experiment titles above and set values appropriately")
+    t1Power,fl.figurelist = returnSplitPowers(fullPath,'t1_powers.mat',expTimeMin = expTimeMin.data,expTimeMax=expTimeMin.data + expTimeMin.data/2,dnpPowers = False,threshold = parameterDict['thresholdT1'],titleString = 'T1 ',firstFigure = fl.figurelist)
     t1Power = list(t1Power)
     t1Power.append(-99.0) # Add the zero power for experiment 304
     t1Power = array(t1Power)
@@ -331,7 +345,7 @@ if dnpexp: # only work up files if DNP experiment
     ### Error handling for the T1 powers and integration file#{{{
     if len(t1Power) != len(parameterDict['t1Exp']): ### There is something wrong. Show the power series plot and print the dnpExps
         fl.figurelist.append({'print_string':r'\subsection{\large{ERROR: Read Below to fix!!}}' + '\n\n'})#{{{ Error text
-        fl.figurelist.append({'print_string':"Before you start, the terminal (commandline) is still alive and will walk you through making edits to the necessary parameters to resolve this issue. \n\n \large(Issue:) The number of power values, %d, and the number of $T_1$ integrals, %d, does not match. This is either because \n\n (1) I didn't return the correct number of powers or \n\n (2) You didn't enter the correct number of T1 experiments. \n\n If case (1) look at plot 'T1 Derivative powers' the black line is determined by 'thresholdT1' in the code. Adjust the threshold value such that the black line is below all of the blue peaks that you suspect are valid power jumps. \n\n If case (2) look through the experiment titles, listed below and make sure you have set 't1Exp' correctly. Also shown below. Recall that the last experiment in both the DNP and T1 sets is empty."%(len(t1Power),len(parameterDict['t1Exp'])) + '\n\n'})
+        fl.figurelist.append({'print_string':"Before you start, the terminal (commandline) is still alive and will walk you through making edits to the necessary parameters to resolve this issue. \n\n \large(Issue:) The number of power values, %d, and the number of $T_1$ experiments, %d, does not match. This is either because \n\n (1) I didn't return the correct number of powers or \n\n (2) You didn't enter the correct number of T1 experiments. \n\n If case (1) look at plot 'T1 Derivative powers' the black line is determined by 'thresholdT1' in the code. Adjust the threshold value such that the black line is below all of the blue peaks that you suspect are valid power jumps. \n\n If case (2) look through the experiment titles, listed below and make sure you have set 't1Exp' correctly. Also shown below. Recall that the last experiment in both the DNP and T1 sets is empty."%(len(t1Power),len(parameterDict['t1Exp'])) + '\n\n'})
         fl.figurelist.append({'print_string':r'\subsection{Experiment Titles and Experiment Number}' + '\n\n'})
         for titleName in expTitles:
             fl.figurelist.append({'print_string':"%s"%titleName + '\n\n'})#}}}
@@ -506,11 +520,6 @@ if dnpexp:
 
 #{{{ Write the experimental parameters to the database 
 if writeToDB:
-    MONGODB_URI = 'mongodb://rbarnes:tgb47atgb47a@ds047040.mongolab.com:47040/magresdata' # This is the address to the database hosted at MongoLab.com
-    # Make the connection to the server as client
-    conn = pymongo.MongoClient(MONGODB_URI) # Connect to the database that I purchased
-    db = conn.magresdata ### 'dynamicalTransition' is the name of my test database
-    collection = db.dnpData
     ### First check if there is any collection matching the experiment name.
     exists = list(collection.find({'expName':databaseParamsDict['expName'],'operator':databaseParamsDict['operator']}))
     if len(exists) != 0: # There is something in the collection with the given experiment name and operator. Lets remove it so there is no duplicates
