@@ -72,12 +72,12 @@ Currently the search headings include:
     \item $\Box$ Add handlers for mistyped answers so program does not crash. Just say do not understand and re loop through the question in a while loop. \o[This still needs done for the error handling functions.]{}
     \item $\checkmark$ Change the experimental parameters queries to dynamic type like the database queries \o[This should be thoroughly debugged, it's not right now which might be a problem.]{This actually seems to work nicely now.}
     \item $\Box$ Newton's method to find starting guess for T1 experiments. For now the t1StartingGuess works 
-    \item $\Box$ Write out instructions for how to use the software and common bug issues and code shots
     \item $\checkmark$ Make a way to force an experiment time for diving up the powers files \o[I pull the experiment time from the Bruker output and set this as the minimum experiment time. If the experiment is successful the workup software should work fine dividing up the powers.]{}
-    \item $\Box$ You should calculate the experiment time from the Bruker timing function and hand this with an associated arror to the 'returnSplitPowers' function.
+    \item $\checkmark$ You should calculate the experiment time from the Bruker timing function and hand this with an associated arror to the 'returnSplitPowers' function. \o[Right now this pulls the experiment time and uses as a lower bound for the split powers function.]{}
 \end{enumerate}
 \subsection{Bugs:}
 \begin{enumerate}
+    \item $\Box$ 'returnExpTimes' fails in windows when the experiment files aren't set right.
     \item $\checkmark$ 131115_tempcont_dnp_9_58GHz_jss gave power series error, it looks like the time steps are really off. \o[This is actually just a broken experiment.]{No need to adjust code to handle this. I did add functionality to the powers dividing function to drop the first number of time values with 'timeDropStart' and I also added a maximum experiment time as 'expTimeMax'. It might be worth adding debugging functionality to plot the time series and also show the time values of the spikes, this way the experimenter can pick out the values nicely.}
     \item $\Box$ 140509_200uM_OHT_ODNP gave an error because a glitch occuring early. You should add a way to throw away values that occur before a certain time.
     \item $\Box$ 140728_CheY_CtermP6C_400uM_ODNP_Repeat2 this throws an error because it can't line up the enhancement series and the powers file
@@ -89,12 +89,34 @@ Currently the search headings include:
     \item $\Box$ Wrap method of saving the nddata sets to mongo database
     \item $\Box$ Method for print statement headers
 \end{enumerate}
-\section{Windows Install}
+\subsection{Users Guide:}
 \begin{enumerate}
-    \item Download \& install 'python xy'
+    \item $\Box$ Windows installation of packages and use.
+    \item $\Box$ Max installation of packages and use.
+    \item $\Box$ Introduction to the software.
+    \item $\Box$ Walk through of using the program.
+    \item $\Box$ Common errors, reasons and how to handle them from the command line.
+    \item $\Box$ Explination of functions used \o[This is a backend thing and is not necessary for now.]{}
+\end{enumerate}
+\section{Installation}
+\subsection{Windows Install}
+This details how to install the necessary software on windows. This will also go through how to get the program setup and running.
+\subsubsection{Necessary Packages}
+\begin{enumerate}
+    \item Download \& install 'python xy' \o[Make sure to do the full install instead of the defaul custom install.]{}
+        \begin{enumerate}
+            \item Install 'pymongo' do this by typing 'easy_install pymongo' in the commandline. Note that if the command line yells at you that easy_install is not a recognized command you need to edit the path variable to inclue the python directory in the program files x86 directory. Google is yo friend.
+        \end{enumerate}
     \item Download \& install 'git'
     \item Ask Ryan to share the 'workupSoftware' repository with you and follow the instructions for how to clone that repository to a directory of your choice.
-
+    \item Install vim74 \o[This is for me (Ryan) for when I go play on your computer. If you install this you get major brownie points :)]
+    \item Install notepad \o[This is for you and will make your life easier for when you need to edit the programs, which hopefully you wont have to do.]{Or you can just use the native spyder editor which comes with python xy}
+    \item Install latex via texlive for windows. Just run the simple install. \o[This takes a long ass time so start this early.]{}
+\end{enumerate}
+\subsection{Getting Started}
+\begin{enumerate}
+    \item You need to edit the header parameter, for now this is in the code under header. This should point from 'C:/' to the folder that holds your data sets. \o[Mine looks like 'C:\\Users\\megatron\\exp_data\\ryan_cnsi\\nmr\\'.] I would open the file 'returnIntegrals.py' in a text editor like notepad and set 'header = C:\\Users\\megatron\\exp_data\\ryan_cnsi\\nmr\\' only with your information in place.
+    \item 
 \end{enumerate}
 \section{EPR Integral Workup}
 Is this necessary for the ODNP? It might be nice to do this as standard this way you can tell if the double integrals are the same. \o[This is a future idea.]

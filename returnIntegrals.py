@@ -62,14 +62,22 @@ def loadDict(fileName):
 
 close('all')
 fl = figlistl()
-header = '/Users/StupidRobot/exp_data/'
-path = 'ryan_cnsi/nmr/'
+### This is mac specific
+
+
 writeToDB = False
 updateDefaults = True # Change this to keep the defaults the same
 name = raw_input('\n\nWhat is the experiment file name that you wish to work up? \n--> ')
 name = str(name)
 
-fullPath = header + path + name
+if os.name == 'nt': # This is windows 
+    header = 'C:\\Users\\megatron\\exp_data\\ryan_cnsi\\nmr\\'
+
+elif os.name == 'posix': ## This is mac
+    # this should take me to your data folder where your data sets are held
+    header = '/Users/StupidRobot/exp_data/ryan_cnsi/nmr/'
+
+fullPath = header + name
 
 ### make the experiment directory to dump all of the high level data
 try:
@@ -97,15 +105,15 @@ thresholdT1 = 0.3
 badT1 = []
 
 # Database parameters
-#operator = 'Ryan Barnes'
-#macroMolecule = 'CheY'
-#concentrationMM = '320' # in micromolar
-#spinLabelSite = 'K91C'
-#bindingPartner = 'P2'
-#temperature = '298'     # in Kelvin
-#solvent = 'phosphate buffer'
-#osmolite = ''
-#otherNotes = 'Place useful experimental notes here.'
+operator = 'Ryan Barnes'
+macroMolecule = 'CheY'
+concentrationMM = '320' # in micromolar
+spinLabelSite = 'K91C'
+bindingPartner = 'P2'
+temperature = '298'     # in Kelvin
+solvent = 'phosphate buffer'
+osmolite = ''
+otherNotes = 'Place useful experimental notes here.'
 #}}}
 
 ### Check for parameters file, write new file if DNE, else pull parameters file#{{{
