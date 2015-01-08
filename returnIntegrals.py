@@ -1,5 +1,6 @@
 from h5nmr import *
 import nmrfit
+from PyQt4 import QtGui, QtCore
 import pymongo
 import os
 import csv
@@ -9,6 +10,68 @@ import subprocess
 import pickle
 
 #{{{ Various definitions and classes
+#{{{ Print a fancy title in the command line
+def makeTitle(titleString):
+    linelength = 60
+    titleLength = int((linelength - len(titleString))/2.) 
+    titlePrint = titleLength*"*"+ titleString+titleLength*"*"
+    if titlePrint > linelength:
+        titlePrint = titlePrint[1:-1]
+    print linelength*"*"
+    print titlePrint
+    print linelength*"*"
+#}}}
+
+#{{{ Pull the last database entry for the given operator, if the database gets huge this is going to get very slow.
+def returnDatabaseDictionary(operator = 'Ryan Barnes',keysToDrop = ['setType','data','power','expNum','value','valueError','error','_id'],MONGODB_URI = 'mongodb://rbarnes:tgb47atgb47a@ds047040.mongolab.com:47040/magresdata',experimentName = False):
+    # Make the connection to the server as client
+    conn = pymongo.MongoClient(MONGODB_URI) # Connect to the database that I purchased
+    db = conn.magresdata ### 'dynamicalTransition' is the name of my test database
+    collection = db.dnpData
+    entries = list(collection.find())
+    dateList = []
+    countList = []
+    for count,entry in enumerate(entries):
+        if count == 0:
+            total = entry
+        else:
+            total.update(entry) # this will update any existing value and add values 
+
+        if str(entry['operator']) == operator: 
+            date = entry['_id'].generation_time.isoformat()
+            dateList.append(double(date.split('+')[0].replace('-','').replace('T','').replace(':','')))
+            countList.append(count)
+    # The last entry is the largest value in dateList
+    dateData = nddata(array(countList)).labels('value',array(dateList))
+    dateData.sort('value')
+    lastEntry = dateData['value',-1].data[0]
+    lastEntry = entries[lastEntry]
+    total.update(lastEntry)
+    toPresent = total.copy()
+    for key in keysToDrop:
+        try:
+            toPresent.pop(key)
+            lastEntry.pop(key)
+        except:
+            pass
+    # now set the values correctly so that total matches the last entry
+    lskey = lastEntry.keys()
+    tpkey = toPresent.keys()
+    keysToChange = []
+    for key in tpkey:
+        if key not in lskey:
+            toPresent.update({key:''})
+    conn.close()
+    return toPresent#}}}
+
+#{{{ My widget class, the minimum for opening a file dialog. There is much more you can do here but for now this will work.
+class my_widget_class (QtGui.QDialog):
+    # here, I use the QDialog class, which has accept and reject, and I add the following custom routines, which I can call as slots
+    def my_initialize_directories(self):
+        self.currently_displayed_datadir = ''
+        self.datadir_changed = False
+#}}}
+
 #{{{ Class function for grabbing python output. ->> This should be moved to fornotebook or something.
 class Capturing(list):
     def __enter__(self):
@@ -60,6 +123,7 @@ def loadDict(fileName):
         return dic #}}}
 #}}}
 
+
 close('all')
 fl = figlistl()
 ### This is mac specific
@@ -67,17 +131,45 @@ fl = figlistl()
 
 writeToDB = False
 updateDefaults = True # Change this to keep the defaults the same
-name = raw_input('\n\nWhat is the experiment file name that you wish to work up? \n--> ')
-name = str(name)
 
-if os.name == 'nt': # This is windows 
-    header = 'C:\\Users\\megatron\\exp_data\\ryan_cnsi\\nmr\\'
-
-elif os.name == 'posix': ## This is mac
-    # this should take me to your data folder where your data sets are held
-    header = '/Users/StupidRobot/exp_data/ryan_cnsi/nmr/'
-
-fullPath = header + name
+#{{{ Find the data directory and the file name of the experiment
+dataDirecFile = 'datadir.txt'
+dataDirExists = os.path.isfile(dataDirecFile)
+if not dataDirExists:
+    app = QtGui.QApplication(sys.argv)
+    widget = my_widget_class()
+    widget.my_initialize_directories()
+    loop = True
+    while loop:
+        temp = str(QtGui.QFileDialog.getExistingDirectory(widget, "Choose Your Data Directory!",widget.currently_displayed_datadir))
+        if temp == '':
+            print "you didn't choose anything, I need to know where to look!"
+        else:
+            loop = False
+    opened = open(dataDirecFile,'w')
+    opened.write(temp)
+    opened.close()
+    app.closeAllWindows() # Close the widget so things don't get weird on multiple runs.
+    del app
+    del widget
+    dataPath = temp
+else: # the datadir file exists pull path from that
+    opened = open(dataDirecFile,'r')
+    dataPath = opened.readline()
+app = QtGui.QApplication(sys.argv)
+widget = my_widget_class()
+widget.my_initialize_directories()
+fullPath = str(QtGui.QFileDialog.getExistingDirectory(widget, "Choose The Experiment To Workup!",dataPath))
+if fullPath == '':
+    app.closeAllWindows()
+    del app
+    del widget
+    sys.exit("You didn't choose an experiment file")
+app.closeAllWindows()
+del app
+del widget
+name = fullPath.split('/')[-1]
+#}}}
 
 ### make the experiment directory to dump all of the high level data
 try:
@@ -139,27 +231,11 @@ else:
 # Database parameters#{{{
 expExists = os.path.isfile(databaseParametersFile)
 if not expExists: # If we don't have the exp specific parameters file yet make the parameter dictionary from the information above and edit with the following.
-    defaultExists = os.path.isfile(defaultDataParamsFile)
-    if not defaultExists:
-        # you should be able to dynamically generate new parameters by using the terminal interface and not hardcoding it.
-        databaseParamsDict = {'operator':operator,
-                        'macroMolecule':macroMolecule,
-                        'concentrationMM':concentrationMM,
-                        'spinLabelSite':spinLabelSite,
-                        'bindingPartner':bindingPartner,
-                        'temperature':temperature,
-                        'solvent':solvent,
-                        'otherNotes':otherNotes,
-                        'expName':name
-                        }
-    else: # pull the database parameters from the default file
-        databaseParamsDict = loadDict(defaultDataParamsFile)
-        databaseParamsDict.update({'expName':name})
-    ### Write the parameter Dictionary to the file in the experiment directory
-    writeDict(databaseParametersFile,databaseParamsDict)
+    databaseParamsDict = returnDatabaseDictionary()
 else:
     ### Pull all the parameters from the file stored specifically for this experiment
     databaseParamsDict = loadDict(databaseParametersFile)
+    databaseParamsDict = returnDatabaseDictionary(operator = databaseParamsDict['operator']) # to get the latest entry for the given operator
 databaseParamsDict.update({'expName':name})
 #}}}
 #}}}
@@ -222,6 +298,7 @@ answer = True
 columnWidth = 25
 while answer:
     string = ""
+    makeTitle("  Experimental Parameters  ")
     keys = parameterDict.keys()
     for count,key in enumerate(keys):
         string += ' (%d) '%count + key + ': ' + ' '*(columnWidth - len(key)) + "%s"%(parameterDict[key]) + '\n' 
@@ -254,6 +331,7 @@ writeDict(expParametersFile,parameterDict)
 
 #{{{ Modify the database parameters dictionary
 if writeToDB:
+    makeTitle("  Database Parameters  ")
     MONGODB_URI = 'mongodb://rbarnes:tgb47atgb47a@ds047040.mongolab.com:47040/magresdata' # This is the address to the database hosted at MongoLab.com
     # Make the connection to the server as client
     conn = pymongo.MongoClient(MONGODB_URI) # Connect to the database that I purchased
@@ -612,7 +690,6 @@ for count,t1Set in enumerate(t1SeriesList):
 
 ### Compile the pdf and show results
 compilePDF(name)
-
 
 
 

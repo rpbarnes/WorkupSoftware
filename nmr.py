@@ -311,7 +311,10 @@ def returnExpTimes(fullPath,exps,dnpExp):#{{{
             else:
                 print "\n\n%d is not a valid T1 experiment number. Please re-run and set t1Exp appropriately. Note you will also need to change dnpExps. \n\n" 
                 return False,False
-
+    expTime = list(expTime)
+    for count,time in enumerate(expTime):
+        if time < 0:
+            expTime.pop(count) 
     return array(expTime),nddata(array(expTime)).mean('value').set_error(std(array(expTime)))#}}}
 
 def auto_steps_array(power_nddata,threshold = -35, upper_threshold = 30.0, t_minlength = 0.5*60,minstdev = 0.1,showplots = True, showdebug = False,t_start=0,t_stop=60*1000,tolerance = 2,t_maxlen = inf,return_lastspike = False,first_figure = None,title_name = 'power',time_step = 0.5):
