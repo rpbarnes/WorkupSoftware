@@ -285,7 +285,7 @@ def returnSplitPowers(fullPath,powerfile,expTimeMin = 80,expTimeMax = 100,dnpPow
     return powers,firstFigure
               #}}}
 
-def returnExpTimes(fullPath,exps,dnpExp,operatingSys='posix'):#{{{
+def returnExpTimes(fullPath,exps,dnpExp=True,operatingSys = 'posix'):#{{{
     expTime = []
     for exp in exps:
         try:
@@ -308,6 +308,7 @@ def returnExpTimes(fullPath,exps,dnpExp,operatingSys='posix'):#{{{
             stop = second+minute+hour # in seconds
             expTime.append(stop-start)
         except:
+            pass
             if dnpExp:
                 print "\n\n%d is not a valid enhancement experiment number. Please re-run and set dnpExps appropriately. Note you will also need to change t1Exp. \n\n" 
                 return False,False
