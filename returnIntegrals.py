@@ -127,6 +127,7 @@ def loadDict(fileName):
 close('all')
 fl = figlistl()
 ### This is mac specific
+systemOpt = os.name
 
 
 writeToDB = False
@@ -168,8 +169,18 @@ if fullPath == '':
 app.closeAllWindows()
 del app
 del widget
-name = fullPath.split('/')[-1]
 #}}}
+
+runningDir = os.getcwd() # windows needs this, lets add it and then see how things work on mac
+### operating system specific
+if systemOpt == 'nt':
+    name = fullPath.split('\\')[-1]
+    runningDir += '\\'
+    fileName = name + '\\'
+elif systemOpt == 'posix':
+    name = fullPath.split('/')[-1]
+    runningDir += '/'
+    fileName = name + '/'
 
 ### make the experiment directory to dump all of the high level data
 try:
@@ -180,9 +191,9 @@ except:
 
 #{{{ The initial parameters, the default parameters are stored here, however these get changed in the terminal interface.
 # Parameter files
-expParametersFile = name + '/' + 'parameters.pkl'
+expParametersFile = fileName + 'parameters.pkl'
 defaultExpParamsFile = 'parameters.pkl'
-databaseParametersFile = name + '/' + 'databaseParameters.pkl'
+databaseParametersFile = fileName + 'databaseParameters.pkl'
 defaultDataParamsFile = 'databaseParameters.pkl'
 
 # Experiment parameters
@@ -380,9 +391,10 @@ print "\n\nRunning Workup\n\n"
 if dnpexp: # only work up files if DNP experiment
     # The enhancement series#{{{
     fl.figurelist.append({'print_string':r'\subparagraph{Enhancement Power Measurement}' + '\n\n'})
-    expTimes,expTimeMin = returnExpTimes(fullPath,dnpExps,dnpExp = True) # this is not a good way because the experiment numbers must be set right.
+    expTimes,expTimeMin = returnExpTimes(fullPath,dnpExps,dnpExp = True,operatingSys = systemOpt) # this is not a good way because the experiment numbers must be set right.
     if not expTimeMin:
-        print expTitles
+        for expTitle in expTitles:
+            print expTitle + '\n'
         raise ValueError("\n\nThe experiment numbers are not set appropriately, please scroll through the experiment titles above and set values appropriately")
     enhancementPowers,fl.figurelist = returnSplitPowers(fullPath,'power.mat',expTimeMin = expTimeMin.data,expTimeMax = expTimeMin.data + expTimeMin.data/2,timeDropStart = 10,dnpPowers = True,threshold = parameterDict['thresholdE'],titleString = 'Enhancement ',firstFigure = fl.figurelist)
     enhancementPowers = list(enhancementPowers)
@@ -419,7 +431,7 @@ if dnpexp: # only work up files if DNP experiment
 
     # The T1 Power Series#{{{
     fl.figurelist.append({'print_string':r'\subparagraph{$T_1$ Power Measurement}' + '\n\n'})
-    expTimes,expTimeMin = returnExpTimes(fullPath,t1Exp,dnpExp = False) # this is not a good way because the experiment numbers must be set right.
+    expTimes,expTimeMin = returnExpTimes(fullPath,t1Exp,dnpExp = False,operatingSys = systemOpt) # this is not a good way because the experiment numbers must be set right.
     if not expTimeMin:
         print expTitles
         raise ValueError("\n\nThe experiment numbers are not set appropriately, please scroll through the experiment titles above and set values appropriately")
@@ -650,7 +662,7 @@ if dnpexp:
         enhancementPowersWriter = [('power (W)','Integral','Exp Num')] + zip(list(enhancementPowerSeries.getaxis('power')),list(enhancementPowerSeries.data),list(enhancementSeries.getaxis('expNum'))) + [('\n')] +  [('power (W)','time (s)')] + zip(list(powersE),list(timesE))
     else:
         enhancementPowersWriter = [('power (W)',)] + zip(list(enhancementPowers)) + [('\n')] +  [('power (W)','time (s)')] + zip(list(powersE),list(timesE))
-    with open(name + '/enhancementPowers.csv','wb') as csvFile:
+    with open(fileName + 'enhancementPowers.csv','wb') as csvFile:
         writer = csv.writer(csvFile,delimiter =',')
         writer.writerows(enhancementPowersWriter)
 
@@ -659,31 +671,31 @@ if dnpexp:
         t1PowersWriter = [('power (W)','T_1 (s)','T_1 error (s)','Exp Num')] + zip(list(t1PowerSeries.getaxis('power')),list(t1PowerSeries.data),list(t1PowerSeries.get_error()),list(t1Series.getaxis('expNum'))) + [('\n')] +  [('power (W)','time (s)')] + zip(list(powersT1),list(timesT1))
     else:
         t1PowersWriter = [('power (W)',)] + zip(list(t1Power)) + [('\n')] +  [('power (W)','time (s)')] + zip(list(powersT1),list(timesT1))
-    with open(name + '/t1Powers.csv','wb') as csvFile:
+    with open(fileName + 't1Powers.csv','wb') as csvFile:
         writer = csv.writer(csvFile,delimiter =',')
         writer.writerows(t1PowersWriter)
 
     ### Write the enhancement series
     enhancementSeriesWriter = [('integrationVal','error','expNum')] + zip(list(enhancementSeries.data),list(enhancementSeries.get_error()),list(enhancementSeries.getaxis('expNum')))
-    with open(name + '/enhancementSeries.csv','wb') as csvFile:
+    with open(fileName + 'enhancementSeries.csv','wb') as csvFile:
         writer = csv.writer(csvFile,delimiter =',')
         writer.writerows(enhancementSeriesWriter)
     ### Write Ksigma
     if parameterDict['ReturnKSigma']:
         kSigmaWriter = [('kSigma','error')] + zip(list(kSigmaC.data),list(kSigmaC.get_error())) + [('\n')] + [('kSigma','power')] + zip(list(kSigmaCCurve.runcopy(real).data),list(kSigmaCCurve.getaxis('power')))
-        with open(name + '/kSigma.csv','wb') as csvFile:
+        with open(fileName + 'kSigma.csv','wb') as csvFile:
             writer = csv.writer(csvFile,delimiter =',')
             writer.writerows(kSigmaWriter)
 
 ### Write the t1 series
 t1SeriesWriter = [('t1Val (s)','error','expNum')] + zip(list(t1Series.data),list(t1Series.get_error()),list(t1Series.getaxis('expNum')))
-with open(name + '/t1Series.csv','wb') as csvFile:
+with open(fileName + 't1Series.csv','wb') as csvFile:
     writer = csv.writer(csvFile,delimiter =',')
     writer.writerows(t1SeriesWriter)
 
 for count,t1Set in enumerate(t1SeriesList):
     t1SetWriter = [('integrationVal','error','delay')] + zip(list(t1Set.data),list(t1Set.get_error()),list(t1Set.getaxis('delay')))
-    with open(name + '/t1Integral%d.csv'%parameterDict['t1Exp'][count],'wb') as csvFile:
+    with open(fileName + 't1Integral%d.csv'%parameterDict['t1Exp'][count],'wb') as csvFile:
         writer = csv.writer(csvFile,delimiter =',')
         writer.writerows(t1SetWriter)
 #}}}

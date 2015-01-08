@@ -285,11 +285,14 @@ def returnSplitPowers(fullPath,powerfile,expTimeMin = 80,expTimeMax = 100,dnpPow
     return powers,firstFigure
               #}}}
 
-def returnExpTimes(fullPath,exps,dnpExp):#{{{
+def returnExpTimes(fullPath,exps,dnpExp,operatingSys='posix'):#{{{
     expTime = []
     for exp in exps:
         try:
-            opened = open(fullPath + '/%s/audita.txt'%exp)
+            if operatingSys == 'nt':
+                opened = open(fullPath + '\\%s\\audita.txt'%exp)
+            elif operatingSys == 'posix':
+                opened = open(fullPath + '/%s/audita.txt'%exp)
             lines = opened.readlines()
             start = lines[8].split(' ')[3]
             start = start.split(':') # hours,min,second
