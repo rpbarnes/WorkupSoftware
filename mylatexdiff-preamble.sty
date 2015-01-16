@@ -1,0 +1,28 @@
+%DIF PREAMBLE EXTENSION ADDED BY LATEXDIFF
+%DIF UNDERLINE PREAMBLE %DIF PREAMBLE
+\usepackage[normalem]{ulem} %DIF PREAMBLE
+\usepackage{soul}
+\usepackage{cancel}
+\RequirePackage{color}\definecolor{RED}{rgb}{1,0,0}\definecolor{BLUE}{rgb}{0,0,1} %DIF PREAMBLE 
+%\providecommand{\DIFadd}[1]{\ifmmode{{\color{yellow} #1}}\else\hl{#1}\fi} %DIF PREAMBLE 
+%\providecommand{\DIFadd}[1]{\color{yellow} #1\color{black}} %DIF PREAMBLE 
+%\providecommand{\DIFadd}[1]{#1} %DIF PREAMBLE 
+%\providecommand{\DIFadd}[1]{{\protect\color{blue}\uwave{#1}}} %DIF PREAMBLE 
+\providecommand{\DIFadd}[1]{\relax\ifmmode{\mbox{\hl{\mbox{\ensuremath{#1}}}}}\else\hl{#1}\fi} %DIF PREAMBLE
+\providecommand{\DIFdel}[1]{\ifmmode\xcancel{{\color{red} #1}}\else{\protect\color{red}\sout{#1}}\fi}%DIF PREAMBLE 
+%DIF SAFE PREAMBLE %DIF PREAMBLE
+\providecommand{\DIFaddbegin}{} %DIF PREAMBLE 
+\providecommand{\DIFaddend}{} %DIF PREAMBLE 
+\providecommand{\DIFdelbegin}{} %DIF PREAMBLE 
+\providecommand{\DIFdelend}{} %DIF PREAMBLE 
+%DIF FLOATSAFE PREAMBLE %DIF PREAMBLE
+\providecommand{\DIFaddFL}[1]{\DIFadd{#1}} %DIF PREAMBLE 
+\providecommand{\DIFdelFL}[1]{\DIFdel{#1}} %DIF PREAMBLE 
+\providecommand{\DIFaddbeginFL}{} %DIF PREAMBLE 
+\providecommand{\DIFaddendFL}{} %DIF PREAMBLE 
+\providecommand{\DIFdelbeginFL}{} %DIF PREAMBLE 
+\providecommand{\DIFdelendFL}{} %DIF PREAMBLE 
+%DIF END PREAMBLE EXTENSION ADDED BY LATEXDIFF
+%\pdfstringdefDisableCommands{\renewcommand{\DIFdel}{}}
+%\pdfstringdefDisableCommands{\renewcommand{\DIFadd}{}}
+\newenvironment{DIFnomarkup}{}{}
