@@ -391,7 +391,7 @@ print "\n\nRunning Workup\n\n"
 if dnpexp: # only work up files if DNP experiment
     # The enhancement series#{{{
     fl.figurelist.append({'print_string':r'\subparagraph{Enhancement Power Measurement}' + '\n\n'})
-    expTimes,expTimeMin = returnExpTimes(fullPath,dnpExps,dnpExp = True,operatingSys = systemOpt) # this is not a good way because the experiment numbers must be set right.
+    expTimes,expTimeMin = returnExpTimes(fullPath,parameterDict['dnpExps'],dnpExp = True,operatingSys = systemOpt) # this is not a good way because the experiment numbers must be set right.
     if not expTimeMin:
         for expTitle in expTitles:
             print expTitle + '\n'
@@ -431,7 +431,7 @@ if dnpexp: # only work up files if DNP experiment
 
     # The T1 Power Series#{{{
     fl.figurelist.append({'print_string':r'\subparagraph{$T_1$ Power Measurement}' + '\n\n'})
-    expTimes,expTimeMin = returnExpTimes(fullPath,t1Exp,dnpExp = False,operatingSys = systemOpt) # this is not a good way because the experiment numbers must be set right.
+    expTimes,expTimeMin = returnExpTimes(fullPath,parameterDict['t1Exp'],dnpExp = False,operatingSys = systemOpt) # this is not a good way because the experiment numbers must be set right.
     if not expTimeMin:
         print expTitles
         raise ValueError("\n\nThe experiment numbers are not set appropriately, please scroll through the experiment titles above and set values appropriately")
