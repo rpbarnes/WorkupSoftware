@@ -63,6 +63,7 @@ Currently the search headings include:
 \section{Development:}
 \subsection{New Implementations:}
 \begin{enumerate}
+    \item $\Box$ You should add a check when a user changes key value. This check should run through the existing keys values to make sure that the value has already been entered, if it is a new key value the program should ask if this new key value is correctly entered, the idea is to catch mistakes in spelling. \o[Another way would be to let the user choose from a list of options instead of having to type in the key value.]
     \item $\checkmark$ Open a file dialog so the user can pick their experiment directory and the experiment file to work up. \o[This is done in concept, the minimum running example is in 'fileDialog.py'. You just need to implement and wrap into 'returnIntegrals.py']
     \item $\Box$ Make it so the notebook shows the operators name, not mine. \o[I don't think this is going to work like it should. Something weird with the latex package calls. Right now it just says Han Lab Notebook.]
     \item $\Box$ system calls that handle both windows and mac both in naming the file type and in compiling the pdf.
