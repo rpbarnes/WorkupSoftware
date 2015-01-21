@@ -81,6 +81,7 @@ Currently the search headings include:
 \end{enumerate}
 \section{Bugs:}
 \begin{enumerate}
+    \item $\Box$ If the experiment exists, the database parameters file should be pulled from a search given the experiment name and nothing else. Then you should pop the dims that you don't want to see.
     \item $\Box$ The returnIntegrals opens two connections to the database. You should make it so that only one connection is opened, and that the returndatabase parameters accepts a connection instance instead of creates it's own.
     \item $\checkmark$ If you edit the zeroth item in the dynamic options menu, it breaks the loop and goes on for some reason. \o[This happened because you by chance set answer to False by setting it to zero.]{Fixed now.}
     \item $\Box$ Windows!! You need to debug that bitch!!

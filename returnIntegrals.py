@@ -312,7 +312,6 @@ while answer:
                         parameterDict.update({keys[answer]:newAnswer})
                     except:
                         parameterDict.update({keys[answer]:newAnswer})
-                    print 60*"*"+"\nExperimental Parameter Modifications\n"+60*"*"
             answer = True # in the case of a zero selection
         except:
             print 60*"*"+"\nI didn't understand your answer. Please try again\n"+"*"*60
@@ -328,7 +327,7 @@ if writeToDB:
         databaseParamsDict = returnDatabaseDictionary()
     else:
         ### Pull all the parameters from the file stored specifically for this experiment
-        #databaseParamsDict = loadDict(databaseParametersFile)
+        databaseParamsDict = loadDict(databaseParametersFile)
         databaseParamsDict = returnDatabaseDictionary(operator = databaseParamsDict['operator']) # to get the latest entry for the given operator
     databaseParamsDict.update({'expName':name})
     #}}}
