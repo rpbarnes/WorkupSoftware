@@ -63,6 +63,7 @@ Currently the search headings include:
 \chapter{Development:}
 \section{New Implementations:}
 \begin{enumerate}
+    \item $\Box$ Add net magnetization plot to the output pdf! This is a nice check to see that the T1 power series makes sense.
     \item $\Box$ You need a couple of data sets from the emx odnp system to calibrate your code to.
     \item $\checkmark$ You need to list the relevant ODNP parameters in the pdf produced. You should also make it so the $T_1$ value is written below the $T_1$ integral graph.
     \item $\Box$ You should add a check when a user changes key value. This check should run through the existing keys values to make sure that the value has already been entered, if it is a new key value the program should ask if this new key value is correctly entered, the idea is to catch mistakes in spelling. \o[Another way would be to let the user choose from a list of options instead of having to type in the key value.]{Actually I like the idea of a dynamic list for editing a key value instead of the user entering their own key values.}
@@ -81,6 +82,7 @@ Currently the search headings include:
 \end{enumerate}
 \section{Bugs:}
 \begin{enumerate}
+    \item $\Box$ When the internet connection does not exist the code hard crashes. Set a runtime warning when asking user if they want to database their information. Also set a soft crash for when code tries to access database without internet connection.
     \item $\checkmark$ If the experiment exists, the database parameters file should be pulled from a search given the experiment name and nothing else. Then you should pop the dims that you don't want to see. 
     \item $\checkmark$ The returnIntegrals opens two connections to the database. You should make it so that only one connection is opened, and that the returndatabase parameters accepts a connection instance instead of creates it's own.
     \item $\checkmark$ If you edit the zeroth item in the dynamic options menu, it breaks the loop and goes on for some reason. \o[This happened because you by chance set answer to False by setting it to zero.]{Fixed now. This was also a problem with the experimental dictionary but is now also fixed.} 
