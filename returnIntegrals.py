@@ -23,11 +23,7 @@ def makeTitle(titleString):
 #}}}
 
 #{{{ Pull the last database entry for the given operator, if the database gets huge this is going to get very slow.
-def returnDatabaseDictionary(operator = 'Ryan Barnes',keysToDrop = ['setType','data','power','expNum','value','valueError','error','_id'],MONGODB_URI = 'mongodb://rbarnes:tgb47atgb47a@ds047040.mongolab.com:47040/magresdata',experimentName = False):
-    # Make the connection to the server as client
-    conn = pymongo.MongoClient(MONGODB_URI) # Connect to the database that I purchased
-    db = conn.magresdata ### 'dynamicalTransition' is the name of my test database
-    collection = db.dnpData
+def returnDatabaseDictionary(collection,operator = 'Ryan Barnes',keysToDrop = ['setType','data','power','expNum','value','valueError','error','_id'],MONGODB_URI = 'mongodb://rbarnes:tgb47atgb47a@ds047040.mongolab.com:47040/magresdata',experimentName = False):
     entries = list(collection.find())
     dateList = []
     countList = []
@@ -321,22 +317,40 @@ writeDict(expParametersFile,parameterDict)
 
 #{{{ Modify the database parameters dictionary
 if writeToDB:
-    # Database parameters#{{{
-    expExists = os.path.isfile(databaseParametersFile)
-    if not expExists: # If we don't have the exp specific parameters file yet make the parameter dictionary from the information above and edit with the following.
-        databaseParamsDict = returnDatabaseDictionary()
-    else:
-        ### Pull all the parameters from the file stored specifically for this experiment
-        databaseParamsDict = loadDict(databaseParametersFile)
-        databaseParamsDict = returnDatabaseDictionary(operator = databaseParamsDict['operator']) # to get the latest entry for the given operator
-    databaseParamsDict.update({'expName':name})
-    #}}}
     makeTitle("  Database Parameters  ")
     MONGODB_URI = 'mongodb://rbarnes:tgb47atgb47a@ds047040.mongolab.com:47040/magresdata' # This is the address to the database hosted at MongoLab.com
     # Make the connection to the server as client
     conn = pymongo.MongoClient(MONGODB_URI) # Connect to the database that I purchased
     db = conn.magresdata ### 'dynamicalTransition' is the name of my test database
     collection = db.dnpData
+    # Database parameters#{{{
+    if dnpexp: # You need to be careful with your caps, this is getting ugly
+        expExists = list(collection.find({'expName':name,'setType':'kSigmaSeries'}))
+    else:
+        expExists = list(collection.find({'expName':name,'setType':'t1Series'}))
+    if expExists == '': # If we don't have the exp specific parameters file yet make the parameter dictionary from the information above and edit with the following.
+        databaseParamsDict = returnDatabaseDictionary(collection) # This should take a collection instance.
+    else:
+        ### Pull all the parameters from the file stored specifically for this experiment
+        databaseParamsDict = expExists[0]
+        if dnpexp:
+            databaseParamsDict.pop('value')
+            databaseParamsDict.pop('valueError')
+            databaseParamsDict.pop('power')
+            databaseParamsDict.pop('error')
+            databaseParamsDict.pop('data')
+            databaseParamsDict.pop('_id')
+            databaseParamsDict.pop('setType')
+        else: # this is the place holder for the T1 set, the below may not exist
+            databaseParamsDict.pop('value')
+            databaseParamsDict.pop('valueError')
+            databaseParamsDict.pop('power')
+            databaseParamsDict.pop('error')
+            databaseParamsDict.pop('data')
+            databaseParamsDict.pop('_id')
+            databaseParamsDict.pop('setType')
+    databaseParamsDict.update({'expName':name})
+    #}}}
     columnWidth = 25
     answer = True
     while answer:
