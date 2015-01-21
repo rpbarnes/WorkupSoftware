@@ -197,7 +197,7 @@ databaseParametersFile = fileName + 'databaseParameters.pkl'
 defaultDataParamsFile = 'databaseParameters.pkl'
 
 # Experiment parameters
-dnpExps = r_[5:27]
+dnpExps = r_[5:27] # default experiment numbers
 t1Exp = r_[28:38,304]
 integrationWidth = 1.5e2
 t1StartingGuess = 1.14 ### This is the best guess for what your T1's are, if your T1 fits don't come out change this guess!!
@@ -206,17 +206,6 @@ t1SeparatePhaseCycle = True ### Did you save the phase cycles separately?
 thresholdE = 0.3
 thresholdT1 = 0.3
 badT1 = []
-
-# Database parameters
-operator = 'Ryan Barnes'
-macroMolecule = 'CheY'
-concentrationMM = '320' # in micromolar
-spinLabelSite = 'K91C'
-bindingPartner = 'P2'
-temperature = '298'     # in Kelvin
-solvent = 'phosphate buffer'
-osmolite = ''
-otherNotes = 'Place useful experimental notes here.'
 #}}}
 
 ### Check for parameters file, write new file if DNE, else pull parameters file#{{{
@@ -239,16 +228,6 @@ else:
     parameterDict = loadDict(expParametersFile)
 #}}}
 
-# Database parameters#{{{
-expExists = os.path.isfile(databaseParametersFile)
-if not expExists: # If we don't have the exp specific parameters file yet make the parameter dictionary from the information above and edit with the following.
-    databaseParamsDict = returnDatabaseDictionary()
-else:
-    ### Pull all the parameters from the file stored specifically for this experiment
-    databaseParamsDict = loadDict(databaseParametersFile)
-    databaseParamsDict = returnDatabaseDictionary(operator = databaseParamsDict['operator']) # to get the latest entry for the given operator
-databaseParamsDict.update({'expName':name})
-#}}}
 #}}}
 
 #{{{ Index Files
@@ -334,6 +313,7 @@ while answer:
                     except:
                         parameterDict.update({keys[answer]:newAnswer})
                     print 60*"*"+"\nExperimental Parameter Modifications\n"+60*"*"
+            answer = True # in the case of a zero selection
         except:
             print 60*"*"+"\nI didn't understand your answer. Please try again\n"+"*"*60
             continue
@@ -342,6 +322,16 @@ writeDict(expParametersFile,parameterDict)
 
 #{{{ Modify the database parameters dictionary
 if writeToDB:
+    # Database parameters#{{{
+    expExists = os.path.isfile(databaseParametersFile)
+    if not expExists: # If we don't have the exp specific parameters file yet make the parameter dictionary from the information above and edit with the following.
+        databaseParamsDict = returnDatabaseDictionary()
+    else:
+        ### Pull all the parameters from the file stored specifically for this experiment
+        #databaseParamsDict = loadDict(databaseParametersFile)
+        databaseParamsDict = returnDatabaseDictionary(operator = databaseParamsDict['operator']) # to get the latest entry for the given operator
+    databaseParamsDict.update({'expName':name})
+    #}}}
     makeTitle("  Database Parameters  ")
     MONGODB_URI = 'mongodb://rbarnes:tgb47atgb47a@ds047040.mongolab.com:47040/magresdata' # This is the address to the database hosted at MongoLab.com
     # Make the connection to the server as client
@@ -377,15 +367,17 @@ if writeToDB:
                         answer = True
                     else:
                         databaseParamsDict.update({keys[answer]:newAnswer})
+                        answer = True
             except:
                 print "\nI didn't understand your answer. Please try again\n"+"*"*80
                 continue
 
+    collection.insert(databaseParamsDict) # Save the database parameters to the database in case the code crashes
     writeDict(databaseParametersFile,databaseParamsDict)
 
 #}}}
 
-print "\n\nRunning Workup\n\n"
+makeTitle("  Running Workup  ")
 
 ### Work up the power files#{{{
 if dnpexp: # only work up files if DNP experiment
@@ -435,7 +427,7 @@ if dnpexp: # only work up files if DNP experiment
     if not expTimeMin:
         print expTitles
         raise ValueError("\n\nThe experiment numbers are not set appropriately, please scroll through the experiment titles above and set values appropriately")
-    t1Power,fl.figurelist = returnSplitPowers(fullPath,'t1_powers.mat',expTimeMin = expTimeMin.data,expTimeMax=expTimeMin.data + expTimeMin.data/2,dnpPowers = False,threshold = parameterDict['thresholdT1'],titleString = 'T1 ',firstFigure = fl.figurelist)
+    t1Power,fl.figurelist = returnSplitPowers(fullPath,'t1_powers.mat',expTimeMin = expTimes.min(),expTimeMax=expTimeMin.data + expTimeMin.data/2,dnpPowers = False,threshold = parameterDict['thresholdT1'],titleString = 'T1 ',firstFigure = fl.figurelist)
     t1Power = list(t1Power)
     t1Power.append(-99.0) # Add the zero power for experiment 304
     t1Power = array(t1Power)
@@ -554,6 +546,7 @@ for count,expNum in enumerate(parameterDict['t1Exp']):
     t1DataList.append(rawT1.output(r'T_1'))
     t1ErrList.append(sqrt(rawT1.covar(r'T_1')))
     t1SeriesList.append(rawT1)
+    fl.figurelist.append({'print_string':r'\large{$T_1 = %0.3f \pm %0.3f\ s$}'%(rawT1.output(r'T_1'),rawT1.covar(r'T_1')) + '\n\n'})
 # The t1 of experiment series
 t1Series = nddata(array(t1DataList)).rename('value','expNum').labels(['expNum'],array([parameterDict['t1Exp']])).set_error(array(t1ErrList))
 #{{{  The T1 power series
@@ -563,6 +556,7 @@ if dnpexp:
         fl.figurelist = nextfigure(fl.figurelist,'T1PowerSeries')
         plot(t1PowerSeries,'r.')
         xlim(t1PowerSeries.getaxis('power').min()-0.2,t1PowerSeries.getaxis('power').max()+0.2)
+        ylabel('$T_{1}\\ (s)$')
         title('$T_1$ Power Series')
     except:
         t1PowerSeries = False
@@ -590,9 +584,10 @@ if dnpexp:
         plot(rateFit)
         xlim(rateSeries.getaxis('power').min() - 0.1*rateSeries.getaxis('power').max(), rateSeries.getaxis('power').max() + 0.1*rateSeries.getaxis('power').max())
         ylim(0,rateSeries.data.max() + 0.1)
+        ylabel('$1/T_{1}\\ (s^{-1})$')
         title('Rate Series')
         #}}}
-        kSigmaUCCurve = (1-enhancementPowerSeries.copy())*R1*(1./659.33)
+        kSigmaUCCurve = (1-enhancementPowerSeries.copy())*(1./R1)*(1./659.33)
         kSigmaUCCurve.popdim('value') # For some reason it picks this up from R1, I'm not sure how to do the above nicely 
         kSigmaUCCurve.set_error(None)
         kSigmaUCCurve = nmrfit.ksp(kSigmaUCCurve)
@@ -612,6 +607,7 @@ if dnpexp:
         plot(kSigmaUCCurve.copy().set_error(None),'b.',label = 'un-corr')
         plot(kSigmaUCCurve.eval(100),'b-')
         text(0.5,0.25,kSigmaUCCurve.latex(),transform = ax.transAxes,size = 'x-large', horizontalalignment = 'center',color = 'b')
+        ylabel('$k_{\\sigma}\\ (M s^{-1}$)')
         title('$k_{\\sigma} \\ S_{max}\\ Conc$')
         legend(loc=4)
 #}}}
@@ -630,6 +626,7 @@ if writeToDB:
     ### Here write in the data set information. 
     ### For DNP experiment write in the enhancement series, the T1 of power series, and the kSigma series. For now do it by hand but in the future you should wrap writing to the database in the nddata class. All you really need to do is make it write all the data to the dictionary
     if dnpexp:
+        databaseParamsDict.pop('_id')
         if enhancementPowerSeries:
             dim = enhancementPowerSeries.dimlabels[0]
             enhancementPowerSeries.other_info = databaseParamsDict.copy()
@@ -699,6 +696,13 @@ for count,t1Set in enumerate(t1SeriesList):
         writer = csv.writer(csvFile,delimiter =',')
         writer.writerows(t1SetWriter)
 #}}}
+
+##{{{ Write out the relevant values from the DNP experiment
+fl.figurelist.append({'print_string':'\n\n' + r'\subparagraph{DNP parameters}' + '\n\n'})
+fl.figurelist.append({'print_string':'$k_{\\sigma} S_{max} = %0.5f \\pm %0.5f $'%(kSigmaC.data,kSigmaC.get_error()) + '\n\n'})
+fl.figurelist.append({'print_string':'$E_{max} = %0.3f \\pm %0.3f $'%(enhancementPowerSeries.output(r'E_{max}'),enhancementPowerSeries.covar(r'E_{max}')) + '\n\n'})
+fl.figurelist.append({'print_string':'$T_{1}(p=0) = %0.3f \\pm %0.3f $'%(R1.data,R1.get_error()) + '\n\n'})
+##}}}
 
 ### Compile the pdf and show results
 compilePDF(name)
