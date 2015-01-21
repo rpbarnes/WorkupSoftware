@@ -82,9 +82,10 @@ class Capturing(list):
 #{{{ Compile the pdf output
 def compilePDF(name):
     print "\n\nCompiling pdf"
+    systemOpt = os.name 
     with Capturing() as output:
         fl.show(name + '.pdf')
-    texFile = open(name+'/plots.tex','wb')
+    texFile = open(name+'/plots.tex','wb') # I guess this works because it's actually executed by python.
     header = [
         '\\documentclass[10pt]{book}',
         '\\usepackage{mynotebook}',
@@ -102,9 +103,14 @@ def compilePDF(name):
         texFile.write(line + '\n')
     texFile.write('\\end{document}')
     texFile.close()
-    subprocess.call(['pdflatex','--output-directory %s/'%name, '%s/plots.tex'%name])
-    subprocess.call(['mv','plots.pdf', '%s/'%name])
-    subprocess.call(['open','-a','/Applications/Preview.app','%s/plots.pdf'%name])
+    if systemOpt == 'nt': # windows
+        subprocess.call(['pdflatex','--output-directory %s\\'%name, '%s\\plots.tex'%name])
+        subprocess.call(['move','plots.pdf', '%s\\'%name])
+        subprocess.call(['open','-a','/Applications/Preview.app','%s\\plots.pdf'%name])
+    elif systemOpt == 'posix': # mac, linux you will need to call the specific pdf application 
+        subprocess.call(['pdflatex','--output-directory %s/'%name, '%s/plots.tex'%name])
+        subprocess.call(['mv','plots.pdf', '%s/'%name])
+        subprocess.call(['open','-a','/Applications/Preview.app','%s/plots.pdf'%name])
     #open -a /Applications/Preview.app 'plots.pdf'
 #}}}
 
@@ -328,7 +334,7 @@ if writeToDB:
         expExists = list(collection.find({'expName':name,'setType':'kSigmaSeries'}))
     else:
         expExists = list(collection.find({'expName':name,'setType':'t1Series'}))
-    if expExists == '': # If we don't have the exp specific parameters file yet make the parameter dictionary from the information above and edit with the following.
+    if not expExists: # If we don't have the exp specific parameters file yet make the parameter dictionary from the information above and edit with the following.
         databaseParamsDict = returnDatabaseDictionary(collection) # This should take a collection instance.
     else:
         ### Pull all the parameters from the file stored specifically for this experiment
