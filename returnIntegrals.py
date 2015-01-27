@@ -329,8 +329,9 @@ if writeToDB:
     conn = pymongo.MongoClient(MONGODB_URI) # Connect to the database that I purchased
     db = conn.magresdata ### 'dynamicalTransition' is the name of my test database
     collection = db.dnpData
-    # Database parameters#{{{
+    # check to see if the database parameters dictionary exists#{{{
     if dnpexp: # You need to be careful with your caps, this is getting ugly
+        # This should use the returnDatabaseDictionary function and you should hand it keys to drop!!
         expExists = list(collection.find({'expName':name,'setType':'kSigmaSeries'}))
     else:
         expExists = list(collection.find({'expName':name,'setType':'t1Series'}))
