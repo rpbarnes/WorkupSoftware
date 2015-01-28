@@ -39,12 +39,31 @@
 \chapter{Introduction}
 This guide outlines, in very rough detail, the how to of operating the ODNP workup software with python. Right now this is fairly unorganized but I would appreciate your help in making this work towards what you need it for. 
 
+\chapter{Installation}
+\section{Windows Install}
+This details how to install the necessary software on windows. This will also go through how to get the program setup and running.
+\subsection{Necessary Packages}
+\begin{enumerate}
+    \item Download \& install 'python xy' \o[Make sure to do the full install instead of the defaul custom install.]{}
+        \begin{enumerate}
+            \item Install 'pymongo' do this by typing 'easy_install pymongo' in the commandline. Note that if the command line yells at you that easy_install is not a recognized command you need to edit the path variable to inclue the python directory in the program files x86 directory. Google is yo friend.
+        \end{enumerate}
+    \item Download \& install 'git'
+    \item Ask Ryan to share the 'workupSoftware' repository with you and follow the instructions for how to clone that repository to a directory of your choice.
+    \item Install vim74 \o[This is for me (Ryan) for when I go play on your computer. If you install this you get major brownie points :)]{}
+    \item Install notepad \o[This is for you and will make your life easier for when you need to edit the programs, which hopefully you wont have to do.]{Or you can just use the native spyder editor which comes with python xy}
+    \item Install latex via texlive for windows. Just run the simple install. \o[This takes a long ass time so start this early.]{}
+\end{enumerate}
 \chapter{Guide to Running the Workup Code}
 Put instructions here for running the workup code. Initially go through the answers for the query statements, especially how to enter the dnp and t1 exp numbers. Then go through exceptions and how the user should use the command line to remedy the situation.
+
+\section{Getting Started}
+Here go through how to get up and running once everything is installed.
 
 \chapter{Database Information}
 I'm using mongodb to database all the worked up data according to a hierarchical scheme. This will allow a user to search the database for entries based on certain parameters. 
 
+\section{Database Key Definitions}
 Currently the search headings include:
 \begin{enumerate}
     \item \o{operator} - this is the experimenter's name e.g. Ryan Barnes.
@@ -58,11 +77,29 @@ Currently the search headings include:
     \item \o{osmolyte} - This might be nice for Jinsuk for now this isn't used.
     \item \o{aggregationAgent} - this is more a place holder for experiments with the tau protein.
 \end{enumerate}
+\section{Pulling Data from the Database}
 
+Right now this is notes to Ryan. 
+I make a first attempt at pulling the ODNP data, specifically $k_{\sigma}$ data from the database in the script \o['returnDatabaseCheY.py']{}.
+
+This code is a mess but does what is necessary to store the $k_{\sigma}$ data value and error in a nddata. Unfortunately the nddata set is not more help in storing the values. Currently I have to make a data matrix and an error matrix as well as dimension count lists and use these dimension count lists to dump the data and error from the database into the data and error matricies. I then take the full matricies and set this as my data for my nddata set. \o[You could fix the nddata so it sets the data and error value for the appropriate indecies given, currently it does not do this and is very frustrating.]{}
+
+Also to note this code is functionally dynamic, so if any of the dimensions grow the code should handle it.
+
+Another note is that the connection does not work from chembiochemGuest for whatever reason, but this brings up the point that you should house the database locally and sync the local database with the one online 
+
+\o[This will silently fail if it over writes a value in a given matrix.]{You should add a check to make sure that a value doesn't already exist in the matrix position.}
+
+I think what I've learned is that it's not nice to drop everything in one matrix because you can't really handle any repeat experiment with any flexibility other than just hardcoding.
+
+What you should do is loop through producing nddata sets given appropriate search parameters. This is the easiest way to do this for now. 
 
 \chapter{Development:}
 \section{New Implementations:}
 \begin{enumerate}
+    \item $\Box$ For the repeat database entry key. You should pull the repeats for the count of database items corresponding to the macromolecule, bindingpartner, and spinlabelsite.
+    \item $\Box$ DATABASE: What you should do is loop through producing nddata sets given appropriate search parameters. This is the easiest way to do this for now. 
+    \item $\Box$ In the future you should play with using mongodb aggregate functions to make querying the database easier.
     \item $\Box$ Sort database dictionary alphabetically before presentation.
     \item $\Box$ Add net magnetization plot to the output pdf! This is a nice check to see that the T1 power series makes sense.
     \item $\Box$ You need a couple of data sets from the emx odnp system to calibrate your code to.
@@ -83,6 +120,12 @@ Currently the search headings include:
 \end{enumerate}
 \section{Bugs:}
 \begin{enumerate}
+    \item $\Box$ You should move all of the data in the database dictionaries to a data subfield in which you hold all relevant data sets. This way you could make the database search and drop something more dynamic and not depend on several if statements.
+    \item $\Box$ There needs to be a better way to set the repeat counter. It's hard to tell what already exists in the database.
+    \item $\Box$ The way you compile the pdf is stupid. You should change this to speed up the code significantly.
+    \item $\Box$ You need to remove any instance of the database parameters file.
+    \item $\checkmark$ Add a check so that you don't overwrite matrix vales when you pull the values from the database. \o[Well it doesn't silently fail now but it still fails and I'm not sure of a good way to handle it other than writing a new matrix to hold the conflicted values.]{More thinking to come.}
+    \item $\checkmark$ For an old database entry the keys and values pulled do not contain any of the new items. This is to be expected but not ok because it does not allow you to enter information according to new keys\ldots How to do this dynamically? \o[The set '141029_CheY_K91C_P2_320uM_RT_ODNP' currently has this error, I haven't fixed it so when you come to this use this set as your dummy set.]{This seems to work ok now. It pulls the most recent dictionary entry and updates the experiment's database dictionary.}
     \item $\Box$ The database parameter checking should make use of the function returnDatabaseDictionary and you should hand it the necessary keys to drop!
     \item $\Box$ You need to add a test operator and make sure the behavior of the code, primarily the database search, is changed appropriately.
     \item $\Box$ When the internet connection does not exist the code hard crashes. Set a runtime warning when asking user if they want to database their information. Also set a soft crash for when code tries to access database without internet connection.
@@ -90,7 +133,7 @@ Currently the search headings include:
     \item $\checkmark$ If the experiment exists, the database parameters file should be pulled from a search given the experiment name and nothing else. Then you should pop the dims that you don't want to see. 
     \item $\checkmark$ The returnIntegrals opens two connections to the database. You should make it so that only one connection is opened, and that the returndatabase parameters accepts a connection instance instead of creates it's own.
     \item $\checkmark$ If you edit the zeroth item in the dynamic options menu, it breaks the loop and goes on for some reason. \o[This happened because you by chance set answer to False by setting it to zero.]{Fixed now. This was also a problem with the experimental dictionary but is now also fixed.} 
-    \item $\Box$ Windows!! You need to debug that bitch!!
+    \item $\Box$ Windows!! You need to debug that bitch!! \o[This is almost done, you just need to finish with the last of the sys calls.]{}
     \item $\checkmark$ When the workup experiment crashes the database parameters dictionary is not saved. This is because it's pulling those parameters from the online dictionary and not from the file. \o[You should make it so you hand the returnDatabase function the name of the experiment. If the experiment name exists just hand back that database entry.]{It now is.}
     \item $\Box$ You should add a method to force a time for the power series. You should print the absolute experiment time underneath the curve so the user can select a start guess and a forced time.
     \item $\Box$ 'returnExpTimes' fails in windows when the experiment files aren't set right. You need to make it so it fails in a way that the user can fix it.
@@ -113,26 +156,6 @@ Currently the search headings include:
     \item $\Box$ Walk through of using the program.
     \item $\Box$ Common errors, reasons and how to handle them from the command line.
     \item $\Box$ Explination of functions used \o[This is a backend thing and is not necessary for now.]{}
-\end{enumerate}
-\chapter{Installation}
-\section{Windows Install}
-This details how to install the necessary software on windows. This will also go through how to get the program setup and running.
-\subsection{Necessary Packages}
-\begin{enumerate}
-    \item Download \& install 'python xy' \o[Make sure to do the full install instead of the defaul custom install.]{}
-        \begin{enumerate}
-            \item Install 'pymongo' do this by typing 'easy_install pymongo' in the commandline. Note that if the command line yells at you that easy_install is not a recognized command you need to edit the path variable to inclue the python directory in the program files x86 directory. Google is yo friend.
-        \end{enumerate}
-    \item Download \& install 'git'
-    \item Ask Ryan to share the 'workupSoftware' repository with you and follow the instructions for how to clone that repository to a directory of your choice.
-    \item Install vim74 \o[This is for me (Ryan) for when I go play on your computer. If you install this you get major brownie points :)]{}
-    \item Install notepad \o[This is for you and will make your life easier for when you need to edit the programs, which hopefully you wont have to do.]{Or you can just use the native spyder editor which comes with python xy}
-    \item Install latex via texlive for windows. Just run the simple install. \o[This takes a long ass time so start this early.]{}
-\end{enumerate}
-\section{Getting Started}
-\begin{enumerate}
-    \item You need to edit the header parameter, for now this is in the code under header. This should point from 'C:/' to the folder that holds your data sets. \o[Mine looks like 'C:\\Users\\megatron\\exp_data\\ryan_cnsi\\nmr\\'.] I would open the file 'returnIntegrals.py' in a text editor like notepad and set 'header = C:\\Users\\megatron\\exp_data\\ryan_cnsi\\nmr\\' only with your information in place.
-    \item 
 \end{enumerate}
 \chapter{EPR Integral Workup}
 Is this necessary for the ODNP? It might be nice to do this as standard this way you can tell if the double integrals are the same. \o[This is a future idea.]

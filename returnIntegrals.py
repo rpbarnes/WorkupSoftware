@@ -128,12 +128,6 @@ def loadDict(fileName):
 
 close('all')
 fl = figlistl()
-### This is mac specific
-systemOpt = os.name
-
-
-writeToDB = False
-updateDefaults = True # Change this to keep the defaults the same
 
 #{{{ Find the data directory and the file name of the experiment
 dataDirecFile = 'datadir.txt'
@@ -173,8 +167,10 @@ del app
 del widget
 #}}}
 
+#{{{ Mac, Unix, or Windows?
 runningDir = os.getcwd() # windows needs this, lets add it and then see how things work on mac
 ### operating system specific
+systemOpt = os.name
 if systemOpt == 'nt':
     name = fullPath.split('\\')[-1]
     runningDir += '\\'
@@ -183,6 +179,7 @@ elif systemOpt == 'posix':
     name = fullPath.split('/')[-1]
     runningDir += '/'
     fileName = name + '/'
+#}}}
 
 ### make the experiment directory to dump all of the high level data
 try:
@@ -195,7 +192,6 @@ except:
 # Parameter files
 expParametersFile = fileName + 'parameters.pkl'
 defaultExpParamsFile = 'parameters.pkl'
-databaseParametersFile = fileName + 'databaseParameters.pkl'
 defaultDataParamsFile = 'databaseParameters.pkl'
 
 # Experiment parameters
@@ -210,7 +206,6 @@ thresholdT1 = 0.3
 badT1 = []
 #}}}
 
-### Check for parameters file, write new file if DNE, else pull parameters file#{{{
 # Experimental parameters#{{{
 expExists = os.path.isfile(expParametersFile)
 if not expExists:
@@ -230,9 +225,7 @@ else:
     parameterDict = loadDict(expParametersFile)
 #}}}
 
-#}}}
-
-#{{{ Index Files
+#{{{ Index Files in experiment directory
 files = listdir(fullPath)
 ### Just weed out the power files from the titles, we already know what they are
 for index,item in enumerate(files):
@@ -339,7 +332,10 @@ if writeToDB:
         databaseParamsDict = returnDatabaseDictionary(collection) # This should take a collection instance.
     else:
         ### Pull all the parameters from the file stored specifically for this experiment
-        databaseParamsDict = expExists[0]
+        currentKeys = returnDatabaseDictionary(collection)
+        currentKeys.update(expExists[0])
+        expExists = currentKeys
+        databaseParamsDict = expExists
         if dnpexp:
             databaseParamsDict.pop('value')
             databaseParamsDict.pop('valueError')
@@ -393,7 +389,6 @@ if writeToDB:
                 continue
 
     collection.insert(databaseParamsDict) # Save the database parameters to the database in case the code crashes
-    writeDict(databaseParametersFile,databaseParamsDict)
 
 #}}}
 
