@@ -713,10 +713,14 @@ for count,t1Set in enumerate(t1SeriesList):
 #}}}
 
 ##{{{ Write out the relevant values from the DNP experiment
-fl.figurelist.append({'print_string':'\n\n' + r'\subparagraph{DNP parameters}' + '\n\n'})
-fl.figurelist.append({'print_string':'$k_{\\sigma} S_{max} = %0.5f \\pm %0.5f $'%(kSigmaC.data,kSigmaC.get_error()) + '\n\n'})
-fl.figurelist.append({'print_string':'$E_{max} = %0.3f \\pm %0.3f $'%(enhancementPowerSeries.output(r'E_{max}'),enhancementPowerSeries.covar(r'E_{max}')) + '\n\n'})
-fl.figurelist.append({'print_string':'$T_{1}(p=0) = %0.3f \\pm %0.3f $'%(R1.data,R1.get_error()) + '\n\n'})
+if dnpexp: # DNP is True, T10 is False
+    fl.figurelist.append({'print_string':'\n\n' + r'\subparagraph{DNP parameters}' + '\n\n'})
+    fl.figurelist.append({'print_string':'$k_{\\sigma} S_{max} = %0.5f \\pm %0.5f $'%(kSigmaC.data,kSigmaC.get_error()) + '\n\n'})
+    fl.figurelist.append({'print_string':'$E_{max} = %0.3f \\pm %0.3f $'%(enhancementPowerSeries.output(r'E_{max}'),enhancementPowerSeries.covar(r'E_{max}')) + '\n\n'})
+    fl.figurelist.append({'print_string':'$T_{1}(p=0) = %0.3f \\pm %0.3f $'%(R1.data,R1.get_error()) + '\n\n'})
+else:
+    fl.figurelist.append({'print_string':'\n\n' + r'\subparagraph{$T_{1,0}$ Parameters}' + '\n\n'})
+    fl.figurelist.append({'print_string':'$T_{1}(p=0) = %0.3f \\pm %0.3f $'%(t1Series.data,t1Series.get_error()) + '\n\n'})
 ##}}}
 
 ### Compile the pdf and show results

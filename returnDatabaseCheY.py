@@ -9,85 +9,68 @@ conn = pymongo.MongoClient(MONGODB_URI) # Connect to the database that I purchas
 db = conn.magresdata ### 'dynamicalTransition' is the name of my test database
 collection = db.dnpData
 
+# here I want to make individual 1 dimensional nddata sets for a given spinLabelSite and loop through the creation of these sets
 
-dataKSFliM = list(collection.find({'macroMolecule':'CheY','setType':'kSigmaSeries','repeat':'0','bindingPartner':'FliM','macroMoleculeRatio':'1:10'}))
-dataKSP2 = list(collection.find({'macroMolecule':'CheY','setType':'kSigmaSeries','repeat':'0','bindingPartner':'P2','macroMoleculeRatio':'1:1.5'}))
-dataKSNone = list(collection.find({'macroMolecule':'CheY','setType':'kSigmaSeries','repeat':'0','bindingPartner':'None','macroMoleculeRatio':'None'}))
-dataKS = dataKSFliM + dataKSP2 + dataKSNone
+# Variables changed by user
+siteList = ['D41C','M17C','N121C','K91C','E37C']
+repeatList = ['0','1']
+styleList = ['--^','--x']
+colorList = ['b','g','r','m','c','k']
+searchDict = {'macroMolecule':'CheY','setType':'kSigmaSeries','repeat':'0','spinLabelSite':'D41C','temperature':'298'} 
+xdimKey = ['None','FliM','P2'] # this is how the xdim should be ordered.
+xdim = 'bindingPartner'
 
-for count,dataSet in enumerate(dataKS):
-    if dataSet.get('spinLabelSite') == 'N62C':
-        dataKS.pop(count)
+def returnNdDataDatabase(searchDict,xdim,xdimKey):#{{{
+    # The data set that is returned is ordered according to xdimKey but I cannot attach the dimension key
+    dataKS = list(collection.find(searchDict))
+    # It would be nice to do this with matrices but for now with lists will be fine.
+    kslist = []
+    ksErrlist = []
+    concentration = []
+    xdimlist = []
+    xdimCount = []
+    for count,dataSet in enumerate(dataKS):
+        try:
+            kslist.append(dataSet.pop('value')[0]) # This will throw a key error if there is no data 
+            ksErrlist.append(dataSet.pop('valueError')[0])
+            concentration.append(float(dataSet.pop('concentrationMM'))*1e-6) # Molar units
+            xdimlist.append(str(dataSet.pop(xdim)))
+        except:
+            print "Key error. There was no data stored in the dictionary"
 
+    # order the data according to the key list xdimKey which holds the order in which I want to present the data
+    for value in xdimlist:
+        for count1,value1 in enumerate(xdimKey):
+            if value == value1: # we have a match
+                xdimCount.append(count1) # This stores the key pair that will sort the ksData set
 
-dim1 = 'bindingPartner'
-dim2 = 'spinLabelSite'
-
-dim1list = []
-dim2list = []
-kslist = []
-kserrlist = []
-concentrationlist = [] # for now just normalize to the concentration
-for dataset in dataKS:
-    try:
-        kslist.append(dataset.get('value')[0])
-        kserrlist.append(dataset.get('valueError')[0])
-        dim1list.append(str(dataset.get(dim1)))
-        dim2list.append(str(dataset.get(dim2)))
-        concentrationlist.append(float(dataset.get('concentrationMM'))*1e-6)
-    except:
-        print 'Dead Set'
-
-#dim1unique = list(set(dim1list))
-dim1unique = ['None','FliM','P2'] # hardcode so in order of binding strength.
-print 'dim1unique hardcoded'
-dim2unique = list(set(dim2list))
-
-# use these to hold the 'item count' what ever that means and then use the item count to dump the data sets in an nddata with the appropriate dimensions.
-dim1count = [] # hold position values in this list
-dim2count = []
-
-for val in dim1list:
-    for uniCount,uniVal in enumerate(dim1unique):
-        if uniVal == val:
-            dim1count.append(uniCount)
-for val in dim2list:
-    for uniCount,uniVal in enumerate(dim2unique):
-        if uniVal == val:
-            dim2count.append(uniCount)
-
-# now with positions to dump to lets put this shit in an nddata
-data = ndshape([len(dim1unique),len(dim2unique)],[dim1,dim2])
-data = data.alloc(dtype = 'float')
-data.labels([dim1,dim2],[r_[0:len(dim1unique)],r_[0:len(dim2unique)]])
-dataMat = zeros([len(dim1unique),len(dim2unique)])
-errMat = zeros([len(dim1unique),len(dim2unique)])
-concMat = zeros([len(dim1unique),len(dim2unique)])
-
-for count,val in enumerate(kslist):
-    if dataMat[dim1count[count],dim2count[count]] != float(0):
-        print "\nYou're overwriting data\nConfliction with \n%s = %s and %s = %s"%(dim1,dim1unique[dim1count[count]],dim2,dim2unique[dim2count[count]])
-    dataMat[dim1count[count],dim2count[count]] = kslist[count]
-    errMat[dim1count[count],dim2count[count]] = kserrlist[count]
-    concMat[dim1count[count],dim2count[count]] = concentrationlist[count]
-data.data = dataMat
-data.set_error(errMat)
-
-# because this doesn't do elementwise division with the appropriate units
-data.data = divide(data.data,concMat)
-data.set_error(divide(data.get_error(),concMat))
+    data = nddata(divide(array(kslist),array(concentration))).rename('value',xdim).labels([xdim],[array(xdimCount)]).set_error(divide(array(ksErrlist),array(concentration)))
+    data.other_info = searchDict # you might want to include the experiment names in the other_info dictionary
+    data.sort(xdim)
+    #data.labels([xdim],[xdimKey]) # I want to store what the indecies are with the data set no matter what's up with matlablike plot problems
+    return data
+#}}}
 
 
+#color = 'r'
 fig = figure()
 ax = fig.add_subplot(111) 
-for count in range(len(data.getaxis(dim2))):
-    plot(data[dim2,count],markersize = 20,label = '%s'%dim2unique[count])
+for count,repeat in enumerate(repeatList):
+    for siteCount,site in enumerate(siteList):
+        searchDict.update({'spinLabelSite':site,'repeat':repeat})
+        data = returnNdDataDatabase(searchDict,xdim,xdimKey)
+        if len(data.data):
+            ax.errorbar(data.getaxis(xdim),data.data,yerr = data.get_error(),color = colorList[siteCount],fmt=styleList[count],label = '%s, %s'%(data.other_info.get('spinLabelSite'),data.other_info.get('repeat')))
+        else:
+            print "empty data set for site %s and repeat %s"%(data.other_info.get('spinLabelSite'),data.other_info.get('repeat'))
 
-ax.set_xticks(r_[0:len(dim1unique)])
-ax.set_xticklabels(dim1unique,fontsize = 20)
-xlim(-0.5,len(dim1unique)-0.5)
+ax.set_xticks(r_[0:len(xdimKey)])
+ax.set_xticklabels(xdimKey,fontsize = 20)
+xlim(-0.5,len(xdimKey)-0.5)
 ylim(0,60)
 legend(loc=4)
-ylabel('$k_{\\sigma}\\ s^{-1}$')
+ylabel('$k_{\\sigma}\\ s^{-1}$',fontsize=30)
+xlabel('$Binding\\ Partner$',fontsize = 30)
+title('$CheY\\ Series\\ (k_{\\sigma})$',fontsize = 35)
 
 show()

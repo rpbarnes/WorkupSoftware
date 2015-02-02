@@ -97,8 +97,9 @@ What you should do is loop through producing nddata sets given appropriate searc
 \chapter{Development:}
 \section{New Implementations:}
 \begin{enumerate}
-    \item $\Box$ For the repeat database entry key. You should pull the repeats for the count of database items corresponding to the macromolecule, bindingpartner, and spinlabelsite.
-    \item $\Box$ DATABASE: What you should do is loop through producing nddata sets given appropriate search parameters. This is the easiest way to do this for now. 
+    \item $\Box$ You should move all of the data in the database dictionaries to a data subfield in which you hold all relevant data sets. This way you could make the database search and drop something more dynamic and not depend on several if statements.
+    \item $\checkmark$ For the repeat database entry key. You should pull the repeats for the count of database items corresponding to the macromolecule, bindingpartner, and spinlabelsite. \o[I've changed the script that pulls the data sets from the database to do this.]{}
+    \item $\checkmark$ DATABASE: What you should do is loop through producing nddata sets given appropriate search parameters. This is the easiest way to do this for now. \o[This now works fairly well, I have a function to return a 1D nddata set and this seems to work ok for the moment.]{}
     \item $\Box$ In the future you should play with using mongodb aggregate functions to make querying the database easier.
     \item $\Box$ Sort database dictionary alphabetically before presentation.
     \item $\Box$ Add net magnetization plot to the output pdf! This is a nice check to see that the T1 power series makes sense.
@@ -120,7 +121,8 @@ What you should do is loop through producing nddata sets given appropriate searc
 \end{enumerate}
 \section{Bugs:}
 \begin{enumerate}
-    \item $\Box$ You should move all of the data in the database dictionaries to a data subfield in which you hold all relevant data sets. This way you could make the database search and drop something more dynamic and not depend on several if statements.
+    \item $\Box$ in \o['150128_CheY_M17C_None_202uM_RT_ODNP_REPEAT']{} the $T_1$ powers function misses the first power. This is strange. For now I've just dropped the $T_1$ value.
+    \item $\Box$ The M17C set has a database entry for setType = kSigmaSeries. However there is no data stored in the database dictionary. This should not happen and if continues to will make a mess in the database.
     \item $\Box$ There needs to be a better way to set the repeat counter. It's hard to tell what already exists in the database.
     \item $\Box$ The way you compile the pdf is stupid. You should change this to speed up the code significantly.
     \item $\Box$ You need to remove any instance of the database parameters file.
