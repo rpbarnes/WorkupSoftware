@@ -1445,10 +1445,11 @@ def plot(*args,**kwargs):
         myy = squeeze(myy.data)
     #}}}
     #{{{ semilog where appropriate
-    if (myx != None) and (len(myx)>1): # by doing this and making myplotfunc global, we preserve the plot style if we want to tack on one point
-        b = diff(log10(myx))
-        if (size(b)>3) and all(abs((b-b[0])/b[0])<1e-4) and not ('nosemilog' in kwargs.keys()):
-            myplotfunc = ax.semilogx
+    # This forces a semilogx if your data fits the semilog
+    #if (myx != None) and (len(myx)>1): # by doing this and making myplotfunc global, we preserve the plot style if we want to tack on one point
+    #    b = diff(log10(myx))
+    #    if (size(b)>3) and all(abs((b-b[0])/b[0])<1e-4) and not ('nosemilog' in kwargs.keys()):
+    #        myplotfunc = ax.semilogx
     if ('nosemilog' in kwargs.keys()):
         #print 'this should pop nosemilog'
         kwargs.pop('nosemilog')
@@ -3545,7 +3546,7 @@ def image(A,x=[],y=[],**kwargs):
         imshow(A,extent=myext,**kwargs)
     else:
         imshow(A,extent=myext,**kwargs)
-        colorbar()
+        #colorbar()
     if setlabels:
         xlabel(x_label)
         #print y_label

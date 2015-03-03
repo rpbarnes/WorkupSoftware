@@ -23,20 +23,20 @@ def makeTitle(titleString):
 #}}}
 
 #{{{ Pull the last database entry for the given operator, if the database gets huge this is going to get very slow.
-def returnDatabaseDictionary(collection,operator = 'Ryan Barnes',keysToDrop = ['setType','data','power','expNum','value','valueError','error','_id'],MONGODB_URI = 'mongodb://rbarnes:tgb47atgb47a@ds047040.mongolab.com:47040/magresdata',experimentName = False):
+def returnDatabaseDictionary(collection,operator = 'Ryan Barnes',keysToDrop = ['data','_id'],MONGODB_URI = 'mongodb://rbarnes:tgb47atgb47a@ds047040.mongolab.com:47040/magresdata',experimentName = False):
     entries = list(collection.find())
     dateList = []
     countList = []
     for count,entry in enumerate(entries):
-        if count == 0:
-            total = entry
-        else:
-            total.update(entry) # this will update any existing value and add values 
-
-        if str(entry['operator']) == operator: 
-            date = entry['_id'].generation_time.isoformat()
-            dateList.append(double(date.split('+')[0].replace('-','').replace('T','').replace(':','')))
-            countList.append(count)
+        if entry.get('setType') != 'seriesData': # exclude workedup data
+            if count == 0:
+                total = entry
+            else:
+                total.update(entry) # this will update any existing value and add values 
+            if str(entry['operator']) == operator: 
+                date = entry['_id'].generation_time.isoformat()
+                dateList.append(double(date.split('+')[0].replace('-','').replace('T','').replace(':','')))
+                countList.append(count)
     # The last entry is the largest value in dateList
     dateData = nddata(array(countList)).labels('value',array(dateList))
     dateData.sort('value')
@@ -196,9 +196,9 @@ defaultDataParamsFile = 'databaseParameters.pkl'
 
 # Experiment parameters
 dnpExps = r_[5:27] # default experiment numbers
-t1Exp = r_[28:38,304]
-integrationWidth = 1.5e2
-t1StartingGuess = 1.14 ### This is the best guess for what your T1's are, if your T1 fits don't come out change this guess!!
+t1Exp = r_[28:33,304]
+integrationWidth = 75
+t1StartingGuess = 2.5 ### This is the best guess for what your T1's are, if your T1 fits don't come out change this guess!!
 ReturnKSigma = True ### This needs to be False because my code is broken
 t1SeparatePhaseCycle = True ### Did you save the phase cycles separately?
 thresholdE = 0.3
@@ -257,9 +257,11 @@ while answer:
     if dnpexp == '': # DNP is True, T10 is False
         dnpexp = True
         answer = False # break while loop
+        setType = 'dnpExp'
     elif dnpexp == 'T10':
         dnpexp = False
         answer = False # break while loop
+        setType = 't10Exp'
     else:
         print "\nI did not understand your answer. Please try again.\n" + "*"*80
 #}}}
@@ -323,11 +325,7 @@ if writeToDB:
     db = conn.magresdata ### 'dynamicalTransition' is the name of my test database
     collection = db.dnpData
     # check to see if the database parameters dictionary exists#{{{
-    if dnpexp: # You need to be careful with your caps, this is getting ugly
-        # This should use the returnDatabaseDictionary function and you should hand it keys to drop!!
-        expExists = list(collection.find({'expName':name,'setType':'kSigmaSeries'}))
-    else:
-        expExists = list(collection.find({'expName':name,'setType':'t1Series'}))
+    expExists = list(collection.find({'expName':name}))
     if not expExists: # If we don't have the exp specific parameters file yet make the parameter dictionary from the information above and edit with the following.
         databaseParamsDict = returnDatabaseDictionary(collection) # This should take a collection instance.
     else:
@@ -336,22 +334,9 @@ if writeToDB:
         currentKeys.update(expExists[0])
         expExists = currentKeys
         databaseParamsDict = expExists
-        if dnpexp:
-            databaseParamsDict.pop('value')
-            databaseParamsDict.pop('valueError')
-            databaseParamsDict.pop('power')
-            databaseParamsDict.pop('error')
-            databaseParamsDict.pop('data')
-            databaseParamsDict.pop('_id')
-            databaseParamsDict.pop('setType')
-        else: # this is the place holder for the T1 set, the below may not exist
-            databaseParamsDict.pop('value')
-            databaseParamsDict.pop('valueError')
-            databaseParamsDict.pop('power')
-            databaseParamsDict.pop('error')
-            databaseParamsDict.pop('data')
-            databaseParamsDict.pop('_id')
-            databaseParamsDict.pop('setType')
+        databaseParamsDict.pop('data') # you've got to throw out the old data here
+        databaseParamsDict.pop('_id')
+    databaseParamsDict.update({'setType':setType})
     databaseParamsDict.update({'expName':name})
     #}}}
     columnWidth = 25
@@ -403,7 +388,8 @@ if dnpexp: # only work up files if DNP experiment
         for expTitle in expTitles:
             print expTitle + '\n'
         raise ValueError("\n\nThe experiment numbers are not set appropriately, please scroll through the experiment titles above and set values appropriately")
-    enhancementPowers,fl.figurelist = returnSplitPowers(fullPath,'power.mat',expTimeMin = expTimeMin.data,expTimeMax = expTimeMin.data + expTimeMin.data/2,timeDropStart = 10,dnpPowers = True,threshold = parameterDict['thresholdE'],titleString = 'Enhancement ',firstFigure = fl.figurelist)
+    #enhancementPowers,fl.figurelist = returnSplitPowers(fullPath,'power.mat',expTimeMin = 59.0,expTimeMax = expTimeMin.data + 20.0,timeDropStart = 10,dnpPowers = True,threshold = parameterDict['thresholdE'],titleString = 'Enhancement ',firstFigure = fl.figurelist)
+    enhancementPowers,fl.figurelist = returnSplitPowers(fullPath,'power.mat',expTimeMin = expTimeMin.data,expTimeMax = expTimeMin.data + 20.0,timeDropStart = 10,dnpPowers = True,threshold = parameterDict['thresholdE'],titleString = 'Enhancement ',firstFigure = fl.figurelist)
     enhancementPowers = list(enhancementPowers)
     enhancementPowers.insert(0,-100)
     enhancementPowers = array(enhancementPowers)
@@ -531,12 +517,13 @@ for count,expNum in enumerate(parameterDict['t1Exp']):
     else:
         fl.figurelist.append({'print_string':r'$T_1$ experiment %d'%(expNum) + '\n\n'})
     if parameterDict['t1SeparatePhaseCycle']: # The phase cycles are saved separately 
-        rawT1,fl.figurelist = integrate(fullPath,expNum,integration_width = parameterDict['integrationWidth'],phchannel = [-1],phnum = [4],first_figure = fl.figurelist,pdfstring = 't1Expno_%d'%(expNum))
+        rawT1,fl.figurelist = integrate(fullPath,expNum,integration_width = parameterDict['integrationWidth'],phchannel = [-1],phnum = [4],first_figure = fl.figurelist,pdfstring = 't1Expno_%d'%(expNum),max_drift=1e6)
     else: # the phase cycle is already performed on the Bruker
         rawT1,fl.figurelist = integrate(fullPath,expNum,integration_width = parameterDict['integrationWidth'],phchannel = [],phnum = [],first_figure = fl.figurelist,pdfstring = 't1Expno_%d'%(expNum))
     rawT1.rename('power','delay')
     print "pulling delay from expno %0.2f"%expNum
     delay = bruker_load_vdlist(fullPath + '/%d/' %expNum)
+    rawT1 = rawT1['delay',0:len(delay)]
     rawT1.labels(['delay'],[delay])
     rawT1 = nmrfit.t1curve(rawT1.runcopy(real),verbose = False) 
     s2 = float(rawT1['delay',-1].data)
@@ -561,7 +548,7 @@ for count,expNum in enumerate(parameterDict['t1Exp']):
     t1DataList.append(rawT1.output(r'T_1'))
     t1ErrList.append(sqrt(rawT1.covar(r'T_1')))
     t1SeriesList.append(rawT1)
-    fl.figurelist.append({'print_string':r'\large{$T_1 = %0.3f \pm %0.3f\ s$}'%(rawT1.output(r'T_1'),rawT1.covar(r'T_1')) + '\n\n'})
+    fl.figurelist.append({'print_string':r'\large{$T_1 = %0.3f \pm %0.3f\ s$}'%(rawT1.output(r'T_1'),sqrt(rawT1.covar(r'T_1'))) + '\n\n'})
 # The t1 of experiment series
 t1Series = nddata(array(t1DataList)).rename('value','expNum').labels(['expNum'],array([parameterDict['t1Exp']])).set_error(array(t1ErrList))
 #{{{  The T1 power series
@@ -586,14 +573,14 @@ if dnpexp:
         #{{{ Fit the relaxation rate power series
         rateSeries = 1/t1PowerSeries.runcopy(real)
         powers = linspace(0,t1PowerSeries.getaxis('power').max(),100)
-        ### 2nd order fit
-        c,fit = rateSeries.copy().polyfit('power',order = 2)
-        fit.set_error(array(rateSeries.get_error())) # this is really not right but for now just winging something this'll put us in the ball park
-        rateFit = nddata(c[0] + c[1]*powers + c[2]*powers**2).rename('value','power').labels(['power'],[powers])
-        #### 1st order fit
-        #c,fit = rateSeries.polyfit('power',order = 1)
+        #### 2nd order fit
+        #c,fit = rateSeries.copy().polyfit('power',order = 2)
         #fit.set_error(array(rateSeries.get_error())) # this is really not right but for now just winging something this'll put us in the ball park
-        #rateFit = nddata(c[0] + c[1]*powers).rename('value','power').labels(['power'],[powers])
+        #rateFit = nddata(c[0] + c[1]*powers + c[2]*powers**2).rename('value','power').labels(['power'],[powers])
+        ### 1st order fit
+        c,fit = rateSeries.polyfit('power',order = 1)
+        fit.set_error(array(rateSeries.get_error())) # this is really not right but for now just winging something this'll put us in the ball park
+        rateFit = nddata(c[0] + c[1]*powers).rename('value','power').labels(['power'],[powers])
         fl.figurelist = nextfigure(fl.figurelist,'Rate Series')
         plot(rateSeries,'r.')
         plot(rateFit)
@@ -640,30 +627,25 @@ if writeToDB:
     print "I'm writing your current data to the collection"
     ### Here write in the data set information. 
     ### For DNP experiment write in the enhancement series, the T1 of power series, and the kSigma series. For now do it by hand but in the future you should wrap writing to the database in the nddata class. All you really need to do is make it write all the data to the dictionary
+    databaseParamsDict.pop('_id')
+    dataDict = {}
     if dnpexp:
-        databaseParamsDict.pop('_id')
         if enhancementPowerSeries:
             dim = enhancementPowerSeries.dimlabels[0]
-            enhancementPowerSeries.other_info = databaseParamsDict.copy()
-            enhancementPowerSeries.other_info.update({'setType':'enhancementSeries','data':enhancementPowerSeries.data.tolist(),'error':enhancementPowerSeries.get_error().tolist(),dim:enhancementPowerSeries.getaxis(dim).tolist()})
-            collection.insert(enhancementPowerSeries.other_info)
+            dataDict.update({'enhancement':{'data':enhancementPowerSeries.data.tolist(),'error':enhancementPowerSeries.get_error().tolist(),'dim0':enhancementPowerSeries.getaxis(dim).tolist(),'dimNames':enhancementPowerSeries.dimlabels}})
         if t1PowerSeries:
             dim = t1PowerSeries.dimlabels[0]
-            t1PowerSeries.other_info = databaseParamsDict.copy()
-            t1PowerSeries.other_info.update({'setType':'t1PowerSeries','data':t1PowerSeries.data.tolist(),'error':t1PowerSeries.get_error().tolist(),dim:t1PowerSeries.getaxis(dim).tolist()})
-            collection.insert(t1PowerSeries.other_info)
+            dataDict.update({'t1Power':{'data':t1PowerSeries.data.tolist(),'error':t1PowerSeries.get_error().tolist(),'dim0':t1PowerSeries.getaxis(dim).tolist(),'dimNames':t1PowerSeries.dimlabels}})
         if parameterDict['ReturnKSigma']:     
             dim = kSigmaCCurve.dimlabels[0]
-            kSigmaCCurve.other_info = databaseParamsDict.copy()
-            kSigmaCCurve.other_info.update({'setType':'kSigmaSeries','data':kSigmaCCurve.runcopy(real).data.tolist(),'error':kSigmaCCurve.get_error().tolist(),dim:kSigmaCCurve.getaxis(dim).tolist(),'value':kSigmaC.data.tolist(),'valueError':kSigmaC.get_error().tolist()})
-            collection.insert(kSigmaCCurve.other_info)
+            dataDict.update({'kSigma':{'data':kSigmaCCurve.runcopy(real).data.tolist(),'error':kSigmaCCurve.get_error().tolist(),'dim0':kSigmaCCurve.getaxis(dim).tolist(),'dimNames':kSigmaCCurve.dimlabels,'value':kSigmaCCurve.output(r'ksmax'),'valueError':sqrt(kSigmaCCurve.covar(r'ksmax'))}})
     ### For the T10 experiment just write the T1 experiment series.
     else: # Save the T10 values
         if t1Series:
             dim = t1Series.dimlabels[0]
-            t1Series.other_info = databaseParamsDict.copy()
-            t1Series.other_info.update({'setType':'t1Series','data':t1Series.data.tolist(),'error':t1Series.get_error().tolist(),dim:t1Series.getaxis(dim).tolist()})
-            collection.insert(t1Series.other_info)
+            dataDict.update({'t10':{'data':t1series.data.tolist(),'error':t1series.get_error().tolist(),'dim0':t1series.getaxis(dim).tolist(),'dimNames':t1series.dimlabels}})
+    databaseParamsDict.update({'data':dataDict})
+    collection.insert(databaseParamsDict) # Save the database parameters to the database in case the code crashes
     conn.close()
 #}}}
 
@@ -714,13 +696,14 @@ for count,t1Set in enumerate(t1SeriesList):
 
 ##{{{ Write out the relevant values from the DNP experiment
 if dnpexp: # DNP is True, T10 is False
-    fl.figurelist.append({'print_string':'\n\n' + r'\subparagraph{DNP parameters}' + '\n\n'})
-    fl.figurelist.append({'print_string':'$k_{\\sigma} S_{max} = %0.5f \\pm %0.5f $'%(kSigmaC.data,kSigmaC.get_error()) + '\n\n'})
-    fl.figurelist.append({'print_string':'$E_{max} = %0.3f \\pm %0.3f $'%(enhancementPowerSeries.output(r'E_{max}'),enhancementPowerSeries.covar(r'E_{max}')) + '\n\n'})
-    fl.figurelist.append({'print_string':'$T_{1}(p=0) = %0.3f \\pm %0.3f $'%(R1.data,R1.get_error()) + '\n\n'})
+    fl.figurelist.append({'print_string':'\n\n' + r'\subparagraph{DNP parameters} \\' + '\n\n'})
+    fl.figurelist.append({'print_string':r'$k_{\sigma} S_{max} = \frac{%0.5f}{Conc} \pm %0.5f \ (s^{-1} M^{-1})$ \\'%(kSigmaC.data,kSigmaC.get_error())})
+    fl.figurelist.append({'print_string':r'$E_{max} = %0.3f \pm %0.3f \ (Unitless)$ \\'%(enhancementPowerSeries.output(r'E_{max}'),enhancementPowerSeries.covar(r'E_{max}')) + '\n\n'})
+    fl.figurelist.append({'print_string':r'$T_{1}(p=0) = %0.3f \pm %0.3f \ (Seconds) \\$'%(R1.data,R1.get_error()) + '\n\n'})
 else:
-    fl.figurelist.append({'print_string':'\n\n' + r'\subparagraph{$T_{1,0}$ Parameters}' + '\n\n'})
-    fl.figurelist.append({'print_string':'$T_{1}(p=0) = %0.3f \\pm %0.3f $'%(t1Series.data,t1Series.get_error()) + '\n\n'})
+    fl.figurelist.append({'print_string':r'\n\n' + r'\subparagraph{$T_{1,0}$ Parameters}' + '\n\n'})
+    for i in range(len(t1Series.data)):
+        fl.figurelist.append({'print_string':r'$T_{1}(p=0) = %0.3f \pm %0.3f\ (Seconds) \\$'%(t1Series.data[i],t1Series.get_error()[i]) + '\n\n'})
 ##}}}
 
 ### Compile the pdf and show results

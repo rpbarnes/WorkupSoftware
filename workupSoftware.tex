@@ -97,6 +97,7 @@ What you should do is loop through producing nddata sets given appropriate searc
 \chapter{Development:}
 \section{New Implementations:}
 \begin{enumerate}
+    \item $\Box$ In database the 'setType' key should define either the experiment or the workup series\ldots Maybe.
     \item $\Box$ You should move all of the data in the database dictionaries to a data subfield in which you hold all relevant data sets. This way you could make the database search and drop something more dynamic and not depend on several if statements.
     \item $\checkmark$ For the repeat database entry key. You should pull the repeats for the count of database items corresponding to the macromolecule, bindingpartner, and spinlabelsite. \o[I've changed the script that pulls the data sets from the database to do this.]{}
     \item $\checkmark$ DATABASE: What you should do is loop through producing nddata sets given appropriate search parameters. This is the easiest way to do this for now. \o[This now works fairly well, I have a function to return a 1D nddata set and this seems to work ok for the moment.]{}
@@ -121,6 +122,11 @@ What you should do is loop through producing nddata sets given appropriate searc
 \end{enumerate}
 \section{Bugs:}
 \begin{enumerate}
+    \item $\Box$ Code hard fails when the $T_1$ fit fails. This should at least give a warning, although adding newton's method should alleviate future failures.
+    \item $\Box$ I truly do not believe my $T_1$ error estimate from the covariance.
+    \item $\Box$ When working up a short experiment such as \o['150211_4OHT_400uM_25pGlyH2O_250K_ODNP']{} I get an error because it under estimates the maximum experiment time. For now it's just hardset to be 20 seconds longer than it should be.
+    \item $\Box$ RyanS_2015_1_30_psk1_DNP is a good reason to force experiment time for finding powers.
+    \item $\Box$ RyanS_2015_1_30_DOPC_postP188_110uM_tempo_DI_dnp crashes hard because dnpExps aren't set right. 
     \item $\Box$ in \o['150128_CheY_M17C_None_202uM_RT_ODNP_REPEAT']{} the $T_1$ powers function misses the first power. This is strange. For now I've just dropped the $T_1$ value.
     \item $\Box$ The M17C set has a database entry for setType = kSigmaSeries. However there is no data stored in the database dictionary. This should not happen and if continues to will make a mess in the database.
     \item $\Box$ There needs to be a better way to set the repeat counter. It's hard to tell what already exists in the database.

@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2012.6.30)  2 FEB 2015 10:59
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2012.6.30)  2 MAR 2015 21:49
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**150123_Tau43_S316C_K317A_300uM_dmTSL_ODNP_sample2/plots.tex
-(./150123_Tau43_S316C_K317A_300uM_dmTSL_ODNP_sample2/plots.tex
+**150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_REPEAT/plots.tex
+(./150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_REPEAT/plots.tex
 LaTeX2e <2011/06/27>
 Babel <v3.8m> and hyphenation patterns for english, dumylang, nohyphenation, ge
 rman-x-2012-05-30, ngerman-x-2012-05-30, afrikaans, ancientgreek, ibycus, arabi
@@ -1165,119 +1165,774 @@ File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 LaTeX Font Info:    Font shape `OT1/pcr/bx/n' in size <9> not available
 (Font)              Font shape `OT1/pcr/b/n' tried instead on input line 17.
 
-<auto_figures/phcycchant1Expno_101_150123_Tau43_S316C_K317A_300uM_dmTSL_ODNP_sa
-mple2.pdf, id=21, 578.16pt x 433.62pt>
-File: auto_figures/phcycchant1Expno_101_150123_Tau43_S316C_K317A_300uM_dmTSL_OD
-NP_sample2.pdf Graphic file (type pdf)
+<auto_figures/DerivativePowerSeriespower_150229_CheY_K91C_None_175uM_NoUrea_RT_
+ODNP_REPEAT.pdf, id=33, 578.16pt x 433.62pt>
+File: auto_figures/DerivativePowerSeriespower_150229_CheY_K91C_None_175uM_NoUre
+a_RT_ODNP_REPEAT.pdf Graphic file (type pdf)
 
-<use auto_figures/phcycchant1Expno_101_150123_Tau43_S316C_K317A_300uM_dmTSL_ODN
-P_sample2.pdf>
-Package pdftex.def Info: auto_figures/phcycchant1Expno_101_150123_Tau43_S316C_K
-317A_300uM_dmTSL_ODNP_sample2.pdf used on input line 46.
+<use auto_figures/DerivativePowerSeriespower_150229_CheY_K91C_None_175uM_NoUrea
+_RT_ODNP_REPEAT.pdf>
+Package pdftex.def Info: auto_figures/DerivativePowerSeriespower_150229_CheY_K9
+1C_None_175uM_NoUrea_RT_ODNP_REPEAT.pdf used on input line 37.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 46--46
+Underfull \hbox (badness 10000) in paragraph at lines 37--37
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- phcycchant1Expno _ 101 _ 150123 _ Tau43 _
+ DerivativePowerSeriespower _ 150229 _ CheY _
  []
 
 
-<auto_figures/intpeakst1Expno_101_150123_Tau43_S316C_K317A_300uM_dmTSL_ODNP_sam
-ple2.pdf, id=23, 578.16pt x 433.62pt>
-File: auto_figures/intpeakst1Expno_101_150123_Tau43_S316C_K317A_300uM_dmTSL_ODN
-P_sample2.pdf Graphic file (type pdf)
+<auto_figures/PowerSeriespower_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_REPEA
+T.pdf, id=35, 578.16pt x 433.62pt>
+File: auto_figures/PowerSeriespower_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_
+REPEAT.pdf Graphic file (type pdf)
 
-<use auto_figures/intpeakst1Expno_101_150123_Tau43_S316C_K317A_300uM_dmTSL_ODNP
-_sample2.pdf>
-Package pdftex.def Info: auto_figures/intpeakst1Expno_101_150123_Tau43_S316C_K3
-17A_300uM_dmTSL_ODNP_sample2.pdf used on input line 60.
+<use auto_figures/PowerSeriespower_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_R
+EPEAT.pdf>
+Package pdftex.def Info: auto_figures/PowerSeriespower_150229_CheY_K91C_None_17
+5uM_NoUrea_RT_ODNP_REPEAT.pdf used on input line 51.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 60--60
+Underfull \hbox (badness 10000) in paragraph at lines 51--51
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- intpeakst1Expno _ 101 _ 150123 _ Tau43 _ S316C _
+ PowerSeriespower _ 150229 _ CheY _ K91C _ None _
  []
 
 
-<auto_figures/t1RawDataExp101_150123_Tau43_S316C_K317A_300uM_dmTSL_ODNP_sample2
-.pdf, id=25, 578.16pt x 433.62pt>
-File: auto_figures/t1RawDataExp101_150123_Tau43_S316C_K317A_300uM_dmTSL_ODNP_sa
-mple2.pdf Graphic file (type pdf)
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 54.
 
-<use auto_figures/t1RawDataExp101_150123_Tau43_S316C_K317A_300uM_dmTSL_ODNP_sam
-ple2.pdf>
-Package pdftex.def Info: auto_figures/t1RawDataExp101_150123_Tau43_S316C_K317A_
-300uM_dmTSL_ODNP_sample2.pdf used on input line 74.
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 54.
+
+
+<auto_figures/DerivativePowerSeriest1_powers_150229_CheY_K91C_None_175uM_NoUrea
+_RT_ODNP_REPEAT.pdf, id=37, 578.16pt x 433.62pt>
+File: auto_figures/DerivativePowerSeriest1_powers_150229_CheY_K91C_None_175uM_N
+oUrea_RT_ODNP_REPEAT.pdf Graphic file (type pdf)
+
+<use auto_figures/DerivativePowerSeriest1_powers_150229_CheY_K91C_None_175uM_No
+Urea_RT_ODNP_REPEAT.pdf>
+Package pdftex.def Info: auto_figures/DerivativePowerSeriest1_powers_150229_Che
+Y_K91C_None_175uM_NoUrea_RT_ODNP_REPEAT.pdf used on input line 74.
 (pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 74--74
 []\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
- t1RawDataExp101 _ 150123 _ Tau43 _ S316C _
+ DerivativePowerSeriest1 _ powers _ 150229 _
  []
 
 
-Overfull \hbox (21.24393pt too wide) in paragraph at lines 46--75
+<auto_figures/PowerSeriest1_powers_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_R
+EPEAT.pdf, id=39, 578.16pt x 433.62pt>
+File: auto_figures/PowerSeriest1_powers_150229_CheY_K91C_None_175uM_NoUrea_RT_O
+DNP_REPEAT.pdf Graphic file (type pdf)
+
+<use auto_figures/PowerSeriest1_powers_150229_CheY_K91C_None_175uM_NoUrea_RT_OD
+NP_REPEAT.pdf>
+Package pdftex.def Info: auto_figures/PowerSeriest1_powers_150229_CheY_K91C_Non
+e_175uM_NoUrea_RT_ODNP_REPEAT.pdf used on input line 88.
+(pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 88--88
+[]\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
+ PowerSeriest1 _ powers _ 150229 _ CheY _ K91C _
+ []
+
+
+<auto_figures/phcycchan_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_REPEAT.pdf, 
+id=41, 578.16pt x 433.62pt>
+File: auto_figures/phcycchan_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_REPEAT.
+pdf Graphic file (type pdf)
+
+<use auto_figures/phcycchan_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_REPEAT.p
+df>
+Package pdftex.def Info: auto_figures/phcycchan_150229_CheY_K91C_None_175uM_NoU
+rea_RT_ODNP_REPEAT.pdf used on input line 111.
+(pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 111--111
+[]\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
+ phcycchan _ 150229 _ CheY _ K91C _ None _ 175uM _
+ []
+
+
+<auto_figures/intpeaks_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_REPEAT.pdf, i
+d=43, 578.16pt x 433.62pt>
+File: auto_figures/intpeaks_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_REPEAT.p
+df Graphic file (type pdf)
+
+<use auto_figures/intpeaks_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_REPEAT.pd
+f>
+Package pdftex.def Info: auto_figures/intpeaks_150229_CheY_K91C_None_175uM_NoUr
+ea_RT_ODNP_REPEAT.pdf used on input line 125.
+(pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 125--125
+[]\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
+ intpeaks _ 150229 _ CheY _ K91C _ None _ 175uM _
+ []
+
+
+<auto_figures/EnhancementExpSeries_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_R
+EPEAT.pdf, id=45, 578.16pt x 433.62pt>
+File: auto_figures/EnhancementExpSeries_150229_CheY_K91C_None_175uM_NoUrea_RT_O
+DNP_REPEAT.pdf Graphic file (type pdf)
+
+<use auto_figures/EnhancementExpSeries_150229_CheY_K91C_None_175uM_NoUrea_RT_OD
+NP_REPEAT.pdf>
+Package pdftex.def Info: auto_figures/EnhancementExpSeries_150229_CheY_K91C_Non
+e_175uM_NoUrea_RT_ODNP_REPEAT.pdf used on input line 139.
+(pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 139--139
+[]\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
+ EnhancementExpSeries _ 150229 _ CheY _ K91C _
+ []
+
+
+<auto_figures/EnhancementPowerSeries_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP
+_REPEAT.pdf, id=47, 578.16pt x 433.62pt>
+File: auto_figures/EnhancementPowerSeries_150229_CheY_K91C_None_175uM_NoUrea_RT
+_ODNP_REPEAT.pdf Graphic file (type pdf)
+
+<use auto_figures/EnhancementPowerSeries_150229_CheY_K91C_None_175uM_NoUrea_RT_
+ODNP_REPEAT.pdf>
+Package pdftex.def Info: auto_figures/EnhancementPowerSeries_150229_CheY_K91C_N
+one_175uM_NoUrea_RT_ODNP_REPEAT.pdf used on input line 153.
+(pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 153--153
+[]\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
+ EnhancementPowerSeries _ 150229 _ CheY _
+ []
+
+
+Overfull \hbox (21.24393pt too wide) in paragraph at lines 111--154
+[][] [] []
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [2 <./auto_figures/DerivativePowerSeriespower_150229_CheY_K91C_None_175uM_NoUr
+ea_RT_ODNP_REPEAT.pdf> <./auto_figures/PowerSeriespower_150229_CheY_K91C_None_1
+75uM_NoUrea_RT_ODNP_REPEAT.pdf
+
+pdfTeX warning: pdflatex (file ./auto_figures/PowerSeriespower_150229_CheY_K91C
+_None_175uM_NoUrea_RT_ODNP_REPEAT.pdf): PDF inclusion: multiple pdfs with page 
+group included in a single page
+> <./auto_figures/DerivativePowerSeriest1_powers_150229_CheY_K91C_None_175uM_No
+Urea_RT_ODNP_REPEAT.pdf
+
+pdfTeX warning: pdflatex (file ./auto_figures/DerivativePowerSeriest1_powers_15
+0229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_REPEAT.pdf): PDF inclusion: multiple p
+dfs with page group included in a single page
+> <./auto_figures/PowerSeriest1_powers_150229_CheY_K91C_None_175uM_NoUrea_RT_OD
+NP_REPEAT.pdf
+
+pdfTeX warning: pdflatex (file ./auto_figures/PowerSeriest1_powers_150229_CheY_
+K91C_None_175uM_NoUrea_RT_ODNP_REPEAT.pdf): PDF inclusion: multiple pdfs with p
+age group included in a single page
+> <./auto_figures/phcycchan_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_REPEAT.p
+df
+
+pdfTeX warning: pdflatex (file ./auto_figures/phcycchan_150229_CheY_K91C_None_1
+75uM_NoUrea_RT_ODNP_REPEAT.pdf): PDF inclusion: multiple pdfs with page group i
+ncluded in a single page
+> <./auto_figures/intpeaks_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_REPEAT.pd
+f
+
+pdfTeX warning: pdflatex (file ./auto_figures/intpeaks_150229_CheY_K91C_None_17
+5uM_NoUrea_RT_ODNP_REPEAT.pdf): PDF inclusion: multiple pdfs with page group in
+cluded in a single page
+> <./auto_figures/EnhancementExpSeries_150229_CheY_K91C_None_175uM_NoUrea_RT_OD
+NP_REPEAT.pdf
+
+pdfTeX warning: pdflatex (file ./auto_figures/EnhancementExpSeries_150229_CheY_
+K91C_None_175uM_NoUrea_RT_ODNP_REPEAT.pdf): PDF inclusion: multiple pdfs with p
+age group included in a single page
+>]
+<auto_figures/phcycchant1Expno_28_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_RE
+PEAT.pdf, id=366, 578.16pt x 433.62pt>
+File: auto_figures/phcycchant1Expno_28_150229_CheY_K91C_None_175uM_NoUrea_RT_OD
+NP_REPEAT.pdf Graphic file (type pdf)
+
+<use auto_figures/phcycchant1Expno_28_150229_CheY_K91C_None_175uM_NoUrea_RT_ODN
+P_REPEAT.pdf>
+Package pdftex.def Info: auto_figures/phcycchant1Expno_28_150229_CheY_K91C_None
+_175uM_NoUrea_RT_ODNP_REPEAT.pdf used on input line 185.
+(pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 185--185
+[]\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
+ phcycchant1Expno _ 28 _ 150229 _ CheY _ K91C _
+ []
+
+
+<auto_figures/intpeakst1Expno_28_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_REP
+EAT.pdf, id=368, 578.16pt x 433.62pt>
+File: auto_figures/intpeakst1Expno_28_150229_CheY_K91C_None_175uM_NoUrea_RT_ODN
+P_REPEAT.pdf Graphic file (type pdf)
+
+<use auto_figures/intpeakst1Expno_28_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP
+_REPEAT.pdf>
+Package pdftex.def Info: auto_figures/intpeakst1Expno_28_150229_CheY_K91C_None_
+175uM_NoUrea_RT_ODNP_REPEAT.pdf used on input line 199.
+(pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 199--199
+[]\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
+ intpeakst1Expno _ 28 _ 150229 _ CheY _ K91C _
+ []
+
+
+<auto_figures/t1RawDataExp28_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_REPEAT.
+pdf, id=370, 578.16pt x 433.62pt>
+File: auto_figures/t1RawDataExp28_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_RE
+PEAT.pdf Graphic file (type pdf)
+
+<use auto_figures/t1RawDataExp28_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_REP
+EAT.pdf>
+Package pdftex.def Info: auto_figures/t1RawDataExp28_150229_CheY_K91C_None_175u
+M_NoUrea_RT_ODNP_REPEAT.pdf used on input line 213.
+(pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 213--213
+[]\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/10 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
+ t1RawDataExp28 _ 150229 _ CheY _ K91C _ None _
+ []
+
+
+Overfull \hbox (21.24393pt too wide) in paragraph at lines 185--214
+[][] [] [] 
+ []
+
+
+<auto_figures/phcycchant1Expno_29_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_RE
+PEAT.pdf, id=372, 578.16pt x 433.62pt>
+File: auto_figures/phcycchant1Expno_29_150229_CheY_K91C_None_175uM_NoUrea_RT_OD
+NP_REPEAT.pdf Graphic file (type pdf)
+
+<use auto_figures/phcycchant1Expno_29_150229_CheY_K91C_None_175uM_NoUrea_RT_ODN
+P_REPEAT.pdf>
+Package pdftex.def Info: auto_figures/phcycchant1Expno_29_150229_CheY_K91C_None
+_175uM_NoUrea_RT_ODNP_REPEAT.pdf used on input line 245.
+(pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 245--245
+[]\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/12 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
+ phcycchant1Expno _ 29 _ 150229 _ CheY _ K91C _
+ []
+
+
+<auto_figures/intpeakst1Expno_29_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_REP
+EAT.pdf, id=374, 578.16pt x 433.62pt>
+File: auto_figures/intpeakst1Expno_29_150229_CheY_K91C_None_175uM_NoUrea_RT_ODN
+P_REPEAT.pdf Graphic file (type pdf)
+
+<use auto_figures/intpeakst1Expno_29_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP
+_REPEAT.pdf>
+Package pdftex.def Info: auto_figures/intpeakst1Expno_29_150229_CheY_K91C_None_
+175uM_NoUrea_RT_ODNP_REPEAT.pdf used on input line 259.
+(pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 259--259
+[]\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/12 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
+ intpeakst1Expno _ 29 _ 150229 _ CheY _ K91C _
+ []
+
+
+<auto_figures/t1RawDataExp29_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_REPEAT.
+pdf, id=376, 578.16pt x 433.62pt>
+File: auto_figures/t1RawDataExp29_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_RE
+PEAT.pdf Graphic file (type pdf)
+
+<use auto_figures/t1RawDataExp29_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_REP
+EAT.pdf>
+Package pdftex.def Info: auto_figures/t1RawDataExp29_150229_CheY_K91C_None_175u
+M_NoUrea_RT_ODNP_REPEAT.pdf used on input line 273.
+(pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 273--273
+[]\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/12 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
+ t1RawDataExp29 _ 150229 _ CheY _ K91C _ None _
+ []
+
+
+Overfull \hbox (23.50394pt too wide) in paragraph at lines 245--274
+[][] [] [] 
+ []
+
+
+<auto_figures/phcycchant1Expno_30_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_RE
+PEAT.pdf, id=378, 578.16pt x 433.62pt>
+File: auto_figures/phcycchant1Expno_30_150229_CheY_K91C_None_175uM_NoUrea_RT_OD
+NP_REPEAT.pdf Graphic file (type pdf)
+
+<use auto_figures/phcycchant1Expno_30_150229_CheY_K91C_None_175uM_NoUrea_RT_ODN
+P_REPEAT.pdf>
+Package pdftex.def Info: auto_figures/phcycchant1Expno_30_150229_CheY_K91C_None
+_175uM_NoUrea_RT_ODNP_REPEAT.pdf used on input line 305.
+(pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 305--305
+[]\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/12 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
+ phcycchant1Expno _ 30 _ 150229 _ CheY _ K91C _
+ []
+
+
+<auto_figures/intpeakst1Expno_30_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_REP
+EAT.pdf, id=380, 578.16pt x 433.62pt>
+File: auto_figures/intpeakst1Expno_30_150229_CheY_K91C_None_175uM_NoUrea_RT_ODN
+P_REPEAT.pdf Graphic file (type pdf)
+
+<use auto_figures/intpeakst1Expno_30_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP
+_REPEAT.pdf>
+Package pdftex.def Info: auto_figures/intpeakst1Expno_30_150229_CheY_K91C_None_
+175uM_NoUrea_RT_ODNP_REPEAT.pdf used on input line 319.
+(pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 319--319
+[]\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/12 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
+ intpeakst1Expno _ 30 _ 150229 _ CheY _ K91C _
+ []
+
+
+<auto_figures/t1RawDataExp30_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_REPEAT.
+pdf, id=382, 578.16pt x 433.62pt>
+File: auto_figures/t1RawDataExp30_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_RE
+PEAT.pdf Graphic file (type pdf)
+
+<use auto_figures/t1RawDataExp30_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_REP
+EAT.pdf>
+Package pdftex.def Info: auto_figures/t1RawDataExp30_150229_CheY_K91C_None_175u
+M_NoUrea_RT_ODNP_REPEAT.pdf used on input line 333.
+(pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 333--333
+[]\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/12 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
+ t1RawDataExp30 _ 150229 _ CheY _ K91C _ None _
+ []
+
+
+Overfull \hbox (23.50394pt too wide) in paragraph at lines 305--334
+[][] [] [] 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [3 <./auto_figures/EnhancementPowerSeries_150229_CheY_K91C_None_175uM_NoUrea_R
+T_ODNP_REPEAT.pdf> <./auto_figures/phcycchant1Expno_28_150229_CheY_K91C_None_17
+5uM_NoUrea_RT_ODNP_REPEAT.pdf
+
+pdfTeX warning: pdflatex (file ./auto_figures/phcycchant1Expno_28_150229_CheY_K
+91C_None_175uM_NoUrea_RT_ODNP_REPEAT.pdf): PDF inclusion: multiple pdfs with pa
+ge group included in a single page
+> <./auto_figures/intpeakst1Expno_28_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP
+_REPEAT.pdf
+
+pdfTeX warning: pdflatex (file ./auto_figures/intpeakst1Expno_28_150229_CheY_K9
+1C_None_175uM_NoUrea_RT_ODNP_REPEAT.pdf): PDF inclusion: multiple pdfs with pag
+e group included in a single page
+> <./auto_figures/t1RawDataExp28_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_REP
+EAT.pdf
+
+pdfTeX warning: pdflatex (file ./auto_figures/t1RawDataExp28_150229_CheY_K91C_N
+one_175uM_NoUrea_RT_ODNP_REPEAT.pdf): PDF inclusion: multiple pdfs with page gr
+oup included in a single page
+> <./auto_figures/phcycchant1Expno_29_150229_CheY_K91C_None_175uM_NoUrea_RT_ODN
+P_REPEAT.pdf
+
+pdfTeX warning: pdflatex (file ./auto_figures/phcycchant1Expno_29_150229_CheY_K
+91C_None_175uM_NoUrea_RT_ODNP_REPEAT.pdf): PDF inclusion: multiple pdfs with pa
+ge group included in a single page
+> <./auto_figures/intpeakst1Expno_29_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP
+_REPEAT.pdf
+
+pdfTeX warning: pdflatex (file ./auto_figures/intpeakst1Expno_29_150229_CheY_K9
+1C_None_175uM_NoUrea_RT_ODNP_REPEAT.pdf): PDF inclusion: multiple pdfs with pag
+e group included in a single page
+> <./auto_figures/t1RawDataExp29_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_REP
+EAT.pdf
+
+pdfTeX warning: pdflatex (file ./auto_figures/t1RawDataExp29_150229_CheY_K91C_N
+one_175uM_NoUrea_RT_ODNP_REPEAT.pdf): PDF inclusion: multiple pdfs with page gr
+oup included in a single page
+>]
+<auto_figures/phcycchant1Expno_31_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_RE
+PEAT.pdf, id=747, 578.16pt x 433.62pt>
+File: auto_figures/phcycchant1Expno_31_150229_CheY_K91C_None_175uM_NoUrea_RT_OD
+NP_REPEAT.pdf Graphic file (type pdf)
+
+<use auto_figures/phcycchant1Expno_31_150229_CheY_K91C_None_175uM_NoUrea_RT_ODN
+P_REPEAT.pdf>
+Package pdftex.def Info: auto_figures/phcycchant1Expno_31_150229_CheY_K91C_None
+_175uM_NoUrea_RT_ODNP_REPEAT.pdf used on input line 365.
+(pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 365--365
+[]\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/12 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
+ phcycchant1Expno _ 31 _ 150229 _ CheY _ K91C _
+ []
+
+
+<auto_figures/intpeakst1Expno_31_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_REP
+EAT.pdf, id=749, 578.16pt x 433.62pt>
+File: auto_figures/intpeakst1Expno_31_150229_CheY_K91C_None_175uM_NoUrea_RT_ODN
+P_REPEAT.pdf Graphic file (type pdf)
+
+<use auto_figures/intpeakst1Expno_31_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP
+_REPEAT.pdf>
+Package pdftex.def Info: auto_figures/intpeakst1Expno_31_150229_CheY_K91C_None_
+175uM_NoUrea_RT_ODNP_REPEAT.pdf used on input line 379.
+(pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 379--379
+[]\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/12 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
+ intpeakst1Expno _ 31 _ 150229 _ CheY _ K91C _
+ []
+
+
+<auto_figures/t1RawDataExp31_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_REPEAT.
+pdf, id=751, 578.16pt x 433.62pt>
+File: auto_figures/t1RawDataExp31_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_RE
+PEAT.pdf Graphic file (type pdf)
+
+<use auto_figures/t1RawDataExp31_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_REP
+EAT.pdf>
+Package pdftex.def Info: auto_figures/t1RawDataExp31_150229_CheY_K91C_None_175u
+M_NoUrea_RT_ODNP_REPEAT.pdf used on input line 393.
+(pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 393--393
+[]\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/12 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
+ t1RawDataExp31 _ 150229 _ CheY _ K91C _ None _
+ []
+
+
+Overfull \hbox (23.50394pt too wide) in paragraph at lines 365--394
+[][] [] [] 
+ []
+
+
+<auto_figures/phcycchant1Expno_32_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_RE
+PEAT.pdf, id=753, 578.16pt x 433.62pt>
+File: auto_figures/phcycchant1Expno_32_150229_CheY_K91C_None_175uM_NoUrea_RT_OD
+NP_REPEAT.pdf Graphic file (type pdf)
+
+<use auto_figures/phcycchant1Expno_32_150229_CheY_K91C_None_175uM_NoUrea_RT_ODN
+P_REPEAT.pdf>
+Package pdftex.def Info: auto_figures/phcycchant1Expno_32_150229_CheY_K91C_None
+_175uM_NoUrea_RT_ODNP_REPEAT.pdf used on input line 425.
+(pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 425--425
+[]\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/12 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
+ phcycchant1Expno _ 32 _ 150229 _ CheY _ K91C _
+ []
+
+
+<auto_figures/intpeakst1Expno_32_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_REP
+EAT.pdf, id=755, 578.16pt x 433.62pt>
+File: auto_figures/intpeakst1Expno_32_150229_CheY_K91C_None_175uM_NoUrea_RT_ODN
+P_REPEAT.pdf Graphic file (type pdf)
+
+<use auto_figures/intpeakst1Expno_32_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP
+_REPEAT.pdf>
+Package pdftex.def Info: auto_figures/intpeakst1Expno_32_150229_CheY_K91C_None_
+175uM_NoUrea_RT_ODNP_REPEAT.pdf used on input line 439.
+(pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 439--439
+[]\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/12 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
+ intpeakst1Expno _ 32 _ 150229 _ CheY _ K91C _
+ []
+
+
+<auto_figures/t1RawDataExp32_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_REPEAT.
+pdf, id=757, 578.16pt x 433.62pt>
+File: auto_figures/t1RawDataExp32_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_RE
+PEAT.pdf Graphic file (type pdf)
+
+<use auto_figures/t1RawDataExp32_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_REP
+EAT.pdf>
+Package pdftex.def Info: auto_figures/t1RawDataExp32_150229_CheY_K91C_None_175u
+M_NoUrea_RT_ODNP_REPEAT.pdf used on input line 453.
+(pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 453--453
+[]\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/12 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
+ t1RawDataExp32 _ 150229 _ CheY _ K91C _ None _
+ []
+
+
+Overfull \hbox (23.50394pt too wide) in paragraph at lines 425--454
+[][] [] [] 
+ []
+
+
+<auto_figures/phcycchant1Expno_304_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_R
+EPEAT.pdf, id=759, 578.16pt x 433.62pt>
+File: auto_figures/phcycchant1Expno_304_150229_CheY_K91C_None_175uM_NoUrea_RT_O
+DNP_REPEAT.pdf Graphic file (type pdf)
+
+<use auto_figures/phcycchant1Expno_304_150229_CheY_K91C_None_175uM_NoUrea_RT_OD
+NP_REPEAT.pdf>
+Package pdftex.def Info: auto_figures/phcycchant1Expno_304_150229_CheY_K91C_Non
+e_175uM_NoUrea_RT_ODNP_REPEAT.pdf used on input line 485.
+(pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 485--485
+[]\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/12 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
+ phcycchant1Expno _ 304 _ 150229 _ CheY _ K91C _
+ []
+
+
+<auto_figures/intpeakst1Expno_304_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_RE
+PEAT.pdf, id=761, 578.16pt x 433.62pt>
+File: auto_figures/intpeakst1Expno_304_150229_CheY_K91C_None_175uM_NoUrea_RT_OD
+NP_REPEAT.pdf Graphic file (type pdf)
+
+<use auto_figures/intpeakst1Expno_304_150229_CheY_K91C_None_175uM_NoUrea_RT_ODN
+P_REPEAT.pdf>
+Package pdftex.def Info: auto_figures/intpeakst1Expno_304_150229_CheY_K91C_None
+_175uM_NoUrea_RT_ODNP_REPEAT.pdf used on input line 499.
+(pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 499--499
+[]\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/12 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
+ intpeakst1Expno _ 304 _ 150229 _ CheY _ K91C _
+ []
+
+
+<auto_figures/t1RawDataExp304_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_REPEAT
+.pdf, id=763, 578.16pt x 433.62pt>
+File: auto_figures/t1RawDataExp304_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_R
+EPEAT.pdf Graphic file (type pdf)
+
+<use auto_figures/t1RawDataExp304_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_RE
+PEAT.pdf>
+Package pdftex.def Info: auto_figures/t1RawDataExp304_150229_CheY_K91C_None_175
+uM_NoUrea_RT_ODNP_REPEAT.pdf used on input line 513.
+(pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 513--513
+[]\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/12 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
+ t1RawDataExp304 _ 150229 _ CheY _ K91C _ None _
+ []
+
+
+Overfull \hbox (23.50394pt too wide) in paragraph at lines 485--514
+[][] [] [] 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [4 <./auto_figures/phcycchant1Expno_30_150229_CheY_K91C_None_175uM_NoUrea_RT_O
+DNP_REPEAT.pdf> <./auto_figures/intpeakst1Expno_30_150229_CheY_K91C_None_175uM_
+NoUrea_RT_ODNP_REPEAT.pdf
+
+pdfTeX warning: pdflatex (file ./auto_figures/intpeakst1Expno_30_150229_CheY_K9
+1C_None_175uM_NoUrea_RT_ODNP_REPEAT.pdf): PDF inclusion: multiple pdfs with pag
+e group included in a single page
+> <./auto_figures/t1RawDataExp30_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_REP
+EAT.pdf
+
+pdfTeX warning: pdflatex (file ./auto_figures/t1RawDataExp30_150229_CheY_K91C_N
+one_175uM_NoUrea_RT_ODNP_REPEAT.pdf): PDF inclusion: multiple pdfs with page gr
+oup included in a single page
+> <./auto_figures/phcycchant1Expno_31_150229_CheY_K91C_None_175uM_NoUrea_RT_ODN
+P_REPEAT.pdf
+
+pdfTeX warning: pdflatex (file ./auto_figures/phcycchant1Expno_31_150229_CheY_K
+91C_None_175uM_NoUrea_RT_ODNP_REPEAT.pdf): PDF inclusion: multiple pdfs with pa
+ge group included in a single page
+> <./auto_figures/intpeakst1Expno_31_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP
+_REPEAT.pdf
+
+pdfTeX warning: pdflatex (file ./auto_figures/intpeakst1Expno_31_150229_CheY_K9
+1C_None_175uM_NoUrea_RT_ODNP_REPEAT.pdf): PDF inclusion: multiple pdfs with pag
+e group included in a single page
+> <./auto_figures/t1RawDataExp31_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_REP
+EAT.pdf
+
+pdfTeX warning: pdflatex (file ./auto_figures/t1RawDataExp31_150229_CheY_K91C_N
+one_175uM_NoUrea_RT_ODNP_REPEAT.pdf): PDF inclusion: multiple pdfs with page gr
+oup included in a single page
+> <./auto_figures/phcycchant1Expno_32_150229_CheY_K91C_None_175uM_NoUrea_RT_ODN
+P_REPEAT.pdf
+
+pdfTeX warning: pdflatex (file ./auto_figures/phcycchant1Expno_32_150229_CheY_K
+91C_None_175uM_NoUrea_RT_ODNP_REPEAT.pdf): PDF inclusion: multiple pdfs with pa
+ge group included in a single page
+> <./auto_figures/intpeakst1Expno_32_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP
+_REPEAT.pdf
+
+pdfTeX warning: pdflatex (file ./auto_figures/intpeakst1Expno_32_150229_CheY_K9
+1C_None_175uM_NoUrea_RT_ODNP_REPEAT.pdf): PDF inclusion: multiple pdfs with pag
+e group included in a single page
+> <./auto_figures/t1RawDataExp32_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_REP
+EAT.pdf
+
+pdfTeX warning: pdflatex (file ./auto_figures/t1RawDataExp32_150229_CheY_K91C_N
+one_175uM_NoUrea_RT_ODNP_REPEAT.pdf): PDF inclusion: multiple pdfs with page gr
+oup included in a single page
+>]
+<auto_figures/T1PowerSeries_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_REPEAT.p
+df, id=1204, 578.16pt x 433.62pt>
+File: auto_figures/T1PowerSeries_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_REP
+EAT.pdf Graphic file (type pdf)
+
+<use auto_figures/T1PowerSeries_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_REPE
+AT.pdf>
+Package pdftex.def Info: auto_figures/T1PowerSeries_150229_CheY_K91C_None_175uM
+_NoUrea_RT_ODNP_REPEAT.pdf used on input line 536.
+(pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 536--536
+[]\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/12 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
+ T1PowerSeries _ 150229 _ CheY _ K91C _ None _
+ []
+
+
+LaTeX Warning: File `auto_figures/Rate Series_150229_CheY_K91C_None_175uM_NoUre
+a_RT_ODNP_REPEAT.pdf' not found on input line 550.
+
+
+<auto_figures/Rate Series_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_REPEAT.pdf
+, id=1206, 578.16pt x 433.62pt>
+File: auto_figures/Rate Series_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_REPEA
+T.pdf Graphic file (type pdf)
+
+<use auto_figures/Rate Series_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_REPEAT
+.pdf>
+Package pdftex.def Info: auto_figures/Rate Series_150229_CheY_K91C_None_175uM_N
+oUrea_RT_ODNP_REPEAT.pdf used on input line 550.
+(pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
+
+Overfull \hbox (210.86053pt too wide) in paragraph at lines 550--550
+[]\OT1/ppl/m/n/12 Series_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_REPEAT.pdf
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 550--550
+[]\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/12 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
+ RateSeries _ 150229 _ CheY _ K91C _ None _
+ []
+
+
+<auto_figures/kSigma_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_REPEAT.pdf, id=
+1208, 578.16pt x 433.62pt>
+File: auto_figures/kSigma_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_REPEAT.pdf
+ Graphic file (type pdf)
+
+<use auto_figures/kSigma_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_REPEAT.pdf>
+Package pdftex.def Info: auto_figures/kSigma_150229_CheY_K91C_None_175uM_NoUrea
+_RT_ODNP_REPEAT.pdf used on input line 564.
+(pdftex.def)             Requested size: 166.94463pt x 125.20403pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 564--564
+[]\OT1/ppl/m/n/5 file:\OT1/ppl/m/n/12 :[][][][]$\OT1/pcr/m/n/5 auto _ figures /
+ kSigma _ 150229 _ CheY _ K91C _ None _ 175uM _
+ []
+
+
+Overfull \hbox (23.50394pt too wide) in paragraph at lines 536--565
 [][] [] [] 
  []
 
 LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <12> not available
-(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 88.
+(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 569.
 
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 88.
+Underfull \hbox (badness 10000) in paragraph at lines 569--570
+
+ []
 
 
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 88.
+Underfull \hbox (badness 10000) in paragraph at lines 578--579
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 103.
-[2 <./auto_figures/phcycchant1Expno_101_150123_Tau43_S316C_K317A_300uM_dmTSL_OD
-NP_sample2.pdf> <./auto_figures/intpeakst1Expno_101_150123_Tau43_S316C_K317A_30
-0uM_dmTSL_ODNP_sample2.pdf
+ []
 
-pdfTeX warning: pdflatex (file ./auto_figures/intpeakst1Expno_101_150123_Tau43_
-S316C_K317A_300uM_dmTSL_ODNP_sample2.pdf): PDF inclusion: multiple pdfs with pa
+
+Underfull \hbox (badness 10000) in paragraph at lines 585--586
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 594--595
+
+ []
+
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 600.
+[5 <./auto_figures/phcycchant1Expno_304_150229_CheY_K91C_None_175uM_NoUrea_RT_O
+DNP_REPEAT.pdf> <./auto_figures/intpeakst1Expno_304_150229_CheY_K91C_None_175uM
+_NoUrea_RT_ODNP_REPEAT.pdf
+
+pdfTeX warning: pdflatex (file ./auto_figures/intpeakst1Expno_304_150229_CheY_K
+91C_None_175uM_NoUrea_RT_ODNP_REPEAT.pdf): PDF inclusion: multiple pdfs with pa
 ge group included in a single page
-> <./auto_figures/t1RawDataExp101_150123_Tau43_S316C_K317A_300uM_dmTSL_ODNP_sam
-ple2.pdf
+> <./auto_figures/t1RawDataExp304_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_RE
+PEAT.pdf
 
-pdfTeX warning: pdflatex (file ./auto_figures/t1RawDataExp101_150123_Tau43_S316
-C_K317A_300uM_dmTSL_ODNP_sample2.pdf): PDF inclusion: multiple pdfs with page g
+pdfTeX warning: pdflatex (file ./auto_figures/t1RawDataExp304_150229_CheY_K91C_
+None_175uM_NoUrea_RT_ODNP_REPEAT.pdf): PDF inclusion: multiple pdfs with page g
 roup included in a single page
+> <./auto_figures/T1PowerSeries_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_REPE
+AT.pdf
+
+pdfTeX warning: pdflatex (file ./auto_figures/T1PowerSeries_150229_CheY_K91C_No
+ne_175uM_NoUrea_RT_ODNP_REPEAT.pdf): PDF inclusion: multiple pdfs with page gro
+up included in a single page
+> <./auto_figures/Rate Series_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_REPEAT
+.pdf
+
+pdfTeX warning: pdflatex (file ./auto_figures/Rate Series_150229_CheY_K91C_None
+_175uM_NoUrea_RT_ODNP_REPEAT.pdf): PDF inclusion: multiple pdfs with page group
+ included in a single page
+> <./auto_figures/kSigma_150229_CheY_K91C_None_175uM_NoUrea_RT_ODNP_REPEAT.pdf
+
+pdfTeX warning: pdflatex (file ./auto_figures/kSigma_150229_CheY_K91C_None_175u
+M_NoUrea_RT_ODNP_REPEAT.pdf): PDF inclusion: multiple pdfs with page group incl
+uded in a single page
 >]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 103.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 600.
  (./plots.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 103.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 103.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 600.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 600.
 Package rerunfilecheck Info: File `plots.out' has not changed.
-(rerunfilecheck)             Checksum: D9F51AFD3C56C3E6F560AF3B165B569E;98.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 103.
+(rerunfilecheck)             Checksum: E9B86783A146A76F3909C5C4D4560CFC;272.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 600.
  ) 
 Here is how much of TeX's memory you used:
- 19851 strings out of 493488
- 335692 string characters out of 3141326
- 454464 words of memory out of 3000000
- 22654 multiletter control sequences out of 15000+200000
+ 19990 strings out of 493488
+ 346765 string characters out of 3141326
+ 466464 words of memory out of 3000000
+ 22761 multiletter control sequences out of 15000+200000
  20318 words of font info for 67 fonts, out of 3000000 for 9000
  957 hyphenation exceptions out of 8191
- 60i,11n,94p,1013b,374s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 60i,12n,94p,1013b,374s stack positions out of 5000i,500n,10000p,200000b,50000s
 {/usr/local/texlive/2012/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
 exlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/te
 xlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/tex
-live/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texli
+live/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texli
 ve/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/local/texlive
 /2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2
 012/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2012
 /texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2012/te
 xmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2012/texmf
 -dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2012/texmf-
-dist/fonts/type1/urw/courier/ucrb8a.pfb></usr/local/texlive/2012/texmf-dist/fon
-ts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1
-/urw/palatino/uplr8a.pfb>
-Output written on plots.pdf (2 pages, 204159 bytes).
+dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2012/texmf-di
+st/fonts/type1/urw/courier/ucrb8a.pfb></usr/local/texlive/2012/texmf-dist/fonts
+/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/u
+rw/palatino/uplr8a.pfb>
+Output written on plots.pdf (5 pages, 819946 bytes).
 PDF statistics:
- 236 PDF objects out of 1000 (max. 8388607)
- 101 compressed objects within 2 object streams
- 5 named destinations out of 1000 (max. 500000)
- 44 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1575 PDF objects out of 1728 (max. 8388607)
+ 484 compressed objects within 5 object streams
+ 11 named destinations out of 1000 (max. 500000)
+ 198 words of extra memory for PDF output out of 10000 (max. 10000000)
 
