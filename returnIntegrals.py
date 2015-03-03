@@ -23,7 +23,7 @@ def makeTitle(titleString):
 #}}}
 
 #{{{ Pull the last database entry for the given operator, if the database gets huge this is going to get very slow.
-def returnDatabaseDictionary(collection,operator = 'Ryan Barnes',keysToDrop = ['data','_id'],MONGODB_URI = 'mongodb://rbarnes:tgb47atgb47a@ds047040.mongolab.com:47040/magresdata',experimentName = False):
+def returnDatabaseDictionary(collection,operator = 'Ryan Barnes',keysToDrop = ['setType','data','power','expNum','value','valueError','error','_id'],MONGODB_URI = 'mongodb://rbarnes:tgb47atgb47a@ds047040.mongolab.com:47040/magresdata',experimentName = False):
     entries = list(collection.find())
     dateList = []
     countList = []
@@ -334,7 +334,7 @@ if writeToDB:
         currentKeys.update(expExists[0])
         expExists = currentKeys
         databaseParamsDict = expExists
-        databaseParamsDict.pop('data') # you've got to throw out the old data here
+        databaseParamsDict.pop('data')
         databaseParamsDict.pop('_id')
     databaseParamsDict.update({'setType':setType})
     databaseParamsDict.update({'expName':name})
