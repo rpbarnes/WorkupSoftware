@@ -23,7 +23,7 @@ def makeTitle(titleString):
 #}}}
 
 #{{{ Pull the last database entry for the given operator, if the database gets huge this is going to get very slow.
-def returnDatabaseDictionary(collection,operator = 'Ryan Barnes',keysToDrop = ['setType','data','power','expNum','value','valueError','error','_id'],MONGODB_URI = 'mongodb://rbarnes:tgb47atgb47a@ds047040.mongolab.com:47040/magresdata',experimentName = False):
+def returnDatabaseDictionary(collection,operator = 'Ryan Barnes',keysToDrop = ['data','power','expNum','value','valueError','error','_id'],MONGODB_URI = 'mongodb://rbarnes:tgb47atgb47a@ds047040.mongolab.com:47040/magresdata',experimentName = False):
     entries = list(collection.find())
     dateList = []
     countList = []
@@ -253,15 +253,15 @@ for i in files:
 #{{{ DNP Experiment?
 answer = True
 while answer:
-    dnpexp = raw_input("\n\nIs this a DNP experiment or T10?\nIf DNP, hit enter. If T10 type 'T10'. \n--> ")
+    dnpexp = raw_input("\n\nIs this a DNP experiment or t1?\nIf DNP, hit enter. If t1 type 't1'. \n--> ")
     if dnpexp == '': # DNP is True, T10 is False
         dnpexp = True
         answer = False # break while loop
         setType = 'dnpExp'
-    elif dnpexp == 'T10':
+    elif dnpexp == 't1':
         dnpexp = False
         answer = False # break while loop
-        setType = 't10Exp'
+        setType = 't1Exp'
     else:
         print "\nI did not understand your answer. Please try again.\n" + "*"*80
 #}}}
@@ -323,7 +323,7 @@ if writeToDB:
     # Make the connection to the server as client
     conn = pymongo.MongoClient(MONGODB_URI) # Connect to the database that I purchased
     db = conn.magresdata ### 'dynamicalTransition' is the name of my test database
-    collection = db.dnpData
+    collection = db.hanLabODNPTest # This is my test collection
     # check to see if the database parameters dictionary exists#{{{
     expExists = list(collection.find({'expName':name}))
     if not expExists: # If we don't have the exp specific parameters file yet make the parameter dictionary from the information above and edit with the following.
@@ -334,8 +334,11 @@ if writeToDB:
         currentKeys.update(expExists[0])
         expExists = currentKeys
         databaseParamsDict = expExists
-        databaseParamsDict.pop('data')
         databaseParamsDict.pop('_id')
+        try: # this is because this is broken...
+            databaseParamsDict.pop('data')
+        except:
+            pass
     databaseParamsDict.update({'setType':setType})
     databaseParamsDict.update({'expName':name})
     #}}}
@@ -643,7 +646,7 @@ if writeToDB:
     else: # Save the T10 values
         if t1Series:
             dim = t1Series.dimlabels[0]
-            dataDict.update({'t10':{'data':t1series.data.tolist(),'error':t1series.get_error().tolist(),'dim0':t1series.getaxis(dim).tolist(),'dimNames':t1series.dimlabels}})
+            dataDict.update({'t1':{'data':t1Series.data.tolist(),'error':t1Series.get_error().tolist(),'dim0':t1Series.getaxis(dim).tolist(),'dimNames':t1Series.dimlabels}})
     databaseParamsDict.update({'data':dataDict})
     collection.insert(databaseParamsDict) # Save the database parameters to the database in case the code crashes
     conn.close()
@@ -701,7 +704,7 @@ if dnpexp: # DNP is True, T10 is False
     fl.figurelist.append({'print_string':r'$E_{max} = %0.3f \pm %0.3f \ (Unitless)$ \\'%(enhancementPowerSeries.output(r'E_{max}'),enhancementPowerSeries.covar(r'E_{max}')) + '\n\n'})
     fl.figurelist.append({'print_string':r'$T_{1}(p=0) = %0.3f \pm %0.3f \ (Seconds) \\$'%(R1.data,R1.get_error()) + '\n\n'})
 else:
-    fl.figurelist.append({'print_string':r'\n\n' + r'\subparagraph{$T_{1,0}$ Parameters}' + '\n\n'})
+    fl.figurelist.append({'print_string':r'\subparagraph{$T_{1,0}$ Parameters}\\' + '\n\n'})
     for i in range(len(t1Series.data)):
         fl.figurelist.append({'print_string':r'$T_{1}(p=0) = %0.3f \pm %0.3f\ (Seconds) \\$'%(t1Series.data[i],t1Series.get_error()[i]) + '\n\n'})
 ##}}}

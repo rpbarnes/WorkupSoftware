@@ -97,8 +97,9 @@ What you should do is loop through producing nddata sets given appropriate searc
 \chapter{Development:}
 \section{New Implementations:}
 \begin{enumerate}
-    \item $\Box$ In database the 'setType' key should define either the experiment or the workup series\ldots Maybe.
-    \item $\Box$ You should move all of the data in the database dictionaries to a data subfield in which you hold all relevant data sets. This way you could make the database search and drop something more dynamic and not depend on several if statements.
+    \item $\Box$ You need to add a supplemental script so you can go back and update or change a given database entry, this should be located by the experiment name, pulled from the database.
+    \item $\checkmark$ In database the 'setType' key should define either the experiment or the workup series\ldots Maybe. \o[I added this so for dnp it says 'dnpExp' and t10 it says 't10', you can also now use this key as a label for series data sets.]{}
+    \item $\checkmark$ You should move all of the data in the database dictionaries to a data subfield in which you hold all relevant data sets. This way you could make the database search and drop something more dynamic and not depend on several if statements. \o[This seems to work now although it might have a few buggies.]{Now the problem is to either update all of the existing database entries into the new scheme.}
     \item $\checkmark$ For the repeat database entry key. You should pull the repeats for the count of database items corresponding to the macromolecule, bindingpartner, and spinlabelsite. \o[I've changed the script that pulls the data sets from the database to do this.]{}
     \item $\checkmark$ DATABASE: What you should do is loop through producing nddata sets given appropriate search parameters. This is the easiest way to do this for now. \o[This now works fairly well, I have a function to return a 1D nddata set and this seems to work ok for the moment.]{}
     \item $\Box$ In the future you should play with using mongodb aggregate functions to make querying the database easier.
