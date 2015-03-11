@@ -5,6 +5,7 @@ import pymongo
 import os
 import csv
 from cStringIO import StringIO
+import database as dtb
 import sys
 import subprocess
 import pickle
@@ -21,44 +22,6 @@ def makeTitle(titleString):
     print titlePrint
     print linelength*"*"
 #}}}
-
-#{{{ Pull the last database entry for the given operator, if the database gets huge this is going to get very slow.
-def returnDatabaseDictionary(collection,operator = 'Ryan Barnes',keysToDrop = ['data','power','expNum','value','valueError','error','_id'],MONGODB_URI = 'mongodb://rbarnes:tgb47atgb47a@ds047040.mongolab.com:47040/magresdata',experimentName = False):
-    entries = list(collection.find())
-    dateList = []
-    countList = []
-    for count,entry in enumerate(entries):
-        if entry.get('setType') != 'seriesData': # exclude workedup data
-            if count == 0:
-                total = entry
-            else:
-                total.update(entry) # this will update any existing value and add values 
-            if str(entry['operator']) == operator: 
-                date = entry['_id'].generation_time.isoformat()
-                dateList.append(double(date.split('+')[0].replace('-','').replace('T','').replace(':','')))
-                countList.append(count)
-    # The last entry is the largest value in dateList
-    dateData = nddata(array(countList)).labels('value',array(dateList))
-    dateData.sort('value')
-    lastEntry = dateData['value',-1].data[0]
-    lastEntry = entries[lastEntry]
-    total.update(lastEntry)
-    toPresent = total.copy()
-    for key in keysToDrop:
-        try:
-            toPresent.pop(key)
-            lastEntry.pop(key)
-        except:
-            pass
-    # now set the values correctly so that total matches the last entry
-    lskey = lastEntry.keys()
-    tpkey = toPresent.keys()
-    keysToChange = []
-    for key in tpkey:
-        if key not in lskey:
-            toPresent.update({key:''})
-    conn.close()
-    return toPresent#}}}
 
 #{{{ My widget class, the minimum for opening a file dialog. There is much more you can do here but for now this will work.
 class my_widget_class (QtGui.QDialog):
@@ -113,16 +76,6 @@ def compilePDF(name):
         subprocess.call(['open','-a','/Applications/Preview.app','%s/plots.pdf'%name])
     #open -a /Applications/Preview.app 'plots.pdf'
 #}}}
-
-def writeDict(fileName,dictionary):#{{{ Dictionary read write functions
-    with open(fileName,'wb') as f:
-        pickle.dump(dictionary,f,pickle.HIGHEST_PROTOCOL)
-    f.close()
-def loadDict(fileName):
-    with open(fileName,'rb') as f:
-        dic = pickle.load(f)
-        f.close()
-        return dic #}}}
 #}}}
 
 
@@ -219,10 +172,10 @@ if not expExists:
                     'thresholdT1':thresholdT1,
                     'badT1':badT1
                     }
-    writeDict(expParametersFile,parameterDict)
+    dtb.writeDict(expParametersFile,parameterDict)
 else:
     ### Pull all the parameters from the file stored specifically for this experiment
-    parameterDict = loadDict(expParametersFile)
+    parameterDict = dtb.loadDict(expParametersFile)
 #}}}
 
 #{{{ Index Files in experiment directory
@@ -281,39 +234,9 @@ while answer:
 #}}}
 
 #{{{ Go through and edit the experiment parameters from user input
-answer = True
-columnWidth = 25
-while answer:
-    string = ""
-    makeTitle("  Experimental Parameters  ")
-    keys = parameterDict.keys()
-    for count,key in enumerate(keys):
-        string += ' (%d) '%count + key + ': ' + ' '*(columnWidth - len(key)) + "%s"%(parameterDict[key]) + '\n' 
-    answer = raw_input("\n\nPlease enter the number corresponding to the value that you need to edit\n" + string + "\n--> ")
-    if answer == '':
-        answer = False
-    else:  
-        # make a list of numbers the length of keys and make sure the answer is contained in there
-        try:
-            answer = eval(answer)
-            answerArray = r_[0:len(keys) + 1]
-            if answer in answerArray: # This is a correct answer but I want to return to the inside loop
-                newAnswer = raw_input("The current value of %s is %s. If you would like to change this enter the new value below. If you would like the value to remain the same simply hit enter.\n\n--> "%(keys[answer],parameterDict[keys[answer]]))
-                if newAnswer == '':
-                    answer = True
-                else:
-                    try:
-                        newAnswer = eval(newAnswer)
-                        if len(newAnswer) > 1:
-                            newAnswer = array(newAnswer)
-                        parameterDict.update({keys[answer]:newAnswer})
-                    except:
-                        parameterDict.update({keys[answer]:newAnswer})
-            answer = True # in the case of a zero selection
-        except:
-            print 60*"*"+"\nI didn't understand your answer. Please try again\n"+"*"*60
-            continue
-writeDict(expParametersFile,parameterDict)
+makeTitle("  Experimental Parameters  ")
+dtb.modDictVals(parameterDict,dictType='experiment')
+dtb.writeDict(expParametersFile,parameterDict)
 #}}}
 
 #{{{ Modify the database parameters dictionary
@@ -327,10 +250,10 @@ if writeToDB:
     # check to see if the database parameters dictionary exists#{{{
     expExists = list(collection.find({'expName':name}))
     if not expExists: # If we don't have the exp specific parameters file yet make the parameter dictionary from the information above and edit with the following.
-        databaseParamsDict = returnDatabaseDictionary(collection) # This should take a collection instance.
+        databaseParamsDict = dtb.returnDatabaseDictionary(collection) # This should take a collection instance.
     else:
         ### Pull all the parameters from the file stored specifically for this experiment
-        currentKeys = returnDatabaseDictionary(collection)
+        currentKeys = dtb.returnDatabaseDictionary(collection)
         currentKeys.update(expExists[0])
         expExists = currentKeys
         databaseParamsDict = expExists
@@ -342,40 +265,7 @@ if writeToDB:
     databaseParamsDict.update({'setType':setType})
     databaseParamsDict.update({'expName':name})
     #}}}
-    columnWidth = 25
-    answer = True
-    while answer:
-        string = ""
-        keys = databaseParamsDict.keys()
-        for count,key in enumerate(keys):
-            string += ' (%d) '%count + key + ': ' + ' '*(columnWidth - len(key)) + databaseParamsDict[key] + '\n' 
-        answer = raw_input("\n\nPlease enter the number corresponding to the value that you need to edit\n" + string + "If you would like to add a new database key type 'key'"+ "\n--> ")
-        if answer == '':
-            answer = False
-        elif answer == 'key':
-            # Here you add functionality to edit keys
-            newKey = raw_input("\n\nEnter the new database key that you want to add.\n--> ")
-            keyValue = raw_input("\n\nWhat is the value do you want to assign to %s?\n--> "%newKey)
-            databaseParamsDict.update({newKey:keyValue})
-            continue # Go back to inside while loop.
-        else:  
-            # make a list of numbers the length of keys and make sure the answer is contained in there
-            try:
-                answer = eval(answer)
-                answerArray = r_[0:len(keys) + 1]
-                if answer in answerArray: # This is a correct answer but I want to return to the inside loop
-                    keyVals = [str(k) for k in collection.distinct(keys[answer])]
-                    print "\nThe current database values for %s are %s.\n"%(keys[answer],keyVals)
-                    newAnswer = raw_input("If you would like to change this enter the new value below. If you would like the value to remain the same simply hit enter.\n\n--> ")
-                    if newAnswer == '':
-                        answer = True
-                    else:
-                        databaseParamsDict.update({keys[answer]:newAnswer})
-                        answer = True
-            except:
-                print "\nI didn't understand your answer. Please try again\n"+"*"*80
-                continue
-
+    dtb.modDictVals(databaseParamsDict,databaseCollection=collection)
     collection.insert(databaseParamsDict) # Save the database parameters to the database in case the code crashes
 
 #}}}
@@ -629,7 +519,6 @@ if writeToDB:
             print "I just removed ", idNum," from the collection."
     print "I'm writing your current data to the collection"
     ### Here write in the data set information. 
-    ### For DNP experiment write in the enhancement series, the T1 of power series, and the kSigma series. For now do it by hand but in the future you should wrap writing to the database in the nddata class. All you really need to do is make it write all the data to the dictionary
     databaseParamsDict.pop('_id')
     dataDict = {}
     if dnpexp:

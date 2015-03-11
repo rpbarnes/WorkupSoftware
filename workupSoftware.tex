@@ -97,6 +97,8 @@ What you should do is loop through producing nddata sets given appropriate searc
 \chapter{Development:}
 \section{New Implementations:}
 \begin{enumerate}
+    \item $\Box$ Make returnIntegrals work with new database module.
+    \item $\Box$ You should dump the worked up data sets (csv files and whatnot) into a directory called data.
     \item $\Box$ You need to add a supplemental script so you can go back and update or change a given database entry, this should be located by the experiment name, pulled from the database.
     \item $\checkmark$ In database the 'setType' key should define either the experiment or the workup series\ldots Maybe. \o[I added this so for dnp it says 'dnpExp' and t10 it says 't10', you can also now use this key as a label for series data sets.]{}
     \item $\checkmark$ You should move all of the data in the database dictionaries to a data subfield in which you hold all relevant data sets. This way you could make the database search and drop something more dynamic and not depend on several if statements. \o[This seems to work now although it might have a few buggies.]{Now the problem is to either update all of the existing database entries into the new scheme.}
@@ -153,18 +155,25 @@ What you should do is loop through producing nddata sets given appropriate searc
     \item $\Box$ You need to add wrong answer handling to the power series exception handlers.
 \end{enumerate}
 \section{Methods to Implement:}
+I start a module \o['database.py']{} to contain all of my database helper functions. Note I need to move any database stuff I have to this file.
+
 \begin{enumerate}
-    \item $\Box$ Wrap method of saving the nddata sets to mongo database
-    \item $\Box$ Method for print statement headers
+    \item $\checkmark$ Wrap method of saving the nddata sets to mongo database \o[This is done in a very janky way right now.]{}
+    \item $\checkmark$ Method for print statement headers
+    \item $\Box$ Method to save an nddata to csv file.
+    \item $\checkmark$ Method to update a database entry - this has to be done off of the experiment name. Right now this is stored as barescript \o['updateDatabase.py']{I move this function to 'database.py' named modDictVals()}
+    \item $\Box$ Function for changing the keys and values of a dictionary variable, I can see that you'll soon be making calls to this function repeatedly.
 \end{enumerate}
+\section{File Organization}
+The way you store the style files for tex and your modules for python need some help.
 \section{Users Guide:}
 \begin{enumerate}
     \item $\Box$ Windows installation of packages and use.
-    \item $\Box$ Max installation of packages and use.
+    \item $\Box$ Mac installation of packages and use.
     \item $\Box$ Introduction to the software.
     \item $\Box$ Walk through of using the program.
     \item $\Box$ Common errors, reasons and how to handle them from the command line.
-    \item $\Box$ Explination of functions used \o[This is a backend thing and is not necessary for now.]{}
+    \item $\Box$ Explanation of functions used \o[This is a backend thing and is not necessary for now.]{Actually you just need to make appropriate doc-strings for the functions specifically in matlablike}
 \end{enumerate}
 \chapter{EPR Integral Workup}
 Is this necessary for the ODNP? It might be nice to do this as standard this way you can tell if the double integrals are the same. \o[This is a future idea.]

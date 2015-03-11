@@ -1,179 +1,159 @@
-import os
-from h5nmr import *
-import nmrfit
+from matlablike import *
+from nmrfit import t1curve
+from fornotebook import *
 import csv
 
 close('all')
+
+'''
+Work up and plot the T1 series statistics. The goal is to determine the optimal numbers of delay points for the T1 series.
+
+I have two experiments
+1) 150304_CheY_E37C_None_0-5mgml_dMTSL_T10_Stat_Set
+2) 150304_4OHT_200mM_NaPi_T10_StatSet
+
+These represent the far end of the spectrum for T1 values (1) is a longer T1 at ~ 2.5 s and (2) is very short ~ 0.1 s.
+
+I want to plot the standard deviation of the 5 experiments against the number of delay points, I expect to see the standard deviation decrease as the number of delay values increases.
+
+I've already worked up the sets and the data is available in csv format.
+
+'''
+fullPath = '/Users/StupidRobot/Projects/WorkupSoftware/notebook/'
+fastExp = '150304_4OHT_200mM_NaPi_T10_StatSet/'
+slowexp = '150304_CheY_E37C_None_0-5mgml_dMTSL_T10_Stat_Set/'
+
+t1ExpsLog = r_[101:136]
+t1ExpsLin = r_[136:171]
+t1StartingGuess = 2.5
 fl = figlistl()
-# DNP path and file name
-# The sample name should be date_sample_site_concentration_bindingPartner
-header = '/Users/StupidRobot/exp_data/'
-path = 'ryan_cnsi/nmr/'
-name = '140724_CheY_CtermC_400uM_ODNP'
-fullPath = header + path + name
-dnpExps = r_[5:35]
-t1Exp = r_[36:46,304]
-integrationWidth = 1.5e2
-saveData = True
-deleteOldSaveNew = True
-# Data Hierarchy Make sure you change this or you going to be sad face
-# Structured like so
-# h5FileName ->> enhancement(labels=expNum), t1Series(labels=expNum), t1Integrals ### Just save the enhancement integrals and the T1 series ad integrals
-h5FileName = name + '.h5' # write to file named after the experiment
 
+def csvRetT1(fullPath,fileName,expNum,t1StartingGuess,firstFigure = []):#{{{
+    opend = open(fullPath +fileName + 't1Integral%d.csv'%expNum)
+    lines = opend.readlines()
+    lines.pop(0) # Drop the header
+    integ = []
+    delay = []
+    error = []
+    for line in lines:
+        line = line.split('\r')[0].split(',')
+        integ.append(float(line[0]))
+        error.append(float(line[1]))
+        delay.append(float(line[2]))
 
-#{{{ Index Files
-files = listdir(fullPath)
-### Just weed out the power files from the titles, we already know what they are
-for index,item in enumerate(files):
-    if item == 't1_powers.mat':
-        files.pop(index)
-for index,item in enumerate(files):
-    if item == 'power.mat':
-        files.pop(index)
-files = [double(i) for i in files]
-files.sort()
-expTitles = []
-for i in files:
-    expTitles.append([load_title(fullPath + '/' + str(i).split('.')[0]),str(i).split('.')[0]])
-#}}}
-
-#{{{ Enhancement Power and Integration
-### EnhancementSeries
-fl.figurelist.append({'print_string':r'\subparagraph{Enhancement Series}' + '\n\n'})
-enhancementSeries,fl.figurelist = integrate(fullPath,dnpExps,integration_width = integrationWidth,phchannel = [-1],phnum = [4],first_figure = fl.figurelist)
-enhancementSeries.rename('power','expNum').labels(['expNum'],[dnpExps])
-### Fit and plot the Enhancement
-enhancementSeries = enhancementSeries.runcopy(real)
-fl.figurelist = nextfigure(fl.figurelist,'EnhancementSeries')
-ax = gca()
-plot(enhancementSeries.copy().set_error(None),'b',alpha = 0.5)
-title('NMR Enhancement')
-#}}}
-
-#{{{ T1 Power and Integration
-### The T1 of Power Series
-# Power File
-t1SeriesList = []
-t1DataList = []
-t1ErrList = []
-print "Running your T1 series"
-fl.figurelist.append({'print_string':r'\subparagraph{T_1 Series}' + '\n\n'})
-for count,expNum in enumerate(t1Exp):
-    print "integrating data from expno %0.2f"%expNum
-    fl.figurelist.append({'print_string':r'$T_1$ experiment %d'%expNum + '\n\n'})
-    rawT1,fl.figurelist = integrate(fullPath,expNum,integration_width = integrationWidth,phchannel = [-1],phnum = [4],first_figure = fl.figurelist,pdfstring = 't1Expno_%d'%(expNum))
-    rawT1.rename('power','delay')
-    print "pulling delay from expno %0.2f"%expNum
-    delay = bruker_load_vdlist(fullPath + '/%d/' %expNum)
-    rawT1.labels(['delay'],[delay])
-    rawT1 = nmrfit.t1curve(rawT1.runcopy(real),verbose = False)
-    s2 = float(rawT1['delay',-1].data)
+    t1Data = nddata(array(integ)).rename('value','delay').labels('delay',array(delay)).set_error(array(error))
+    t1Data = t1curve(t1Data.runcopy(real),verbose = False)
+    s2 = float(t1Data['delay',-1].data)
     s1 = -s2
-    t1g = 1.14 ### this needs to change relatively frequently, need to put something here to better guess the T1 value
-    rawT1.starting_guesses.insert(0,array([s1,s2,t1g]))
-    rawT1.fit()
-    fl.figurelist = nextfigure(fl.figurelist,'t1RawDataExp%d'%(expNum))
-    ax = gca()
-    title('T1 Exp %0.2f'%(expNum))
-    text(0.5,0.75,rawT1.latex(),transform = ax.transAxes,size = 'x-large', horizontalalignment = 'center',color = 'k')
-    plot(rawT1,'r.')
-    plot(rawT1.eval(100))
-    plot(rawT1 - rawT1.eval(100).interp('delay',rawT1.getaxis('delay')).runcopy(real),'g.')
-    t1DataList.append(rawT1.output(r'T_1'))
-    t1ErrList.append(sqrt(rawT1.covar(r'T_1')))
-    t1SeriesList.append(rawT1)
-#{{{ Save the T1 set
-    if saveData: # here we want to save the data sets to an h5 file with the name expname
-        ### Things to save are the kSigma(power) and T1(power) series
-        filename = h5FileName + '/Integral/'
-        try:
-            rawT1Name = '%d'%expNum
-            rawT1.name(rawT1Name)
-            rawT1.hdf5_write(filename)
-            print "saved the t1 exp %d"%expNum
-        except:
-            print "There is an old data set saved"
-            if deleteOldSaveNew:
-                h5file,childnode = h5nodebypath(filename +'/'+ rawT1Name,check_only = True)
-                h5file.removeNode(childnode,recursive = True)
-                h5file.close()
-                rawT1.name(rawT1Name)
-                rawT1.hdf5_write(filename)
-                print "I've deleted the old T1 data set and saved the new one"
+    t1Data.starting_guesses.insert(0,array([s1,s2,t1StartingGuess]))
+    t1Data.fit()
+    firstFigure = nextfigure(firstFigure,'t1RawDataExp%s%d'%(fileName,expNum))
+    plot(t1Data,'r.')
+    plot(t1Data.eval(100))
+    plot(t1Data - t1Data.eval(100).interp('delay',t1Data.getaxis('delay')).runcopy(real),'g.')
+    title('Experiment %d'%expNum)
+    return t1Data
 #}}}
 
-# The t1 of experiment series
-t1Series = nddata(array(t1DataList)).rename('value','expNum').labels(['expNum'],[t1Exp]).set_error(array(t1ErrList))
 
-#{{{ Save the enhancement and T1 series
-if saveData: # here we want to save the data sets to an h5 file with the name expname
-    ### Things to save are the kSigma(power) and T1(power) series
-    filename = h5FileName + '/'
-    # Save the enhancement Series
-    try:
-        enhancementName = 'enhancementSeries'
-        enhancementSeries.name(enhancementName)
-        enhancementSeries.hdf5_write(filename)
-        print "saved the enhancement series"
-    except:
-        print "There is an old data set saved"
-        if deleteOldSaveNew:
-            h5file,childnode = h5nodebypath(filename +'/'+ enhancementName,check_only = True)
-            h5file.removeNode(childnode,recursive = True)
-            h5file.close()
-            enhancementSeries.name(enhancementName)
-            enhancementSeries.hdf5_write(filename)
-            print "I've deleted the old enhancement Series data set and saved the new one"
-    # save the t1 of experiment series
-    try:
-        t1SeriesName = 't1Series'
-        t1Series.name(t1SeriesName)
-        t1Series.hdf5_write(filename)
-        print "saved the t1 series"
-    except:
-        print "There is an old data set saved"
-        if deleteOldSaveNew:
-            h5file,childnode = h5nodebypath(filename +'/'+ t1SeriesName,check_only = True)
-            h5file.removeNode(childnode,recursive = True)
-            h5file.close()
-            t1Series.name(t1SeriesName)
-            t1Series.hdf5_write(filename)
-            print "I've deleted the old t1 Series data set and saved the new one"
-#}}}
+fl.figurelist.append({'print_string':'\n\n' + r'\subparagraph{LogSpacing} \\' + '\n\n'})
+delayList = []
+errorList = []
+valueList = []
+fitList = []
+for expNum in t1ExpsLog:
+    t1 = csvRetT1(fullPath,slowexp,expNum,t1StartingGuess,firstFigure = fl.figurelist)
+    delayList.append(len(t1.getaxis('delay')))
+    errorList.append(sqrt(t1.covar(r'T_1')))
+    valueList.append(t1.output(r'T_1'))
+    fitList.append(t1.eval(500))
 
-### Write everything to a csv file as well
-try:
-    os.mkdir(name)
-except:
-    print "file exists"
-    pass
+logStats = nddata(array(valueList)).rename('value','delay').labels('delay',array(delayList)).set_error(array(errorList))
+logFits = concat(fitList,'delayCount')
+logFits.labels('delayCount',array(delayList))
+fl.figurelist = nextfigure(fl.figurelist,'logImage%s'%slowexp)
+image(logFits.runcopy(real))
+title('log Fit Image')
 
-### Write the t1 series
-t1SeriesWriter = [('t1Val (s)','error','expNum')] + zip(list(t1Series.data),list(t1Series.get_error()),list(t1Series.getaxis('expNum')))
-with open(name + '/t1Series.csv','wb') as csvFile:
-    writer = csv.writer(csvFile,delimiter =',')
-    writer.writerows(t1SeriesWriter)
 
-### Write the enhancement series
-enhancementSeriesWriter = [('integrationVal','error','expNum')] + zip(list(enhancementSeries.data),list(enhancementSeries.get_error()),list(enhancementSeries.getaxis('expNum')))
-with open(name + '/enhancementSeries.csv','wb') as csvFile:
-    writer = csv.writer(csvFile,delimiter =',')
-    writer.writerows(enhancementSeriesWriter)
+fl.figurelist.append({'print_string':'\n\n' + r'\subparagraph{LinSpacing} \\' + '\n\n'})
+delayList = []
+errorList = []
+valueList = []
+fitList = []
+for expNum in t1ExpsLin:
+    t1 = csvRetT1(fullPath,slowexp,expNum,t1StartingGuess,firstFigure = fl.figurelist)
+    delayList.append(len(t1.getaxis('delay')))
+    errorList.append(sqrt(t1.covar(r'T_1')))
+    valueList.append(t1.output(r'T_1'))
+    fitList.append(t1.eval(500))
 
-for count,t1Set in enumerate(t1SeriesList):
-    t1SetWriter = [('integrationVal','error','delay')] + zip(list(t1Set.data),list(t1Set.get_error()),list(t1Set.getaxis('delay')))
-    with open(name + '/t1Integral%d.csv'%t1Exp[count],'wb') as csvFile:
+linStats = nddata(array(valueList)).rename('value','delay').labels('delay',array(delayList)).set_error(array(errorList))
+linFits = concat(fitList,'delayCount')
+linFits.labels('delayCount',array(delayList))
+fl.figurelist = nextfigure(fl.figurelist,'linImage%s'%slowexp)
+image(linFits.runcopy(real))
+title('lin Fit Image')
+
+fl.figurelist = nextfigure(fl.figurelist,'Stats%s'%slowexp)
+plot(logStats,'r.',alpha = 0.6,label='logSpace')
+plot(linStats,'b.',alpha = 0.6,label='linSpace')
+xlim(linStats.getaxis('delay').min()-3,linStats.getaxis('delay').max()+3)
+legend()
+title('$T_1$ Data')
+
+
+# Now evaluate the scatter of the data just by the standard deviation, assuming the distribution is gaussian.
+delays = r_[6:13]
+logSdev = []
+logM = []
+linSdev = []
+linM = []
+for delay in delays:
+    logSdev.append(std(logStats['delay',lambda x: x == delay].data))
+    logM.append(logStats['delay',lambda x: x==6].mean('delay').data)
+    linSdev.append(std(linStats['delay',lambda x: x == delay].data))
+    linM.append(linStats['delay',lambda x: x==6].mean('delay').data)
+logData = nddata(array(logM)).rename('value','delay').labels('delay',delays).set_error(array(logSdev))
+linData = nddata(array(linM)).rename('value','delay').labels('delay',delays).set_error(array(linSdev))
+fl.figurelist = nextfigure(fl.figurelist,'SumStats%s'%slowexp)
+plot(logData,'r.',alpha = 0.6,label = 'logspace')
+plot(linData,'b.',alpha = 0.6,label = 'linspace')
+legend()
+title('Mean and STD from 5 Point Scatter')
+ylabel('Mean Value')
+xlabel('Delay Points')
+xlim(5,13)
+
+logS = nddata(array(logSdev)).rename('value','delay').labels('delay',delays)
+linS = nddata(array(linSdev)).rename('value','delay').labels('delay',delays)
+fl.figurelist = nextfigure(fl.figurelist,'AggStats%s'%slowexp)
+plot(logS,'r.',alpha = 0.6,markersize = 15,label='logspace',plottype='semilogy')
+plot(linS,'b.',alpha = 0.6,markersize = 15,label='linspace',plottype='semilogy')
+ylim(0.01, 0.1)
+title('STDEV from 5 Point Scatter')
+ylabel('STDEV')
+xlabel('Delay Points')
+legend()
+xlim(5,13)
+
+def OneDNdToCsv(data,fileName):#{{{
+    if data.get_error() != None:
+        dataList = [(data.dimlabels[0],'data','error')] + zip(list(data.getaxis(data.dimlabels[0])),list(data.data),list(data.get_error()))
+    else:
+        dataList = [(data.dimlabels[0],'data')] + zip(list(data.getaxis(data.dimlabels[0])),list(data.data))
+    with open(fileName + '.csv','wb') as csvFile:
         writer = csv.writer(csvFile,delimiter =',')
-        writer.writerows(t1SetWriter)
+        writer.writerows(dataList)
+#}}}
+
+# Write this shit to a csv
+OneDNdToCsv(logS,fullPath + fastExp + 'logAggStats')
+OneDNdToCsv(linS,fullPath + fastExp + 'linAggStats')
+OneDNdToCsv(logData,fullPath + fastExp + 'logAggDataStats')
+OneDNdToCsv(linData,fullPath + fastExp + 'linAggDataStats')
 
 
 
-
-fl.show(name + '.pdf')
-
-
-
-
-
+show()
 
