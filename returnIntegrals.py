@@ -48,7 +48,7 @@ def compilePDF(name):
     systemOpt = os.name 
     with Capturing() as output:
         fl.show(name + '.pdf')
-    texFile = open(name+'/plots.tex','wb') # I guess this works because it's actually executed by python.
+    texFile = open(name+'/plots.tex','wb') # I guess this works across platform because it's actually executed by python.
     header = [
         '\\documentclass[10pt]{book}',
         '\\usepackage{mynotebook}',
