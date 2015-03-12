@@ -61,21 +61,30 @@ Put instructions here for running the workup code. Initially go through the answ
 Here go through how to get up and running once everything is installed.
 
 \chapter{Database Information}
-I'm using mongodb to database all the worked up data according to a hierarchical scheme. This will allow a user to search the database for entries based on certain parameters. 
+I'm using mongodb to database all the worked up data according to a hierarchical scheme. This will allow a user to search the database for entries based on certain parameters. \\
+
+What I've learned after spending sometime working with the database is that organization is bloody necessary! Ultimately the key addition to the database needs to be strictly controlled, if it isn't then it's going to turn into a huge mess. The database keys that I currently am using are listed below.\\
+
+Also note that when storing a value in the database use the full name of the protein and specify units for instance CheY should be written as 'Chemotaxis Y' and concentration should be '180 uM' or '1.65 mg/ml'. \\
+
+I save the data in the database in this format 
+# {'data':{'t1':{'data':listOfData,'error':listOfError,'dim1':listOfDim1Vals,'dimNames':listOfDimNames},'enhancement':{'data':listOfData,'error':listOfError,'dim1':listOfDim1Vals,'dimNames':listOfDimNames}}}
+This allows me to nicely store the data without clogging the database keys with a bunch of crap.
+
 
 \section{Database Key Definitions}
 Currently the search headings include:
 \begin{enumerate}
     \item \o{operator} - this is the experimenter's name e.g. Ryan Barnes.
     \item \o{date} - this is the date of the experiment
-    \item \o{setType} - this is the data set type e.g. (kSigma, T1Series, enhancementSeries, T10)
-    \item \o{macroMolecule} - this is the macromolecule in the sample e.g. protein, liposome. \o[If there is no macromolecule this is set to none.]{} 
+    \item \o{setType} - this is the type of experiment, do not modify this as it's set by the code e.g. dnpExp or t1Exp.
+    \item \o{macroMolecule} - this is the macromolecule in the sample e.g. protein (Chemotaxis Y, tau187), liposome (DOPC, DPPC). \o[If there is no macromolecule this is set to 'None'.]{} 
     \item \o{bindingPartner} - this is the other macromolecule in sample that is not spin labeled. \o[If there is no other macromolecule in the sample this is set to none.]{} 
-    \item \o{concentration} - this is the concentration of the \o{macroMolecule}, this assumes the spin label is the same concentration.
-    \item \o{temperature(K)} - this is the temperature of the experiment set in Kelvin.
+    \item \o{concentrationMM} - this is the approximate concentration of the \o{macroMolecule}, this assumes the spin label is the same concentration.
+    \item \o{concentrationMeasured} - this is the measured concentration of the macromolecule either by DLS or UV-vis.
+    \item \o{temperature} - this is the temperature of the experiment set {\bf in Kelvin!}.
     \item \o{solvent} - this is the solvent for the experiment.
-    \item \o{osmolyte} - This might be nice for Jinsuk for now this isn't used.
-    \item \o{aggregationAgent} - this is more a place holder for experiments with the tau protein.
+    \item \o{otherNotes} - this is other notes useful for the experiment such as what the hell binding partner is or what series measurement this is part of. For instance I measure CheY in absence and presence of Urea to see what happens when I denature CheY. I say in other notes 'part of CheY denaturation experiment'.
 \end{enumerate}
 \section{Pulling Data from the Database}
 
@@ -99,7 +108,7 @@ What you should do is loop through producing nddata sets given appropriate searc
 \begin{enumerate}
     \item $\checkmark$ Make returnIntegrals work with new database module.
     \item $\Box$ You should dump the worked up data sets (csv files and whatnot) into a directory called data.
-    \item $\Box$ You need to add a supplemental script so you can go back and update or change a given database entry, this should be located by the experiment name, pulled from the database.
+    \item $\checkmark$ You need to add a supplemental script so you can go back and update or change a given database entry, this should be located by the experiment name, pulled from the database. \o[This is in updateDatabaseEntry.py]{}
     \item $\checkmark$ In database the 'setType' key should define either the experiment or the workup series\ldots Maybe. \o[I added this so for dnp it says 'dnpExp' and t10 it says 't10', you can also now use this key as a label for series data sets.]{}
     \item $\checkmark$ You should move all of the data in the database dictionaries to a data subfield in which you hold all relevant data sets. This way you could make the database search and drop something more dynamic and not depend on several if statements. \o[This seems to work now although it might have a few buggies.]{Now the problem is to either update all of the existing database entries into the new scheme.}
     \item $\checkmark$ For the repeat database entry key. You should pull the repeats for the count of database items corresponding to the macromolecule, bindingpartner, and spinlabelsite. \o[I've changed the script that pulls the data sets from the database to do this.]{}

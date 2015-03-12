@@ -166,3 +166,24 @@ def loadDict(fileName): #{{{
         dic = pickle.load(f)
         f.close()
         return dic #}}}
+
+#{{{ dictToNdData - return an nddata from a dictionary entry given the tag for the specific data.
+def dictToNdData(dataTag,dictionary):
+    """ This will return a one dimensional nddata from a dictionary entry from the ODNP workup.
+
+    args:
+    dataTag - (string) either 'enhancement' 'kSigma' or 't1' this tells which data to pull from the dictionary
+    dictionary - (dictionary) this is the dictionary pulled from mongoDB
+
+    Returns:
+    nddata
+    """
+    copyDict = dictionary.copy()
+    dataDict = copyDict.get('data').get(dataTag)
+    copyDict.pop('data')
+    copyDict.pop('_id')
+    data = nddata(array(dataDict.get('data'))).rename('value',str(dataDict.get('dimNames')[0])).labels(str(dataDict.get('dimNames')[0]),array(dataDict.get('dim0'))).set_error(dataDict.get('error'))
+    data.other_info = copyDict
+    return data
+#}}}
+
