@@ -167,6 +167,8 @@ What you should do is loop through producing nddata sets given appropriate searc
 I start a module \o['database.py']{} to contain all of my database helper functions. Note I need to move any database stuff I have to this file.
 
 \begin{enumerate}
+    \item $\Box$ You should wrap something to pull from mongo and dump the meta data and data to separate csv's in the same file.
+    \item $\Box$ You should also write a method to go from this csv format to the database such that you can add meta data to file
     \item $\checkmark$ Wrap method of saving the nddata sets to mongo database \o[This is done in a very janky way right now.]{}
     \item $\checkmark$ Method for print statement headers
     \item $\Box$ Method to save an nddata to csv file.
