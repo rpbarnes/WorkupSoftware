@@ -134,6 +134,7 @@ What you should do is loop through producing nddata sets given appropriate searc
 \end{enumerate}
 \section{Bugs:}
 \begin{enumerate}
+    \item $\Box$ You need to move to the new figlist\_var class of matlablike.py. Waiting to hear back from John on this one. \o[Right now the figures have no axes. This is unfortunate and needs fixing. I have a suspicion that this has to do with the order inwhich the matplotlib backends are brought in.]{Wait for now as this isn't of major importance.}
     \item $\Box$ Code hard fails when the $T_1$ fit fails. This should at least give a warning, although adding newton's method should alleviate future failures.
     \item $\Box$ I truly do not believe my $T_1$ error estimate from the covariance.
     \item $\Box$ When working up a short experiment such as \o['150211_4OHT_400uM_25pGlyH2O_250K_ODNP']{} I get an error because it under estimates the maximum experiment time. For now it's just hardset to be 20 seconds longer than it should be.

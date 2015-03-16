@@ -1,5 +1,7 @@
-from h5nmr import *
+#from h5nmr import *
 import nmrfit
+from nmr import * 
+from matlablike import *
 from PyQt4 import QtGui, QtCore
 import pymongo
 import os
@@ -9,6 +11,7 @@ import database as dtb
 import sys
 import subprocess
 import pickle
+import fornotebook as fnb
 
 #{{{ Various definitions and classes
 #{{{ Print a fancy title in the command line
@@ -80,7 +83,7 @@ def compilePDF(name):
 
 
 close('all')
-fl = figlistl()
+fl = fnb.figlist()
 
 #{{{ Find the data directory and the file name of the experiment
 dataDirecFile = 'datadir.txt'
