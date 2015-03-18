@@ -269,6 +269,7 @@ if writeToDB:
     databaseParamsDict.update({'expName':name})
     #}}}
     dtb.modDictVals(databaseParamsDict,databaseCollection=collection)
+    databaseParamsDict = dtb.stringifyDictionary(databaseParamsDict) # force every entry to a string, this way there is no weirdness with the repeat and date entries or really anything that can be mistaken as a double.
     collection.insert(databaseParamsDict) # Save the database parameters to the database in case the code crashes
 
 #}}}

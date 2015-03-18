@@ -71,6 +71,21 @@ I save the data in the database in this format
 # {'data':{'t1':{'data':listOfData,'error':listOfError,'dim1':listOfDim1Vals,'dimNames':listOfDimNames},'enhancement':{'data':listOfData,'error':listOfError,'dim1':listOfDim1Vals,'dimNames':listOfDimNames}}}
 This allows me to nicely store the data without clogging the database keys with a bunch of crap.
 
+\section{Proper Databasing Format}
+Following proper format is {\bf BLOODY FUCKING NECESSARY!!!} That being said let I outline below what proper format should be.
+
+\subsection{Macromolecule}
+Any macromolecule such as a protein or liposome should be entered in full chemical name. For instance CheY should be entered in as Chemotaxis Y, with the appropriate capitalization and spacing!
+
+The first letter should be capitalized and the spacing between words should be adhered to.
+
+A liposome such as DOPC should be entered is as 1,2-Dioleoyl-sn-glycero-3phosphocholine. 
+
+I realize this is a pain in the ass but this is why the workup script pulls your last entry for the databasing section of the code in hopes that you don't need to enter this in many times.
+
+\subsection{Concentration}
+
+
 
 \section{Database Key Definitions}
 Currently the search headings include:
@@ -103,9 +118,12 @@ I think what I've learned is that it's not nice to drop everything in one matrix
 
 What you should do is loop through producing nddata sets given appropriate search parameters. This is the easiest way to do this for now. 
 
-\chapter{Development:}
+\chapter{Development}
 \section{New Implementations:}
 \begin{enumerate}
+    \item $\Box$ Clearly write out the formalism for entering data in the database.
+    \item $\Box$ You need to change the rate fit to do a weighting based on the error of the $T_1$ value.
+    \item $\Box$ Add script to take the output of the Atenbach project for EPR fitting and database this. This should save the data, the fit, and the fit parameters - specifically the correlation time and the A and G matrix.
     \item $\checkmark$ Make returnIntegrals work with new database module.
     \item $\Box$ You should dump the worked up data sets (csv files and whatnot) into a directory called data.
     \item $\checkmark$ You need to add a supplemental script so you can go back and update or change a given database entry, this should be located by the experiment name, pulled from the database. \o[This is in updateDatabaseEntry.py]{}
@@ -134,6 +152,8 @@ What you should do is loop through producing nddata sets given appropriate searc
 \end{enumerate}
 \section{Bugs:}
 \begin{enumerate}
+    \item $\Box$ First power missed in \o[150228 ̇CheY ̇N121C ̇None ̇181uM ̇YesUrea ̇RT ̇ODNP]{}. It looks like the power picking fucntion got caught on the initial jump.
+    \item $\checkmark$ In the database repeat is saved as both string and int. This isn't ok - every parameter, other than the list of data should be a string. \o[now every key and value except the 'data' and '\_id' are entered as strings.]{}
     \item $\Box$ You need to move to the new figlist\_var class of matlablike.py. Waiting to hear back from John on this one. \o[Right now the figures have no axes. This is unfortunate and needs fixing. I have a suspicion that this has to do with the order inwhich the matplotlib backends are brought in.]{Wait for now as this isn't of major importance.}
     \item $\Box$ Code hard fails when the $T_1$ fit fails. This should at least give a warning, although adding newton's method should alleviate future failures.
     \item $\Box$ I truly do not believe my $T_1$ error estimate from the covariance.
