@@ -1,131 +1,21 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2012.6.30)  22 SEP 2014 13:42
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014/W32TeX) (preloaded format=pdflatex 2015.3.18)  18 MAR 2015 17:54
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**subprocess.call(['open','%s/plots.pdf'%name])
+**141216_ox63_in30p_trehalose\plots.tex
 
-*
-! Interruption.
-<*> 
-    
-? ^^[[A^^[[A
-Type <return> to proceed, S to scroll future error messages,
-R to run without stopping, Q to run quietly,
-I to insert something, 
-H for help, X to quit.
-? 
-! I can't find file `subprocess.call(['open',''.
-<to be read again> 
-                   \par 
-<*> 
-    
-(Press Enter to retry, or Control-D to exit)
-Please type another input file name: 
-! I can't find file `subprocess.call(['open',''.
-<to be read again> 
-                   \par 
-<*> 
-    
-(Press Enter to retry, or Control-D to exit)
-Please type another input file name: 
-! I can't find file `subprocess.call(['open',''.
-<to be read again> 
-                   \par 
-<*> 
-    
-(Press Enter to retry, or Control-D to exit)
-Please type another input file name: 
-! I can't find file `subprocess.call(['open',''.
-<to be read again> 
-                   \par 
-<*> 
-    
-(Press Enter to retry, or Control-D to exit)
-Please type another input file name: 
-! I can't find file `subprocess.call(['open',''.
-<to be read again> 
-                   \par 
-<*> 
-    
-(Press Enter to retry, or Control-D to exit)
-Please type another input file name: ^^D
-! I can't find file `^^D'.
-<to be read again> 
-                   \par 
-<*> 
-    
-(Press Enter to retry, or Control-D to exit)
-Please type another input file name: ^^D
-! I can't find file `^^D'.
-<to be read again> 
-                   \par 
-<*> 
-    
-(Press Enter to retry, or Control-D to exit)
-Please type another input file name: ^^D
-! I can't find file `^^D'.
-<to be read again> 
-                   \par 
-<*> 
-    
-(Press Enter to retry, or Control-D to exit)
-Please type another input file name: ^^D^^D
-! I can't find file `^^D^^D'.
-<to be read again> 
-                   \par 
-<*> 
-    
-(Press Enter to retry, or Control-D to exit)
-Please type another input file name: 
-! I can't find file `^^D^^D'.
-<to be read again> 
-                   \par 
-<*> 
-    
-(Press Enter to retry, or Control-D to exit)
-Please type another input file name: 
-! I can't find file `^^D^^D'.
-<to be read again> 
-                   \par 
-<*> 
-    
-(Press Enter to retry, or Control-D to exit)
-Please type another input file name: 
-! I can't find file `^^D^^D'.
-<to be read again> 
-                   \par 
-<*> 
-    
-(Press Enter to retry, or Control-D to exit)
-Please type another input file name: 
-! I can't find file `^^D^^D'.
-<to be read again> 
-                   \par 
-<*> 
-    
-(Press Enter to retry, or Control-D to exit)
-Please type another input file name: 
-! I can't find file `^^D^^D'.
-<to be read again> 
-                   \par 
-<*> 
-    
-(Press Enter to retry, or Control-D to exit)
-Please type another input file name: 
 ! Emergency stop.
-<to be read again> 
-                   \par 
-<*> 
-    
+<*> 141216_ox63_in30p_trehalose\plots
+                                     .tex
 End of file on the terminal!
 
  
 Here is how much of TeX's memory you used:
- 5 strings out of 493488
- 112 string characters out of 3141326
- 49432 words of memory out of 3000000
- 3412 multiletter control sequences out of 15000+200000
- 3640 words of font info for 14 fonts, out of 3000000 for 9000
- 957 hyphenation exceptions out of 8191
- 1i,0n,0p,47b,6s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 1 string out of 493109
+ 119 string characters out of 6138587
+ 52967 words of memory out of 5000000
+ 3570 multiletter control sequences out of 15000+600000
+ 3640 words of font info for 14 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 0i,0n,0p,1b,6s stack positions out of 5000i,500n,10000p,200000b,80000s
 !  ==> Fatal error occurred, no output PDF file produced!

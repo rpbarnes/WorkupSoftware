@@ -70,9 +70,9 @@ def compilePDF(name):
     texFile.write('\\end{document}')
     texFile.close()
     if systemOpt == 'nt': # windows
-        subprocess.call(['pdflatex','--output-directory %s\\'%name, '%s\\plots.tex'%name])
-        subprocess.call(['move','plots.pdf', '%s\\'%name])
-        subprocess.call(['open','-a','/Applications/Preview.app','%s\\plots.pdf'%name])
+        subprocess.call(['pdflatex','%s/plots.tex'%name])
+        subprocess.call(['mv','plots.pdf', '%s\\'%name])
+        subprocess.call(['SumatraPDF.exe','%s\\plots.pdf'%name]) # whatever this hangs in windows but we can live with that.
     elif systemOpt == 'posix': # mac, linux you will need to call the specific pdf application 
         subprocess.call(['pdflatex','--output-directory %s/'%name, '%s/plots.tex'%name])
         subprocess.call(['mv','plots.pdf', '%s/'%name])
