@@ -325,7 +325,7 @@ if dnpexp: # only work up files if DNP experiment
     if not expTimeMin:
         print expTitles
         raise ValueError("\n\nThe experiment numbers are not set appropriately, please scroll through the experiment titles above and set values appropriately")
-    t1Power,fl.figurelist = returnSplitPowers(fullPath,'t1_powers.mat',expTimeMin = expTimes.min(),expTimeMax=expTimeMin.data + expTimeMin.data/2,dnpPowers = False,threshold = parameterDict['thresholdT1'],titleString = 'T1 ',firstFigure = fl.figurelist)
+    t1Power,fl.figurelist = returnSplitPowers(fullPath,'t1_powers.mat',expTimeMin = expTimes.min(),expTimeMax=expTimeMin.data + expTimeMin.data/2,dnpPowers = False,threshold = parameterDict['thresholdT1'],titleString = 'T1 ',firstFigure = fl.figurelist,dnpPowers=True) # this is a hot hack and needs proper fixing later.
     t1Power = list(t1Power)
     t1Power.append(-99.0) # Add the zero power for experiment 304
     t1Power = array(t1Power)
