@@ -28,7 +28,7 @@ def analyticLinear(params,x):
     return slope * x + intercept
 
 def residualLinear(params, x, data, eps_data):
-    return (data-analytic(params,x))/eps_data # note the weighting is done here
+    return (data-analyticLinear(params,x))/eps_data # note the weighting is done here
 #}}}
 
 # The code below can just be copied
@@ -40,7 +40,7 @@ db = conn.magresdata
 collection = db.hanLabODNPTest # This is my test collection 
 
 # This is the dictionary to search by, notice the layout is "key1":"keyValue1","key2":"keyValue2"... 
-searchDict = [{'spinLabel':'dMTSL','osmolyte':'None','osmolyteConcentration':'None','macroMolecule':'CheY','spinLabelSite':'E37C','repeat':'0'},{'spinLabel':'dMTSL','osmolyte':'None','osmolyteConcentration':'None','macroMolecule':'CheY','spinLabelSite':'N62C','repeat':'0'},{'spinLabel':'dMTSL','osmolyte':'None','osmolyteConcentration':'None','macroMolecule':'CheY','spinLabelSite':'E37C','repeat':'1'}]
+searchDict = [{'spinLabel':'dMTSL','osmolyte':'None','osmolyteConcentration':'None','macroMolecule':'CheY','spinLabelSite':'E37C','repeat':'0'},{'spinLabel':'dMTSL','osmolyte':'None','osmolyteConcentration':'None','macroMolecule':'CheY','spinLabelSite':'N62C','repeat':'0'},{'spinLabel':'dMTSL','osmolyte':'None','osmolyteConcentration':'None','macroMolecule':'CheY','spinLabelSite':'E37C','repeat':'1'},{'spinLabel':'dMTSL','osmolyte':'urea','osmolyteConcentration':'5M','macroMolecule':'CheY','spinLabelSite':'E37C','repeat':'0'},{'spinLabel':'dMTSL','osmolyte':'urea','osmolyteConcentration':'5M','macroMolecule':'CheY','spinLabelSite':'N62C','repeat':'0'}]
 
 
 # Now make an nddata from the dictionary given the tag dataTag
@@ -70,9 +70,9 @@ for count,dictionary in enumerate(searchDict):
     data.labels('conc',array(concentration)).set_error('conc',array(concentrationError))
     # Sort and fit the data and make a new nddata set with the fit
     data.sort('conc')
-    out = minimize(residual, params, args=(data.getaxis('conc'), data.runcopy(real).data, data.get_error()))
-    fit = nddata(analytic(out.params,data.getaxis('conc'))).rename('value','conc').labels('conc',data.getaxis('conc'))
-    plot(data,'.',color=colorlist[count],label=dictionary.get('spinLabelSite') + ' repeat %s'%dictionary.get('repeat') + ' Urea %s'%dictionary.get('osmolyteConcentration'))
+    out = minimize(residualLinear, params, args=(data.getaxis('conc'), data.runcopy(real).data, data.get_error()))
+    fit = nddata(analyticLinear(out.params,data.getaxis('conc'))).rename('value','conc').labels('conc',data.getaxis('conc'))
+    plot(data,'o',markersize = 10,alpha = 0.5,color=colorlist[count],label=dictionary.get('spinLabelSite') + ' repeat %s'%dictionary.get('repeat') + ' Urea %s'%dictionary.get('osmolyteConcentration'))
     plot(fit,'-',color=colorlist[count])
 
 
