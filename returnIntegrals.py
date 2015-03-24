@@ -70,9 +70,9 @@ def compilePDF(name):
     texFile.write('\\end{document}')
     texFile.close()
     if systemOpt == 'nt': # windows
-        subprocess.call(['pdflatex','--output-directory %s\\'%name, '%s\\plots.tex'%name])
-        subprocess.call(['move','plots.pdf', '%s\\'%name])
-        subprocess.call(['open','-a','/Applications/Preview.app','%s\\plots.pdf'%name])
+        subprocess.call(['pdflatex','%s/plots.tex'%name])
+        subprocess.call(['mv','plots.pdf', '%s\\'%name])
+        subprocess.call(['SumatraPDF.exe','%s\\plots.pdf'%name]) # whatever this hangs in windows but we can live with that.
     elif systemOpt == 'posix': # mac, linux you will need to call the specific pdf application 
         subprocess.call(['pdflatex','--output-directory %s/'%name, '%s/plots.tex'%name])
         subprocess.call(['mv','plots.pdf', '%s/'%name])
@@ -325,7 +325,7 @@ if dnpexp: # only work up files if DNP experiment
     if not expTimeMin:
         print expTitles
         raise ValueError("\n\nThe experiment numbers are not set appropriately, please scroll through the experiment titles above and set values appropriately")
-    t1Power,fl.figurelist = returnSplitPowers(fullPath,'t1_powers.mat',expTimeMin = expTimes.min(),expTimeMax=expTimeMin.data + expTimeMin.data/2,dnpPowers = False,threshold = parameterDict['thresholdT1'],titleString = 'T1 ',firstFigure = fl.figurelist)
+    t1Power,fl.figurelist = returnSplitPowers(fullPath,'t1_powers.mat',expTimeMin = expTimes.min(),expTimeMax=expTimeMin.data + expTimeMin.data/2,dnpPowers = True,threshold = parameterDict['thresholdT1'],titleString = 'T1 ',firstFigure = fl.figurelist) # this is a hot hack and needs proper fixing later.
     t1Power = list(t1Power)
     t1Power.append(-99.0) # Add the zero power for experiment 304
     t1Power = array(t1Power)
