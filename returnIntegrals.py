@@ -34,7 +34,7 @@ class my_widget_class (QtGui.QDialog):
         self.datadir_changed = False
 #}}}
 
-#{{{ Class function for grabbing python output. ->> This should be moved to fornotebook or something.
+#{{{ Class function for grabbing python output. ->> This should be moved to fornotebook
 class Capturing(list):
     def __enter__(self):
         self._stdout = sys.stdout
@@ -53,31 +53,31 @@ def compilePDF(name):
         fl.show(name + '.pdf')
     texFile = open(name+'/plots.tex','wb') # I guess this works because it's actually executed by python.
     header = [
-        '\\documentclass[10pt]{book}',
-        '\\usepackage{mynotebook}',
-        '\\usepackage{mysoftware_style}',
-        '\\newcommand{\\autoDir}{/Users/StupidRobot/Projects/WorkupSoftware/notebook/auto_figures/}',
-        '\\usepackage{cite}', 
-        '\\usepackage{ulem}',
-        '\\title{workup %s}'%name,
-        '\\date{\\today}',
-        '\\begin{document}',
-        '\\maketitle',]
+        r'\documentclass[10pt]{book}',
+        r'\usepackage{mynotebook}',
+        r'\usepackage{mysoftware_style}',
+        r'\newcommand{\autoDir}{/Users/StupidRobot/Projects/WorkupSoftware/notebook/auto_figures/}',
+        r'\usepackage{cite}', 
+        r'\usepackage{ulem}',
+        r'\title{workup %s}'%name,
+        r'\date{\today}',
+        r'\begin{document}',
+        r'\maketitle',]
     for line in header:
         texFile.write(line + '\n')
     for line in output:
         texFile.write(line + '\n')
-    texFile.write('\\end{document}')
+    texFile.write(r'\end{document}')
     texFile.close()
     if systemOpt == 'nt': # windows
+        subprocess.Popen(['pdflatex','%s/plots.tex'%name],shell=True)
+        subprocess.Popen(['mov','plots.pdf', '%s\\' %name],shell=True) 
+        subprocess.Popen(['SumatraPDF.exe',r'%s\plots.pdf'%name],shell=True) # whatever this hangs in windows but we can live with that.
+    elif systemOpt == 'posix': # mac call the specific pdf application, for some reason the Popen doesn't work like I want it to on mac as it does on windows.
         subprocess.call(['pdflatex','%s/plots.tex'%name])
-        subprocess.call(['mv','plots.pdf', '%s\\'%name])
-        subprocess.call(['SumatraPDF.exe','%s\\plots.pdf'%name]) # whatever this hangs in windows but we can live with that.
-    elif systemOpt == 'posix': # mac, linux you will need to call the specific pdf application 
-        subprocess.call(['pdflatex','--output-directory %s/'%name, '%s/plots.tex'%name])
-        subprocess.call(['mv','plots.pdf', '%s/'%name])
+        subprocess.call(['mv','plots.pdf', '%s/'%name]) 
         subprocess.call(['open','-a','/Applications/Preview.app','%s/plots.pdf'%name])
-    #open -a /Applications/Preview.app 'plots.pdf'
+    #Need to add extension for linux support!
 #}}}
 #}}}
 
@@ -152,10 +152,10 @@ defaultDataParamsFile = 'databaseParameters.pkl'
 temp = load_acqu(dirformat(dirformat(fullPath))+'1',return_s = False)# this pull all of the aquisition data
 cnst = temp.get('CNST')
 t1StartingAttenuation = cnst[24]
-if float(t1FirstAttenFullPower) == float(1.0): # this means we ran the first experiment at full attenuation and we need to handle the power series differently.
-    t1FirstAttenFullPower = True
-else:
+if float(t1StartingAttenuation) == float(1.0): # this means we ran the first experiment at full attenuation and we need to handle the power series differently.
     t1FirstAttenFullPower = False
+else:
+    t1FirstAttenFullPower = True
 
 
 
@@ -307,7 +307,7 @@ if dnpexp: # only work up files if DNP experiment
         fl.figurelist.append({'print_string':"Before you start, the terminal (commandline) is still alive and will walk you through making edits to the necessary parameters to resolve this issue. \n\n \large(Issue) The number of power values, %d, and the number of enhancement experiments, %d, does not match. This is either because \n\n (1) I didn't return the correct number of powers or \n\n (2) You didn't enter the correct number of dnp experiments. \n\n If case (1) look at plot 'Enhancement Derivative powers' the black line is determined by 'parameterDict['thresholdE']' in the code. Adjust the threshold value such that the black line is below all of the blue peaks that you suspect are valid power jumps. \n\n If case (2) look through the experiment titles, listed below and make sure you have set 'dnpExps' correctly. Also shown below. Recall that the last experiment in both the DNP and T1 sets is empty."%(len(enhancementPowers),len(parameterDict['dnpExps'])) + '\n\n'})
         fl.figurelist.append({'print_string':r'\subsection{Experiment Titles and Experiment Number}' + '\n\n'})
         for title in expTitles:
-            fl.figurelist.append({'print_string':"%s"%title + '\n\n'})#}}}
+            fl.figurelist.append({'print_string':r"%s"%title + '\n\n'})#}}}
         compilePDF(name)
         answer = raw_input("\n\n --> Do you need to adjust the parameterDict['thresholdE'] parameter? Currently parameterDict['thresholdE'] = %0.2f. (If no, type 'no'. If yes, type the new threshold value e.g. '0.5') \n\n ->> "%parameterDict['thresholdE'])
         if answer != 'no':
@@ -350,7 +350,7 @@ if dnpexp: # only work up files if DNP experiment
         fl.figurelist.append({'print_string':"Before you start, the terminal (commandline) is still alive and will walk you through making edits to the necessary parameters to resolve this issue. \n\n \large(Issue:) The number of power values, %d, and the number of $T_1$ experiments, %d, does not match. This is either because \n\n (1) I didn't return the correct number of powers or \n\n (2) You didn't enter the correct number of T1 experiments. \n\n If case (1) look at plot 'T1 Derivative powers' the black line is determined by 'thresholdT1' in the code. Adjust the threshold value such that the black line is below all of the blue peaks that you suspect are valid power jumps. \n\n If case (2) look through the experiment titles, listed below and make sure you have set 't1Exp' correctly. Also shown below. Recall that the last experiment in both the DNP and T1 sets is empty."%(len(t1Power),len(parameterDict['t1Exp'])) + '\n\n'})
         fl.figurelist.append({'print_string':r'\subsection{Experiment Titles and Experiment Number}' + '\n\n'})
         for titleName in expTitles:
-            fl.figurelist.append({'print_string':"%s"%titleName + '\n\n'})#}}}
+            fl.figurelist.append({'print_string':r"%s"%titleName + '\n\n'})#}}}
         compilePDF(name)
         answer = raw_input("\n\n --> Do you need to adjust the thresholdT1 parameter? Currently thresholdT1 = %0.2f. (If no, type 'no'. If yes, type the new threshold value e.g. '0.5') \n\n ->> "%parameterDict['thresholdT1'])
         if answer != 'no':
