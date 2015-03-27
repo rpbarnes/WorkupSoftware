@@ -51,11 +51,7 @@ def compilePDF(name):
     systemOpt = os.name 
     with Capturing() as output:
         fl.show(name + '.pdf')
-<<<<<<< HEAD
-    texFile = open(name+'/plots.tex','wb') # I guess this works across platform because it's actually executed by python.
-=======
-    texFile = open('plots.tex','w+') # I guess this works because it's actually executed by python.
->>>>>>> 1dc2596ec512cc2391387e6fd9d0205f6fc1ed0d
+    texFile = open('plots.tex','w+') 
     header = [
         r'\documentclass[10pt]{book}',
         r'\usepackage{mynotebook}',
@@ -74,8 +70,16 @@ def compilePDF(name):
     texFile.write(r'\end{document}')
     texFile.close()
     subprocess.call(['pdflatex','plots.tex'])
+    subprocess.call(['pdflatex','plots.tex'])
     shutil.copy('plots.tex',name)
     shutil.copy('plots.pdf',name)
+	listOfFiles = os.listdir('.')
+	plotList = []
+	for item in listOfFiles:
+		if 'plots' in item:
+			plotList.append(item)
+	for item in plotList:
+		os.remove(item)		
     if systemOpt == 'nt': # windows
         subprocess.call(['SumatraPDF.exe',r'%s\plots.pdf'%name],shell=True) # whatever this hangs in windows but we can live with that.
     elif systemOpt == 'posix': # mac, I wonder if this will work on later versions?
