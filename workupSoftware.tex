@@ -53,6 +53,7 @@ This details how to install the necessary software on windows. This will also go
     \item Install vim74 \o[This is for me (Ryan) for when I go play on your computer. If you install this you get major brownie points :)]{}
     \item Install notepad \o[This is for you and will make your life easier for when you need to edit the programs, which hopefully you wont have to do.]{Or you can just use the native spyder editor which comes with python xy}
     \item Install latex via texlive for windows. Just run the simple install. \o[This takes a long ass time so start this early.]{}
+    \item Install pymongo, type "pip install pymongo" while logged in as an administrator.
 \end{enumerate}
 \chapter{Guide to Running the Workup Code}
 Put instructions here for running the workup code. Initially go through the answers for the query statements, especially how to enter the dnp and t1 exp numbers. Then go through exceptions and how the user should use the command line to remedy the situation.
@@ -71,13 +72,28 @@ I save the data in the database in this format
 # {'data':{'t1':{'data':listOfData,'error':listOfError,'dim1':listOfDim1Vals,'dimNames':listOfDimNames},'enhancement':{'data':listOfData,'error':listOfError,'dim1':listOfDim1Vals,'dimNames':listOfDimNames}}}
 This allows me to nicely store the data without clogging the database keys with a bunch of crap.
 
+\section{Proper Databasing Format}
+Following proper format is {\bf BLOODY FUCKING NECESSARY!!!} That being said let I outline below what proper format should be.
+
+\subsection{Macromolecule}
+Any macromolecule such as a protein or liposome should be entered in full chemical name. For instance CheY should be entered in as Chemotaxis Y, with the appropriate capitalization and spacing!
+
+The first letter should be capitalized and the spacing between words should be adhered to.
+
+A liposome such as DOPC should be entered is as 1,2-Dioleoyl-sn-glycero-3phosphocholine. 
+
+I realize this is a pain in the ass but this is why the workup script pulls your last entry for the databasing section of the code in hopes that you don't need to enter this in many times.
+
+\subsection{Concentration}
+
+
 
 \section{Database Key Definitions}
 Currently the search headings include:
 \begin{enumerate}
     \item \o{operator} - this is the experimenter's name e.g. Ryan Barnes.
     \item \o{date} - this is the date of the experiment
-    \item \o{setType} - this is the type of experiment, do not modify this as it's set by the code e.g. dnpExp or t1Exp.
+    \item \o{setType} - this is the type of experiment, do not modify this as it's set by the code e.g. 'dnpExp' or 't1Exp'. Also if entering in worked up data such as a series of kSigma values or such this tag is set to 'seriesData'.
     \item \o{macroMolecule} - this is the macromolecule in the sample e.g. protein (Chemotaxis Y, tau187), liposome (DOPC, DPPC). \o[If there is no macromolecule this is set to 'None'.]{} 
     \item \o{bindingPartner} - this is the other macromolecule in sample that is not spin labeled. \o[If there is no other macromolecule in the sample this is set to none.]{} 
     \item \o{concentrationMM} - this is the approximate concentration of the \o{macroMolecule}, this assumes the spin label is the same concentration.
@@ -103,9 +119,12 @@ I think what I've learned is that it's not nice to drop everything in one matrix
 
 What you should do is loop through producing nddata sets given appropriate search parameters. This is the easiest way to do this for now. 
 
-\chapter{Development:}
+\chapter{Development}
 \section{New Implementations:}
 \begin{enumerate}
+    \item $\Box$ Clearly write out the formalism for entering data in the database.
+    \item $\Box$ You need to change the rate fit to do a weighting based on the error of the $T_1$ value.
+    \item $\Box$ Add script to take the output of the Atenbach project for EPR fitting and database this. This should save the data, the fit, and the fit parameters - specifically the correlation time and the A and G matrix.
     \item $\checkmark$ Make returnIntegrals work with new database module.
     \item $\Box$ You should dump the worked up data sets (csv files and whatnot) into a directory called data.
     \item $\checkmark$ You need to add a supplemental script so you can go back and update or change a given database entry, this should be located by the experiment name, pulled from the database. \o[This is in updateDatabaseEntry.py]{}
@@ -134,6 +153,12 @@ What you should do is loop through producing nddata sets given appropriate searc
 \end{enumerate}
 \section{Bugs:}
 \begin{enumerate}
+    \item $\checkmark$ Windows hard fails everytime the code is run for a second time. This is really todo with how I initialize the Qt package / application.
+    \item $\checkmark$ In windows it depends how the program was launched. If mingw things run nicely if not it turns to crap. You should look into how to do all calls with python instead of using subprocess. All these problems are to do with the subprocess calls. Look into \o[shutil]{I force it to use the cmd, the worst tool in the world but a consitent tool none the less. This now seems to be taken care of.}
+    \item $\checkmark$ When code soft exits in windows it crashes on the print statements. \o[You should test this, it should be fixed but I'm not entirely sure without debugging.]{This is now taken care of, I needed to drop the line termination character at the end of the title name.}
+    \item $\Box$ First power missed in \o[150228 ̇CheY ̇N121C ̇None ̇181uM ̇YesUrea ̇RT ̇ODNP]{}. It looks like the power picking fucntion got caught on the initial jump.
+    \item $\checkmark$ In the database repeat is saved as both string and int. This isn't ok - every parameter, other than the list of data should be a string. \o[now every key and value except the 'data' and '\_id' are entered as strings.]{}
+    \item $\Box$ You need to move to the new figlist\_var class of matlablike.py. Waiting to hear back from John on this one. \o[Right now the figures have no axes. This is unfortunate and needs fixing. I have a suspicion that this has to do with the order inwhich the matplotlib backends are brought in.]{Wait for now as this isn't of major importance. Actually this is only a mac probelm, on windows the old class does have axes.}
     \item $\Box$ Code hard fails when the $T_1$ fit fails. This should at least give a warning, although adding newton's method should alleviate future failures.
     \item $\Box$ I truly do not believe my $T_1$ error estimate from the covariance.
     \item $\Box$ When working up a short experiment such as \o['150211_4OHT_400uM_25pGlyH2O_250K_ODNP']{} I get an error because it under estimates the maximum experiment time. For now it's just hardset to be 20 seconds longer than it should be.
@@ -167,6 +192,8 @@ What you should do is loop through producing nddata sets given appropriate searc
 I start a module \o['database.py']{} to contain all of my database helper functions. Note I need to move any database stuff I have to this file.
 
 \begin{enumerate}
+    \item $\Box$ You should wrap something to pull from mongo and dump the meta data and data to separate csv's in the same file.
+    \item $\Box$ You should also write a method to go from this csv format to the database such that you can add meta data to file
     \item $\checkmark$ Wrap method of saving the nddata sets to mongo database \o[This is done in a very janky way right now.]{}
     \item $\checkmark$ Method for print statement headers
     \item $\Box$ Method to save an nddata to csv file.

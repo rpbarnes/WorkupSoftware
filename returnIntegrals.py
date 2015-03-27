@@ -1,5 +1,7 @@
-from h5nmr import *
+import shutil
 import nmrfit
+from nmr import * 
+from matlablike import *
 from PyQt4 import QtGui, QtCore
 import pymongo
 import os
@@ -9,6 +11,7 @@ import database as dtb
 import sys
 import subprocess
 import pickle
+import fornotebook as fnb
 
 #{{{ Various definitions and classes
 #{{{ Print a fancy title in the command line
@@ -31,7 +34,7 @@ class my_widget_class (QtGui.QDialog):
         self.datadir_changed = False
 #}}}
 
-#{{{ Class function for grabbing python output. ->> This should be moved to fornotebook or something.
+#{{{ Class function for grabbing python output. ->> This should be moved to fornotebook
 class Capturing(list):
     def __enter__(self):
         self._stdout = sys.stdout
@@ -48,39 +51,42 @@ def compilePDF(name):
     systemOpt = os.name 
     with Capturing() as output:
         fl.show(name + '.pdf')
+<<<<<<< HEAD
     texFile = open(name+'/plots.tex','wb') # I guess this works across platform because it's actually executed by python.
+=======
+    texFile = open('plots.tex','w+') # I guess this works because it's actually executed by python.
+>>>>>>> 1dc2596ec512cc2391387e6fd9d0205f6fc1ed0d
     header = [
-        '\\documentclass[10pt]{book}',
-        '\\usepackage{mynotebook}',
-        '\\usepackage{mysoftware_style}',
-        '\\newcommand{\\autoDir}{/Users/StupidRobot/Projects/WorkupSoftware/notebook/auto_figures/}',
-        '\\usepackage{cite}', 
-        '\\usepackage{ulem}',
-        '\\title{workup %s}'%name,
-        '\\date{\\today}',
-        '\\begin{document}',
-        '\\maketitle',]
+        r'\documentclass[10pt]{book}',
+        r'\usepackage{mynotebook}',
+        r'\usepackage{mysoftware_style}',
+        r'\newcommand{\autoDir}{/Users/StupidRobot/Projects/WorkupSoftware/notebook/auto_figures/}',
+        r'\usepackage{cite}', 
+        r'\usepackage{ulem}',
+        r'\title{workup %s}'%name,
+        r'\date{\today}',
+        r'\begin{document}',
+        r'\maketitle',]
     for line in header:
         texFile.write(line + '\n')
     for line in output:
         texFile.write(line + '\n')
-    texFile.write('\\end{document}')
+    texFile.write(r'\end{document}')
     texFile.close()
+    subprocess.call(['pdflatex','plots.tex'])
+    shutil.copy('plots.tex',name)
+    shutil.copy('plots.pdf',name)
     if systemOpt == 'nt': # windows
-        subprocess.call(['pdflatex','--output-directory %s\\'%name, '%s\\plots.tex'%name])
-        subprocess.call(['move','plots.pdf', '%s\\'%name])
-        subprocess.call(['open','-a','/Applications/Preview.app','%s\\plots.pdf'%name])
-    elif systemOpt == 'posix': # mac, linux you will need to call the specific pdf application 
-        subprocess.call(['pdflatex','--output-directory %s/'%name, '%s/plots.tex'%name])
-        subprocess.call(['mv','plots.pdf', '%s/'%name])
+        subprocess.call(['SumatraPDF.exe',r'%s\plots.pdf'%name],shell=True) # whatever this hangs in windows but we can live with that.
+    elif systemOpt == 'posix': # mac, I wonder if this will work on later versions?
         subprocess.call(['open','-a','/Applications/Preview.app','%s/plots.pdf'%name])
-    #open -a /Applications/Preview.app 'plots.pdf'
+    #Need to add extension for linux support!
 #}}}
 #}}}
 
 
 close('all')
-fl = figlistl()
+fl = fnb.figlist()
 
 #{{{ Find the data directory and the file name of the experiment
 dataDirecFile = 'datadir.txt'
@@ -146,6 +152,15 @@ except:
 expParametersFile = fileName + 'parameters.pkl'
 defaultExpParamsFile = 'parameters.pkl'
 defaultDataParamsFile = 'databaseParameters.pkl'
+temp = load_acqu(dirformat(dirformat(fullPath))+'1',return_s = False)# this pull all of the aquisition data
+cnst = temp.get('CNST')
+t1StartingAttenuation = cnst[24]
+if float(t1StartingAttenuation) == float(1.0): # this means we ran the first experiment at full attenuation and we need to handle the power series differently.
+    t1FirstAttenFullPower = True
+else:
+    t1FirstAttenFullPower = False
+
+
 
 # Experiment parameters
 dnpExps = r_[5:27] # default experiment numbers
@@ -154,6 +169,7 @@ integrationWidth = 75
 t1StartingGuess = 2.5 ### This is the best guess for what your T1's are, if your T1 fits don't come out change this guess!!
 ReturnKSigma = True ### This needs to be False because my code is broken
 t1SeparatePhaseCycle = True ### Did you save the phase cycles separately?
+t1StartingAttenuation = 22.0
 thresholdE = 0.3
 thresholdT1 = 0.3
 badT1 = []
@@ -170,7 +186,7 @@ if not expExists:
                     't1SeparatePhaseCycle':t1SeparatePhaseCycle,
                     'thresholdE':thresholdE,
                     'thresholdT1':thresholdT1,
-                    'badT1':badT1
+                    'badT1':badT1,
                     }
     dtb.writeDict(expParametersFile,parameterDict)
 else:
@@ -266,13 +282,14 @@ if writeToDB:
     databaseParamsDict.update({'expName':name})
     #}}}
     dtb.modDictVals(databaseParamsDict,databaseCollection=collection)
+    databaseParamsDict = dtb.stringifyDictionary(databaseParamsDict) # force every entry to a string, this way there is no weirdness with the repeat and date entries or really anything that can be mistaken as a double.
     collection.insert(databaseParamsDict) # Save the database parameters to the database in case the code crashes
 
 #}}}
 
 makeTitle("  Running Workup  ")
 
-### Work up the power files#{{{
+#{{{ Work up the power files
 if dnpexp: # only work up files if DNP experiment
     # The enhancement series#{{{
     fl.figurelist.append({'print_string':r'\subparagraph{Enhancement Power Measurement}' + '\n\n'})
@@ -292,8 +309,8 @@ if dnpexp: # only work up files if DNP experiment
         fl.figurelist.append({'print_string':r'\subsection{\large{ERROR: Read Below to fix!!}}' + '\n\n'})#{{{ Error text
         fl.figurelist.append({'print_string':"Before you start, the terminal (commandline) is still alive and will walk you through making edits to the necessary parameters to resolve this issue. \n\n \large(Issue) The number of power values, %d, and the number of enhancement experiments, %d, does not match. This is either because \n\n (1) I didn't return the correct number of powers or \n\n (2) You didn't enter the correct number of dnp experiments. \n\n If case (1) look at plot 'Enhancement Derivative powers' the black line is determined by 'parameterDict['thresholdE']' in the code. Adjust the threshold value such that the black line is below all of the blue peaks that you suspect are valid power jumps. \n\n If case (2) look through the experiment titles, listed below and make sure you have set 'dnpExps' correctly. Also shown below. Recall that the last experiment in both the DNP and T1 sets is empty."%(len(enhancementPowers),len(parameterDict['dnpExps'])) + '\n\n'})
         fl.figurelist.append({'print_string':r'\subsection{Experiment Titles and Experiment Number}' + '\n\n'})
-        for title in expTitles:
-            fl.figurelist.append({'print_string':"%s"%title + '\n\n'})#}}}
+        for titleName in expTitles:
+            fl.figurelist.append({'print_string':r"%s"%(titleName.split('\n')[0]) + '\n\n'})#}}}
         compilePDF(name)
         answer = raw_input("\n\n --> Do you need to adjust the parameterDict['thresholdE'] parameter? Currently parameterDict['thresholdE'] = %0.2f. (If no, type 'no'. If yes, type the new threshold value e.g. '0.5') \n\n ->> "%parameterDict['thresholdE'])
         if answer != 'no':
@@ -303,7 +320,7 @@ if dnpexp: # only work up files if DNP experiment
         if answer != 'no':
             parameterDict.update({'dnpExps':eval(answer)})
             print"\n\n Parameter Saved \n\n"
-        writeDict(expParametersFile,parameterDict)
+        dtb.writeDict(expParametersFile,parameterDict)
         raise ValueError("\n\n Please close the pdf and re-run the script")
     #}}}
     # Open the enhancement powers file and dump to csv
@@ -321,7 +338,8 @@ if dnpexp: # only work up files if DNP experiment
     if not expTimeMin:
         print expTitles
         raise ValueError("\n\nThe experiment numbers are not set appropriately, please scroll through the experiment titles above and set values appropriately")
-    t1Power,fl.figurelist = returnSplitPowers(fullPath,'t1_powers.mat',expTimeMin = expTimes.min(),expTimeMax=expTimeMin.data + expTimeMin.data/2,dnpPowers = False,threshold = parameterDict['thresholdT1'],titleString = 'T1 ',firstFigure = fl.figurelist)
+    # I have the same problem with the dnp powers, if the starting attenuation is full attenuation '31.5' then there is no initial jump and we need to deal with it the same way. Right now I pull from constant 24 in the aquisition parameters. This should now work without having to ask the user.
+    t1Power,fl.figurelist = returnSplitPowers(fullPath,'t1_powers.mat',expTimeMin = expTimes.min(),expTimeMax=expTimeMin.data + expTimeMin.data/2,dnpPowers = t1FirstAttenFullPower,threshold = parameterDict['thresholdT1'],titleString = 'T1 ',firstFigure = fl.figurelist)
     t1Power = list(t1Power)
     t1Power.append(-99.0) # Add the zero power for experiment 304
     t1Power = array(t1Power)
@@ -332,7 +350,7 @@ if dnpexp: # only work up files if DNP experiment
         fl.figurelist.append({'print_string':"Before you start, the terminal (commandline) is still alive and will walk you through making edits to the necessary parameters to resolve this issue. \n\n \large(Issue:) The number of power values, %d, and the number of $T_1$ experiments, %d, does not match. This is either because \n\n (1) I didn't return the correct number of powers or \n\n (2) You didn't enter the correct number of T1 experiments. \n\n If case (1) look at plot 'T1 Derivative powers' the black line is determined by 'thresholdT1' in the code. Adjust the threshold value such that the black line is below all of the blue peaks that you suspect are valid power jumps. \n\n If case (2) look through the experiment titles, listed below and make sure you have set 't1Exp' correctly. Also shown below. Recall that the last experiment in both the DNP and T1 sets is empty."%(len(t1Power),len(parameterDict['t1Exp'])) + '\n\n'})
         fl.figurelist.append({'print_string':r'\subsection{Experiment Titles and Experiment Number}' + '\n\n'})
         for titleName in expTitles:
-            fl.figurelist.append({'print_string':"%s"%titleName + '\n\n'})#}}}
+            fl.figurelist.append({'print_string':r"%s"%([titleName[0].split('\n')[0],titleName[1]]) + '\n\n'})#}}}
         compilePDF(name)
         answer = raw_input("\n\n --> Do you need to adjust the thresholdT1 parameter? Currently thresholdT1 = %0.2f. (If no, type 'no'. If yes, type the new threshold value e.g. '0.5') \n\n ->> "%parameterDict['thresholdT1'])
         if answer != 'no':
@@ -342,7 +360,7 @@ if dnpexp: # only work up files if DNP experiment
         if answer != 'no':
             parameterDict.update({'t1Exp':eval(answer)})
             print"\n\n Parameter Saved \n\n"
-        writeDict(expParametersFile,parameterDict)
+        dtb.writeDict(expParametersFile,parameterDict)
         print"\n\n Updated parameters are saved \n\n"
         raise ValueError("\n\n Please close the pdf and re-run the script")
     #}}}
