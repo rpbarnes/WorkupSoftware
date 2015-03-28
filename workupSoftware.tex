@@ -126,7 +126,7 @@ What you should do is loop through producing nddata sets given appropriate searc
     \item $\Box$ You need to change the rate fit to do a weighting based on the error of the $T_1$ value.
     \item $\Box$ Add script to take the output of the Atenbach project for EPR fitting and database this. This should save the data, the fit, and the fit parameters - specifically the correlation time and the A and G matrix.
     \item $\checkmark$ Make returnIntegrals work with new database module.
-    \item $\Box$ You should dump the worked up data sets (csv files and whatnot) into a directory called data.
+    \item $\checkmark$ You should dump the worked up data sets (csv files and whatnot) into a directory called data.
     \item $\checkmark$ You need to add a supplemental script so you can go back and update or change a given database entry, this should be located by the experiment name, pulled from the database. \o[This is in updateDatabaseEntry.py]{}
     \item $\checkmark$ In database the 'setType' key should define either the experiment or the workup series\ldots Maybe. \o[I added this so for dnp it says 'dnpExp' and t10 it says 't10', you can also now use this key as a label for series data sets.]{}
     \item $\checkmark$ You should move all of the data in the database dictionaries to a data subfield in which you hold all relevant data sets. This way you could make the database search and drop something more dynamic and not depend on several if statements. \o[This seems to work now although it might have a few buggies.]{Now the problem is to either update all of the existing database entries into the new scheme.}
