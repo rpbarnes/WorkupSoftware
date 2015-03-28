@@ -1,4 +1,4 @@
-import shutil
+#from h5nmr import *
 import nmrfit
 from nmr import * 
 from matlablike import *
@@ -51,7 +51,7 @@ def compilePDF(name):
     systemOpt = os.name 
     with Capturing() as output:
         fl.show(name + '.pdf')
-    texFile = open('plots.tex','w+') 
+    texFile = open(name+'/plots.tex','wb') # I guess this works because it's actually executed by python.
     header = [
         r'\documentclass[10pt]{book}',
         r'\usepackage{mynotebook}',
@@ -69,20 +69,13 @@ def compilePDF(name):
         texFile.write(line + '\n')
     texFile.write(r'\end{document}')
     texFile.close()
-    subprocess.call(['pdflatex','plots.tex'])
-    subprocess.call(['pdflatex','plots.tex'])
-    shutil.copy('plots.tex',name)
-    shutil.copy('plots.pdf',name)
-	listOfFiles = os.listdir('.')
-	plotList = []
-	for item in listOfFiles:
-		if 'plots' in item:
-			plotList.append(item)
-	for item in plotList:
-		os.remove(item)		
     if systemOpt == 'nt': # windows
-        subprocess.call(['SumatraPDF.exe',r'%s\plots.pdf'%name],shell=True) # whatever this hangs in windows but we can live with that.
-    elif systemOpt == 'posix': # mac, I wonder if this will work on later versions?
+        subprocess.Popen(['pdflatex','%s/plots.tex'%name],shell=True)
+        subprocess.Popen(['mov','plots.pdf', '%s\\' %name],shell=True) 
+        subprocess.Popen(['SumatraPDF.exe',r'%s\plots.pdf'%name],shell=True) # whatever this hangs in windows but we can live with that.
+    elif systemOpt == 'posix': # mac call the specific pdf application, for some reason the Popen doesn't work like I want it to on mac as it does on windows.
+        subprocess.call(['pdflatex','%s/plots.tex'%name])
+        subprocess.call(['mv','plots.pdf', '%s/'%name]) 
         subprocess.call(['open','-a','/Applications/Preview.app','%s/plots.pdf'%name])
     #Need to add extension for linux support!
 #}}}
@@ -160,9 +153,9 @@ temp = load_acqu(dirformat(dirformat(fullPath))+'1',return_s = False)# this pull
 cnst = temp.get('CNST')
 t1StartingAttenuation = cnst[24]
 if float(t1StartingAttenuation) == float(1.0): # this means we ran the first experiment at full attenuation and we need to handle the power series differently.
-    t1FirstAttenFullPower = True
-else:
     t1FirstAttenFullPower = False
+else:
+    t1FirstAttenFullPower = True
 
 
 
@@ -293,7 +286,7 @@ if writeToDB:
 
 makeTitle("  Running Workup  ")
 
-#{{{ Work up the power files
+### Work up the power files#{{{
 if dnpexp: # only work up files if DNP experiment
     # The enhancement series#{{{
     fl.figurelist.append({'print_string':r'\subparagraph{Enhancement Power Measurement}' + '\n\n'})
@@ -313,8 +306,8 @@ if dnpexp: # only work up files if DNP experiment
         fl.figurelist.append({'print_string':r'\subsection{\large{ERROR: Read Below to fix!!}}' + '\n\n'})#{{{ Error text
         fl.figurelist.append({'print_string':"Before you start, the terminal (commandline) is still alive and will walk you through making edits to the necessary parameters to resolve this issue. \n\n \large(Issue) The number of power values, %d, and the number of enhancement experiments, %d, does not match. This is either because \n\n (1) I didn't return the correct number of powers or \n\n (2) You didn't enter the correct number of dnp experiments. \n\n If case (1) look at plot 'Enhancement Derivative powers' the black line is determined by 'parameterDict['thresholdE']' in the code. Adjust the threshold value such that the black line is below all of the blue peaks that you suspect are valid power jumps. \n\n If case (2) look through the experiment titles, listed below and make sure you have set 'dnpExps' correctly. Also shown below. Recall that the last experiment in both the DNP and T1 sets is empty."%(len(enhancementPowers),len(parameterDict['dnpExps'])) + '\n\n'})
         fl.figurelist.append({'print_string':r'\subsection{Experiment Titles and Experiment Number}' + '\n\n'})
-        for titleName in expTitles:
-            fl.figurelist.append({'print_string':r"%s"%(titleName.split('\n')[0]) + '\n\n'})#}}}
+        for title in expTitles:
+            fl.figurelist.append({'print_string':r"%s"%title + '\n\n'})#}}}
         compilePDF(name)
         answer = raw_input("\n\n --> Do you need to adjust the parameterDict['thresholdE'] parameter? Currently parameterDict['thresholdE'] = %0.2f. (If no, type 'no'. If yes, type the new threshold value e.g. '0.5') \n\n ->> "%parameterDict['thresholdE'])
         if answer != 'no':
@@ -324,7 +317,7 @@ if dnpexp: # only work up files if DNP experiment
         if answer != 'no':
             parameterDict.update({'dnpExps':eval(answer)})
             print"\n\n Parameter Saved \n\n"
-        dtb.writeDict(expParametersFile,parameterDict)
+        writeDict(expParametersFile,parameterDict)
         raise ValueError("\n\n Please close the pdf and re-run the script")
     #}}}
     # Open the enhancement powers file and dump to csv
@@ -343,7 +336,10 @@ if dnpexp: # only work up files if DNP experiment
         print expTitles
         raise ValueError("\n\nThe experiment numbers are not set appropriately, please scroll through the experiment titles above and set values appropriately")
     # I have the same problem with the dnp powers, if the starting attenuation is full attenuation '31.5' then there is no initial jump and we need to deal with it the same way. Right now I pull from constant 24 in the aquisition parameters. This should now work without having to ask the user.
-    t1Power,fl.figurelist = returnSplitPowers(fullPath,'t1_powers.mat',expTimeMin = expTimes.min(),expTimeMax=expTimeMin.data + expTimeMin.data/2,dnpPowers = t1FirstAttenFullPower,threshold = parameterDict['thresholdT1'],titleString = 'T1 ',firstFigure = fl.figurelist)
+    if t1FirstAttenFullPower:
+        t1Power,fl.figurelist = returnSplitPowers(fullPath,'t1_powers.mat',expTimeMin = expTimes.min(),expTimeMax=expTimeMin.data + expTimeMin.data/2,dnpPowers = True,threshold = parameterDict['thresholdT1'],titleString = 'T1 ',firstFigure = fl.figurelist)
+    else:
+        t1Power,fl.figurelist = returnSplitPowers(fullPath,'t1_powers.mat',expTimeMin = expTimes.min(),expTimeMax=expTimeMin.data + expTimeMin.data/2,dnpPowers = False,threshold = parameterDict['thresholdT1'],titleString = 'T1 ',firstFigure = fl.figurelist)
     t1Power = list(t1Power)
     t1Power.append(-99.0) # Add the zero power for experiment 304
     t1Power = array(t1Power)
@@ -354,7 +350,7 @@ if dnpexp: # only work up files if DNP experiment
         fl.figurelist.append({'print_string':"Before you start, the terminal (commandline) is still alive and will walk you through making edits to the necessary parameters to resolve this issue. \n\n \large(Issue:) The number of power values, %d, and the number of $T_1$ experiments, %d, does not match. This is either because \n\n (1) I didn't return the correct number of powers or \n\n (2) You didn't enter the correct number of T1 experiments. \n\n If case (1) look at plot 'T1 Derivative powers' the black line is determined by 'thresholdT1' in the code. Adjust the threshold value such that the black line is below all of the blue peaks that you suspect are valid power jumps. \n\n If case (2) look through the experiment titles, listed below and make sure you have set 't1Exp' correctly. Also shown below. Recall that the last experiment in both the DNP and T1 sets is empty."%(len(t1Power),len(parameterDict['t1Exp'])) + '\n\n'})
         fl.figurelist.append({'print_string':r'\subsection{Experiment Titles and Experiment Number}' + '\n\n'})
         for titleName in expTitles:
-            fl.figurelist.append({'print_string':r"%s"%([titleName[0].split('\n')[0],titleName[1]]) + '\n\n'})#}}}
+            fl.figurelist.append({'print_string':r"%s"%titleName + '\n\n'})#}}}
         compilePDF(name)
         answer = raw_input("\n\n --> Do you need to adjust the thresholdT1 parameter? Currently thresholdT1 = %0.2f. (If no, type 'no'. If yes, type the new threshold value e.g. '0.5') \n\n ->> "%parameterDict['thresholdT1'])
         if answer != 'no':
@@ -364,7 +360,7 @@ if dnpexp: # only work up files if DNP experiment
         if answer != 'no':
             parameterDict.update({'t1Exp':eval(answer)})
             print"\n\n Parameter Saved \n\n"
-        dtb.writeDict(expParametersFile,parameterDict)
+        writeDict(expParametersFile,parameterDict)
         print"\n\n Updated parameters are saved \n\n"
         raise ValueError("\n\n Please close the pdf and re-run the script")
     #}}}
