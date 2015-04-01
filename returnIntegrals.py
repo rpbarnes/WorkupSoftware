@@ -1,4 +1,5 @@
 #from h5nmr import *
+import shutil
 import nmrfit
 from nmr import * 
 from matlablike import *
@@ -51,7 +52,7 @@ def compilePDF(name):
     systemOpt = os.name 
     with Capturing() as output:
         fl.show(name + '.pdf')
-    texFile = open(name+'/plots.tex','wb') # I guess this works because it's actually executed by python.
+    texFile = open('plots.tex','wb')
     header = [
         r'\documentclass[10pt]{book}',
         r'\usepackage{mynotebook}',
@@ -69,13 +70,12 @@ def compilePDF(name):
         texFile.write(line + '\n')
     texFile.write(r'\end{document}')
     texFile.close()
+    subprocess.Popen(['pdflatex','plots.tex'],shell=True)
+    shutil.copy('plots.tex',name)
+    shutil.copy('plots.pdf',name)
     if systemOpt == 'nt': # windows
-        subprocess.Popen(['pdflatex','%s/plots.tex'%name],shell=True)
-        subprocess.Popen(['mov','plots.pdf', '%s\\' %name],shell=True) 
-        subprocess.Popen(['SumatraPDF.exe',r'%s\plots.pdf'%name],shell=True) # whatever this hangs in windows but we can live with that.
-    elif systemOpt == 'posix': # mac call the specific pdf application, for some reason the Popen doesn't work like I want it to on mac as it does on windows.
-        subprocess.call(['pdflatex','%s/plots.tex'%name])
-        subprocess.call(['mv','plots.pdf', '%s/'%name]) 
+        subprocess.Popen(['SumatraPDF.exe',r'%s\plots.pdf'%name],shell=True)
+    elif systemOpt == 'posix':
         subprocess.call(['open','-a','/Applications/Preview.app','%s/plots.pdf'%name])
     #Need to add extension for linux support!
 #}}}
