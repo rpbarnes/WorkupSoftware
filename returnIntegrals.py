@@ -70,7 +70,7 @@ def compilePDF(name):
         texFile.write(line + '\n')
     texFile.write(r'\end{document}')
     texFile.close()
-    subprocess.Popen(['pdflatex','plots.tex'],shell=True)
+    subprocess.Popen(['pdflatex','plots.tex'])
     shutil.copy('plots.tex',name)
     shutil.copy('plots.pdf',name)
     if systemOpt == 'nt': # windows
@@ -153,9 +153,9 @@ temp = load_acqu(dirformat(dirformat(fullPath))+'1',return_s = False)# this pull
 cnst = temp.get('CNST')
 t1StartingAttenuation = cnst[24]
 if float(t1StartingAttenuation) == float(1.0): # this means we ran the first experiment at full attenuation and we need to handle the power series differently.
-    t1FirstAttenFullPower = False
-else:
     t1FirstAttenFullPower = True
+else:
+    t1FirstAttenFullPower = False
 
 
 
