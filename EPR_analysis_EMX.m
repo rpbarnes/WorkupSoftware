@@ -14,14 +14,14 @@ clear all
 close all
 %% User input section
 
-FolderName = '/Users/StupidRobot/exp_data/ryan_cnsi/epr/150227_EPRConcSeries/';
+FolderName = '/Users/StupidRobot/exp_data/ryan_cnsi/epr/150404_ProbeTestV2-1/';
 
-FileNames{1} ='CheY_D41C_None_271uM_14-6mm_NoUrea';
-FileNames{2} ='CheY_E37C_None_259uM_13-5mm_NoUrea';
-FileNames{3} ='CheY_K91C_None_350uM_14-3mm_NoUrea';
-FileNames{4} ='CheY_M17C_None_253uM_14mm_NoUrea';
-FileNames{5} ='CheY_N62C_None_350uM_13-4mm_NoUrea';
-FileNames{6} ='CheY_N121C_None_363uM_14-8mm_NoUrea';
+FileNames{1} ='150402_200uM_4OHT_ProbeV2-1BeforeExpoxyAndAirFlowConnector';
+FileNames{2} ='AfterMovingStuff';
+FileNames{3} ='AfterscrapingEpoxyOff';
+FileNames{4} ='SomethingChanged';
+% FileNames{5} ='CheY_N62C_None_350uM_13-4mm_NoUrea';
+% FileNames{6} ='CheY_N121C_None_363uM_14-8mm_NoUrea';
 % FileNames{7} ='140922_CheY_E37C_FliM_241uM_RT_EPR';
 % FileNames{8} ='140922_CheY_E37C_10mMFliM_241uM_RT_EPR';
 % FileNames{9} ='140921_CheY_E37C_P2_241uM_RT_EPR';
@@ -41,7 +41,7 @@ FileNames{6} ='CheY_N121C_None_363uM_14-8mm_NoUrea';
 % FileNames{3} = '150206-ODNP1-600mM-NaCl_100mM_AcA_pH3_10scans';
 % FileNames{4} ='150206-ODNP1-900mM-NaCl_100mM_AcA_pH3_10scans';
 
-Summary_FileName = 'CheYConcSeries.xls';
+Summary_FileName = 'test.xls';
 
 
 % FolderName = 'C:\Users\Ilia\Dropbox\Work\Song-I\Nikki Batch EPR analysis\';
