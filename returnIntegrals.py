@@ -1,4 +1,5 @@
 #from h5nmr import *
+import time
 import shutil
 import nmrfit
 from nmr import * 
@@ -70,12 +71,17 @@ def compilePDF(name):
         texFile.write(line + '\n')
     texFile.write(r'\end{document}')
     texFile.close()
-    subprocess.Popen(['pdflatex','plots.tex'])
-    shutil.copy('plots.tex',name)
-    shutil.copy('plots.pdf',name)
+    process=subprocess.Popen(['pdflatex','plots.tex'],shell=True)
+    process.wait()
     if systemOpt == 'nt': # windows
+        print "sleeping because windows yells at me"
+        process=subprocess.Popen(['move','plots.tex',name],shell=True)
+        process=subprocess.Popen(['move','plots.pdf',name],shell=True)
+        process.wait()
         subprocess.Popen(['SumatraPDF.exe',r'%s\plots.pdf'%name],shell=True)
     elif systemOpt == 'posix':
+        shutil.copy('plots.tex',name)
+        shutil.copy('plots.pdf',name)
         subprocess.call(['open','-a','/Applications/Preview.app','%s/plots.pdf'%name])
     #Need to add extension for linux support!
 #}}}
@@ -350,7 +356,7 @@ if dnpexp: # only work up files if DNP experiment
         fl.figurelist.append({'print_string':"Before you start, the terminal (commandline) is still alive and will walk you through making edits to the necessary parameters to resolve this issue. \n\n \large(Issue:) The number of power values, %d, and the number of $T_1$ experiments, %d, does not match. This is either because \n\n (1) I didn't return the correct number of powers or \n\n (2) You didn't enter the correct number of T1 experiments. \n\n If case (1) look at plot 'T1 Derivative powers' the black line is determined by 'thresholdT1' in the code. Adjust the threshold value such that the black line is below all of the blue peaks that you suspect are valid power jumps. \n\n If case (2) look through the experiment titles, listed below and make sure you have set 't1Exp' correctly. Also shown below. Recall that the last experiment in both the DNP and T1 sets is empty."%(len(t1Power),len(parameterDict['t1Exp'])) + '\n\n'})
         fl.figurelist.append({'print_string':r'\subsection{Experiment Titles and Experiment Number}' + '\n\n'})
         for titleName in expTitles:
-            fl.figurelist.append({'print_string':r"%s"%titleName + '\n\n'})#}}}
+            fl.figurelist.append({'print_string':r"%s"%titleName})#}}}
         compilePDF(name)
         answer = raw_input("\n\n --> Do you need to adjust the thresholdT1 parameter? Currently thresholdT1 = %0.2f. (If no, type 'no'. If yes, type the new threshold value e.g. '0.5') \n\n ->> "%parameterDict['thresholdT1'])
         if answer != 'no':
