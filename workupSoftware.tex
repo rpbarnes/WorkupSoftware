@@ -122,6 +122,8 @@ What you should do is loop through producing nddata sets given appropriate searc
 \chapter{Development}
 \section{New Implementations:}
 \begin{enumerate}
+    \item $\Box$ in rb_dnp1 set a constant to a value such that you can use this as an identifier for figuring out if the experiment was run with the new version of the software.
+    \item $\Box$ Add function in returnPowers to accept or reject the first power based on the experiment time and the time spent at the first power, this also should have a tag for the T1 series.
     \item $\Box$ Clearly write out the formalism for entering data in the database.
     \item $\Box$ You need to change the rate fit to do a weighting based on the error of the $T_1$ value.
     \item $\Box$ Add script to take the output of the Atenbach project for EPR fitting and database this. This should save the data, the fit, and the fit parameters - specifically the correlation time and the A and G matrix.
