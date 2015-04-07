@@ -15,6 +15,8 @@ import subprocess
 import pickle
 import fornotebook as fnb
 
+
+
 #{{{ Various definitions and classes
 #{{{ Print a fancy title in the command line
 def makeTitle(titleString):
@@ -172,7 +174,6 @@ integrationWidth = 75
 t1StartingGuess = 2.5 ### This is the best guess for what your T1's are, if your T1 fits don't come out change this guess!!
 ReturnKSigma = True ### This needs to be False because my code is broken
 t1SeparatePhaseCycle = True ### Did you save the phase cycles separately?
-t1StartingAttenuation = 22.0
 thresholdE = 0.3
 thresholdT1 = 0.3
 badT1 = []
@@ -256,6 +257,13 @@ while answer:
 makeTitle("  Experimental Parameters  ")
 dtb.modDictVals(parameterDict,dictType='experiment')
 dtb.writeDict(expParametersFile,parameterDict)
+
+# check to see if this was run with old software. This pertains to rb_dnp and jf_dnp. The new software is rb_dnp1... This is stupid compatibility crap... You should add a more solid identifier in your program.
+t1FirstTitle = expTitles[t1Exp[0]-1]
+print t1FirstTitle
+if '$T_1$' in t1FirstTitle[0]:
+    # this is run on old software and don't need to add first power
+    t1FirstAttenFullPower = False
 #}}}
 
 #{{{ Modify the database parameters dictionary
@@ -342,10 +350,7 @@ if dnpexp: # only work up files if DNP experiment
         print expTitles
         raise ValueError("\n\nThe experiment numbers are not set appropriately, please scroll through the experiment titles above and set values appropriately")
     # I have the same problem with the dnp powers, if the starting attenuation is full attenuation '31.5' then there is no initial jump and we need to deal with it the same way. Right now I pull from constant 24 in the aquisition parameters. This should now work without having to ask the user.
-    if t1FirstAttenFullPower:
-        t1Power,fl.figurelist = returnSplitPowers(fullPath,'t1_powers.mat',expTimeMin = expTimes.min(),expTimeMax=expTimeMin.data + expTimeMin.data/2,dnpPowers = True,threshold = parameterDict['thresholdT1'],titleString = 'T1 ',firstFigure = fl.figurelist)
-    else:
-        t1Power,fl.figurelist = returnSplitPowers(fullPath,'t1_powers.mat',expTimeMin = expTimes.min(),expTimeMax=expTimeMin.data + expTimeMin.data/2,dnpPowers = False,threshold = parameterDict['thresholdT1'],titleString = 'T1 ',firstFigure = fl.figurelist)
+    t1Power,fl.figurelist = returnSplitPowers(fullPath,'t1_powers.mat',expTimeMin = expTimes.min(),expTimeMax=expTimeMin.data + expTimeMin.data/2,dnpPowers = t1FirstAttenFullPower,threshold = parameterDict['thresholdT1'],titleString = 'T1 ',firstFigure = fl.figurelist)
     t1Power = list(t1Power)
     t1Power.append(-99.0) # Add the zero power for experiment 304
     t1Power = array(t1Power)
