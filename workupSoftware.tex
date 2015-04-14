@@ -125,8 +125,8 @@ What you should do is loop through producing nddata sets given appropriate searc
     \item $\Box$ in rb_dnp1 set a constant to a value such that you can use this as an identifier for figuring out if the experiment was run with the new version of the software.
     \item $\Box$ Add function in returnPowers to accept or reject the first power based on the experiment time and the time spent at the first power, this also should have a tag for the T1 series.
     \item $\Box$ Clearly write out the formalism for entering data in the database.
-    \item $\Box$ You need to change the rate fit to do a weighting based on the error of the $T_1$ value.
-    \item $\Box$ Add script to take the output of the Atenbach project for EPR fitting and database this. This should save the data, the fit, and the fit parameters - specifically the correlation time and the A and G matrix.
+    \item $\checkmark$ You need to change the rate fit to do a weighting based on the error of the $T_1$ value.
+    \item $\Box$ Add script to take the output of the Atenbach project for EPR fitting and database this. This should save the data, the fit, and the fit parameters - specifically the correlation time and the A and G matrix. \o[This is not part of the workupSoftware!]{Do not get ahead of yourself!}
     \item $\checkmark$ Make returnIntegrals work with new database module.
     \item $\checkmark$ You should dump the worked up data sets (csv files and whatnot) into a directory called data.
     \item $\checkmark$ You need to add a supplemental script so you can go back and update or change a given database entry, this should be located by the experiment name, pulled from the database. \o[This is in updateDatabaseEntry.py]{}
@@ -135,7 +135,7 @@ What you should do is loop through producing nddata sets given appropriate searc
     \item $\checkmark$ For the repeat database entry key. You should pull the repeats for the count of database items corresponding to the macromolecule, bindingpartner, and spinlabelsite. \o[I've changed the script that pulls the data sets from the database to do this.]{}
     \item $\checkmark$ DATABASE: What you should do is loop through producing nddata sets given appropriate search parameters. This is the easiest way to do this for now. \o[This now works fairly well, I have a function to return a 1D nddata set and this seems to work ok for the moment.]{}
     \item $\Box$ In the future you should play with using mongodb aggregate functions to make querying the database easier.
-    \item $\Box$ Sort database dictionary alphabetically before presentation.
+    \item $\checkmark$ Sort database dictionary alphabetically before presentation.
     \item $\Box$ Add net magnetization plot to the output pdf! This is a nice check to see that the T1 power series makes sense.
     \item $\Box$ You need a couple of data sets from the emx odnp system to calibrate your code to.
     \item $\checkmark$ You need to list the relevant ODNP parameters in the pdf produced. You should also make it so the $T_1$ value is written below the $T_1$ integral graph.
@@ -157,7 +157,7 @@ What you should do is loop through producing nddata sets given appropriate searc
 \begin{enumerate}
     \item $\Box$ I blew up the git version...
     \item $\checkmark$ In windows it depends how the program was launched. If mingw things run nicely if not it turns to crap. You should look into how to do all calls with python instead of using subprocess. All these problems are to do with the subprocess calls. Look into \o[shutil]{I force it to use the cmd, the worst tool in the world but a consitent tool none the less.}
-    \item $\Box$ When code soft exits in windows it crashes on the print statements. \o[You should test this, it should be fixed but I'm not entirely sure without debugging.]{}
+    \item $\Box$ When code soft exits in windows it crashes on the print statements. \o[You should test this, it should be fixed but I'm not entirely sure without debugging.]{This actually still needs to be fixed but you need to use windows to recreate the problem.}
     \item $\Box$ First power missed in \o[150228 ̇CheY ̇N121C ̇None ̇181uM ̇YesUrea ̇RT ̇ODNP]{}. It looks like the power picking fucntion got caught on the initial jump.
     \item $\checkmark$ In the database repeat is saved as both string and int. This isn't ok - every parameter, other than the list of data should be a string. \o[now every key and value except the 'data' and '\_id' are entered as strings.]{}
     \item $\Box$ You need to move to the new figlist\_var class of matlablike.py. Waiting to hear back from John on this one. \o[Right now the figures have no axes. This is unfortunate and needs fixing. I have a suspicion that this has to do with the order inwhich the matplotlib backends are brought in.]{Wait for now as this isn't of major importance.}

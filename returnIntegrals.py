@@ -1,5 +1,6 @@
 #from h5nmr import *
 import time
+from lmfit import minimize,Parameters ### This makes another hoop for installing software that you don't really use...
 import shutil
 import nmrfit
 from nmr import * 
@@ -18,6 +19,17 @@ import fornotebook as fnb
 
 
 #{{{ Various definitions and classes
+
+#{{{ Fitting functions from lmfit
+def analyticLinear(params,x):
+    slope = params['slope'].value
+    intercept = params['intercept'].value
+    return slope * x + intercept
+
+def residual(params, x, data, error):
+    return (data-analyticLinear(params,x))/error
+#}}}
+
 #{{{ Print a fancy title in the command line
 def makeTitle(titleString):
     linelength = 60
@@ -309,7 +321,6 @@ if dnpexp: # only work up files if DNP experiment
         for expTitle in expTitles:
             print expTitle + '\n'
         raise ValueError("\n\nThe experiment numbers are not set appropriately, please scroll through the experiment titles above and set values appropriately")
-    #enhancementPowers,fl.figurelist = returnSplitPowers(fullPath,'power.mat',expTimeMin = 59.0,expTimeMax = expTimeMin.data + 20.0,timeDropStart = 10,dnpPowers = True,threshold = parameterDict['thresholdE'],titleString = 'Enhancement ',firstFigure = fl.figurelist)
     enhancementPowers,fl.figurelist = returnSplitPowers(fullPath,'power.mat',expTimeMin = expTimeMin.data,expTimeMax = expTimeMin.data + 20.0,timeDropStart = 10,dnpPowers = True,threshold = parameterDict['thresholdE'],titleString = 'Enhancement ',firstFigure = fl.figurelist)
     enhancementPowers = list(enhancementPowers)
     enhancementPowers.insert(0,-100)
@@ -479,7 +490,7 @@ if dnpexp:
         t1PowerSeries = nddata(array(t1DataListgood)).rename('value','power').labels(['power'],[array(t1PowerClean)]).set_error(array(t1ErrListgood))
         fl.figurelist = nextfigure(fl.figurelist,'T1PowerSeries')
         plot(t1PowerSeries,'r.')
-        xlim(t1PowerSeries.getaxis('power').min()-0.2,t1PowerSeries.getaxis('power').max()+0.2)
+        giveSpace()
         ylabel('$T_{1}\\ (s)$')
         title('$T_1$ Power Series')
     except:
@@ -500,9 +511,16 @@ if dnpexp:
         #fit.set_error(array(rateSeries.get_error())) # this is really not right but for now just winging something this'll put us in the ball park
         #rateFit = nddata(c[0] + c[1]*powers + c[2]*powers**2).rename('value','power').labels(['power'],[powers])
         ### 1st order fit
-        c,fit = rateSeries.polyfit('power',order = 1)
-        fit.set_error(array(rateSeries.get_error())) # this is really not right but for now just winging something this'll put us in the ball park
-        rateFit = nddata(c[0] + c[1]*powers).rename('value','power').labels(['power'],[powers])
+        #c,fit = rateSeries.polyfit('power',order = 1)
+        #fit.set_error(array(rateSeries.get_error())) # this is really not right but for now just winging something this'll put us in the ball park
+        #rateFit = nddata(c[0] + c[1]*powers).rename('value','power').labels(['power'],[powers])
+        # Lm fitting... This could be nicer...
+        params = Parameters()
+        params.add('slope', value=1)
+        params.add('intercept', value=0.5)
+        out = minimize(residual, params, args=(rateSeries.getaxis('power'), rateSeries.data, rateSeries.get_error()))
+        powerAxis = r_[rateSeries.getaxis('power').min():rateSeries.getaxis('power').max():100j]
+        rateFit = nddata(analyticLinear(out.params,powerAxis)).rename('value','power').labels(['power'],[powerAxis])
         fl.figurelist = nextfigure(fl.figurelist,'Rate Series')
         plot(rateSeries,'r.')
         plot(rateFit)
