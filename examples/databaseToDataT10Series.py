@@ -40,8 +40,10 @@ db = conn.magresdata
 collection = db.hanLabODNPTest # This is my test collection 
 
 # This is the dictionary to search by, notice the layout is "key1":"keyValue1","key2":"keyValue2"... 
-searchDict = [{'spinLabel':'dMTSL','osmolyte':'None','osmolyteConcentration':'None','macroMolecule':'CheY','spinLabelSite':'E37C','repeat':'0'},{'spinLabel':'dMTSL','osmolyte':'None','osmolyteConcentration':'None','macroMolecule':'CheY','spinLabelSite':'N62C','repeat':'0'},{'spinLabel':'dMTSL','osmolyte':'None','osmolyteConcentration':'None','macroMolecule':'CheY','spinLabelSite':'E37C','repeat':'1'},{'spinLabel':'dMTSL','osmolyte':'urea','osmolyteConcentration':'5M','macroMolecule':'CheY','spinLabelSite':'E37C','repeat':'0'},{'spinLabel':'dMTSL','osmolyte':'urea','osmolyteConcentration':'5M','macroMolecule':'CheY','spinLabelSite':'N62C','repeat':'0'}]
+#searchDict = [{'spinLabel':'dMTSL','osmolyte':'None','osmolyteConcentration':'None','macroMolecule':'CheY','spinLabelSite':'E37C','repeat':'0'},{'spinLabel':'dMTSL','osmolyte':'None','osmolyteConcentration':'None','macroMolecule':'CheY','spinLabelSite':'N62C','repeat':'0'},{'spinLabel':'dMTSL','osmolyte':'None','osmolyteConcentration':'None','macroMolecule':'CheY','spinLabelSite':'E37C','repeat':'1'},{'spinLabel':'dMTSL','osmolyte':'urea','osmolyteConcentration':'5M','macroMolecule':'CheY','spinLabelSite':'E37C','repeat':'0'},{'spinLabel':'dMTSL','osmolyte':'urea','osmolyteConcentration':'5M','macroMolecule':'CheY','spinLabelSite':'N62C','repeat':'0'}]
+searchDict = [{'spinLabel':'dMTSL','osmolyte':'None','osmolyteConcentration':'None','macroMolecule':'CheY','spinLabelSite':'E37C'}]
 
+odnpDict = {'expName':'150228_CheY_D41C_None_271uM_NoUrea_RT_ODNP'}
 
 # Now make an nddata from the dictionary given the tag dataTag
 dataTag = 't1' # the data entry of the dictionary from the database also has entries for 'enhancement' and 'kSigma', I'm pulling just the data for the t1. 
@@ -83,4 +85,5 @@ xlabel('$Concentration\\ (mg/mL)$')
 ylabel('$T_{1,0}\\ (s)$')
 show()
 
+sets = list(collection.find(odnpDict))
 #conn.close() # Bookkeeping, just closing the connection to the database
