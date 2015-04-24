@@ -172,10 +172,10 @@ defaultDataParamsFile = 'databaseParameters.pkl'
 temp = load_acqu(dirformat(dirformat(fullPath))+'1',return_s = False)# this pull all of the aquisition data
 cnst = temp.get('CNST')
 t1StartingAttenuation = cnst[24]
-if float(t1StartingAttenuation) == float(1.0): # this means we ran the first experiment at full attenuation and we need to handle the power series differently.
-    t1FirstAttenFullPower = True
-else:
-    t1FirstAttenFullPower = False
+#if float(t1StartingAttenuation) == float(1.0): # this means we ran the first experiment at full attenuation and we need to handle the power series differently.
+#    t1FirstAttenFullPower = True
+#else:
+#    t1FirstAttenFullPower = False
 
 
 
@@ -189,6 +189,7 @@ t1SeparatePhaseCycle = True ### Did you save the phase cycles separately?
 thresholdE = 0.3
 thresholdT1 = 0.3
 badT1 = []
+t1FirstAttenFullPower = False
 #}}}
 
 # Experimental parameters#{{{
@@ -203,6 +204,7 @@ if not expExists:
                     'thresholdE':thresholdE,
                     'thresholdT1':thresholdT1,
                     'badT1':badT1,
+                    't1FirstAttenFullPower':t1FirstAttenFullPower
                     }
     dtb.writeDict(expParametersFile,parameterDict)
 else:
@@ -271,11 +273,12 @@ dtb.modDictVals(parameterDict,dictType='experiment')
 dtb.writeDict(expParametersFile,parameterDict)
 
 # check to see if this was run with old software. This pertains to rb_dnp and jf_dnp. The new software is rb_dnp1... This is stupid compatibility crap... You should add a more solid identifier in your program.
-t1FirstTitle = expTitles[t1Exp[0]-1]
-print t1FirstTitle
-if '$T_1$' in t1FirstTitle[0]:
-    # this is run on old software and don't need to add first power
-    t1FirstAttenFullPower = False
+if dnpexp:
+    t1FirstTitle = expTitles[parameterDict.get('t1Exp')[0]-1]
+    print t1FirstTitle
+    if '$T_1$' in t1FirstTitle[0]:
+        # this is run on old software and don't need to add first power
+        t1FirstAttenFullPower = False
 #}}}
 
 #{{{ Modify the database parameters dictionary
@@ -319,7 +322,7 @@ if dnpexp: # only work up files if DNP experiment
     expTimes,expTimeMin = returnExpTimes(fullPath,parameterDict['dnpExps'],dnpExp = True,operatingSys = systemOpt) # this is not a good way because the experiment numbers must be set right.
     if not expTimeMin:
         for expTitle in expTitles:
-            print expTitle + '\n'
+            print expTitle 
         raise ValueError("\n\nThe experiment numbers are not set appropriately, please scroll through the experiment titles above and set values appropriately")
     enhancementPowers,fl.figurelist = returnSplitPowers(fullPath,'power.mat',expTimeMin = expTimeMin.data,expTimeMax = expTimeMin.data + 20.0,timeDropStart = 10,dnpPowers = True,threshold = parameterDict['thresholdE'],titleString = 'Enhancement ',firstFigure = fl.figurelist)
     enhancementPowers = list(enhancementPowers)
@@ -382,7 +385,7 @@ if dnpexp: # only work up files if DNP experiment
         if answer != 'no':
             parameterDict.update({'t1Exp':eval(answer)})
             print"\n\n Parameter Saved \n\n"
-        writeDict(expParametersFile,parameterDict)
+        dtb.writeDict(expParametersFile,parameterDict)
         print"\n\n Updated parameters are saved \n\n"
         raise ValueError("\n\n Please close the pdf and re-run the script")
     #}}}
