@@ -214,10 +214,10 @@ else:
 files = listdir(fullPath)
 ### Just weed out the power files from the titles, we already know what they are
 for index,item in enumerate(files):
-    if item == 't1_powers.mat':
+    if 't1_powers' in item:
         files.pop(index)
 for index,item in enumerate(files):
-    if item == 'power.mat':
+    if 'power.' in item:
         files.pop(index)
 files = [double(i) for i in files]
 files.sort()
