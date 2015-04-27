@@ -85,15 +85,17 @@ def compilePDF(name):
         texFile.write(line + '\n')
     texFile.write(r'\end{document}')
     texFile.close()
-    process=subprocess.Popen(['pdflatex','plots.tex'],shell=True)
-    process.wait()
     if systemOpt == 'nt': # windows
+        process=subprocess.Popen(['pdflatex','plots.tex'],shell=True)
+        process.wait()
         print "sleeping because windows yells at me"
         process=subprocess.Popen(['move','plots.tex',name],shell=True)
         process=subprocess.Popen(['move','plots.pdf',name],shell=True)
         process.wait()
         subprocess.Popen(['SumatraPDF.exe',r'%s\plots.pdf'%name],shell=True)
     elif systemOpt == 'posix':
+        process=subprocess.call(['pdflatex','plots.tex'])
+        #process.wait()
         shutil.copy('plots.tex',name)
         shutil.copy('plots.pdf',name)
         subprocess.call(['open','-a','/Applications/Preview.app','%s/plots.pdf'%name])
@@ -324,7 +326,7 @@ if dnpexp: # only work up files if DNP experiment
         for expTitle in expTitles:
             print expTitle 
         raise ValueError("\n\nThe experiment numbers are not set appropriately, please scroll through the experiment titles above and set values appropriately")
-    enhancementPowers,fl.figurelist = returnSplitPowers(fullPath,'power.mat',expTimeMin = expTimeMin.data,expTimeMax = expTimeMin.data + 20.0,timeDropStart = 10,dnpPowers = True,threshold = parameterDict['thresholdE'],titleString = 'Enhancement ',firstFigure = fl.figurelist)
+    enhancementPowers,fl.figurelist = returnSplitPowers(fullPath,'power',expTimeMin = expTimeMin.data,expTimeMax = expTimeMin.data + 20.0,timeDropStart = 10,dnpPowers = True,threshold = parameterDict['thresholdE'],titleString = 'Enhancement ',firstFigure = fl.figurelist)
     enhancementPowers = list(enhancementPowers)
     enhancementPowers.insert(0,-100)
     enhancementPowers = array(enhancementPowers)
@@ -364,7 +366,7 @@ if dnpexp: # only work up files if DNP experiment
         print expTitles
         raise ValueError("\n\nThe experiment numbers are not set appropriately, please scroll through the experiment titles above and set values appropriately")
     # I have the same problem with the dnp powers, if the starting attenuation is full attenuation '31.5' then there is no initial jump and we need to deal with it the same way. Right now I pull from constant 24 in the aquisition parameters. This should now work without having to ask the user.
-    t1Power,fl.figurelist = returnSplitPowers(fullPath,'t1_powers.mat',expTimeMin = expTimes.min(),expTimeMax=expTimeMin.data + expTimeMin.data/2,dnpPowers = t1FirstAttenFullPower,threshold = parameterDict['thresholdT1'],titleString = 'T1 ',firstFigure = fl.figurelist)
+    t1Power,fl.figurelist = returnSplitPowers(fullPath,'t1_powers',expTimeMin = expTimes.min(),expTimeMax=expTimeMin.data + expTimeMin.data/2,dnpPowers = t1FirstAttenFullPower,threshold = parameterDict['thresholdT1'],titleString = 'T1 ',firstFigure = fl.figurelist)
     t1Power = list(t1Power)
     t1Power.append(-99.0) # Add the zero power for experiment 304
     t1Power = array(t1Power)
