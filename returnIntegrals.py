@@ -1,4 +1,3 @@
-#from h5nmr import *
 import time
 from lmfit import minimize,Parameters ### This makes another hoop for installing software that you don't really use...
 import shutil
