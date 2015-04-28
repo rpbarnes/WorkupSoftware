@@ -346,17 +346,17 @@ if dnpexp: # only work up files if DNP experiment
         if answer != 'no':
             parameterDict.update({'dnpExps':eval(answer)})
             print"\n\n Parameter Saved \n\n"
-        writeDict(expParametersFile,parameterDict)
+        dtb.writeDict(expParametersFile,parameterDict)
         raise ValueError("\n\n Please close the pdf and re-run the script")
-    #}}}
-    # Open the enhancement powers file and dump to csv
-    powerFile = loadmat(fullPath + '/power.mat')
-    powersE = powerFile.pop('powerlist')
-    powersE = dbm_to_power(powersE)
-    powersE = [x for i in powersE for x in i]
-    timesE = powerFile.pop('timelist')
-    timesE = [x for i in timesE for x in i]
-    #}}}
+        #}}}
+        # Open the enhancement powers file and dump to csv
+        powerFile = loadmat(fullPath + '/power.mat')
+        powersE = powerFile.pop('powerlist')
+        powersE = dbm_to_power(powersE)
+        powersE = [x for i in powersE for x in i]
+        timesE = powerFile.pop('timelist')
+        timesE = [x for i in timesE for x in i]
+        #}}}
 
     # The T1 Power Series#{{{
     fl.figurelist.append({'print_string':r'\subparagraph{$T_1$ Power Measurement}' + '\n\n'})
@@ -391,14 +391,14 @@ if dnpexp: # only work up files if DNP experiment
         raise ValueError("\n\n Please close the pdf and re-run the script")
     #}}}
 
-    # Open the t1 powers file and dump to csv
-    powerFile = loadmat(fullPath + '/t1_powers.mat')
-    powersT1 = powerFile.pop('powerlist')
-    powersT1 = dbm_to_power(powersT1)
-    powersT1 = [x for i in powersT1 for x in i]
-    timesT1 = powerFile.pop('timelist')
-    timesT1 = [x for i in timesT1 for x in i]
-    #}}}
+        # Open the t1 powers file and dump to csv
+        powerFile = loadmat(fullPath + '/t1_powers.mat')
+        powersT1 = powerFile.pop('powerlist')
+        powersT1 = dbm_to_power(powersT1)
+        powersT1 = [x for i in powersT1 for x in i]
+        timesT1 = powerFile.pop('timelist')
+        timesT1 = [x for i in timesT1 for x in i]
+        #}}}
 #}}}
 
 #{{{ Enhancement Integration
@@ -596,18 +596,18 @@ if writeToDB:
 ### Write the enhancement power file 
 if dnpexp:
     if enhancementPowerSeries:
-        enhancementPowersWriter = [('power (W)','Integral','Exp Num')] + zip(list(enhancementPowerSeries.getaxis('power')),list(enhancementPowerSeries.data),list(enhancementSeries.getaxis('expNum'))) + [('\n')] +  [('power (W)','time (s)')] + zip(list(powersE),list(timesE))
-    else:
-        enhancementPowersWriter = [('power (W)',)] + zip(list(enhancementPowers)) + [('\n')] +  [('power (W)','time (s)')] + zip(list(powersE),list(timesE))
+        enhancementPowersWriter = [('power (W)','Integral','Exp Num')] + zip(list(enhancementPowerSeries.getaxis('power')),list(enhancementPowerSeries.data),list(enhancementSeries.getaxis('expNum'))) + [('\n')]
+    #else:
+    #    enhancementPowersWriter = [('power (W)',)] + zip(list(enhancementPowers)) + [('\n')] +  [('power (W)','time (s)')] + zip(list(powersE),list(timesE))
     with open(fileName + 'enhancementPowers.csv','wb') as csvFile:
         writer = csv.writer(csvFile,delimiter =',')
         writer.writerows(enhancementPowersWriter)
 
     ### Write the T1 power file 
     if t1PowerSeries:
-        t1PowersWriter = [('power (W)','T_1 (s)','T_1 error (s)','Exp Num')] + zip(list(t1PowerSeries.getaxis('power')),list(t1PowerSeries.data),list(t1PowerSeries.get_error()),list(t1Series.getaxis('expNum'))) + [('\n')] +  [('power (W)','time (s)')] + zip(list(powersT1),list(timesT1))
-    else:
-        t1PowersWriter = [('power (W)',)] + zip(list(t1Power)) + [('\n')] +  [('power (W)','time (s)')] + zip(list(powersT1),list(timesT1))
+        t1PowersWriter = [('power (W)','T_1 (s)','T_1 error (s)','Exp Num')] + zip(list(t1PowerSeries.getaxis('power')),list(t1PowerSeries.data),list(t1PowerSeries.get_error()),list(t1Series.getaxis('expNum'))) + [('\n')] #+  [('power (W)','time (s)')] + zip(list(powersT1),list(timesT1))
+    #else:
+    #    t1PowersWriter = [('power (W)',)] + zip(list(t1Power)) + [('\n')] +  [('power (W)','time (s)')] + zip(list(powersT1),list(timesT1))
     with open(fileName + 't1Powers.csv','wb') as csvFile:
         writer = csv.writer(csvFile,delimiter =',')
         writer.writerows(t1PowersWriter)
