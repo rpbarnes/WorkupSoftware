@@ -122,10 +122,12 @@ What you should do is loop through producing nddata sets given appropriate searc
 \chapter{Development}
 \section{New Implementations:}
 \begin{enumerate}
-    \item $\Box$ in rb_dnp1 set a constant to a value such that you can use this as an identifier for figuring out if the experiment was run with the new version of the software.
+    \item $\Box$ You should apodize your signal in the integrate function to boost the Signal to noise.
+    \item $\Box$ You also need to go through the plotting from matlablike as this does not behave correcly.
+    \item $\Box$ in rb_dnp1 set a constant to a value such that you can use this as an identifier for figuring out if the experiment was run with the new version of the software. No, it shouldn't be that \o['dnpconf']{} should just ask for the starting power for the $T_1$ series.
     \item $\Box$ Add function in returnPowers to accept or reject the first power based on the experiment time and the time spent at the first power, this also should have a tag for the T1 series.
     \item $\Box$ Clearly write out the formalism for entering data in the database.
-    \item $\checkmark$ You need to change the rate fit to do a weighting based on the error of the $T_1$ value.
+    \item $\checkmark$ You need to change the rate fit to do a weighting based on the error of the $T_1$ value. \o[This is done]{}
     \item $\Box$ Add script to take the output of the Atenbach project for EPR fitting and database this. This should save the data, the fit, and the fit parameters - specifically the correlation time and the A and G matrix. \o[This is not part of the workupSoftware!]{Do not get ahead of yourself!}
     \item $\checkmark$ Make returnIntegrals work with new database module.
     \item $\checkmark$ You should dump the worked up data sets (csv files and whatnot) into a directory called data.
@@ -136,20 +138,20 @@ What you should do is loop through producing nddata sets given appropriate searc
     \item $\checkmark$ DATABASE: What you should do is loop through producing nddata sets given appropriate search parameters. This is the easiest way to do this for now. \o[This now works fairly well, I have a function to return a 1D nddata set and this seems to work ok for the moment.]{}
     \item $\Box$ In the future you should play with using mongodb aggregate functions to make querying the database easier.
     \item $\checkmark$ Sort database dictionary alphabetically before presentation.
-    \item $\Box$ Add net magnetization plot to the output pdf! This is a nice check to see that the T1 power series makes sense.
-    \item $\Box$ You need a couple of data sets from the emx odnp system to calibrate your code to.
+    \item $/$ Add net magnetization plot to the output pdf! This is a nice check to see that the T1 power series makes sense. \o[No, I don't think this is anymore useful]{}
+    \item $\checkmark$ You need a couple of data sets from the emx odnp system to calibrate your code to. \o[This is done now that the EMX is updated to run the most recent code.]{}
     \item $\checkmark$ You need to list the relevant ODNP parameters in the pdf produced. You should also make it so the $T_1$ value is written below the $T_1$ integral graph.
     \item $\Box$ You should add a check when a user changes key value. This check should run through the existing keys values to make sure that the value has already been entered, if it is a new key value the program should ask if this new key value is correctly entered, the idea is to catch mistakes in spelling. \o[Another way would be to let the user choose from a list of options instead of having to type in the key value.]{Actually I like the idea of a dynamic list for editing a key value instead of the user entering their own key values.}
     \item $\checkmark$ Open a file dialog so the user can pick their experiment directory and the experiment file to work up. \o[This is done in concept, the minimum running example is in 'fileDialog.py'. You just need to implement and wrap into 'returnIntegrals.py']{}
     \item $\Box$ Make it so the notebook shows the operators name, not mine. \o[I don't think this is going to work like it should. Something weird with the latex package calls. Right now it just says Han Lab Notebook.]{}
-    \item $\Box$ system calls that handle both windows and mac both in naming the file type and in compiling the pdf.
-    \item $\Box$ Make a way to reload the freshly produced pdf. Mac will work with preview (you just need to set to use preview by default). Windows should work with Sumatra pdf --> This seems to work for mac nicely, need to add windows features now.
+    \item $\checkmark$ system calls that handle both windows and mac both in naming the file type and in compiling the pdf. \o[This does seem to work fairly robustly now.]{}
+    \item $\checkmark$ Make a way to reload the freshly produced pdf. Mac will work with preview (you just need to set to use preview by default). Windows should work with Sumatra pdf --> This seems to work for mac nicely, need to add windows features now. \o[Mac use preview and windows uses Sumatra]{}
     \item $\checkmark$ Axis labels in the last plots generated by the code. This is important for kSigma because you want to give the appropriate units!
     \item $\checkmark$ You should make it so that the database dictionary keys are pulled from the live database and fill in the key values from the default file in the directory. Or keep a copy of the directory keys and if the current keys are different than the directory keys just update the directory keys. \o[It looks like you will have to home roll a function to print all keys.]{Keys are now pulled from the live database and the key values are filled in from the operator's last entry.}
     \item $\checkmark$ When entering database values you should list all possible choices for the given key. Use '.distinct('keyValue')'. \o[You should make it so the database values that are returned are operator specific.]{}
     \item $\checkmark$ Add handlers for mistyped answers so program does not crash. Just say do not understand and re loop through the question in a while loop. \o[This still needs done for the error handling functions.]{The error handling function need reworked I think. It was a good try but there is too much static code, it needs to be switched to dynamic type.}
     \item $\checkmark$ Change the experimental parameters queries to dynamic type like the database queries \o[This should be thoroughly debugged, it's not right now which might be a problem.]{This actually seems to work nicely now.}
-    \item $\Box$ Newton's method to find starting guess for T1 experiments. For now the t1StartingGuess works 
+    \item $\Box$ Newton's method to find starting guess for T1 experiments. For now the t1StartingGuess works. You could also use lmfit\ldots
     \item $\checkmark$ Make a way to force an experiment time for diving up the powers files \o[I pull the experiment time from the Bruker output and set this as the minimum experiment time. If the experiment is successful the workup software should work fine dividing up the powers.]{}
     \item $\checkmark$ You should calculate the experiment time from the Bruker timing function and hand this with an associated arror to the 'returnSplitPowers' function. \o[Right now this pulls the experiment time and uses as a lower bound for the split powers function.]{}
 \end{enumerate}
