@@ -190,6 +190,7 @@ ReturnKSigma = True ### This needs to be False because my code is broken
 t1SeparatePhaseCycle = True ### Did you save the phase cycles separately?
 thresholdE = 0.3
 thresholdT1 = 0.3
+maxDrift = 50.
 badT1 = []
 t1FirstAttenFullPower = False
 #}}}
@@ -206,6 +207,7 @@ if not expExists:
                     'thresholdE':thresholdE,
                     'thresholdT1':thresholdT1,
                     'badT1':badT1,
+                    'maxDrift':maxDrift,
                     't1FirstAttenFullPower':t1FirstAttenFullPower
                     }
     dtb.writeDict(expParametersFile,parameterDict)
@@ -406,7 +408,7 @@ if dnpexp: # only work up files if DNP experiment
 if dnpexp:
     ### EnhancementSeries
     fl.figurelist.append({'print_string':r'\subparagraph{Enhancement Series}' + '\n\n'})
-    enhancementSeries,fl.figurelist = integrate(fullPath,parameterDict['dnpExps'],integration_width = parameterDict['integrationWidth'],phchannel = [-1],phnum = [4],first_figure = fl.figurelist)
+    enhancementSeries,fl.figurelist = integrate(fullPath,parameterDict['dnpExps'],integration_width = parameterDict['integrationWidth'],max_drift = parameterDict['maxDrift'],phchannel = [-1],phnum = [4],first_figure = fl.figurelist)
     enhancementSeries.rename('power','expNum').labels(['expNum'],[parameterDict['dnpExps']])
     ### Fit and plot the Enhancement
     enhancementSeries = enhancementSeries.runcopy(real)
@@ -455,7 +457,7 @@ for count,expNum in enumerate(parameterDict['t1Exp']):
     else:
         fl.figurelist.append({'print_string':r'$T_1$ experiment %d'%(expNum) + '\n\n'})
     if parameterDict['t1SeparatePhaseCycle']: # The phase cycles are saved separately 
-        rawT1,fl.figurelist = integrate(fullPath,expNum,integration_width = parameterDict['integrationWidth'],phchannel = [-1],phnum = [4],first_figure = fl.figurelist,pdfstring = 't1Expno_%d'%(expNum),max_drift=1e6)
+        rawT1,fl.figurelist = integrate(fullPath,expNum,integration_width = parameterDict['integrationWidth'],phchannel = [-1],phnum = [4],max_drift = parameterDict['maxDrift'],first_figure = fl.figurelist,pdfstring = 't1Expno_%d'%(expNum))
     else: # the phase cycle is already performed on the Bruker
         rawT1,fl.figurelist = integrate(fullPath,expNum,integration_width = parameterDict['integrationWidth'],phchannel = [],phnum = [],first_figure = fl.figurelist,pdfstring = 't1Expno_%d'%(expNum))
     rawT1.rename('power','delay')
