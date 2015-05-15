@@ -14,13 +14,14 @@ clear all
 close all
 %% User input section
 
-FolderName = '/Users/StupidRobot/exp_data/ryan_cnsi/epr/150404_ProbeTestV2-1/';
-
-FileNames{1} ='150402_200uM_4OHT_ProbeV2-1BeforeExpoxyAndAirFlowConnector';
-FileNames{2} ='AfterMovingStuff';
-FileNames{3} ='AfterscrapingEpoxyOff';
-FileNames{4} ='SomethingChanged';
-% FileNames{5} ='CheY_N62C_None_350uM_13-4mm_NoUrea';
+%FolderName = '/Users/StupidRobot/exp_data/ryan_cnsi/epr/150404_ProbeTestV2-1/';
+FolderName = 'C:\Users\hanlab\exp_data\ryanb_cnsi\epr\150511_ConcentrationSeries\';
+Summary_FileName = 'C:\Users\hanlab\exp_data\ryanb_cnsi\epr\150511_ConcentrationSeries\summary.xls';
+FileNames{1} ='Pep_D41C_MTSL_14-3mm';
+FileNames{2} ='Pep_E37C_MTSL_15mm';
+FileNames{3} ='Pep_K91C_MTSL_14-5mm';
+FileNames{4} ='Pep_M17C_MTSL_15-2mm';
+FileNames{5} ='Pep_N62C_MTSL_15-6mm';
 % FileNames{6} ='CheY_N121C_None_363uM_14-8mm_NoUrea';
 % FileNames{7} ='140922_CheY_E37C_FliM_241uM_RT_EPR';
 % FileNames{8} ='140922_CheY_E37C_10mMFliM_241uM_RT_EPR';
@@ -41,7 +42,7 @@ FileNames{4} ='SomethingChanged';
 % FileNames{3} = '150206-ODNP1-600mM-NaCl_100mM_AcA_pH3_10scans';
 % FileNames{4} ='150206-ODNP1-900mM-NaCl_100mM_AcA_pH3_10scans';
 
-Summary_FileName = 'test.xls';
+
 
 
 % FolderName = 'C:\Users\Ilia\Dropbox\Work\Song-I\Nikki Batch EPR analysis\';
@@ -95,7 +96,8 @@ for l=1:length(FileNames)
 end
 
 disp(['saving summary as: ' Summary_FileName]);
-% csvwrite(Summary_FileName,Output_summary); % saving summary in excel format
+
+xlswrite(Summary_FileName,Output_summary); % saving summary in excel format
 
 f=1; %figure counter
 figure(f); f=f+1;
