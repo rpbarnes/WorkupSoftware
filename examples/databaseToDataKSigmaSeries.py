@@ -6,6 +6,8 @@ from interptau import interptauND
 close('all')
 
 """
+This script is designed to work up the CheY native and urea denatured ODNP experiments also using the T10s measured as a function of concentration.
+
 This is an example of how to pull the kSigma data, t1 odnp data, and corresponding t10 data from the lab's database.
 
 I will pull the fit value of kSigma for my Chemotaxis Y measurements and plot them as a function of spin label site. Which information I also pull from the database.
@@ -23,7 +25,7 @@ I will take my xi value and interpolate to get the correlation time.
 
 # The code below can just be copied
 osmolyte = 'urea'
-osmolyteConcentration = '5M'
+osmolyteConcentration = '5L'
 
 # Lets pull in a collection from the database
 MONGODB_URI = 'mongodb://rbarnes:tgb47atgb47a@ds047040.mongolab.com:47040/magresdata' # This is the address to the database hosted at MongoLab.com

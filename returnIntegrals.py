@@ -190,7 +190,7 @@ ReturnKSigma = True ### This needs to be False because my code is broken
 t1SeparatePhaseCycle = True ### Did you save the phase cycles separately?
 thresholdE = 0.3
 thresholdT1 = 0.3
-maxDrift = 50.
+maxDrift = 1000.
 badT1 = []
 t1FirstAttenFullPower = False
 #}}}
@@ -217,15 +217,20 @@ else:
 #}}}
 
 #{{{ Index Files in experiment directory
-files = listdir(fullPath)
-### Just weed out the power files from the titles, we already know what they are
-for index,item in enumerate(files):
+fileSave = listdir(fullPath)
+### Just weed out the power fileSave from the titles, we already know what they are
+for index,item in enumerate(fileSave):
     if 't1_powers' in item:
-        files.pop(index)
-for index,item in enumerate(files):
+        fileSave.pop(index)
+for index,item in enumerate(fileSave):
     if 'power.' in item:
-        files.pop(index)
-files = [double(i) for i in files]
+        fileSave.pop(index)
+files = []
+for filename in fileSave:
+    try:
+        files.append(float(filename))
+    except:
+        print filename, "not type float"
 files.sort()
 expTitles = []
 for i in files:
