@@ -15,17 +15,24 @@ close all
 %% User input section
 
 %FolderName = '/Users/StupidRobot/exp_data/ryan_cnsi/epr/150404_ProbeTestV2-1/';
-FolderName = 'C:\Users\hanlab\exp_data\ryanb_cnsi\epr\150511_ConcentrationSeries\';
-Summary_FileName = 'C:\Users\hanlab\exp_data\ryanb_cnsi\epr\150511_ConcentrationSeries\summary.xls';
-FileNames{1} ='Pep_D41C_MTSL_14-3mm';
-FileNames{2} ='Pep_E37C_MTSL_15mm';
-FileNames{3} ='Pep_K91C_MTSL_14-5mm';
-FileNames{4} ='Pep_M17C_MTSL_15-2mm';
-FileNames{5} ='Pep_N62C_MTSL_15-6mm';
-% FileNames{6} ='CheY_N121C_None_363uM_14-8mm_NoUrea';
-% FileNames{7} ='140922_CheY_E37C_FliM_241uM_RT_EPR';
-% FileNames{8} ='140922_CheY_E37C_10mMFliM_241uM_RT_EPR';
-% FileNames{9} ='140921_CheY_E37C_P2_241uM_RT_EPR';
+FolderName = 'C:\Users\hanlab\exp_data\ryanb_emx\epr\150528_CheYPeptide\';
+Summary_FileName = 'C:\Users\hanlab\exp_data\ryanb_emx\epr\150528_CheYPeptide\summary.xls';
+FileNames{1} ='D41C_5MUrea_10-5mm';   
+FileNames{2} ='D41C_25pFicoll_7-5mmmm';
+FileNames{3} ='D41C_NaPi_10-9mm';
+FileNames{4} ='E37C_5MUrea_11-0mm';
+FileNames{5} ='E37C_25pFicoll_9-5mm';
+FileNames{6} ='E37C_NaPi_10-7mm';
+FileNames{7} ='K91C_5MUrea_10-5mm';
+FileNames{8} ='K91C_25pFicoll_10-4mm';
+FileNames{9} ='K91C_NaPi_11-3mm';
+FileNames{10} ='M17C_5MUrea_10-5mm';
+FileNames{11} ='M17C_25pFicoll_11-6mm';
+FileNames{12} ='M17C_NaPi_11-0mm';
+FileNames{13} ='N62C_5MUrea_11-0mm';
+FileNames{14} ='N62C_25pFicoll_8-5mm';
+FileNames{15} ='N62C_NaPi_11-0mm';
+
 
 % FileNames{1} ='CheY_D41C_FliM_217uM_14mm_10dB';
 % FileNames{2} ='CheY_D41C_None_217uM_13-8mm_10dB';
@@ -63,7 +70,7 @@ FileNames{5} ='Pep_N62C_MTSL_15-6mm';
 
 %Summary_FileName = 'test_summary.xls';
 
-verbosity = ones(1,length(FileNames));
+verbosity = zeros(1,length(FileNames));
 
 %to get more info for a given spectrum set verbosity for the same index
 %equal to 1
@@ -87,7 +94,8 @@ Analysed = cell(length(FileNames),1);
 Output_summary = cell(1,1);
 
 for l=1:length(FileNames)
-    FileName = [FolderName, FileNames{l},'.spc'];
+    %FileName = [FolderName, FileNames{l},'.spc'];
+    FileName = [FolderName, FileNames{l}];
     [Data.data(:,1), Data.data(:,2)] = eprload(FileName); %automatic loading of ascii files. "Data.data" contains the actual 1024x2 dataset
     Analysed{l} = spectrum_analysis(Data.data(:,1),Data.data(:,2),1,FileNames{l},verbosity(l));
     Filename_output = [FolderName, FileNames{l}];
