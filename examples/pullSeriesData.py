@@ -31,10 +31,11 @@ for count,dataSet in enumerate(listOfSets):
     tau.sort('site')
     plot(tau*1e12,'--.',markersize=20,label='urea denatured')
 
-searchDict = {'setType':'seriesData','macroMolecule':'CheYPep','bindingPartner':'None','osmolyte':'None'}
+searchDict = {'setType':'seriesData','macroMolecule':'CheYPep','bindingPartner':'None','osmolyte':'None','osmolyteConcentration':'None'}
 
 listOfSets = list(collection.find(searchDict))
 dataTag = 'tau'
+listOfSets = listOfSets[0:-1]
 for count,dataSet in enumerate(listOfSets):
     tau = dtb.dictToNdData(dataTag,dataSet) # setting retValue to True gives me the fit value instead of the power data. Note this only works for kSigma and nothing else for now.
     tau.sort('site')
@@ -62,7 +63,7 @@ for count, value in enumerate(siteList):
 tau = nddata(array(tauList)).rename('value','site').labels('site',array(siteList)).set_error(array(tauError))
 
 tau.sort('site')
-plot(tau*1e12,'--.',markersize=20,label='P2 bound')
+#plot(tau*1e12,'--.',markersize=20,label='P2 bound')
 
 legend()
 legend(loc=4,prop={'size':25})
@@ -70,7 +71,7 @@ xlabel(r'$\mathtt{residue\/ number}$',fontsize=30)
 xticks(fontsize=20)
 yticks(fontsize=20)
 ylabel(r'$\mathtt{\tau_c\/ [ps]}$',fontsize=30) 
-title(r'$\mathtt{CheY\/ Hydration\/ Dynamics}$',fontsize=30)
+title(r'$\mathtt{Chemotaxis\/ Y\/ Surface\/ Water\/ Diffusivity}$',fontsize=30)
 fig.patch.set_alpha(0) # This makes the background transparent!!
 giveSpace(spaceVal = 0.01)
 tight_layout()
