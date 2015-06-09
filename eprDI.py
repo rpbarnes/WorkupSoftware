@@ -5,9 +5,9 @@ You should make this dump the spectrum and the double integral to the database w
 
 Bugs:
     ** 1) Script crashed with this file CheY_M17C_P2_202uM_14mm_10db.asc - taken care of, changed peak finding method.
-        a) It cannot find the peaks appropriately
-        b) it's too noisy and finds many peaks
-        c) it also suffers from finding more than one local maxima in the region.
+        ** a) It cannot find the peaks appropriately
+        ** b) it's too noisy and finds many peaks
+        ** c) it also suffers from finding more than one local maxima in the region.
 
 To Do:
     1) Import bruker .par files - for now will just use the exported ASCII format 
@@ -16,19 +16,22 @@ To Do:
     ** 4) Calculate the double integrated value and check to make sure the end is flat
     5) Add wrappers for finding the file directory - copy from returnIntegrals.py
     6) Add wrappers to dump the data to the database.
-    7) Pull in the .par file and dump information to the otherInfo of the database. Use the par file to pull how many scans were run and normalize spectra by the number of scans.
+    ** 7) Pull in the .par file and dump information to the otherInfo of the database. Use the par file to pull how many scans were run and normalize spectra by the number of scans.
     ** 8) Find the field points that define the edges of the spectrum given a variable linewidth parameter - not yet using variable line width
     ** 9) Drop any values below zero from the absorption spectrum before you integrate. - this may be buggy if there is more than one zero crossing. You might just use you estimate of the edge of the spectrum for this.
     ** 10) Calculate edge peak to peak width.
     ** 11) Calculate spectral line widths.
-    ** 12) Calculate the center field
+    ** 12) Calculate the center field.
+    13) Carefully go over databasing scheme!
+    ** 14) Dump data to a csv file.
 """
 from matlablike import *
+import csv
 close('all')
 
 ### Import the files - for now this is hard coded and this only works with ASCII files, you need to change this so you can use the par files as well.
 fullPath = '/Users/StupidRobot/exp_data/ryan_cnsi/epr/150122_EPRConcSeries/'
-fileName = 'CheY_M17C_P2_202uM_14mm_10db'
+fileName = 'CheY_N121C_P2_218uM_13mm_10dB'
 
 # Open the ASCII file and pull the spectrum#{{{
 openFile = open(fullPath + fileName + '.asc','r') 
@@ -41,10 +44,8 @@ for line in lines:
         field.append(float(new[0]))
         spec.append(float(new[1].split('\r')[0]))
     except:
-        print "Skipping header values."
+        pass
 spec = nddata(array(spec)).rename('value','field').labels('field',array(field).round(2))#}}}
-
-##### This does not yet do what is needed for reading from the par file !!!!!!
 
 # Open the par file and pull the relevant parameters #{{{
 openFile = open(fullPath + fileName + '.par','r') 
@@ -52,12 +53,17 @@ lines = openFile.readlines()
 expDict = {}
 for line in lines[0].split('\r'):
     try:
-        expDict.update({line.split(' ')[0]:line.split(' ')[1]})
+        splitData = line.split(' ')
+        key = splitData.pop(0)
+        value = splitData.pop(0)
+        for data in splitData:
+            value += data
+        expDict.update({key:value})
     except:
-        print "Skipping header values."#}}}
+        pass#}}}
 
 # Find the peaks of the derivative spectrum and calculate spectral width, center field, and bounds on the spectrum accordingly.#{{{
-# Find the three largest peaks - follow maxima and minima to zero, record values and drop sections. Repeat 3 times.
+# Find the three largest peaks - follow maxima and minima to zero, record values and drop sections. Repeat 3 times to yield the three largest peaks.
 peaks = []
 valleys = []
 smash = spec.copy()
@@ -88,7 +94,7 @@ valley = nddata(spec.data[valleys]).rename('value','field').labels('field',spec.
 # Calculate relevant parameters
 peak.sort('field')
 valley.sort('field')
-lineWidths = peak.getaxis('field') - valley.getaxis('field')
+lineWidths = valley.getaxis('field') - peak.getaxis('field') 
 spectralWidth = peak.getaxis('field').max() - peak.getaxis('field').min() 
 centerField = peak.getaxis('field')[1] + lineWidths[1]/2.# assuming the center point comes out in the center. The way the code is built this should be robust
 specStart = centerField - spectralWidth
@@ -112,7 +118,7 @@ plot(spec['field',lambda x: logical_and(x>specStart,x<specStop)],'b')
 title('Integration Window')
 ylabel('Spectral Intensity')
 xlabel('Field (G)')
-#giveSpace(spaceVal=0.01)
+giveSpace(spaceVal=0.001)
 tight_layout()
 
 #}}}
@@ -164,9 +170,36 @@ giveSpace(spaceVal=0.001)
 tight_layout()
 #}}}
 
-# Write parameters to csv file, right now this is determined by the epr file location. - In future this should be tied to the odnp exp file as part of return integrals.
-# parameters to write (1) all from par file, (2) center field, (3) spectral width, (4) double integral value from zero corrected or from baseline fit if not available.
+# Write parameters to csv file, right now this is determined by the epr file location. - In future this should be tied to the odnp exp file as part of return integrals.#{{{
 
+# I really don't like this scheme. Think on it and make sure it matches that of the return integrals. Something is wrong
+spec = {'epr':{'spec':spec.data.tolist(),'specDI':doubleIntZC.data.tolist(),'dim1':spec.getaxis('field').tolist(),'dimNames':spec.dimlabels,'centerField':str(centerField),'lineWidths':list(lineWidths),'spectralWidth':str(spectralWidth),'doubleIntegral':str(doubleIntZC.data.max()),'expDict':expDict}}
+
+openFile = open(fullPath+fileName+'.csv','w+')
+### Write to a csv given the dictionary entry
+dataDict = spec.get('epr')
+for keyName in dataDict:
+    if type(dataDict.get(keyName)) is list:
+        openFile.write(str(keyName))
+        openFile.write(',')
+        for value in dataDict.get(keyName):
+            openFile.write(str(value))
+            openFile.write(',')
+        openFile.write('\n')
+    elif type(dataDict.get(keyName)) is dict:
+        for keyName1 in dataDict.get(keyName):
+            openFile.write(str(keyName1))
+            openFile.write(',')
+            openFile.write(str(dataDict.get(keyName).get(keyName1)))
+            openFile.write(',')
+            openFile.write('\n')
+    else:
+        openFile.write(str(keyName))
+        openFile.write(',')
+        openFile.write(str(dataDict.get(keyName)))
+        openFile.write(',')
+        openFile.write('\n')
+openFile.close()#}}}
 
 show()
 
