@@ -4,7 +4,7 @@ This script will calculate the double integral of a derivative EPR spectrum.
 You should make this dump the spectrum and the double integral to the database with a searchable sample number. This way you could calculate all ODNP + EPR information by looking for you sample.
 
 Bugs:
-    1) Script crashed with this file CheY_M17C_P2_202uM_14mm_10db.asc
+    ** 1) Script crashed with this file CheY_M17C_P2_202uM_14mm_10db.asc - taken care of, changed peak finding method.
         a) It cannot find the peaks appropriately
         b) it's too noisy and finds many peaks
         c) it also suffers from finding more than one local maxima in the region.
@@ -57,69 +57,40 @@ for line in lines[0].split('\r'):
         print "Skipping header values."#}}}
 
 # Find the peaks of the derivative spectrum and calculate spectral width, center field, and bounds on the spectrum accordingly.#{{{
-
-# Find the three largest peaks
-# peak 1 find the field value of the zero crossing
-peak1 = spec.data.argmax()
-valley1 = spec.data.argmin()
-#find the high bound
-notCrossed=True
-count = 0
-while notCrossed:
-    if float(spec['field',peak1+count].data) <= 0.:
-        lowBound = peak1+count
-        notCrossed = False
-    count-=1
-# find the low bound
-counts=0
-while notCrossed:
-    if float(spec['field',valley1+counts].data) >= 0.:
-        highBound = valley1+counts
-        notCrossed = False
-    counts+=1
-cut1 = spec['field',lowBound:highBound]
-figure()
-plot(spec)
-plot(cut1)
-
-maxi = spec.data.max()
-threshMax = .2*maxi
-mini = spec.data.min()
-threshMin = 0.2*mini
-maximaField = []
-maximaData = []
-minimaField = []
-minimaData = []
-for count,value in enumerate(spec.data[1:-1]):
-    if (value >= threshMax):
-        maximaField.append(spec.getaxis('field')[count])
-        maximaData.append(spec.data[count])
-    elif (value <= threshMin):
-        minimaField.append(spec.getaxis('field')[count])
-        minimaData.append(spec.data[count])
-maxima = nddata(array(maximaData)).rename('value','field').labels('field',array(maximaField))
-minima = nddata(array(minimaData)).rename('value','field').labels('field',array(minimaField))
-
-# Now find the peaks and valleys... To root find or just window? Tis the question... Windowing is probably cleaner...
-# Find the breaks and dump into three separate nddatas.
-peaksData = []
-peaksField = []
-for count,value in enumerate(maxima.data[1:-1]):
-    if (value > maxima.data[count]) and (value > maxima.data[count+2]):
-        peaksField.append(maxima.getaxis('field')[count+1])
-        peaksData.append(maxima.data[count+1])
-peaks = nddata(array(peaksData)).rename('value','field').labels('field',array(peaksField))
-# Here you need to drop all but one local maxima
-valleysData = []
-valleysField = []
-for count,value in enumerate(minima.data[1:-1]):
-    if (value < minima.data[count]) and (value < minima.data[count+2]):
-        valleysField.append(minima.getaxis('field')[count+1])
-        valleysData.append(minima.data[count+1])
-valleys = nddata(array(valleysData)).rename('value','field').labels('field',array(valleysField))
-lineWidths = peaks.getaxis('field') - valleys.getaxis('field')
-spectralWidth = peaks.getaxis('field').max() - peaks.getaxis('field').min() 
-centerField = peaks.getaxis('field')[1] + lineWidths[1]/2.# assuming the center point comes out in the center. The way the code is built this should be robust
+# Find the three largest peaks - follow maxima and minima to zero, record values and drop sections. Repeat 3 times.
+peaks = []
+valleys = []
+smash = spec.copy()
+for i in range(3):
+    peak = smash.data.argmax()
+    peaks.append(peak)
+    valley = smash.data.argmin()
+    valleys.append(valley)
+    #find the high bound
+    notCrossed=True
+    count = 0
+    while notCrossed:
+        if float(smash['field',peak+count].data) <= 0.0:
+            lowBound = peak+count
+            notCrossed = False
+        count-=1
+    # find the low bound
+    notCrossed=True
+    counts=0
+    while notCrossed:
+        if float(smash['field',valley+counts].data) >= 0.0:
+            highBound = valley+counts
+            notCrossed = False
+        counts+=1
+    smash['field',lowBound:highBound] = 0.0
+peak = nddata(spec.data[peaks]).rename('value','field').labels('field',spec.getaxis('field')[peaks])
+valley = nddata(spec.data[valleys]).rename('value','field').labels('field',spec.getaxis('field')[valleys])
+# Calculate relevant parameters
+peak.sort('field')
+valley.sort('field')
+lineWidths = peak.getaxis('field') - valley.getaxis('field')
+spectralWidth = peak.getaxis('field').max() - peak.getaxis('field').min() 
+centerField = peak.getaxis('field')[1] + lineWidths[1]/2.# assuming the center point comes out in the center. The way the code is built this should be robust
 specStart = centerField - spectralWidth
 specStop = centerField + spectralWidth
 print "\nI calculate the spectral width to be: ",spectralWidth," G \n"
@@ -127,16 +98,16 @@ print "I calculate the center field to be: ",centerField," G \n"
 print "I set spectral bounds of: ", specStart," and ", specStop," G \n"
 
 # Baseline correct the spectrum
-#baseline1 = spec['field',lambda x: x < specStart].mean('field')
-#baseline2 = spec['field',lambda x: x > specStop].mean('field')
-#baseline = average(array([baseline1.data,baseline2.data]))
-#spec.data -= baseline
+baseline1 = spec['field',lambda x: x < specStart].copy().mean('field')
+baseline2 = spec['field',lambda x: x > specStop].copy().mean('field')
+baseline = average(array([baseline1.data,baseline2.data]))
+spec.data -= baseline
 
 # Plot the results
 figure()
 plot(spec,'m',alpha=0.6)
-plot(maxima,'r.')
-plot(minima,'g.')
+plot(peak,'ro',markersize=10)
+plot(valley,'ro',markersize=10)
 plot(spec['field',lambda x: logical_and(x>specStart,x<specStop)],'b')
 title('Integration Window')
 ylabel('Spectral Intensity')
