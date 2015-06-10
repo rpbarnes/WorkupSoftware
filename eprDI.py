@@ -1,5 +1,5 @@
 """
-This script will calculate the double integral of a derivative EPR spectrum.
+This script will calculate the double integral of a derivative EPR spectrum that is normalized by both the number of scans and the receiver gain which gives reproducible values.
 
 You should make this dump the spectrum and the double integral to the database with a searchable sample number. This way you could calculate all ODNP + EPR information by looking for you sample.
 
@@ -10,7 +10,7 @@ Bugs:
         ** c) it also suffers from finding more than one local maxima in the region.
 
 To Do:
-    1) Import bruker .par files - for now will just use the exported ASCII format 
+    ** 1) Import bruker .spc and .par files - for now will just use the exported ASCII format 
     ** 2) Calculate absorption spectrum
     ** 3) Fit the ends of the absorption spec to a line and subtract the line from the spectrum.
     ** 4) Calculate the double integrated value and check to make sure the end is flat
@@ -22,45 +22,103 @@ To Do:
     ** 10) Calculate edge peak to peak width.
     ** 11) Calculate spectral line widths.
     ** 12) Calculate the center field.
-    13) Carefully go over databasing scheme!
+    ** 13) Carefully go over databasing scheme! - this seems correct for now although I am not currently writing anything to the database
     ** 14) Dump data to a csv file.
 """
 from matlablike import *
 import csv
 close('all')
 
+# Various Definitions and classes#{{{
+def returnEPRSpec(fileName,doNormalize = True): #{{{
+    """ 
+    Return the cw-EPR derivative spectrum from the spc and par files output by the winEPR program.
+    If doNormalize is set to True (recommended) this will normalize the spectral values to the number of scans run as well as the receiver gain settings. This is a more reproducible value as is independent of the two settings which may vary.
+
+    args:
+
+    fileName - (sting) full file name not including extension. e.g. '/Users/StupidRobot/exp_data/ryan_cnsi/epr/150525_ConcentrationSeries/200uM_4OHT_14-7mm'
+
+    returns: 
+
+    1-D nddata dimensioned by field values of spectrum, and containing the EPR experimental parameters as other_info.
+    """
+    # Open the spc and par files and pull the data and relevant parameters
+    specData = fromfile(fileName+'.spc','<f') # read the spc
+    openFile = open(fileName + '.par','r') # read the par
+    lines = openFile.readlines()
+    expDict = {}
+    for line in lines[0].split('\r'):
+        try:
+            splitData = line.split(' ')
+            key = splitData.pop(0)
+            value = splitData.pop(0)
+            for data in splitData:
+                value += data
+            expDict.update({key:value})
+        except:
+            pass
+
+    # calculate the field values and normalize by the number of scans and return an nddata
+    centerSet = float(expDict.get('HCF'))
+    sweepWidth = float(expDict.get('HSW'))
+    resolution = float(expDict.get('RES'))
+    fieldVals = r_[centerSet-sweepWidth/2.:centerSet+sweepWidth/2.:resolution*1j]
+    numScans = float(expDict.get('JNS')) # I'm not sure if this is right
+    rg = float(expDict.get('RRG'))
+    # normalize the data so there is coherence between different scans.
+    if doNormalize:
+        specData /= rg
+        specData /= numScans
+    spec = nddata(specData).rename('value','field').labels('field',fieldVals)
+    spec.other_info = expDict
+    return spec #}}}
+
+def dictToCSV(fileName, dataDict): #{{{
+    """
+    Write a dictionary object to a csv file. This currently can handle a dictionary containing strings, lists, and dictionaries.
+
+    args:
+
+    fileName - the full name of the csv file you want to create without the filetype extension.
+    dataDict - the dictionary to save to the csv file
+
+    returns:
+
+    None
+    """
+    openFile = open(fileName+'.csv','w+')
+    ### Write to a csv given the dictionary entry
+    for keyName in dataDict:
+        if type(dataDict.get(keyName)) is list:
+            openFile.write(str(keyName))
+            openFile.write(',')
+            for value in dataDict.get(keyName):
+                openFile.write(str(value))
+                openFile.write(',')
+            openFile.write('\n')
+        elif type(dataDict.get(keyName)) is dict:
+            for keyName1 in dataDict.get(keyName):
+                openFile.write(str(keyName1))
+                openFile.write(',')
+                openFile.write(str(dataDict.get(keyName).get(keyName1)))
+                openFile.write(',')
+                openFile.write('\n')
+        else:
+            openFile.write(str(keyName))
+            openFile.write(',')
+            openFile.write(str(dataDict.get(keyName)))
+            openFile.write(',')
+            openFile.write('\n')
+    openFile.close()
+    print "Saved data to %s.csv"%fileName#}}}
+#}}}
+
 ### Import the files - for now this is hard coded and this only works with ASCII files, you need to change this so you can use the par files as well.
-fullPath = '/Users/StupidRobot/exp_data/ryan_cnsi/epr/150122_EPRConcSeries/'
-fileName = 'CheY_N121C_P2_218uM_13mm_10dB'
+fullPath = '/Users/StupidRobot/exp_data/ryan_cnsi/epr/150525_ConcentrationSeries/'
+fileName = '200uM_4OHT_14-7mm'
 
-# Open the ASCII file and pull the spectrum#{{{
-openFile = open(fullPath + fileName + '.asc','r') 
-lines = openFile.readlines()
-field = []
-spec = []
-for line in lines:
-    try:
-        new = line.split('\t')
-        field.append(float(new[0]))
-        spec.append(float(new[1].split('\r')[0]))
-    except:
-        pass
-spec = nddata(array(spec)).rename('value','field').labels('field',array(field).round(2))#}}}
-
-# Open the par file and pull the relevant parameters #{{{
-openFile = open(fullPath + fileName + '.par','r') 
-lines = openFile.readlines()
-expDict = {}
-for line in lines[0].split('\r'):
-    try:
-        splitData = line.split(' ')
-        key = splitData.pop(0)
-        value = splitData.pop(0)
-        for data in splitData:
-            value += data
-        expDict.update({key:value})
-    except:
-        pass#}}}
+spec = returnEPRSpec(fullPath+fileName)
 
 # Find the peaks of the derivative spectrum and calculate spectral width, center field, and bounds on the spectrum accordingly.#{{{
 # Find the three largest peaks - follow maxima and minima to zero, record values and drop sections. Repeat 3 times to yield the three largest peaks.
@@ -173,33 +231,11 @@ tight_layout()
 # Write parameters to csv file, right now this is determined by the epr file location. - In future this should be tied to the odnp exp file as part of return integrals.#{{{
 
 # I really don't like this scheme. Think on it and make sure it matches that of the return integrals. Something is wrong
-spec = {'epr':{'spec':spec.data.tolist(),'specDI':doubleIntZC.data.tolist(),'dim1':spec.getaxis('field').tolist(),'dimNames':spec.dimlabels,'centerField':str(centerField),'lineWidths':list(lineWidths),'spectralWidth':str(spectralWidth),'doubleIntegral':str(doubleIntZC.data.max()),'expDict':expDict}}
+specDict = {'epr':{'spec':spec.data.tolist(),'specDI':doubleIntZC.data.tolist(),'dim1':spec.getaxis('field').tolist(),'dimNames':spec.dimlabels,'centerField':str(centerField),'lineWidths':list(lineWidths),'spectralWidth':str(spectralWidth),'doubleIntegral':str(doubleIntZC.data.max()),'expDict':spec.other_info}}
 
-openFile = open(fullPath+fileName+'.csv','w+')
-### Write to a csv given the dictionary entry
-dataDict = spec.get('epr')
-for keyName in dataDict:
-    if type(dataDict.get(keyName)) is list:
-        openFile.write(str(keyName))
-        openFile.write(',')
-        for value in dataDict.get(keyName):
-            openFile.write(str(value))
-            openFile.write(',')
-        openFile.write('\n')
-    elif type(dataDict.get(keyName)) is dict:
-        for keyName1 in dataDict.get(keyName):
-            openFile.write(str(keyName1))
-            openFile.write(',')
-            openFile.write(str(dataDict.get(keyName).get(keyName1)))
-            openFile.write(',')
-            openFile.write('\n')
-    else:
-        openFile.write(str(keyName))
-        openFile.write(',')
-        openFile.write(str(dataDict.get(keyName)))
-        openFile.write(',')
-        openFile.write('\n')
-openFile.close()#}}}
+dataDict = specDict.get('epr')
+# Save to a csv
+dictToCSV(fullPath+fileName,dataDict)
 
 show()
 
