@@ -115,8 +115,8 @@ def dictToCSV(fileName, dataDict): #{{{
 #}}}
 
 ### Import the files - for now this is hard coded and this only works with ASCII files, you need to change this so you can use the par files as well.
-fullPath = '/Users/StupidRobot/exp_data/ryan_cnsi/epr/150525_ConcentrationSeries/'
-fileName = '200uM_4OHT_14-7mm'
+fullPath = '/Users/StupidRobot/exp_data/ryan_emx/epr/150603_CheYPepConcSeries/'
+fileName = 'N62C_5MUrea_Pep_15-2mm'
 
 spec = returnEPRSpec(fullPath+fileName)
 

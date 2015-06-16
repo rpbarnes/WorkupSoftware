@@ -1,5 +1,5 @@
 import time
-from lmfit import minimize,Parameters ### This makes another hoop for installing software that you don't really use...
+from lmfit import minimize,Parameters ### This makes another hoop for installing software that you don't really use... I actually really think this should be implemented as nddata functions. Or as fit classes.
 import shutil
 import nmrfit
 from nmr import * 
@@ -19,6 +19,45 @@ import fornotebook as fnb
 
 
 #{{{ Various definitions and classes
+# Save dict to csv #{{{
+def dictToCSV(fileName, dataDict): 
+    """
+    Write a dictionary object to a csv file. This currently can handle a dictionary containing strings, lists, and dictionaries.
+
+    args:
+
+    fileName - the full name of the csv file you want to create without the filetype extension.
+    dataDict - the dictionary to save to the csv file
+
+    returns:
+
+    None
+    """
+    openFile = open(fileName+'.csv','w+')
+    ### Write to a csv given the dictionary entry
+    for keyName in dataDict:
+        if type(dataDict.get(keyName)) is list:
+            openFile.write(str(keyName))
+            openFile.write(',')
+            for value in dataDict.get(keyName):
+                openFile.write(str(value))
+                openFile.write(',')
+            openFile.write('\n')
+        elif type(dataDict.get(keyName)) is dict:
+            for keyName1 in dataDict.get(keyName):
+                openFile.write(str(keyName1))
+                openFile.write(',')
+                openFile.write(str(dataDict.get(keyName).get(keyName1)))
+                openFile.write(',')
+                openFile.write('\n')
+        else:
+            openFile.write(str(keyName))
+            openFile.write(',')
+            openFile.write(str(dataDict.get(keyName)))
+            openFile.write(',')
+            openFile.write('\n')
+    openFile.close()
+    print "Saved data to %s.csv"%fileName#}}}
 
 #{{{ Fitting functions from lmfit
 def analyticLinear(params,x):
@@ -601,6 +640,7 @@ if writeToDB:
 #}}}
 
 #{{{ Write everything to a csv file as well
+
 ### Write the enhancement power file 
 if dnpexp:
     if enhancementPowerSeries:

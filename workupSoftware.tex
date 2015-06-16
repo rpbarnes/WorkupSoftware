@@ -119,10 +119,20 @@ I think what I've learned is that it's not nice to drop everything in one matrix
 
 What you should do is loop through producing nddata sets given appropriate search parameters. This is the easiest way to do this for now. 
 
+\chapter{GUI Implementation}
+
+I barely start on this but do make mentionable progress. I save a script FileDialogueHandler.py that opens a GUI window with a button and a text line. When you click the button a file browser is opened and once you select a folder the text box displays the name of the folder.
+
 \chapter{Development}
 \section{New Implementations:}
 \begin{enumerate}
-    \item $\Box$ You should apodize your signal in the integrate function to boost the Signal to noise.
+    \item $\Box$ You should also request that the user loads in a calibration file for the cw-EPR double integral experiment.
+    \item $\Box$ Change the entry query options to numerical, rather than, text entry.
+    \item $\Box$ Include the EPR double integral workup as part of the software.
+    \item $\Box$ Fix the file browser functionality so this doesn't crash so easily.
+    \item $\Box$ Fit the $T_1$ raw data in the log space. This should be much more robust to weridness. Also you should plot the data in this space.
+    \item $\Box$ Write the metadata to a file.
+    \item $\checkmark$ You should apodize your signal in the integrate function to boost the Signal to noise. \o[Right now this is automatically done by fitting the decay of the signal and multiplying by such]{}
     \item $\Box$ You also need to go through the plotting from matlablike as this does not behave correcly.
     \item $\Box$ in rb_dnp1 set a constant to a value such that you can use this as an identifier for figuring out if the experiment was run with the new version of the software. No, it shouldn't be that \o['dnpconf']{} should just ask for the starting power for the $T_1$ series.
     \item $\Box$ Add function in returnPowers to accept or reject the first power based on the experiment time and the time spent at the first power, this also should have a tag for the T1 series.
