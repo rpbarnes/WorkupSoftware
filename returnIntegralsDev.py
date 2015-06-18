@@ -294,11 +294,13 @@ class workupODNP(): #{{{ The ODNP Experiment
     def __init__(self,odnpPath,eprName):
         self.runningDir = os.getcwd()
         self.systemOpt = os.name
-        self.eprName = eprName.split('.')[0]
+        if eprName:
+            self.eprName = eprName.split('.')[0]
+        else:
+            self.eprName = False
         self.odnpPath = odnpPath
         self.fl = fnb.figlist()
         self.MONGODB_URI = 'mongodb://rbarnes:tgb47atgb47a@ds047040.mongolab.com:47040/magresdata' 
-
 
         # Some file handling stuff for cross platform compatibility - Any OS specific change should be made here#{{{
         if self.systemOpt == 'nt':
@@ -317,7 +319,7 @@ class workupODNP(): #{{{ The ODNP Experiment
             print "file exists"
             pass#}}}
 
-        # Actual calls to run the experiment.
+        # Actual calls to run the experiment.#{{{
         self.returnODNPExpParamsDict() # This seems to run after returnODNPExpParamsDict is defined.
         self.indexFiles()
         self.determineExperiment()
@@ -335,8 +337,9 @@ class workupODNP(): #{{{ The ODNP Experiment
         if self.writeToDB: self.writeToDatabase()
         self.dumpAllToCSV()
         self.writeExpParams()
-        compilePDF(self.odnpName.split(self.odnpName[-1])[0],self.fl)
+        compilePDF(self.odnpName.split(self.odnpName[-1])[0],self.fl)#}}}
 
+    # Class Specific Functions (Children) #{{{
     def returnEPRData(self): #{{{ EPR Workup stuff
         """
         Perform the epr baseline correction and double integration.
@@ -539,7 +542,7 @@ class workupODNP(): #{{{ The ODNP Experiment
             self.dnpexp = raw_input("\n\nIs this a DNP experiment or t1?\nIf DNP, hit enter. If t1 type 't1'. \n--> ")
             if self.dnpexp == '': # DNP is True, T10 is False
                 self.dnpexp = True
-                if self.eprName != '':
+                if self.eprName:
                     self.eprExp = True
                 else:
                     self.eprExp = False
@@ -579,7 +582,8 @@ class workupODNP(): #{{{ The ODNP Experiment
             db = self.conn.magresdata ### 'dynamicalTransition' is the name of my test database
             self.collection = db.hanLabODNPTest # This is my test collection
             # check to see if the database parameters dictionary exists#{{{
-            expExists = list(self.collection.find({'expName':self.name}))
+            expExists = list(self.collection.find({'setType':self.setType}))
+            expExists = list(self.collection.find({'expName':self.odnpName}))
             if not expExists: # If we don't have the exp specific parameters file yet make the parameter dictionary from the information above and edit with the following.
                 self.databaseParamsDict = dtb.returnDatabaseDictionary(self.collection) # This should take a collection instance.
             else:
@@ -903,9 +907,10 @@ class workupODNP(): #{{{ The ODNP Experiment
             self.fl.figurelist.append({'print_string':r'$T_{1}(p=0) = %0.3f \pm %0.3f \ (Seconds) \\$'%(self.R1.data,self.R1.get_error()) + '\n\n'})
         else:
             self.fl.figurelist.append({'print_string':r'\subparagraph{$T_{1,0}$ Parameters}\\' + '\n\n'})
-            for i in range(len(t1Series.data)):
+            for i in range(len(self.t1Series.data)):
                 self.fl.figurelist.append({'print_string':r'$T_{1}(p=0) = %0.3f \pm %0.3f\ (Seconds) \\$'%(self.t1Series.data[i],self.t1Series.get_error()[i]) + '\n\n'})
     ##}}}
+#}}}
 
     #}}}
 
