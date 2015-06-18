@@ -25,11 +25,43 @@ To Do:
     ** 13) Carefully go over databasing scheme! - this seems correct for now although I am not currently writing anything to the database
     ** 14) Dump data to a csv file.
 """
-from matlablike import *
+
+import matlablike as pys
+from numpy import *
 import csv
-close('all')
+import fornotebook as fnb
+
+pys.close('all')
+fl = fnb.figlist()
 
 # Various Definitions and classes#{{{
+def returnEPRExpDict(fileName,verbose=False):#{{{
+    """
+    Return all of the experiment parameters stored in the '.par' file output by the Bruker
+
+    Args:
+    fileName - string - full file name from top directory.
+
+    Returns:
+    expDict - dictionary - Keys are keys from bruker par files, values are everything else matched to the corresponding key.
+    """
+    openFile = open(fileName + '.par','r') # read the par
+    lines = openFile.readlines()
+    expDict = {}
+    for line in lines[0].split('\r'):
+        try:
+            if verbose:
+                print "Debug: ",line
+            splitData = line.split(' ')
+            key = splitData.pop(0)
+            value = splitData.pop(0)
+            for data in splitData:
+                value += data
+            expDict.update({key:value})
+        except:
+            pass
+    return expDict#}}}
+
 def returnEPRSpec(fileName,doNormalize = True): #{{{
     """ 
     Return the cw-EPR derivative spectrum from the spc and par files output by the winEPR program.
@@ -45,32 +77,18 @@ def returnEPRSpec(fileName,doNormalize = True): #{{{
     """
     # Open the spc and par files and pull the data and relevant parameters
     specData = fromfile(fileName+'.spc','<f') # read the spc
-    openFile = open(fileName + '.par','r') # read the par
-    lines = openFile.readlines()
-    expDict = {}
-    for line in lines[0].split('\r'):
-        try:
-            splitData = line.split(' ')
-            key = splitData.pop(0)
-            value = splitData.pop(0)
-            for data in splitData:
-                value += data
-            expDict.update({key:value})
-        except:
-            pass
-
-    # calculate the field values and normalize by the number of scans and return an nddata
+    # calculate the field values and normalize by the number of scans and the receiver gain and return an nddata
+    expDict = returnEPRExpDict(fileName)
     centerSet = float(expDict.get('HCF'))
     sweepWidth = float(expDict.get('HSW'))
-    resolution = float(expDict.get('RES'))
-    fieldVals = r_[centerSet-sweepWidth/2.:centerSet+sweepWidth/2.:resolution*1j]
+    fieldVals = pys.r_[centerSet-sweepWidth/2.:centerSet+sweepWidth/2.:len(specData)*1j]
     numScans = float(expDict.get('JNS')) # I'm not sure if this is right
     rg = float(expDict.get('RRG'))
     # normalize the data so there is coherence between different scans.
     if doNormalize:
         specData /= rg
         specData /= numScans
-    spec = nddata(specData).rename('value','field').labels('field',fieldVals)
+    spec = pys.nddata(specData).rename('value','field').labels('field',fieldVals)
     spec.other_info = expDict
     return spec #}}}
 
@@ -112,46 +130,60 @@ def dictToCSV(fileName, dataDict): #{{{
             openFile.write('\n')
     openFile.close()
     print "Saved data to %s.csv"%fileName#}}}
+
+# Return the peaks and valleys of the EPR spectrum#{{{
+def findPeaks(spec,numberOfPeaks):
+    """
+    Find the position of the peaks and valleys of the EPR spectrum given the number of peaks to look for. 
+    The function returns the total peak to peak width of the spectrum, given more than one peak, as well as the center field and linewidth.
+
+    args:
+    spec - an nddata set of the EPR spectrum. The EPR spectrum should be the data and the field values should be placed in an axis named 'field'
+    numberOfPeaks - an integer. The number of peaks to find, for nitroxide this should be 3.
+
+    """
+    peaks = []
+    valleys = []
+    smash = spec.copy()
+    for i in range(numberOfPeaks): 
+        peak = smash.data.argmax()
+        peaks.append(peak)
+        valley = smash.data.argmin()
+        valleys.append(valley)
+        #find the high bound
+        notCrossed=True
+        count = 0
+        while notCrossed:
+            if float(smash['field',peak+count].data) <= 0.0:
+                lowBound = peak+count
+                notCrossed = False
+            count-=1
+        # find the low bound
+        notCrossed=True
+        counts=0
+        while notCrossed:
+            if float(smash['field',valley+counts].data) >= 0.0:
+                highBound = valley+counts
+                notCrossed = False
+            counts+=1
+        smash['field',lowBound:highBound] = 0.0
+    peak = pys.nddata(spec.data[peaks]).rename('value','field').labels('field',spec.getaxis('field')[peaks])
+    valley = pys.nddata(spec.data[valleys]).rename('value','field').labels('field',spec.getaxis('field')[valleys])
+    # Calculate relevant parameters
+    peak.sort('field')
+    valley.sort('field')
+    return peak,valley
+#}}}
 #}}}
 
 ### Import the files - for now this is hard coded and this only works with ASCII files, you need to change this so you can use the par files as well.
-fullPath = '/Users/StupidRobot/exp_data/ryan_emx/epr/150603_CheYPepConcSeries/'
-fileName = 'N62C_5MUrea_Pep_15-2mm'
+eprPath = '/Users/StupidRobot/exp_data/ryan_emx/epr/150615_CheYSeries/'
+eprName = 'A80C_MTSL_386uM_10-1mm'
 
-spec = returnEPRSpec(fullPath+fileName)
-
-# Find the peaks of the derivative spectrum and calculate spectral width, center field, and bounds on the spectrum accordingly.#{{{
-# Find the three largest peaks - follow maxima and minima to zero, record values and drop sections. Repeat 3 times to yield the three largest peaks.
-peaks = []
-valleys = []
-smash = spec.copy()
-for i in range(3):
-    peak = smash.data.argmax()
-    peaks.append(peak)
-    valley = smash.data.argmin()
-    valleys.append(valley)
-    #find the high bound
-    notCrossed=True
-    count = 0
-    while notCrossed:
-        if float(smash['field',peak+count].data) <= 0.0:
-            lowBound = peak+count
-            notCrossed = False
-        count-=1
-    # find the low bound
-    notCrossed=True
-    counts=0
-    while notCrossed:
-        if float(smash['field',valley+counts].data) >= 0.0:
-            highBound = valley+counts
-            notCrossed = False
-        counts+=1
-    smash['field',lowBound:highBound] = 0.0
-peak = nddata(spec.data[peaks]).rename('value','field').labels('field',spec.getaxis('field')[peaks])
-valley = nddata(spec.data[valleys]).rename('value','field').labels('field',spec.getaxis('field')[valleys])
-# Calculate relevant parameters
-peak.sort('field')
-valley.sort('field')
+#{{{ EPR Workup stuff
+# Pull the specs, Find peaks, valleys, and calculate things with the EPR spectrum.#{{{
+spec = returnEPRSpec(eprPath+eprName)
+peak,valley = findPeaks(spec,3)
 lineWidths = valley.getaxis('field') - peak.getaxis('field') 
 spectralWidth = peak.getaxis('field').max() - peak.getaxis('field').min() 
 centerField = peak.getaxis('field')[1] + lineWidths[1]/2.# assuming the center point comes out in the center. The way the code is built this should be robust
@@ -159,26 +191,24 @@ specStart = centerField - spectralWidth
 specStop = centerField + spectralWidth
 print "\nI calculate the spectral width to be: ",spectralWidth," G \n"
 print "I calculate the center field to be: ",centerField," G \n"
-print "I set spectral bounds of: ", specStart," and ", specStop," G \n"
+print "I set spectral bounds of: ", specStart," and ", specStop," G \n"#}}}
 
-# Baseline correct the spectrum
+# Baseline correct the spectrum #{{{
 baseline1 = spec['field',lambda x: x < specStart].copy().mean('field')
 baseline2 = spec['field',lambda x: x > specStop].copy().mean('field')
 baseline = average(array([baseline1.data,baseline2.data]))
 spec.data -= baseline
 
 # Plot the results
-figure()
-plot(spec,'m',alpha=0.6)
-plot(peak,'ro',markersize=10)
-plot(valley,'ro',markersize=10)
-plot(spec['field',lambda x: logical_and(x>specStart,x<specStop)],'b')
-title('Integration Window')
-ylabel('Spectral Intensity')
-xlabel('Field (G)')
-giveSpace(spaceVal=0.001)
-tight_layout()
-
+fl.figurelist = pys.nextfigure(fl.figurelist,'EPRSpectra')
+pys.plot(spec,'m',alpha=0.6)
+pys.plot(peak,'ro',markersize=10)
+pys.plot(valley,'ro',markersize=10)
+pys.plot(spec['field',lambda x: logical_and(x>specStart,x<specStop)],'b')
+pys.title('Integration Window')
+pys.ylabel('Spectral Intensity')
+pys.xlabel('Field (G)')
+pys.giveSpace(spaceVal=0.001)
 #}}}
 
 ### Take the first integral #{{{
@@ -188,10 +218,10 @@ absorption = spec.copy().integrate('field')#}}}
 baseline1 = absorption['field',lambda x: x < specStart]
 baseline2 = absorption['field',lambda x: x > specStop]
 fieldBaseline = array(list(baseline1.getaxis('field')) + list(baseline2.getaxis('field')))
-baseline = concat([baseline1,baseline2],'field')
+baseline = pys.concat([baseline1,baseline2],'field')
 baseline.labels('field',fieldBaseline)
 c,fit = baseline.polyfit('field',order = 1)
-fit = nddata(array(c[0] + absorption.getaxis('field')*c[1])).rename('value','field').labels('field',absorption.getaxis('field'))
+fit = pys.nddata(array(c[0] + absorption.getaxis('field')*c[1])).rename('value','field').labels('field',absorption.getaxis('field'))
 correctedAbs = absorption - fit#}}}
 
 # Set the values of absorption spec outside of int window to zero.#{{{
@@ -200,14 +230,15 @@ zeroCorr['field',lambda x: x < specStart] = 0.0
 zeroCorr['field',lambda x: x > specStop] = 0.0#}}}
 
 # Plot absorption results#{{{
-figure()
-plot(absorption)
-plot(fit)
-plot(correctedAbs)
-plot(zeroCorr)
-title('Absorption Spectrum')
-ylabel('Absorptive Signal')
-xlabel('Field (G)')
+fl.figurelist = pys.nextfigure(fl.figurelist,'Absorption')
+pys.plot(absorption)
+pys.plot(fit)
+pys.plot(correctedAbs)
+pys.plot(zeroCorr)
+pys.title('Absorption Spectrum')
+pys.ylabel('Absorptive Signal')
+pys.xlabel('Field (G)')
+pys.giveSpace(spaceVal=0.001)
 #}}}
 
 # Calculate and plot the double integral for the various corrections you've made #{{{
@@ -216,28 +247,29 @@ doubleIntC = correctedAbs.copy().integrate('field')
 doubleIntZC = zeroCorr.copy().integrate('field')
 print "\nI calculate the double integral to be: %0.2f\n"%doubleIntZC.data.max()
 
-figure()
-plot(doubleInt,label='uncorrected')
-plot(doubleIntC,label='corrected')
-plot(doubleIntZC,label='zero corrected')
-legend(loc=2)
-title('Double Integral Results')
-ylabel('Second Integral (arb)')
-xlabel('Field (G)')
-giveSpace(spaceVal=0.001)
-tight_layout()
+fl.figurelist = pys.nextfigure(fl.figurelist,'DoubleIntegral')
+pys.plot(doubleInt,label='uncorrected')
+pys.plot(doubleIntC,label='corrected')
+pys.plot(doubleIntZC,label='zero corrected')
+pys.legend(loc=2)
+pys.title('Double Integral Results')
+pys.ylabel('Second Integral (arb)')
+pys.xlabel('Field (G)')
+pys.giveSpace(spaceVal=0.001)
+#}}}
 #}}}
 
 # Write parameters to csv file, right now this is determined by the epr file location. - In future this should be tied to the odnp exp file as part of return integrals.#{{{
 
 # I really don't like this scheme. Think on it and make sure it matches that of the return integrals. Something is wrong
-specDict = {'epr':{'spec':spec.data.tolist(),'specDI':doubleIntZC.data.tolist(),'dim1':spec.getaxis('field').tolist(),'dimNames':spec.dimlabels,'centerField':str(centerField),'lineWidths':list(lineWidths),'spectralWidth':str(spectralWidth),'doubleIntegral':str(doubleIntZC.data.max()),'expDict':spec.other_info}}
+specDict = {'epr':{'data':spec.data.tolist(),'dataDI':doubleIntZC.data.tolist(),'dim0':spec.getaxis('field').tolist(),'dimNames':spec.dimlabels[0],'centerField':str(centerField),'lineWidths':list(lineWidths),'spectralWidth':str(spectralWidth),'doubleIntegral':str(doubleIntZC.data.max()),'expDict':spec.other_info}}
 
 dataDict = specDict.get('epr')
 # Save to a csv
-dictToCSV(fullPath+fileName,dataDict)
+dictToCSV(eprPath+eprName,dataDict)
 
-show()
+pys.show()
+
 
 
 
