@@ -422,7 +422,7 @@ for i in files:
         print "Couldn't read the experiment title for some reason. Leaving blank"
 #}}}
 
-#{{{ DNP Experiment?
+#{{{ What Type of Experiment?
 answer = True
 while answer:
     dnpexp = raw_input("\n\nIs this a DNP experiment or t1?\nIf DNP, hit enter. If t1 type 't1'. \n--> ")
