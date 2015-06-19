@@ -3,7 +3,7 @@ This is a modularized version of returnIntegrals
 
 The goal is to implement this code as is in the new GUI format.
 """
-
+# Functions to import #{{{
 import time
 from lmfit import minimize,Parameters ### This makes another hoop for installing software that you don't really use... I actually really think this should be implemented as nddata functions. Or as fit classes.
 import shutil
@@ -21,7 +21,7 @@ import subprocess
 import pickle
 import fornotebook as fnb
 from scipy.io import loadmat,savemat
-from numpy import *
+from numpy import *#}}}
 
 #{{{ Various definitions and classes
 def returnEPRSpec(fileName,doNormalize = True): #{{{
@@ -291,14 +291,35 @@ odnpPath = '/Users/StupidRobot/exp_data/ryan_emx/nmr/150616_CheY_T71C_NaPi_RT_OD
 eprName = '/Users/StupidRobot/exp_data/ryan_emx/epr/150615_CheYSeries/A97C_MTSL_5MUrea_12-9mm.spc'
 
 class workupODNP(): #{{{ The ODNP Experiment
-    def __init__(self,odnpPath,eprName):
+    def __init__(self,guiParent):
+        self.guiParent = guiParent # import everything from the parent gui into this child class. This way we can manipulate the gui from here.
         self.runningDir = os.getcwd()
         self.systemOpt = os.name
-        if eprName:
-            self.eprName = eprName.split('.')[0]
+        self.writeToDB = self.guiParent.dataBase
+        self.dnpexp = self.guiParent.ODNPFile
+        if self.guiParent.EPRFile:
+            self.eprName = self.guiParent.EPRFile.split('.')[0]
+            self.eprExp = True
         else:
             self.eprName = False
-        self.odnpPath = odnpPath
+            self.eprExp = False
+        if self.guiParent.ODNPFile:
+            self.odnpPath = self.guiParent.ODNPFile
+            self.nmrExp = True
+            self.dnpexp = True
+            self.setType = 'dnpExp'
+        elif self.guiParent.T1File:
+            self.odnpPath = self.guiParent.T1File
+            self.nmrExp = True
+            self.setType = 't1Exp'
+        else: # if neither T1 or ODNP file exists it must be to work up the EPR experiment alone.
+            if self.eprName:
+                self.odnpPath = self.eprName
+                self.nmrExp = False 
+                self.dnpexp = False
+                self.setType = 'eprExp'
+            else:
+                raise ValueError("You didn't give me an NMR experiment or an EPR experiment. What the hell do you want from me??")
         self.fl = fnb.figlist()
         self.MONGODB_URI = 'mongodb://rbarnes:tgb47atgb47a@ds047040.mongolab.com:47040/magresdata' 
 
@@ -307,10 +328,14 @@ class workupODNP(): #{{{ The ODNP Experiment
             self.name = self.odnpPath.split('\\')[-1]
             self.runningDir += '\\'
             self.odnpName = self.name + '\\'
+            if self.eprName:
+                self.eprFileName = self.eprName.split('\\')[-1]
         elif self.systemOpt == 'posix':
             self.name = self.odnpPath.split('/')[-1]
             self.runningDir += '/'
-            self.odnpName = self.name + '/'#}}}
+            self.odnpName = self.name + '/'
+            if self.eprName:
+                self.eprFileName = self.eprName.split('/')[-1]#}}}
 
         # make the experiment directory to dump all of the high level data#{{{
         try:
@@ -320,18 +345,19 @@ class workupODNP(): #{{{ The ODNP Experiment
             pass#}}}
 
         # Actual calls to run the experiment.#{{{
-        self.returnODNPExpParamsDict() # This seems to run after returnODNPExpParamsDict is defined.
-        self.indexFiles()
-        self.determineExperiment()
-        self.determineDatabase()
-        self.editExpDict()
-        self.editDatabaseDict()
-        self.legacyCheck()
+        if self.nmrExp: self.returnNMRExpParamsDict() 
+        if self.nmrExp: self.indexFiles()
+        # if self.nmrExp: self.determineExperiment() # Should no longer be needed, hang on to incase you need something.
+        # else: print "EPR Experiment"
+        # self.determineDatabase()
+        if self.nmrExp: self.editExpDict()
+        if self.writeToDB: self.editDatabaseDict()
+        if self.nmrExp: self.legacyCheck()
         makeTitle("  Running Workup  ")
         if self.eprExp: self.returnEPRData()
         if self.dnpexp: self.dnpPowers()
         if self.dnpexp: self.enhancementIntegration()
-        self.T1Integration()
+        if self.nmrExp: self.T1Integration()
         if self.dnpexp: self.makeT1PowerSeries()
         if self.dnpexp: self.compKsigma()
         if self.writeToDB: self.writeToDatabase()
@@ -354,6 +380,7 @@ class workupODNP(): #{{{ The ODNP Experiment
         self.centerField - double - the centerfield
         self.doubleIntZC - nddata - the double integral spectrum
         """
+        self.fl.figurelist.append({'print_string':r'\subparagraph{EPR Spectra %s}'%self.eprFileName + '\n\n'})
         # Pull the specs, Find peaks, valleys, and calculate things with the EPR spectrum.#{{{
         self.spec = returnEPRSpec(self.eprName)
         peak,valley = findPeaks(self.spec,3)
@@ -452,7 +479,7 @@ class workupODNP(): #{{{ The ODNP Experiment
                 # this is run on old software and don't need to add first power
                 self.parameterDict.update({'t1FirstAttenFullPower':False})#}}}
 
-    def returnODNPExpParamsDict(self): #{{{
+    def returnNMRExpParamsDict(self): #{{{
         # Parameter files
         self.expParametersFile = self.odnpName + 'parameters.pkl'
         self.defaultExpParamsFile = 'parameters.pkl'
@@ -575,34 +602,33 @@ class workupODNP(): #{{{ The ODNP Experiment
         #}}}
 
     def editDatabaseDict(self): #{{{ Modify the database parameters dictionary
-        if self.writeToDB:
-            makeTitle("  Database Parameters  ")
-            # Make the connection to the server as client
-            self.conn = pymongo.MongoClient(self.MONGODB_URI) # Connect to the database that I purchased
-            db = self.conn.magresdata ### 'dynamicalTransition' is the name of my test database
-            self.collection = db.hanLabODNPTest # This is my test collection
-            # check to see if the database parameters dictionary exists#{{{
-            expExists = list(self.collection.find({'setType':self.setType}))
-            expExists = list(self.collection.find({'expName':self.odnpName}))
-            if not expExists: # If we don't have the exp specific parameters file yet make the parameter dictionary from the information above and edit with the following.
-                self.databaseParamsDict = dtb.returnDatabaseDictionary(self.collection) # This should take a collection instance.
-            else:
-                ### Pull all the parameters from the file stored specifically for this experiment
-                currentKeys = dtb.returnDatabaseDictionary(self.collection)
-                currentKeys.update(expExists[0])
-                expExists = currentKeys
-                self.databaseParamsDict = expExists
-                self.databaseParamsDict.pop('_id')
-                try: # this is because this is broken...
-                    self.databaseParamsDict.pop('data')
-                except:
-                    pass
-            self.databaseParamsDict.update({'setType':self.setType})
-            self.databaseParamsDict.update({'expName':self.name})
-            #}}}
-            dtb.modDictVals(self.databaseParamsDict,databaseCollection=self.collection)
-            self.databaseParamsDict = dtb.stringifyDictionary(self.databaseParamsDict) # force every entry to a string, this way there is no weirdness with the repeat and date entries or really anything that can be mistaken as a double.
-            self.collection.insert(self.databaseParamsDict) # Save the database parameters to the database in case the code crashes
+        makeTitle("  Database Parameters  ")
+        # Make the connection to the server as client
+        self.conn = pymongo.MongoClient(self.MONGODB_URI) # Connect to the database that I purchased
+        db = self.conn.magresdata ### 'dynamicalTransition' is the name of my test database
+        self.collection = db.hanLabODNPTest # This is my test collection
+        # check to see if the database parameters dictionary exists#{{{
+        expExists = list(self.collection.find({'setType':self.setType}))
+        expExists = list(self.collection.find({'expName':self.odnpName}))
+        if not expExists: # If we don't have the exp specific parameters file yet make the parameter dictionary from the information above and edit with the following.
+            self.databaseParamsDict = dtb.returnDatabaseDictionary(self.collection) # This should take a collection instance.
+        else:
+            ### Pull all the parameters from the file stored specifically for this experiment
+            currentKeys = dtb.returnDatabaseDictionary(self.collection)
+            currentKeys.update(expExists[0])
+            expExists = currentKeys
+            self.databaseParamsDict = expExists
+            self.databaseParamsDict.pop('_id')
+            try: # this is because this is broken...
+                self.databaseParamsDict.pop('data')
+            except:
+                pass
+        self.databaseParamsDict.update({'setType':self.setType})
+        self.databaseParamsDict.update({'expName':self.name})
+        #}}}
+        dtb.modDictVals(self.databaseParamsDict,databaseCollection=self.collection)
+        self.databaseParamsDict = dtb.stringifyDictionary(self.databaseParamsDict) # force every entry to a string, this way there is no weirdness with the repeat and date entries or really anything that can be mistaken as a double.
+        self.collection.insert(self.databaseParamsDict) # Save the database parameters to the database in case the code crashes
 
         #}}}
 
@@ -852,14 +878,16 @@ class workupODNP(): #{{{ The ODNP Experiment
                 dim = self.kSigmaCCurve.dimlabels[0]
                 dataDict.update({'kSigma':{'data':self.kSigmaCCurve.runcopy(real).data.tolist(),'error':self.kSigmaCCurve.get_error().tolist(),'dim0':self.kSigmaCCurve.getaxis(dim).tolist(),'dimNames':self.kSigmaCCurve.dimlabels,'value':self.kSigmaCCurve.output(r'ksmax'),'valueError':sqrt(self.kSigmaCCurve.covar(r'ksmax'))}})
             if self.eprExp:
-                dataDict.update({'epr':{'data':self.spec.data.tolist(),'dataDI':self.doubleIntZC.data.tolist(),'dim0':self.spec.getaxis('field').tolist(),'dimNames':self.spec.dimlabels[0],'centerField':str(self.centerField),'lineWidths':list(self.lineWidths),'spectralWidth':str(self.spectralWidth),'doubleIntegral':str(self.doubleIntZC.data.max()),'expDict':self.spec.other_info}})
+                self.specDict = {'epr':{'data':self.spec.data.tolist(),'dataDI':self.doubleIntZC.data.tolist(),'dim0':self.spec.getaxis('field').tolist(),'dimNames':self.spec.dimlabels[0],'centerField':str(self.centerField),'lineWidths':list(self.lineWidths),'spectralWidth':str(self.spectralWidth),'doubleIntegral':str(self.doubleIntZC.data.max()),'expDict':self.spec.other_info}}
+                dataDict.update(self.specDict)
         ### For the T10 experiment just write the T1 experiment series.
-        else: # Save the T10 values
+        if self.nmrExp: # Save the T10 values
             if self.t1Series:
                 dim = self.t1Series.dimlabels[0]
                 dataDict.update({'t1':{'data':self.t1Series.data.tolist(),'error':self.t1Series.get_error().tolist(),'dim0':self.t1Series.getaxis(dim).tolist(),'dimNames':self.t1Series.dimlabels}})
         if self.eprExp:
-            dataDict.update({'epr':{'data':self.spec.data.tolist(),'dataDI':self.doubleIntZC.data.tolist(),'dim0':self.spec.getaxis('field').tolist(),'dimNames':self.spec.dimlabels[0],'centerField':str(self.centerField),'lineWidths':list(self.lineWidths),'spectralWidth':str(self.spectralWidth),'doubleIntegral':str(self.doubleIntZC.data.max()),'expDict':self.spec.other_info}})
+            self.specDict = {'epr':{'data':self.spec.data.tolist(),'dataDI':self.doubleIntZC.data.tolist(),'dim0':self.spec.getaxis('field').tolist(),'dimNames':self.spec.dimlabels[0],'centerField':str(self.centerField),'lineWidths':list(self.lineWidths),'spectralWidth':str(self.spectralWidth),'doubleIntegral':str(self.doubleIntZC.data.max()),'expDict':self.spec.other_info}}
+            dataDict.update(self.specDict)
 
         self.databaseParamsDict.update({'data':dataDict})
         self.collection.insert(self.databaseParamsDict) # Save the database parameters to the database in case the code crashes
@@ -889,14 +917,16 @@ class workupODNP(): #{{{ The ODNP Experiment
         if self.eprExp:
             eprWriter = [('spect','field')] + zip(list(self.spec.data),list(self.spec.getaxis('field')))
             dataToCSV(eprWriter,self.odnpName+'eprSpec.csv')
+            self.specDict = {'epr':{'data':self.spec.data.tolist(),'dataDI':self.doubleIntZC.data.tolist(),'dim0':self.spec.getaxis('field').tolist(),'dimNames':self.spec.dimlabels[0],'centerField':str(self.centerField),'lineWidths':list(self.lineWidths),'spectralWidth':str(self.spectralWidth),'doubleIntegral':str(self.doubleIntZC.data.max()),'expDict':self.spec.other_info}}
+            dictToCSV(self.odnpName+'eprParams',self.specDict)
 
-        ### Write the t1 series
-        t1SeriesWriter = [('t1Val (s)','error','expNum')] + zip(list(self.t1Series.data),list(self.t1Series.get_error()),list(self.t1Series.getaxis('expNum')))
-        dataToCSV(t1SeriesWriter,self.odnpName+'t1Series.csv')
-
-        for count,t1Set in enumerate(self.t1SeriesList):
-            t1SetWriter = [('integrationVal','error','delay')] + zip(list(t1Set.data),list(t1Set.get_error()),list(t1Set.getaxis('delay')))
-            dataToCSV(t1SetWriter,self.odnpName+'t1Integral%d.csv'%self.parameterDict['t1Exp'][count])
+        if self.nmrExp:
+            ### Write the t1 series
+            t1SeriesWriter = [('t1Val (s)','error','expNum')] + zip(list(self.t1Series.data),list(self.t1Series.get_error()),list(self.t1Series.getaxis('expNum')))
+            dataToCSV(t1SeriesWriter,self.odnpName+'t1Series.csv')
+            for count,t1Set in enumerate(self.t1SeriesList):
+                t1SetWriter = [('integrationVal','error','delay')] + zip(list(t1Set.data),list(t1Set.get_error()),list(t1Set.getaxis('delay')))
+                dataToCSV(t1SetWriter,self.odnpName+'t1Integral%d.csv'%self.parameterDict['t1Exp'][count])
     #}}}
 
     def writeExpParams(self): ##{{{ Write out the relevant values from the DNP experiment
@@ -905,7 +935,7 @@ class workupODNP(): #{{{ The ODNP Experiment
             self.fl.figurelist.append({'print_string':r'$k_{\sigma} S_{max} = \frac{%0.5f}{Conc} \pm %0.5f \ (s^{-1} M^{-1})$ \\'%(self.kSigmaC.data,self.kSigmaC.get_error())})
             self.fl.figurelist.append({'print_string':r'$E_{max} = %0.3f \pm %0.3f \ (Unitless)$ \\'%(self.enhancementPowerSeries.output(r'E_{max}'),self.enhancementPowerSeries.covar(r'E_{max}')) + '\n\n'})
             self.fl.figurelist.append({'print_string':r'$T_{1}(p=0) = %0.3f \pm %0.3f \ (Seconds) \\$'%(self.R1.data,self.R1.get_error()) + '\n\n'})
-        else:
+        elif self.nmrExp:
             self.fl.figurelist.append({'print_string':r'\subparagraph{$T_{1,0}$ Parameters}\\' + '\n\n'})
             for i in range(len(self.t1Series.data)):
                 self.fl.figurelist.append({'print_string':r'$T_{1}(p=0) = %0.3f \pm %0.3f\ (Seconds) \\$'%(self.t1Series.data[i],self.t1Series.get_error()[i]) + '\n\n'})
@@ -915,7 +945,7 @@ class workupODNP(): #{{{ The ODNP Experiment
     #}}}
 
 ## Call the class functionality
-#x = workupODNP(odnpPath,eprName)
+#x = workupODNP(False,eprName)
 #y = poop
 
 
