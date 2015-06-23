@@ -86,11 +86,11 @@ def dictToCSV(fileName, dataDict): #{{{
         if type(dataDict.get(keyName)) is list:
             openFile.write(str(keyName))
             openFile.write(',')
-            for value in dataDict.get(keyName):
+            for value in dataDict.get(keyName): # right now this returns a '[' and ']' at the begining and end of the list. This isn't ok.
                 openFile.write(str(value))
                 openFile.write(',')
             openFile.write('\n')
-        elif type(dataDict.get(keyName)) is dict:
+        elif type(dataDict.get(keyName)) is dict: # This does the same as the list problem...
             for keyName1 in dataDict.get(keyName):
                 openFile.write(str(keyName1))
                 openFile.write(',')
@@ -107,7 +107,7 @@ def dictToCSV(fileName, dataDict): #{{{
     print "Saved data to %s.csv"%fileName#}}}
 
 # Return the peaks and valleys of the EPR spectrum#{{{
-def findPeaks(spec,numberOfPeaks):
+def findPeaks(spec,numberOfPeaks,verbose = False):
     """
     Find the position of the peaks and valleys of the EPR spectrum given the number of peaks to look for. 
     The function returns the total peak to peak width of the spectrum, given more than one peak, as well as the center field and linewidth.
@@ -120,28 +120,68 @@ def findPeaks(spec,numberOfPeaks):
     peaks = []
     valleys = []
     smash = spec.copy()
+    #smash -= average(spec.data)
     for i in range(numberOfPeaks): 
         peak = smash.data.argmax()
         peaks.append(peak)
         valley = smash.data.argmin()
         valleys.append(valley)
+        # remove from peak
+        #find the high bound
+        notCrossed=True
+        count = 0
+        dimSize = len(smash.data)
+        while notCrossed:
+            if peak + count <= 0:
+                lowBound = peak+count
+                notCrossed = False
+            else:
+                if float(smash['field',peak+count].data) <= 0.0:
+                    lowBound = peak+count
+                    notCrossed = False
+            count-=1
+        # find the low bound
+        notCrossed=True
+        count=0
+        while notCrossed:
+            if peak + count >= dimSize: # check to make sure you haven't wandered off the spectrum
+                highBound = peak+count
+                notCrossed = False
+            else:
+                if float(smash['field',peak+count].data) <= 0.0:
+                    highBound = peak+count
+                    notCrossed = False
+            count+=1
+        smash['field',lowBound:highBound] = 0.0
+
+        # remove from valley
         #find the high bound
         notCrossed=True
         count = 0
         while notCrossed:
-            if float(smash['field',peak+count].data) <= 0.0:
-                lowBound = peak+count
+            if valley + count <= 0:
+                lowBound = valley+count
                 notCrossed = False
+            else:
+                if float(smash['field',valley+count].data) >= 0.0:
+                    lowBound = valley+count
+                    notCrossed = False
             count-=1
         # find the low bound
         notCrossed=True
-        counts=0
+        count=0
         while notCrossed:
-            if float(smash['field',valley+counts].data) >= 0.0:
-                highBound = valley+counts
+            if valley + count >= dimSize: # check to make sure you haven't wandered off the spectrum
+                highBound = valley+count
                 notCrossed = False
-            counts+=1
+            else:
+                if float(smash['field',valley+count].data) >= 0.0:
+                    highBound = valley+count
+                    notCrossed = False
+            count+=1
         smash['field',lowBound:highBound] = 0.0
+        if verbose:
+            pys.plot(smash)
     peak = pys.nddata(spec.data[peaks]).rename('value','field').labels('field',spec.getaxis('field')[peaks])
     valley = pys.nddata(spec.data[valleys]).rename('value','field').labels('field',spec.getaxis('field')[valleys])
     # Calculate relevant parameters

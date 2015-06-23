@@ -168,7 +168,7 @@ I barely start on this but do make mentionable progress. I save a script FileDia
 \end{enumerate}
 \section{Bugs:}
 \begin{enumerate}
-    \item $\Box$ I blew up the git version...
+    \item $\Box$ The EPR double integration falls apart for some reason for the 10 uM sample of 4 OHT. This could be a threshold problem, you must look into this.
     \item $\checkmark$ In windows it depends how the program was launched. If mingw things run nicely if not it turns to crap. You should look into how to do all calls with python instead of using subprocess. All these problems are to do with the subprocess calls. Look into \o[shutil]{I force it to use the cmd, the worst tool in the world but a consitent tool none the less.}
     \item $\Box$ When code soft exits in windows it crashes on the print statements. \o[You should test this, it should be fixed but I'm not entirely sure without debugging.]{This actually still needs to be fixed but you need to use windows to recreate the problem.}
     \item $\Box$ First power missed in \o[150228 ̇CheY ̇N121C ̇None ̇181uM ̇YesUrea ̇RT ̇ODNP]{}. It looks like the power picking fucntion got caught on the initial jump.

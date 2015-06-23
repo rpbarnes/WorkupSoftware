@@ -20,6 +20,8 @@ def csvtoNddata(fileName):
             print "Garbage"
     return nddata(array(dataList)).rename('value','delay').labels('delay',array(delayList)).set_error(array(errorList))
 
+data = csvtoNddata(fileName)
+
 close('all')
 fullPath = '/Users/StupidRobot/Projects/WorkupSoftware/notebook/'
 fileName = '150304_4OHT_200mM_NaPi_T10_StatSet/'
