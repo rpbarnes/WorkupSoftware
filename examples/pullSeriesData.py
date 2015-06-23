@@ -20,7 +20,7 @@ fig = figure(figsize=(15,8))
 for count,dataSet in enumerate(listOfSets):
     tau = dtb.dictToNdData(dataTag,dataSet) # setting retValue to True gives me the fit value instead of the power data. Note this only works for kSigma and nothing else for now.
     tau.sort('site')
-    plot(tau*1e12,'--.',markersize=20,label='native state')
+    plot(tau*1e12,'--.',alpha = 0.6,markersize=20,label='native state')
 
 searchDict = {'setType':'seriesData','macroMolecule':'CheY','bindingPartner':'None','osmolyte':'urea'}
 
@@ -29,16 +29,30 @@ dataTag = 'tau'
 for count,dataSet in enumerate(listOfSets):
     tau = dtb.dictToNdData(dataTag,dataSet) # setting retValue to True gives me the fit value instead of the power data. Note this only works for kSigma and nothing else for now.
     tau.sort('site')
-    plot(tau*1e12,'--.',markersize=20,label='urea denatured')
+    plot(tau*1e12,'--.',alpha = 0.6,markersize=20,label='urea denatured')
 
-searchDict = {'setType':'seriesData','macroMolecule':'CheYPep','bindingPartner':'None','osmolyte':'None'}
+searchDict = {'setType':'seriesData','macroMolecule':'CheYPep','bindingPartner':'None','osmolyte':'urea','osmolyteConcentration':'5M'}
+
+listOfSets1 = list(collection.find(searchDict))
+dataTag = 'tau'
+#listOfSets = listOfSets[0:-1]
+tau0 = dtb.dictToNdData(dataTag,listOfSets1[0])
+tau1 = dtb.dictToNdData(dataTag,listOfSets1[1])
+tau = (tau0 + tau1)/2
+#for count,dataSet in enumerate(listOfSets1):
+#    tau = dtb.dictToNdData(dataTag,dataSet) # setting retValue to True gives me the fit value instead of the power data. Note this only works for kSigma and nothing else for now.
+tau.sort('site')
+plot(tau*1e12,'--.',alpha = 0.6,markersize=20,label='peptide urea')
+
+searchDict = {'setType':'seriesData','macroMolecule':'CheYPep','bindingPartner':'None','osmolyte':'None','osmolyteConcentration':'None'}
 
 listOfSets = list(collection.find(searchDict))
 dataTag = 'tau'
+listOfSets = listOfSets[0:-1]
 for count,dataSet in enumerate(listOfSets):
     tau = dtb.dictToNdData(dataTag,dataSet) # setting retValue to True gives me the fit value instead of the power data. Note this only works for kSigma and nothing else for now.
     tau.sort('site')
-    plot(tau*1e12,'--.',markersize=20,label='peptide')
+    plot(tau*1e12,'--.',alpha = 0.6,markersize=20,label='peptide')
 
 searchDict = {'setType':'seriesData','macroMolecule':'CheY','bindingPartner':'P2'}
 
@@ -62,15 +76,15 @@ for count, value in enumerate(siteList):
 tau = nddata(array(tauList)).rename('value','site').labels('site',array(siteList)).set_error(array(tauError))
 
 tau.sort('site')
-plot(tau*1e12,'--.',markersize=20,label='P2 bound')
+#plot(tau*1e12,'--.',markersize=20,label='P2 bound')
 
 legend()
-legend(loc=4,prop={'size':25})
+legend(loc=1,prop={'size':25})
 xlabel(r'$\mathtt{residue\/ number}$',fontsize=30)
 xticks(fontsize=20)
 yticks(fontsize=20)
 ylabel(r'$\mathtt{\tau_c\/ [ps]}$',fontsize=30) 
-title(r'$\mathtt{CheY\/ Hydration\/ Dynamics}$',fontsize=30)
+title(r'$\mathtt{Chemotaxis\/ Y\/ Surface\/ Water\/ Diffusivity}$',fontsize=30)
 fig.patch.set_alpha(0) # This makes the background transparent!!
 giveSpace(spaceVal = 0.01)
 tight_layout()
