@@ -717,7 +717,7 @@ class workupODNP(): #{{{ The ODNP Experiment
         self.fl.figurelist.append({'print_string':r'\subparagraph{$T_1$ Power Measurement}' + '\n\n'})
         expTimes,expTimeMin = nmr.returnExpTimes(self.odnpPath,self.parameterDict['t1Exp'],dnpExp = False,operatingSys = self.systemOpt) # this is not a good way because the experiment numbers must be set right.
         if not expTimeMin:
-            print expTitles
+            print self.expTitles
             raise ValueError("\n\nThe experiment numbers are not set appropriately, please scroll through the experiment titles above and set values appropriately")
         # I have the same problem with the dnp powers, if the starting attenuation is full attenuation '31.5' then there is no initial jump and we need to deal with it the same way. Right now I pull from constant 24 in the aquisition parameters. This should now work without having to ask the user.
         t1Power,self.fl.figurelist = nmr.returnSplitPowers(self.odnpPath,'t1_powers',expTimeMin = expTimes.min(),expTimeMax=expTimeMin.data + expTimeMin.data/2,dnpPowers = self.parameterDict['t1FirstAttenFullPower'],threshold = self.parameterDict['thresholdT1'],titleString = 'T1 ',firstFigure = self.fl.figurelist)
