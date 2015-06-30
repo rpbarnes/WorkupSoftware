@@ -5,6 +5,7 @@ The goal is to implement this code as is in the new GUI format.
 """
 # Functions to import #{{{
 import time
+from scipy.interpolate import interp1d
 from lmfit import minimize,Parameters ### This makes another hoop for installing software that you don't really use... I actually really think this should be implemented as nddata functions. Or as fit classes.
 import shutil
 import nmrfit
@@ -63,6 +64,12 @@ def returnEPRSpec(fileName,doNormalize = True): #{{{
     if doNormalize:
         specData /= rg
         specData /= numScans
+    # Interpolate to 1024 data points if not done already
+    if len(specData) != 1024:
+        fieldKeep = pys.r_[centerSet-sweepWidth/2.:centerSet+sweepWidth/2.:1024*1j] 
+        newSpec = interp1d(fieldVals,specData,kind='cubic')
+        specData = newSpec(fieldKeep)
+        fieldVals = fieldKeep
     spec = pys.nddata(specData).rename('value','field').labels('field',fieldVals)
     spec.other_info = expDict
     return spec #}}}
@@ -189,6 +196,20 @@ def findPeaks(spec,numberOfPeaks,verbose = False):
     valley.sort('field')
     return peak,valley
 #}}}
+
+# Write data tuple to asc#{{{
+def dataToASC(dataWriter,fileName):
+    """
+    Write a tuple of data to an asc. You need to pass the tuple to write to the asc.
+
+    args:
+    dataWriter - tuple of data. eg. zip(list(enhancementPowerSeries.getaxis('power')),list(enhancementPowerSeries.data),list(enhancementSeries.getaxis('expNum'))) 
+    fileName - string of the full filename
+    """
+    openFile = open(fileName+'.asc','w+')
+    for data in dataWriter:
+        openFile.write('%0.3f %0.3f\n'%(data[0],data[1]))
+    openFile.close()
 
 # Write data tuple to csv#{{{
 def dataToCSV(dataWriter, fileName):
@@ -955,8 +976,8 @@ class workupODNP(): #{{{ The ODNP Experiment
                 dataToCSV(kSigmaWriter,self.odnpName+'kSigma.csv')
         ### Write the EPR
         if self.eprExp:
-            eprWriter = [('spect','field')] + zip(list(self.spec.data),list(self.spec.getaxis('field')))
-            dataToCSV(eprWriter,self.odnpName+'eprSpec.csv')
+            eprWriter = zip(list(self.spec.getaxis('field')),list(self.spec.data))
+            dataToASC(eprWriter,self.odnpName+'eprSpec')
             self.specDict = {'epr':{'data':self.spec.data.tolist(),'dataDI':self.doubleIntZC.data.tolist(),'dim0':self.spec.getaxis('field').tolist(),'dimNames':self.spec.dimlabels[0],'centerField':str(self.centerField),'lineWidths':list(self.lineWidths),'spectralWidth':str(self.spectralWidth),'doubleIntegral':str(self.doubleIntZC.data.max()),'expDict':self.spec.other_info}}
             dictToCSV(self.odnpName+'eprParams',self.specDict)
 
