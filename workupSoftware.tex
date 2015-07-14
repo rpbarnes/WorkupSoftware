@@ -140,9 +140,10 @@ I start a gui for browsing the database in browseDatabase/main.py.
 \chapter{Development}
 \section{New Implementations:}
 \begin{enumerate}
+    \item $\Box$ When you save the series data all the experiment names should be saved with the corresponding data value as a separated dimension. This way you can refer back to what is what.
     \item $\checkmark$ You need to wrap the bare code into functions and classes. Basically I want one function to call for doing all of the ODNP workup and another function to call for doing all of the EPR workup. The goal is to make the actual GUI code as clean and modular as possible. \o[this is done in returnIntegralsDev.py. You can call the code by 'import returnIntegralsDev' 'returnIntegralsDev.workupODNP(odnpName,eprName)'.]{}
     \item $\Box$ You should also request that the user loads in a calibration file for the cw-EPR double integral experiment.
-    \item $\Box$ Change the entry query options to numerical, rather than, text entry.
+    \item $\Box$ Change the entry query options to numerical, rather than, text entry. \o[What the fuck am I asking here?]{}
     \item $\checkmark$ Include the EPR double integral workup as part of the software. \o[Now included in newWorkup.py]{}
     \item $\checkmark$ Fix the file browser functionality so this doesn't crash so easily. \o[Now included in newWorkup.py]{}
     \item $\Box$ Fit the $T_1$ raw data in the log space. This should be much more robust to weridness. Also you should plot the data in this space. \o[I don't think this is actually something you want to do.]{What would be cool is with the GUI add a pop up window that allows you to adjust your guess for the fit.}
@@ -182,7 +183,11 @@ I start a gui for browsing the database in browseDatabase/main.py.
 \end{enumerate}
 \section{Bugs:}
 \begin{enumerate}
-    \item $\Box$ The EPR double integration falls apart for some reason for the 10 uM sample of 4 OHT. This could be a threshold problem, you must look into this.
+    \item $\Box$ Integrate does not line up peaks correctly for the zero power measurements. This is not ok. I've noticed max_drift influences how this works however it does not correct the problem in a logical way. At the end of the day you should really re-write this so it behaves as you would expect in a manipulatable way.
+    \item $\Box$ The newWorkup.py crashes upon clicking 'run script' on windows balls\ldots You need to figure out why this is.
+    \item $\Box$ Crashes when experiment numbers aren't set right. You should just automatically pick the experiment numbers based on the experiment title.
+    \item $\Box$ Returns powers error on r'150707_CheY_D41C_8MUrea_RT_ODNP'.
+    \item $\checkmark$ The EPR double integration falls apart for some reason for the 10 uM sample of 4 OHT. This could be a threshold problem, you must look into this. \o[This was dependent on how the peaks were picked. Switched to a new method that uses a top down search for finding the peaks and subsequent bottomup search for finding the valleys.]{}
     \item $\checkmark$ In windows it depends how the program was launched. If mingw things run nicely if not it turns to crap. You should look into how to do all calls with python instead of using subprocess. All these problems are to do with the subprocess calls. Look into \o[shutil]{I force it to use the cmd, the worst tool in the world but a consitent tool none the less.}
     \item $\Box$ When code soft exits in windows it crashes on the print statements. \o[You should test this, it should be fixed but I'm not entirely sure without debugging.]{This actually still needs to be fixed but you need to use windows to recreate the problem.}
     \item $\Box$ First power missed in \o[150228 ̇CheY ̇N121C ̇None ̇181uM ̇YesUrea ̇RT ̇ODNP]{}. It looks like the power picking fucntion got caught on the initial jump.
@@ -202,6 +207,10 @@ I start a gui for browsing the database in browseDatabase/main.py.
     \item $\checkmark$ For an old database entry the keys and values pulled do not contain any of the new items. This is to be expected but not ok because it does not allow you to enter information according to new keys\ldots How to do this dynamically? \o[The set '141029_CheY_K91C_P2_320uM_RT_ODNP' currently has this error, I haven't fixed it so when you come to this use this set as your dummy set.]{This seems to work ok now. It pulls the most recent dictionary entry and updates the experiment's database dictionary.}
     \item $\Box$ The database parameter checking should make use of the function returnDatabaseDictionary and you should hand it the necessary keys to drop!
     \item $\Box$ You need to add a test operator and make sure the behavior of the code, primarily the database search, is changed appropriately.
+Implementation of high power amplifier:
+	The initial spectrometer design incorporated a 10 W solid-state amplifier without a “blanking” switch after the amplifier to prevent excessive noise from reaching the receiver. Accordingly, the level of noise for pulsed measurements was larger than ideal.  Additionally, for pulsed EPR measurements on realistic systems, the highest power amplifiers available (~1 kW) must be used to achieve the most uniform excitation possible. To address these issues we have implemented a 1 kW TWT amplifier into our spectrometer. Because this amplifier is gated, the noise level after the pulses is approximately the same as thermal noise. As shown in Fig 6, the noise power after microwave pulses is reduced by 3 orders of magnitude by implementing the TWT amplifier. 
+ 
+Figure 6: Noise power comparison relative to thermal noise of TWT (a) and solid-state amplifier (b). The noise power is orders of magnitude lower for the solid state amplifier because the TWT amplifier is gated.
     \item $\Box$ When the internet connection does not exist the code hard crashes. Set a runtime warning when asking user if they want to database their information. Also set a soft crash for when code tries to access database without internet connection.
     \item $\Box$ When the t1SeparatePhaseCycle is not set appropriately the code crashes. You should put in place a graceful crash that tells the user to correct t1SeparatePhaseCycle.
     \item $\checkmark$ If the experiment exists, the database parameters file should be pulled from a search given the experiment name and nothing else. Then you should pop the dims that you don't want to see. 

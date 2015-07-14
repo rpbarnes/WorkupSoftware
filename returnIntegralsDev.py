@@ -210,6 +210,7 @@ def dataToASC(dataWriter,fileName):
     for data in dataWriter:
         openFile.write('%0.3f %0.3f\n'%(data[0],data[1]))
     openFile.close()
+    #}}}
 
 # Write data tuple to csv#{{{
 def dataToCSV(dataWriter, fileName):
@@ -406,8 +407,8 @@ class workupODNP(): #{{{ The ODNP Experiment
             pass#}}}
 
         # Actual calls to run the experiment.#{{{
+        if self.nmrExp: self.returnExpNumbers()
         if self.nmrExp: self.returnNMRExpParamsDict() 
-        if self.nmrExp: self.indexFiles()
         # if self.nmrExp: self.determineExperiment() # Should no longer be needed, hang on to incase you need something.
         # else: print "EPR Experiment"
         # self.determineDatabase()
@@ -550,8 +551,6 @@ class workupODNP(): #{{{ The ODNP Experiment
         t1StartingAttenuation = self.cnst[24]
 
         # Default Experiment parameters#{{{
-        dnpExps = pys.r_[5:27] # default experiment numbers
-        t1Exp = pys.r_[28:33,304]
         integrationWidth = 75
         t1StartingGuess = 2.5 # best guess for T1
         ReturnKSigma = True ### This needs to be False because my code is broken
@@ -564,8 +563,8 @@ class workupODNP(): #{{{ The ODNP Experiment
         # Write parameters to dict if file exists or pull params from existing file
         expExists = os.path.isfile(self.expParametersFile)
         if not expExists:
-            self.parameterDict = {'dnpExps':dnpExps,
-                            't1Exp':t1Exp,
+            self.parameterDict = {'dnpExps':self.dnpExps,
+                            't1Exp':self.t1Exps,
                             'integrationWidth':integrationWidth,
                             't1StartingGuess':t1StartingGuess,
                             'ReturnKSigma':ReturnKSigma,
@@ -583,47 +582,62 @@ class workupODNP(): #{{{ The ODNP Experiment
         #}}}
         #}}}
 
-    def indexFiles(self): #{{{ Index files in directory
+    def returnExpNumbers(self): #{{{ Index files in directory
         """
-        Function indexes files in the directory defined by self.odnpPath and returns a list of experiment titles as self.expTitles.
+        Function indexes files in the directory defined by self.odnpPath and returns a list of experiment titles as self.expTitles and the dnp and t1 experiment numbers as lists as self.dnpExps and self.t1Exps.
+
         Args:
         self.odnpPath - string - path to ODNP experiment.
 
         Returns:
         self.expTitles - list - titles of ODNP experiments.
+        self.dnpExps - list - numbers of enhancement experiments.
+        self.t1Exps - list - numbers of t1 experiments..
         """
-        fileSave = pys.listdir(self.odnpPath)
-        ### Just weed out the power fileSave from the titles, we already know what they are
-        for index,item in enumerate(fileSave):
-            if 't1_powers' in item:
-                fileSave.pop(index)
-        for index,item in enumerate(fileSave):
-            if 'power.' in item:
-                fileSave.pop(index)
+        filesInDir = pys.listdir(self.odnpPath)
         files = []
-        for filename in fileSave:
+        for name in filesInDir:
             try:
-                files.append(float(filename))
+                files.append(float(name))
             except:
-                print filename, "not type float"
+                print name," not NMR experiment."
         files.sort()
         self.expTitles = []
-        for i in files:
+        for name in files:
             try:
-                titleName = nmr.load_title(self.odnpPath + '/' + str(i).split('.')[0])
-                try: 
-                    titleName = titleName.split('\r')[0]
-                except:
-                    pass
-                self.expTitles.append([titleName,str(i).split('.')[0]])
+                titleName = nmr.load_title(self.odnpPath + '/' + str(name).split('.')[0])
+                self.expTitles.append([titleName,str(name).split('.')[0]])
             except:
-                pass
-                print "Couldn't read the experiment title for some reason. Leaving blank"
+                print "Well shit"
+        self.dnpExps = []
+        self.t1Exps = []
+        for title,name in self.expTitles:
+            if 'DNP' in title:
+                try:
+                    temp = nmr.load_file(self.odnpPath+'/'+name)
+                    self.dnpExps.append(int(name))
+                except:
+                    print "Not a valid experiment."
+            if 'baseline' in title:
+                try:
+                    temp = nmr.load_file(self.odnpPath+'/'+name)
+                    self.dnpExps.append(int(name))
+                except:
+                    print "Not a valid experiment."
+            if 'T1' in title:
+                try:
+                    temp = nmr.load_file(self.odnpPath+'/'+name)
+                    self.t1Exps.append(int(name))
+                except:
+                    print "Not a valid experiment."
+        self.dnpExps.sort()
+        self.t1Exps.sort()
+        self.dnpExps = self.dnpExps[0:-2] # just drop 700 and 701 as they're no longer used.
         #}}}
 
     def determineExperiment(self): #{{{ What Type of Experiment? 
         """
-        Query user for experiment type. This will need to change when you implement the new UI.
+        Legacy: No longer necessary. Query user for experiment type. This will need to change when you implement the new UI.
         """
         answer = True
         while answer:
@@ -1000,6 +1014,8 @@ class workupODNP(): #{{{ The ODNP Experiment
             self.fl.figurelist.append({'print_string':r'\subparagraph{$T_{1,0}$ Parameters}\\' + '\n\n'})
             for i in range(len(self.t1Series.data)):
                 self.fl.figurelist.append({'print_string':r'$T_{1}(p=0) = %0.3f \pm %0.3f\ (Seconds) \\$'%(self.t1Series.data[i],self.t1Series.get_error()[i]) + '\n\n'})
+        elif self.eprExp: 
+            self.fl.figurelist.append({'print_string':r'EPR Double Integral. \\Spectral count normalized by receiver gain and number of averages. \\$EPR_{DI} = %0.3f\ \frac{SC}{RG NA}$'%(self.doubleIntZC.data.max()) + '\n\n'})
     ##}}}
 #}}}
 

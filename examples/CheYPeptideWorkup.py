@@ -15,8 +15,8 @@ def residualLinear(params, x, data, eps_data):
     return (data-analyticLinear(params,x))/eps_data # note the weighting is done here
 #}}}
 
-osmolyte = 'urea'
-osmolyteConcentration = '5M'
+osmolyte = 'None'
+osmolyteConcentration = 'None'
 
 # Lets pull in a collection from the database#{{{
 MONGODB_URI = 'mongodb://rbarnes:tgb47atgb47a@ds047040.mongolab.com:47040/magresdata' # This is the address to the database hosted at MongoLab.com
@@ -24,7 +24,7 @@ MONGODB_URI = 'mongodb://rbarnes:tgb47atgb47a@ds047040.mongolab.com:47040/magres
 conn = pymongo.MongoClient(MONGODB_URI) # Connect to the database that I purchased
 db = conn.magresdata 
 collection = db.hanLabODNPTest # This is my test collection 
-searchDict = {'spinLabel':'MTSL','osmolyte':osmolyte,'osmolyteConcentration':osmolyteConcentration,'macroMolecule':'CheYPep','repeat':'0'}#,{'spinLabel':'MTSL','osmolyte':'urea','osmolyteConcentration':'5M','macroMolecule':'CheY','repeat':'0'}]
+searchDict = {'spinLabel':'MTSL','osmolyte':osmolyte,'osmolyteConcentration':osmolyteConcentration,'macroMolecule':'CheY','repeat':'0','setType':'dnpExp'}#,{'spinLabel':'MTSL','osmolyte':'urea','osmolyteConcentration':'5M','macroMolecule':'CheY','repeat':'0'}]
 dataTag = 'kSigma' # This defines what data I pull from the database#}}}
 
 # Pull the kSigma data from the data base
@@ -49,7 +49,7 @@ figure()
 t1zpL = []
 siteList = []
 ### Pull the t1 of power series from the peptide series.
-colorlist = ['r','g','b','m','c','y','k','r','g','b']
+colorlist = ['r','g','b','m','c','y','k','r','g','b']*9
 dataTag = 't1Power'
 params = Parameters()
 params.add('slope', value=1)
@@ -104,7 +104,7 @@ plot(t1)
 #
 ## just take the mean of the T10 for use in the peptide series. I have no idea what the peptide concentration is in the set...
 #t10M = t10.copy().mean('conc')
-t10M = 2.25
+t10M = 2.3
 t10M = nddata(array([t10M]))
 t10M.set_error(array([0.05]))
 
@@ -222,7 +222,7 @@ dictionary.pop('expName')
 dictionary.pop('otherNotes')
 dictionary.pop('sampleLength')
 dictionary.update({'setType':'seriesData'})
-dictionary.update({'date':'150602'})
+dictionary.update({'date':'150630'})
 ### Search for and remove any entry satisfying this query.
 exists = list(collection.find(dictionary))
 if len(exists) != 0: # There is something in the collection with the given experiment name and operator. Lets remove it so there is no duplicates

@@ -1,0 +1,151 @@
+# -*- coding: utf-8 -*-
+
+# Form implementation generated from reading ui file 'mainwindow.ui'
+#
+# Created: Mon Jul 13 20:26:04 2015
+#      by: PyQt4 UI code generator 4.11.3
+#
+# WARNING! All changes made in this file will be lost!
+
+from PyQt4 import QtCore, QtGui
+
+try:
+    _fromUtf8 = QtCore.QString.fromUtf8
+except AttributeError:
+    def _fromUtf8(s):
+        return s
+
+try:
+    _encoding = QtGui.QApplication.UnicodeUTF8
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig, _encoding)
+except AttributeError:
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig)
+
+class Ui_MainWindow(object):
+    def setupUi(self, MainWindow):
+        MainWindow.setObjectName(_fromUtf8("MainWindow"))
+        MainWindow.resize(722, 468)
+        self.centralWidget = QtGui.QWidget(MainWindow)
+        self.centralWidget.setObjectName(_fromUtf8("centralWidget"))
+        self.gridLayoutWidget = QtGui.QWidget(self.centralWidget)
+        self.gridLayoutWidget.setGeometry(QtCore.QRect(70, 60, 331, 320))
+        self.gridLayoutWidget.setObjectName(_fromUtf8("gridLayoutWidget"))
+        self.gridLayout = QtGui.QGridLayout(self.gridLayoutWidget)
+        self.gridLayout.setMargin(0)
+        self.gridLayout.setObjectName(_fromUtf8("gridLayout"))
+        self.EPRCalNameLine = QtGui.QLineEdit(self.gridLayoutWidget)
+        self.EPRCalNameLine.setObjectName(_fromUtf8("EPRCalNameLine"))
+        self.gridLayout.addWidget(self.EPRCalNameLine, 7, 0, 1, 1)
+        self.label = QtGui.QLabel(self.gridLayoutWidget)
+        self.label.setObjectName(_fromUtf8("label"))
+        self.gridLayout.addWidget(self.label, 0, 0, 1, 1)
+        self.NMRExpNameLine = QtGui.QLineEdit(self.gridLayoutWidget)
+        self.NMRExpNameLine.setObjectName(_fromUtf8("NMRExpNameLine"))
+        self.gridLayout.addWidget(self.NMRExpNameLine, 1, 0, 1, 1)
+        self.EPRBrowseButton = QtGui.QPushButton(self.gridLayoutWidget)
+        self.EPRBrowseButton.setObjectName(_fromUtf8("EPRBrowseButton"))
+        self.gridLayout.addWidget(self.EPRBrowseButton, 3, 1, 1, 1)
+        self.label_4 = QtGui.QLabel(self.gridLayoutWidget)
+        self.label_4.setObjectName(_fromUtf8("label_4"))
+        self.gridLayout.addWidget(self.label_4, 6, 0, 1, 1)
+        self.NMRBrowseButton = QtGui.QPushButton(self.gridLayoutWidget)
+        self.NMRBrowseButton.setObjectName(_fromUtf8("NMRBrowseButton"))
+        self.gridLayout.addWidget(self.NMRBrowseButton, 1, 1, 1, 1)
+        self.DataDirBrowseButton = QtGui.QPushButton(self.gridLayoutWidget)
+        self.DataDirBrowseButton.setObjectName(_fromUtf8("DataDirBrowseButton"))
+        self.gridLayout.addWidget(self.DataDirBrowseButton, 5, 1, 1, 1)
+        self.WorkupDirNameLine = QtGui.QLineEdit(self.gridLayoutWidget)
+        self.WorkupDirNameLine.setObjectName(_fromUtf8("WorkupDirNameLine"))
+        self.gridLayout.addWidget(self.WorkupDirNameLine, 9, 0, 1, 1)
+        self.EPRExpNameLine = QtGui.QLineEdit(self.gridLayoutWidget)
+        self.EPRExpNameLine.setObjectName(_fromUtf8("EPRExpNameLine"))
+        self.gridLayout.addWidget(self.EPRExpNameLine, 3, 0, 1, 1)
+        self.EPRCalBrowseButton = QtGui.QPushButton(self.gridLayoutWidget)
+        self.EPRCalBrowseButton.setObjectName(_fromUtf8("EPRCalBrowseButton"))
+        self.gridLayout.addWidget(self.EPRCalBrowseButton, 7, 1, 1, 1)
+        self.label1 = QtGui.QLabel(self.gridLayoutWidget)
+        self.label1.setObjectName(_fromUtf8("label1"))
+        self.gridLayout.addWidget(self.label1, 4, 0, 1, 1)
+        self.label_2 = QtGui.QLabel(self.gridLayoutWidget)
+        self.label_2.setObjectName(_fromUtf8("label_2"))
+        self.gridLayout.addWidget(self.label_2, 2, 0, 1, 1)
+        self.DataDirNameLine = QtGui.QLineEdit(self.gridLayoutWidget)
+        self.DataDirNameLine.setObjectName(_fromUtf8("DataDirNameLine"))
+        self.gridLayout.addWidget(self.DataDirNameLine, 5, 0, 1, 1)
+        self.WorkupDirBrowseButton = QtGui.QPushButton(self.gridLayoutWidget)
+        self.WorkupDirBrowseButton.setObjectName(_fromUtf8("WorkupDirBrowseButton"))
+        self.gridLayout.addWidget(self.WorkupDirBrowseButton, 9, 1, 1, 1)
+        self.label_3 = QtGui.QLabel(self.gridLayoutWidget)
+        self.label_3.setObjectName(_fromUtf8("label_3"))
+        self.gridLayout.addWidget(self.label_3, 8, 0, 1, 1)
+        self.titleLabel = QtGui.QLabel(self.centralWidget)
+        self.titleLabel.setGeometry(QtCore.QRect(71, 20, 521, 20))
+        self.titleLabel.setAlignment(QtCore.Qt.AlignCenter)
+        self.titleLabel.setObjectName(_fromUtf8("titleLabel"))
+        self.verticalLayoutWidget = QtGui.QWidget(self.centralWidget)
+        self.verticalLayoutWidget.setGeometry(QtCore.QRect(460, 60, 170, 251))
+        self.verticalLayoutWidget.setObjectName(_fromUtf8("verticalLayoutWidget"))
+        self.verticalLayout = QtGui.QVBoxLayout(self.verticalLayoutWidget)
+        self.verticalLayout.setMargin(0)
+        self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
+        self.verticalLayout_2 = QtGui.QVBoxLayout()
+        self.verticalLayout_2.setObjectName(_fromUtf8("verticalLayout_2"))
+        self.label_6 = QtGui.QLabel(self.verticalLayoutWidget)
+        self.label_6.setObjectName(_fromUtf8("label_6"))
+        self.verticalLayout_2.addWidget(self.label_6)
+        self.databaseComboBox = QtGui.QComboBox(self.verticalLayoutWidget)
+        self.databaseComboBox.setObjectName(_fromUtf8("databaseComboBox"))
+        self.verticalLayout_2.addWidget(self.databaseComboBox)
+        self.verticalLayout.addLayout(self.verticalLayout_2)
+        self.DataDirSaveButton = QtGui.QPushButton(self.verticalLayoutWidget)
+        self.DataDirSaveButton.setObjectName(_fromUtf8("DataDirSaveButton"))
+        self.verticalLayout.addWidget(self.DataDirSaveButton)
+        self.EPRCalSaveButton = QtGui.QPushButton(self.verticalLayoutWidget)
+        self.EPRCalSaveButton.setObjectName(_fromUtf8("EPRCalSaveButton"))
+        self.verticalLayout.addWidget(self.EPRCalSaveButton)
+        self.WorkupDirSaveButton = QtGui.QPushButton(self.verticalLayoutWidget)
+        self.WorkupDirSaveButton.setObjectName(_fromUtf8("WorkupDirSaveButton"))
+        self.verticalLayout.addWidget(self.WorkupDirSaveButton)
+        self.ExitButton = QtGui.QPushButton(self.verticalLayoutWidget)
+        self.ExitButton.setObjectName(_fromUtf8("ExitButton"))
+        self.verticalLayout.addWidget(self.ExitButton)
+        self.RunWorkupButton = QtGui.QPushButton(self.verticalLayoutWidget)
+        self.RunWorkupButton.setObjectName(_fromUtf8("RunWorkupButton"))
+        self.verticalLayout.addWidget(self.RunWorkupButton)
+        MainWindow.setCentralWidget(self.centralWidget)
+        self.menuBar = QtGui.QMenuBar(MainWindow)
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 722, 22))
+        self.menuBar.setObjectName(_fromUtf8("menuBar"))
+        MainWindow.setMenuBar(self.menuBar)
+        self.mainToolBar = QtGui.QToolBar(MainWindow)
+        self.mainToolBar.setObjectName(_fromUtf8("mainToolBar"))
+        MainWindow.addToolBar(QtCore.Qt.TopToolBarArea, self.mainToolBar)
+        self.statusBar = QtGui.QStatusBar(MainWindow)
+        self.statusBar.setObjectName(_fromUtf8("statusBar"))
+        MainWindow.setStatusBar(self.statusBar)
+
+        self.retranslateUi(MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+    def retranslateUi(self, MainWindow):
+        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow", None))
+        self.label.setText(_translate("MainWindow", "NMR Experiment", None))
+        self.EPRBrowseButton.setText(_translate("MainWindow", "Browse", None))
+        self.label_4.setText(_translate("MainWindow", "EPR Calibration File", None))
+        self.NMRBrowseButton.setText(_translate("MainWindow", "Browse", None))
+        self.DataDirBrowseButton.setText(_translate("MainWindow", "Browse", None))
+        self.EPRCalBrowseButton.setText(_translate("MainWindow", "Browse", None))
+        self.label1.setText(_translate("MainWindow", "Data Directory", None))
+        self.label_2.setText(_translate("MainWindow", "EPR Experiment", None))
+        self.WorkupDirBrowseButton.setText(_translate("MainWindow", "Browse", None))
+        self.label_3.setText(_translate("MainWindow", "Worked Up Data Directory", None))
+        self.titleLabel.setText(_translate("MainWindow", "ODNP, T1, and EPR Workup ", None))
+        self.label_6.setText(_translate("MainWindow", "Add to Database?", None))
+        self.DataDirSaveButton.setText(_translate("MainWindow", "Save Data Directory", None))
+        self.EPRCalSaveButton.setText(_translate("MainWindow", "Save EPR Calibration", None))
+        self.WorkupDirSaveButton.setText(_translate("MainWindow", "Save Workup Dir", None))
+        self.ExitButton.setText(_translate("MainWindow", "Exit", None))
+        self.RunWorkupButton.setText(_translate("MainWindow", "Run Workup", None))
+
