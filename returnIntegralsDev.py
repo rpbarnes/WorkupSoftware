@@ -392,6 +392,15 @@ class workupODNP(): #{{{ The ODNP Experiment
             self.odnpName = self.name + '\\'
             if self.eprName:
                 self.eprFileName = self.eprName.split('\\')[-1]
+            # ### Debugging ###
+            # print '*'*80
+            # print 'Debug'
+            # print '*'*80
+            # print 'name = ',self.name
+            # print 'runningDir = ', self.runningDir
+            # print 'odnpName = ', self.odnpName
+            # print 'eprName = ',self.eprName
+            # print 'eprFileName = ',self.eprFileName
         elif self.systemOpt == 'posix':
             self.name = self.odnpPath.split('/')[-1]
             self.runningDir += '/'
@@ -409,11 +418,12 @@ class workupODNP(): #{{{ The ODNP Experiment
         # Actual calls to run the experiment.#{{{
         if self.nmrExp: self.returnExpNumbers()
         if self.nmrExp: self.returnNMRExpParamsDict() 
-        # if self.nmrExp: self.determineExperiment() # Should no longer be needed, hang on to incase you need something.
-        # else: print "EPR Experiment"
-        # self.determineDatabase()
+        ### # if self.nmrExp: self.determineExperiment() # Should no longer be needed, hang on to incase you need something.
+        ### # else: print "EPR Experiment"
+        ### # self.determineDatabase()
+        ### On windows you cannot run from the command line any interaction with raw_input is rejected
         if self.nmrExp: self.editExpDict()
-        if self.writeToDB: self.editDatabaseDict()
+        # if self.writeToDB: self.editDatabaseDict()
         if self.nmrExp: self.legacyCheck()
         makeTitle("  Running Workup  ")
         if self.eprExp: self.returnEPRData()
@@ -522,11 +532,25 @@ class workupODNP(): #{{{ The ODNP Experiment
         #}}}
 
     def editExpDict(self):#{{{
-        """
+        """ Instead of using raw input you need to use this gettext functionality from Qt. This will work until you make a dialog to do this.
         Edit the experimental parameters dict
         """
-        makeTitle("  Experimental Parameters  ")
-        dtb.modDictVals(self.parameterDict,dictType='experiment')
+        paramsToEdit = [['t1StartingGuess','Enter the T1 Guess (s):'],['integrationWidth','Enter the Integration Width (Hz):'],['t1SeparatePhaseCycle','separate phase cycle yes = 1, no = 0:'],['thresholdE','Enter the threshold for enhancement powers:'],['thresholdT1','Enter the threshold for T1 powers:']]
+        for dictKey,textToWrite in paramsToEdit:
+            text, ok = QtGui.QInputDialog.getText(self.guiParent, 'Experimental Parameters', textToWrite,QtGui.QLineEdit.Normal,str(self.parameterDict.get(dictKey)))
+            if ok:
+                #if dictKey == 't1SeparatePhaseCycle':
+                #    if float(text) == 0.0:
+                #        self.parameterDict[dictKey]=False
+                #    elif float(text) == 1.0:
+                #        self.parameterDict[dictKey]=True
+                #else:
+                #    self.parameterDict[dictKey]=float(text)
+                #    print self.parameterDict[dictKey]
+                self.parameterDict[dictKey]=float(text)
+                print self.parameterDict[dictKey]
+        #makeTitle("  Experimental Parameters  ")
+        #dtb.modDictVals(self.parameterDict,dictType='experiment')
         dtb.writeDict(self.expParametersFile,self.parameterDict)
 #}}}
 
@@ -554,7 +578,7 @@ class workupODNP(): #{{{ The ODNP Experiment
         integrationWidth = 75
         t1StartingGuess = 2.5 # best guess for T1
         ReturnKSigma = True ### This needs to be False because my code is broken
-        t1SeparatePhaseCycle = True ### Did you save the phase cycles separately?
+        t1SeparatePhaseCycle = 1.0 ### Did you save the phase cycles separately?
         thresholdE = 0.05
         thresholdT1 = 0.3
         maxDrift = 10000.
@@ -625,6 +649,12 @@ class workupODNP(): #{{{ The ODNP Experiment
                 except:
                     print "Not a valid experiment."
             if 'T1' in title:
+                try:
+                    temp = nmr.load_file(self.odnpPath+'/'+name)
+                    self.t1Exps.append(int(name))
+                except:
+                    print "Not a valid experiment."
+            if 'T_{1,0}' in title:
                 try:
                     temp = nmr.load_file(self.odnpPath+'/'+name)
                     self.t1Exps.append(int(name))
@@ -1014,8 +1044,9 @@ class workupODNP(): #{{{ The ODNP Experiment
             self.fl.figurelist.append({'print_string':r'\subparagraph{$T_{1,0}$ Parameters}\\' + '\n\n'})
             for i in range(len(self.t1Series.data)):
                 self.fl.figurelist.append({'print_string':r'$T_{1}(p=0) = %0.3f \pm %0.3f\ (Seconds) \\$'%(self.t1Series.data[i],self.t1Series.get_error()[i]) + '\n\n'})
-        elif self.eprExp: 
+        if self.eprExp: 
             self.fl.figurelist.append({'print_string':r'EPR Double Integral. \\Spectral count normalized by receiver gain and number of averages. \\$EPR_{DI} = %0.3f\ \frac{SC}{RG NA}$'%(self.doubleIntZC.data.max()) + '\n\n'})
+            self.fl.figurelist.append({'print_string':r'EPR center field = %0.2f G, spectral width = %0.2f G, and linewidhts = %0.2f, %0.2f, %0.2f G (low to high field)'%(self.centerField,self.spectralWidth,self.lineWidths[0],self.lineWidths[1],self.lineWidths[2]) + '\n\n'})
     ##}}}
 #}}}
 

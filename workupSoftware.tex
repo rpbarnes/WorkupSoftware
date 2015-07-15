@@ -140,6 +140,8 @@ I start a gui for browsing the database in browseDatabase/main.py.
 \chapter{Development}
 \section{New Implementations:}
 \begin{enumerate}
+    \item $\Box$ You absolutely need to switch to a standardized method of storing the data in the csv's. Right now every data set has it's own layout.
+    \item $\Box$ You need to switch the databaseing scheme so you can identify seachable parameters v data storage parameters v parameters that carry error.
     \item $\Box$ When you save the series data all the experiment names should be saved with the corresponding data value as a separated dimension. This way you can refer back to what is what.
     \item $\checkmark$ You need to wrap the bare code into functions and classes. Basically I want one function to call for doing all of the ODNP workup and another function to call for doing all of the EPR workup. The goal is to make the actual GUI code as clean and modular as possible. \o[this is done in returnIntegralsDev.py. You can call the code by 'import returnIntegralsDev' 'returnIntegralsDev.workupODNP(odnpName,eprName)'.]{}
     \item $\Box$ You should also request that the user loads in a calibration file for the cw-EPR double integral experiment.
