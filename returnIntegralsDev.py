@@ -427,7 +427,6 @@ class workupODNP(): #{{{ The ODNP Experiment
         if self.dnpexp: self.findFirstAtten() # here you need to make this used in the powers workup.
         if self.nmrExp: self.editExpDict()
         if self.writeToDB: self.editDatabaseDict()
-        if self.nmrExp: self.legacyCheck()
         makeTitle("  Running Workup  ")
         if self.eprExp: self.returnEPRData()
         if self.dnpexp: self.dnpPowers()
@@ -567,17 +566,6 @@ class workupODNP(): #{{{ The ODNP Experiment
         dtb.writeDict(self.expParametersFile,self.parameterDict)
 #}}}
 
-    def legacyCheck(self):#{{{
-        """
-        figure out if experiment was run on old software.
-        """
-        if self.dnpexp:
-            t1FirstTitle = self.expTitles[self.parameterDict.get('t1Exp')[0]-1]
-            print t1FirstTitle
-            if '$T_1$' in t1FirstTitle[0]:
-                # this is run on old software and don't need to add first power
-                self.parameterDict.update({'t1FirstAttenFullPower':False})#}}}
-
     def returnNMRExpParamsDict(self): #{{{
         # Parameter files
         self.expParametersFile = self.odnpName + 'parameters.pkl'
@@ -596,7 +584,6 @@ class workupODNP(): #{{{ The ODNP Experiment
         thresholdT1 = 0.3
         maxDrift = 10000.
         badT1 = []
-        t1FirstAttenFullPower = False
         # Write parameters to dict if file exists or pull params from existing file
         expExists = os.path.isfile(self.expParametersFile)
         if not expExists:
@@ -610,7 +597,6 @@ class workupODNP(): #{{{ The ODNP Experiment
                             'thresholdT1':thresholdT1,
                             'badT1':badT1,
                             'maxDrift':maxDrift,
-                            't1FirstAttenFullPower':t1FirstAttenFullPower
                             }
             dtb.writeDict(self.expParametersFile,self.parameterDict)
         else:
