@@ -369,6 +369,8 @@ class workupODNP(): #{{{ The ODNP Experiment
             self.odnpPath = self.guiParent.ODNPFile
             self.nmrExp = True
             self.dnpexp = True
+            self.t1AddInitialPower = False
+            self.dnpAddInitialPower = False
             self.setType = 'dnpExp'
         elif self.guiParent.T1File:
             self.odnpPath = self.guiParent.T1File
@@ -424,7 +426,7 @@ class workupODNP(): #{{{ The ODNP Experiment
         ### On windows you cannot run from the command line any interaction with raw_input is rejected
         if self.dnpexp: self.findFirstAtten() # here you need to make this used in the powers workup.
         if self.nmrExp: self.editExpDict()
-        # if self.writeToDB: self.editDatabaseDict()
+        if self.writeToDB: self.editDatabaseDict()
         if self.nmrExp: self.legacyCheck()
         makeTitle("  Running Workup  ")
         if self.eprExp: self.returnEPRData()
@@ -546,6 +548,10 @@ class workupODNP(): #{{{ The ODNP Experiment
                 break
         print "DNP first attenuation", self.dnpFirstAtten
         print "T1 first attenuation", self.t1FirstAtten
+        if self.dnpFirstAtten == float(31.5):
+            self.dnpAddInitialPower = True
+        if self.t1FirstAtten == float(31.5):
+            self.t1AddInitialPower = True
 
 
     def editExpDict(self):#{{{
@@ -752,7 +758,7 @@ class workupODNP(): #{{{ The ODNP Experiment
             for expTitle in self.expTitles:
                 print expTitle 
             raise ValueError("\n\nThe experiment numbers are not set appropriately, please scroll through the experiment titles above and set values appropriately")
-        enhancementPowers,self.fl.figurelist = nmr.returnSplitPowers(self.odnpPath,'power',expTimeMin = expTimeMin.data,expTimeMax = expTimeMin.data + 20.0,timeDropStart = 10,dnpPowers = True,threshold = self.parameterDict['thresholdE'],titleString = 'Enhancement Powers',firstFigure = self.fl.figurelist)
+        enhancementPowers,self.fl.figurelist = nmr.returnSplitPowers(self.odnpPath,'power',expTimeMin = expTimeMin.data,expTimeMax = expTimeMin.data + 20.0,timeDropStart = 10,addInitialPower = self.dnpAddInitialPower,threshold = self.parameterDict['thresholdE'],titleString = 'Enhancement Powers',firstFigure = self.fl.figurelist)
         enhancementPowers = list(enhancementPowers)
         enhancementPowers.insert(0,-100)
         enhancementPowers = array(enhancementPowers)
@@ -792,7 +798,7 @@ class workupODNP(): #{{{ The ODNP Experiment
             print self.expTitles
             raise ValueError("\n\nThe experiment numbers are not set appropriately, please scroll through the experiment titles above and set values appropriately")
         # I have the same problem with the dnp powers, if the starting attenuation is full attenuation '31.5' then there is no initial jump and we need to deal with it the same way. Right now I pull from constant 24 in the aquisition parameters. This should now work without having to ask the user.
-        t1Power,self.fl.figurelist = nmr.returnSplitPowers(self.odnpPath,'t1_powers',expTimeMin = expTimes.min(),expTimeMax=expTimeMin.data + expTimeMin.data/2,dnpPowers = self.parameterDict['t1FirstAttenFullPower'],threshold = self.parameterDict['thresholdT1'],titleString = 'T1 ',firstFigure = self.fl.figurelist)
+        t1Power,self.fl.figurelist = nmr.returnSplitPowers(self.odnpPath,'t1_powers',expTimeMin = expTimes.min(),expTimeMax=expTimeMin.data + expTimeMin.data/2,addInitialPower = self.t1AddInitialPower,threshold = self.parameterDict['thresholdT1'],titleString = 'T1 ',firstFigure = self.fl.figurelist)
         t1Power = list(t1Power)
         t1Power.append(-99.0) # Add the zero power for experiment 304
         t1Power = array(t1Power)

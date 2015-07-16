@@ -140,13 +140,13 @@ I start a gui for browsing the database in browseDatabase/main.py.
 \chapter{Development}
 \section{New Implementations:}
 \begin{enumerate}
-    \item $\Box$ Add GUI method for editing the database parameters.
+    \item $\Box$ Add GUI method for editing the database parameters. \o[This is really next on the chopping block!]
     \item $\Box$ You absolutely need to switch to a standardized method of storing the data in the csv's. Right now every data set has it's own layout.
     \item $\Box$ You need to switch the databaseing scheme so you can identify seachable parameters v data storage parameters v parameters that carry error.
     \item $\Box$ When you save the series data all the experiment names should be saved with the corresponding data value as a separated dimension. This way you can refer back to what is what.
     \item $\checkmark$ You need to wrap the bare code into functions and classes. Basically I want one function to call for doing all of the ODNP workup and another function to call for doing all of the EPR workup. The goal is to make the actual GUI code as clean and modular as possible. \o[this is done in returnIntegralsDev.py. You can call the code by 'import returnIntegralsDev' 'returnIntegralsDev.workupODNP(odnpName,eprName)'.]{}
     \item $\Box$ You should also request that the user loads in a calibration file for the cw-EPR double integral experiment.
-    \item $\Box$ Change the entry query options to numerical, rather than, text entry. \o[What the fuck am I asking here?]{}
+    \item $\checkmark$ Change the entry query options to numerical, rather than, text entry. \o[What the fuck am I asking here?]{Yu have changed to dialog boxes in Qt this idea is no longer useful.}
     \item $\checkmark$ Include the EPR double integral workup as part of the software. \o[Now included in newWorkup.py]{}
     \item $\checkmark$ Fix the file browser functionality so this doesn't crash so easily. \o[Now included in newWorkup.py]{}
     \item $\Box$ Fit the $T_1$ raw data in the log space. This should be much more robust to weridness. Also you should plot the data in this space. \o[I don't think this is actually something you want to do.]{What would be cool is with the GUI add a pop up window that allows you to adjust your guess for the fit.}
@@ -187,8 +187,8 @@ I start a gui for browsing the database in browseDatabase/main.py.
 \section{Bugs:}
 \begin{enumerate}
     \item $\Box$ Integrate does not line up peaks correctly for the zero power measurements. This is not ok. I've noticed max_drift influences how this works however it does not correct the problem in a logical way. At the end of the day you should really re-write this so it behaves as you would expect in a manipulatable way.
-    \item $\Box$ The newWorkup.py crashes upon clicking 'run script' on windows balls\ldots You need to figure out why this is.
-    \item $\Box$ Crashes when experiment numbers aren't set right. You should just automatically pick the experiment numbers based on the experiment title.
+    \item $\checkmark$ The newWorkup.py crashes upon clicking 'run script' on windows balls\ldots You need to figure out why this is. \o[This is because Qt in windows does not allow calls to raw_input during execution.]{Some areas of code need updated to the GUI format and the raw_input needs removed completely.}
+    \item $\checkmark$ Crashes when experiment numbers aren't set right. You should just automatically pick the experiment numbers based on the experiment title. \o[Experiment numbers are automatically picked but does not work on old dnp execution.]{Still need to add legacy capability.}
     \item $\Box$ Returns powers error on r'150707_CheY_D41C_8MUrea_RT_ODNP'.
     \item $\checkmark$ The EPR double integration falls apart for some reason for the 10 uM sample of 4 OHT. This could be a threshold problem, you must look into this. \o[This was dependent on how the peaks were picked. Switched to a new method that uses a top down search for finding the peaks and subsequent bottomup search for finding the valleys.]{}
     \item $\checkmark$ In windows it depends how the program was launched. If mingw things run nicely if not it turns to crap. You should look into how to do all calls with python instead of using subprocess. All these problems are to do with the subprocess calls. Look into \o[shutil]{I force it to use the cmd, the worst tool in the world but a consitent tool none the less.}
