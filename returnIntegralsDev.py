@@ -422,6 +422,7 @@ class workupODNP(): #{{{ The ODNP Experiment
         ### # else: print "EPR Experiment"
         ### # self.determineDatabase()
         ### On windows you cannot run from the command line any interaction with raw_input is rejected
+        if self.dnpexp: self.findFirstAtten() # here you need to make this used in the powers workup.
         if self.nmrExp: self.editExpDict()
         # if self.writeToDB: self.editDatabaseDict()
         if self.nmrExp: self.legacyCheck()
@@ -531,6 +532,22 @@ class workupODNP(): #{{{ The ODNP Experiment
         #}}}
         #}}}
 
+    def findFirstAtten(self):
+        ### This is where the actual code starts
+        for count in range(len(self.parameterDict['dnpExps'])):
+            titleString = self.expTitles[self.parameterDict['dnpExps'][count]-1][0]
+            if 'DNP' in titleString:
+                self.dnpFirstAtten = float(titleString.split(' ')[2])
+                break
+        for count in range(len(self.parameterDict['t1Exp'])):
+            titleString = self.expTitles[self.parameterDict['t1Exp'][count]-1][0]
+            if 'T1' in titleString:
+                self.t1FirstAtten = float(titleString.split(' ')[3])
+                break
+        print "DNP first attenuation", self.dnpFirstAtten
+        print "T1 first attenuation", self.t1FirstAtten
+
+
     def editExpDict(self):#{{{
         """ Instead of using raw input you need to use this gettext functionality from Qt. This will work until you make a dialog to do this.
         Edit the experimental parameters dict
@@ -539,18 +556,8 @@ class workupODNP(): #{{{ The ODNP Experiment
         for dictKey,textToWrite in paramsToEdit:
             text, ok = QtGui.QInputDialog.getText(self.guiParent, 'Experimental Parameters', textToWrite,QtGui.QLineEdit.Normal,str(self.parameterDict.get(dictKey)))
             if ok:
-                #if dictKey == 't1SeparatePhaseCycle':
-                #    if float(text) == 0.0:
-                #        self.parameterDict[dictKey]=False
-                #    elif float(text) == 1.0:
-                #        self.parameterDict[dictKey]=True
-                #else:
-                #    self.parameterDict[dictKey]=float(text)
-                #    print self.parameterDict[dictKey]
                 self.parameterDict[dictKey]=float(text)
                 print self.parameterDict[dictKey]
-        #makeTitle("  Experimental Parameters  ")
-        #dtb.modDictVals(self.parameterDict,dictType='experiment')
         dtb.writeDict(self.expParametersFile,self.parameterDict)
 #}}}
 
