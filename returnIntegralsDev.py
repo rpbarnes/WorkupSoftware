@@ -757,16 +757,16 @@ class workupODNP(): #{{{ The ODNP Experiment
             for title in self.expTitles:
                 self.fl.figurelist.append({'print_string':r"%s, exp number %s"%(title[0].split('\n')[0],title[1])})#}}}
             compilePDF(self.name,self.fl)
-            answer = raw_input("\n\n --> Do you need to adjust the thresholdE parameter? Currently thresholdE = %0.2f. (If no, type 'no'. If yes, type the new threshold value e.g. '0.5') \n\n ->> "%self.parameterDict['thresholdE'])
-            if answer != 'no':
-                self.parameterDict.update({'thresholdE':eval(answer)})
-                print"\n\n Parameter Saved \n\n"
-            answer = raw_input("\n\n --> Do you need to adjust the DNP experiment numbers? (If no, type 'no'. If yes, type the new experiment numbers.) \n\n An appropriate answer would be r_[5:27] (this gives an array of values from 5 upto but not including 27) \n\n ->> ")
-            if answer != 'no':
-                self.parameterDict.update({'dnpExps':eval(answer)})
-                print"\n\n Parameter Saved \n\n"
-            dtb.writeDict(self.expParametersFile,self.parameterDict)
-            raise ValueError("\n\n Please close the pdf and re-run the script")
+            #answer = raw_input("\n\n --> Do you need to adjust the thresholdE parameter? Currently thresholdE = %0.2f. (If no, type 'no'. If yes, type the new threshold value e.g. '0.5') \n\n ->> "%self.parameterDict['thresholdE'])
+            #if answer != 'no':
+            #    self.parameterDict.update({'thresholdE':eval(answer)})
+            #    print"\n\n Parameter Saved \n\n"
+            #answer = raw_input("\n\n --> Do you need to adjust the DNP experiment numbers? (If no, type 'no'. If yes, type the new experiment numbers.) \n\n An appropriate answer would be r_[5:27] (this gives an array of values from 5 upto but not including 27) \n\n ->> ")
+            #if answer != 'no':
+            #    self.parameterDict.update({'dnpExps':eval(answer)})
+            #    print"\n\n Parameter Saved \n\n"
+            #dtb.writeDict(self.expParametersFile,self.parameterDict)
+            raise ValueError("\n\n Something is weird with your powers file. Take a look at the pdf and see if you can make changes. Or just paste in a working powers file. Hint you might also find adjusting the threshold parameters helps.")
             #}}}
             # Open the enhancement powers file and dump to csv
             powerFile = loadmat(self.odnpPath + '/power.mat')
@@ -797,17 +797,17 @@ class workupODNP(): #{{{ The ODNP Experiment
             for titleName in self.expTitles:
                 self.fl.figurelist.append({'print_string':r"%s"%titleName})#}}}
             compilePDF(self.name,self.fl)
-            answer = raw_input("\n\n --> Do you need to adjust the thresholdT1 parameter? Currently thresholdT1 = %0.2f. (If no, type 'no'. If yes, type the new threshold value e.g. '0.5') \n\n ->> "%self.parameterDict['thresholdT1'])
-            if answer != 'no':
-                self.parameterDict.update({'thresholdT1':eval(answer)})
-                print"\n\n Parameter Saved \n\n"
-            answer = raw_input("\n\n --> Do you need to adjust the T1 experiment numbers? (If no, type 'no'. If yes, type the new experiment numbers.) \n\n An appropriate answer would be r_[28:38,304] (this gives an array of values from 28 upto but not including 38 and adds the number 304 to the end of the array.) \n\n ->> ")
-            if answer != 'no':
-                self.parameterDict.update({'t1Exp':eval(answer)})
-                print"\n\n Parameter Saved \n\n"
-            dtb.writeDict(self.expParametersFile,self.parameterDict)
-            print"\n\n Updated parameters are saved \n\n"
-            raise ValueError("\n\n Please close the pdf and re-run the script")
+            #answer = raw_input("\n\n --> Do you need to adjust the thresholdT1 parameter? Currently thresholdT1 = %0.2f. (If no, type 'no'. If yes, type the new threshold value e.g. '0.5') \n\n ->> "%self.parameterDict['thresholdT1'])
+            #if answer != 'no':
+            #    self.parameterDict.update({'thresholdT1':eval(answer)})
+            #    print"\n\n Parameter Saved \n\n"
+            #answer = raw_input("\n\n --> Do you need to adjust the T1 experiment numbers? (If no, type 'no'. If yes, type the new experiment numbers.) \n\n An appropriate answer would be r_[28:38,304] (this gives an array of values from 28 upto but not including 38 and adds the number 304 to the end of the array.) \n\n ->> ")
+            #if answer != 'no':
+            #    self.parameterDict.update({'t1Exp':eval(answer)})
+            #    print"\n\n Parameter Saved \n\n"
+            #dtb.writeDict(self.expParametersFile,self.parameterDict)
+            #print"\n\n Updated parameters are saved \n\n"
+            raise ValueError("\n\n Something is weird with your powers file. Take a look at the pdf and see if you can make changes. Or just paste in a working powers file. Hint you might also find adjusting the threshold parameters helps.")
         #}}}
 
             # Open the t1 powers file and dump to csv
