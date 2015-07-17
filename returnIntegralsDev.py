@@ -440,6 +440,18 @@ class workupODNP(): #{{{ The ODNP Experiment
         compilePDF(self.odnpName.split(self.odnpName[-1])[0],self.fl)#}}}
 
     # Class Specific Functions (Children) #{{{
+    def readSpecType(self):#{{{
+        """ Read the proc file to find which spectrometer the ODNP experiment was run on. Used for the dBm to watt conversion. """
+        openFile = open(self.odnpName +'/5/pdata/1/proc','r')
+        lines = openFile.readlines()
+        for line in lines:
+            if 'ORIGIN' in line:
+                print line
+                if 'UXNMR, Bruker Analytische Messtechnik GmbH' in line:
+                    self.specType = 'EMX-CNSI'
+                if 'Bruker BioSpin GmbH' in line:
+                    self.specType = 'EMX-HL'#}}}
+
     def returnEPRData(self): #{{{ EPR Workup stuff
         """
         Perform the epr baseline correction and double integration.
@@ -748,7 +760,7 @@ class workupODNP(): #{{{ The ODNP Experiment
         enhancementPowers = list(enhancementPowers)
         enhancementPowers.insert(0,-100)
         enhancementPowers = array(enhancementPowers)
-        self.enhancementPowers = nmr.dbm_to_power(enhancementPowers)
+        self.enhancementPowers = nmr.dbm_to_power(enhancementPowers,cavity_setup = self.specType)
         ### Error handling for the enhancement powers and integration file#{{{
         if len(self.enhancementPowers) != len(self.parameterDict['dnpExps']): ### There is something wrong. Show the power series plot and print the dnpExps
             self.fl.figurelist.append({'print_string':r'\subsection{\large{ERROR: Read Below to fix!!}}' + '\n\n'})#{{{ Error text
@@ -788,7 +800,7 @@ class workupODNP(): #{{{ The ODNP Experiment
         t1Power = list(t1Power)
         t1Power.append(-99.0) # Add the zero power for experiment 304
         t1Power = array(t1Power)
-        self.t1Power = nmr.dbm_to_power(t1Power)
+        self.t1Power = nmr.dbm_to_power(t1Power,cavity_setup=self.specType)
         ### Error handling for the T1 powers and integration file#{{{
         if len(self.t1Power) != len(self.parameterDict['t1Exp']): ### There is something wrong. Show the power series plot and print the dnpExps
             self.fl.figurelist.append({'print_string':r'\subsection{\large{ERROR: Read Below to fix!!}}' + '\n\n'})#{{{ Error text
