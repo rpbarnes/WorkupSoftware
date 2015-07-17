@@ -425,6 +425,7 @@ class workupODNP(): #{{{ The ODNP Experiment
         ### # self.determineDatabase()
         ### On windows you cannot run from the command line any interaction with raw_input is rejected
         if self.dnpexp: self.findFirstAtten() # here you need to make this used in the powers workup.
+        if self.dnpexp: self.readSpecType()
         if self.nmrExp: self.editExpDict()
         if self.writeToDB: self.editDatabaseDict()
         makeTitle("  Running Workup  ")
@@ -442,7 +443,8 @@ class workupODNP(): #{{{ The ODNP Experiment
     # Class Specific Functions (Children) #{{{
     def readSpecType(self):#{{{
         """ Read the proc file to find which spectrometer the ODNP experiment was run on. Used for the dBm to watt conversion. """
-        openFile = open(self.odnpName +'/5/pdata/1/proc','r')
+        fileName=os.path.abspath(self.odnpPath+'/6/pdata/1/proc')
+        openFile = open(fileName,'r')
         lines = openFile.readlines()
         for line in lines:
             if 'ORIGIN' in line:
