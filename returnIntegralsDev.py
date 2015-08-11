@@ -25,8 +25,92 @@ from scipy.io import loadmat,savemat
 from numpy import *#}}}
 
 #{{{ Various definitions and classes
+def calcSpinConc(calibrationFile):#{{{
+    """
+    Use the EPR Double integral value to calculate the sample concentration given a calibration file.
+    Format of the calibration file (csv).
+    Concentration (uM) X Double Integral Value
+    ConcVal              DI Val
+
+    Args:
+    CalibrationFile - csv of calibration
+
+    returns:
+    calibration - the estimated concentration of the spin system
+    """
+    openFile = open(calibrationFile,'rt')
+    lines = openFile.readlines()
+    lines = lines[0].split('\r')
+    lines.pop(0)
+    concL = []
+    diL = []
+    for line in lines:
+        conc,di = line.split(',')
+        concL.append(float(conc))
+        diL.append(float(di))
+    openFile.close()
+
+    calib = pys.nddata(pys.array(diL)).rename('value','concentration').labels('concentration',pys.array(concL))
+    return calib#}}}
+
+def returnEPRExpDict(fileName,verbose=False):#{{{
+    """
+    Return all of the experiment parameters stored in the '.par' file output by the Bruker
+
+    Args:
+    fileName - string - full file name from top directory.
+
+    Returns:
+    expDict - dictionary - Keys are keys from bruker par files, values are everything else matched to the corresponding key.
+    """
+    openFile = open(fileName + '.par','r') # read the par
+    lines = openFile.readlines()
+    expDict = {}
+    for line in lines[0].split('\r'):
+        try:
+            if verbose:
+                print "Debug: ",line
+            splitData = line.split(' ')
+            key = splitData.pop(0)
+            value = splitData.pop(0)
+            for data in splitData:
+                value += data
+            expDict.update({key:value})
+        except:
+            pass
+    return expDict#}}}
+
+def returnEPRExpDictDSC(fileName):#{{{
+    """
+    This returns the exp dict stored in the dsc files written by xepr
+    """
+    openFile = open(fileName + '.DSC','r') # read the par
+    lines = openFile.readlines()
+    expDict = {}
+    for count,line in enumerate(lines):
+        cut = line.split('\n')[0]
+        try:
+            key,value = cut.split('\t')
+            expDict.update({key:value})
+        except:
+            pass
+        try:
+            splits = cut.split(' ')
+            key = splits[0]
+            value = splits[-2]+' '+splits[-1]
+            expDict.update({key:value})
+        except:
+            pass
+    return expDict#}}}
+
 def returnEPRSpec(fileName,doNormalize = True): #{{{
     """ 
+    *** This code is crappy
+
+    Right now you try to incorporate stuff for xepr cw scans and you do it in a try except loop which is not the way to do this!!! This is bad code. Fix when you aren't in a rush!
+
+    ***
+
     Return the cw-EPR derivative spectrum from the spc and par files output by the winEPR program.
     If doNormalize is set to True (recommended) this will normalize the spectral values to the number of scans run as well as the receiver gain settings. This is a more reproducible value as is independent of the two settings which may vary.
 
@@ -39,37 +123,28 @@ def returnEPRSpec(fileName,doNormalize = True): #{{{
     1-D nddata dimensioned by field values of spectrum, and containing the EPR experimental parameters as other_info.
     """
     # Open the spc and par files and pull the data and relevant parameters
-    specData = fromfile(fileName+'.spc','<f') # read the spc
-    openFile = open(fileName + '.par','r') # read the par
-    lines = openFile.readlines()
-    expDict = {}
-    for line in lines[0].split('\r'):
-        try:
-            splitData = line.split(' ')
-            key = splitData.pop(0)
-            value = splitData.pop(0)
-            for data in splitData:
-                value += data
-            expDict.update({key:value})
-        except:
-            pass
-
-    # calculate the field values and normalize by the number of scans and return an nddata
-    centerSet = float(expDict.get('HCF'))
-    sweepWidth = float(expDict.get('HSW'))
+    try:
+        expDict = returnEPRExpDict(fileName)
+        specData = fromfile(fileName+'.spc','<f') # read the spc
+        centerSet = float(expDict.get('HCF'))
+        sweepWidth = float(expDict.get('HSW'))
+        numScans = float(expDict.get('JNS')) # I'm not sure if this is right
+        rg = float(expDict.get('RRG'))
+        if doNormalize:
+            specData /= rg
+            specData /= numScans
+    except:
+        expDict = returnEPRExpDictDSC(fileName)
+        specData = fromfile(fileName+'.DTA','>d') # or if it is a DTA file read that instead
+        centerSet = float(expDict.get('CenterField').split(' ')[0])
+        sweepWidth = float(expDict.get('SweepWidth').split(' ')[0])
+        numScans = float(expDict.get('NbScansAcc')) # Yea bruker just changes things...
+        rg = float(expDict.get('RCAG'))
+        if doNormalize:
+            specData /= rg
+    # calculate the field values and normalize by the number of scans and the receiver gain and return an nddata
     fieldVals = pys.r_[centerSet-sweepWidth/2.:centerSet+sweepWidth/2.:len(specData)*1j]
-    numScans = float(expDict.get('JNS')) # I'm not sure if this is right
-    rg = float(expDict.get('RRG'))
     # normalize the data so there is coherence between different scans.
-    if doNormalize:
-        specData /= rg
-        specData /= numScans
-    # Interpolate to 1024 data points if not done already
-    if len(specData) != 1024:
-        fieldKeep = pys.r_[centerSet-sweepWidth/2.:centerSet+sweepWidth/2.:1024*1j] 
-        newSpec = interp1d(fieldVals,specData,kind='cubic')
-        specData = newSpec(fieldKeep)
-        fieldVals = fieldKeep
     spec = pys.nddata(specData).rename('value','field').labels('field',fieldVals)
     spec.other_info = expDict
     return spec #}}}
@@ -358,6 +433,8 @@ class workupODNP(): #{{{ The ODNP Experiment
         self.runningDir = os.getcwd()
         self.systemOpt = os.name
         self.writeToDB = self.guiParent.dataBase
+        if self.writeToDB:
+            self.databaseParamsDict = self.guiParent.databaseParamsDict
         self.dnpexp = self.guiParent.ODNPFile
         if self.guiParent.EPRFile:
             self.eprName = self.guiParent.EPRFile.split('.')[0]
@@ -417,40 +494,23 @@ class workupODNP(): #{{{ The ODNP Experiment
             print "file exists"
             pass#}}}
 
-        # Actual calls to run the experiment.#{{{
-        if self.nmrExp: self.returnExpNumbers()
-        if self.nmrExp: self.returnNMRExpParamsDict() 
-        ### # if self.nmrExp: self.determineExperiment() # Should no longer be needed, hang on to incase you need something.
-        ### # else: print "EPR Experiment"
-        ### # self.determineDatabase()
-        ### On windows you cannot run from the command line any interaction with raw_input is rejected
-        if self.dnpexp: self.findFirstAtten() # here you need to make this used in the powers workup.
-        if self.nmrExp: self.editExpDict()
-        if self.writeToDB: self.editDatabaseDict()
-        makeTitle("  Running Workup  ")
-        if self.eprExp: self.returnEPRData()
-        if self.dnpexp: self.dnpPowers()
-        if self.dnpexp: self.enhancementIntegration()
-        if self.nmrExp: self.T1Integration()
-        if self.dnpexp: self.makeT1PowerSeries()
-        if self.dnpexp: self.compKsigma()
-        if self.writeToDB: self.writeToDatabase()
-        self.dumpAllToCSV()
-        self.writeExpParams()
-        compilePDF(self.odnpName.split(self.odnpName[-1])[0],self.fl)#}}}
 
     # Class Specific Functions (Children) #{{{
     def readSpecType(self):#{{{
         """ Read the proc file to find which spectrometer the ODNP experiment was run on. Used for the dBm to watt conversion. """
-        openFile = open(self.odnpName +'/5/pdata/1/proc','r')
+        filetoread = os.path.abspath(self.odnpPath + '/5/pdata/1/proc') # this should return os specific filetype
+        openFile = open(filetoread,'r')
         lines = openFile.readlines()
         for line in lines:
             if 'ORIGIN' in line:
                 print line
                 if 'UXNMR, Bruker Analytische Messtechnik GmbH' in line:
                     self.specType = 'EMX-CNSI'
-                if 'Bruker BioSpin GmbH' in line:
-                    self.specType = 'EMX-HL'#}}}
+                elif 'Bruker BioSpin GmbH' in line:
+                    self.specType = 'EMX-HL'
+                else:
+                    self.specType = 'newcnsi'
+                    #}}}
 
     def returnEPRData(self): #{{{ EPR Workup stuff
         """
@@ -531,7 +591,8 @@ class workupODNP(): #{{{ The ODNP Experiment
         doubleInt = absorption.copy().integrate('field')
         doubleIntC = correctedAbs.copy().integrate('field')
         self.doubleIntZC = zeroCorr.copy().integrate('field')
-        print "\nI calculate the double integral to be: %0.2f\n"%self.doubleIntZC.data.max()
+        self.diValue = self.doubleIntZC.data.max()
+        print "\nI calculate the double integral to be: %0.2f\n"%self.diValue
 
         self.fl.figurelist = pys.nextfigure(self.fl.figurelist,'DoubleIntegral')
         pys.plot(doubleInt,label='uncorrected')
@@ -543,9 +604,30 @@ class workupODNP(): #{{{ The ODNP Experiment
         pys.xlabel('Field (G)')
         pys.giveSpace(spaceVal=0.001)
         #}}}
+        
+        # If the calibration file is present use that to calculate spin concentration#{{{
+        if self.guiParent.EPRCalFile:
+            self.calib = calcSpinConc(self.guiParent.EPRCalFile)
+            ### Fit the series and calculate concentration
+            c,fit = self.calib.polyfit('concentration')
+            self.spinConc = (self.diValue - c[0])/c[1]
+            # Plotting 
+            self.fl.figurelist = pys.nextfigure(self.fl.figurelist,'SpinConcentration')
+            pys.plot(self.calib,'r.',markersize = 15)
+            pys.plot(fit,'g')
+            pys.plot(self.spinConc,self.diValue,'b.',markersize=20)
+            pys.title('Estimated Spin Concentration')
+            pys.xlabel('Spin Concentration')
+            pys.ylabel('Double Integral')
+            ax = pys.gca()
+            ax.text(self.spinConc,self.diValue - (0.2*self.diValue),'%0.2f uM'%self.spinConc,color='blue',fontsize=15)
+            pys.giveSpace()
+        else:
+            self.spinConc = None
+            #}}}
         #}}}
 
-    def findFirstAtten(self):
+    def findFirstAtten(self):#{{{
         ### This is where the actual code starts
         for count in range(len(self.parameterDict['dnpExps'])):
             titleString = self.expTitles[self.parameterDict['dnpExps'][count]-1][0]
@@ -559,11 +641,11 @@ class workupODNP(): #{{{ The ODNP Experiment
                 break
         print "DNP first attenuation", self.dnpFirstAtten
         print "T1 first attenuation", self.t1FirstAtten
-        if self.dnpFirstAtten == float(31.5):
+        if float(self.dnpFirstAtten) == float(31.5):
             self.dnpAddInitialPower = True
         if self.t1FirstAtten == float(31.5):
             self.t1AddInitialPower = True
-
+        print self.dnpAddInitialPower#}}}
 
     def editExpDict(self):#{{{
         """ Instead of using raw input you need to use this gettext functionality from Qt. This will work until you make a dialog to do this.
@@ -717,7 +799,15 @@ class workupODNP(): #{{{ The ODNP Experiment
                 print "\nI did not understand your answer. Please try again.\n" + "*"*80
         #}}}
 
+    def configDatabase(self):#{{{
+        self.conn = pymongo.MongoClient('localhost',27017) 
+        db = self.conn.homeDB 
+        self.collection = db.localData # This is my test collection
+        self.collection = self.guiParent.collection
+        self.databaseParamsDict = self.guiParent.databaseParamsDict#}}}
+
     def editDatabaseDict(self): #{{{ Modify the database parameters dictionary
+        """ No longer used """
         makeTitle("  Database Parameters  ")
         # Make the connection to the server as client
         self.conn = pymongo.MongoClient(self.MONGODB_URI) # Connect to the database that I purchased
@@ -950,7 +1040,7 @@ class workupODNP(): #{{{ The ODNP Experiment
         self.kSigmaUC = pys.ndshape([1],[''])
         self.kSigmaUC = self.kSigmaUC.alloc(dtype = 'float')
         self.kSigmaUC.data = pys.array([self.kSigmaUCCurve.output(r'ksmax')])
-        self.kSigmaUC.set_error(self.kSigmaUCCurve.covar(r'ksmax'))
+        self.kSigmaUC.set_error(sqrt(self.kSigmaUCCurve.covar(r'ksmax')))
         self.kSigmaCCurve = (1- self.enhancementPowerSeries.copy())*rateFit.copy().interp('power',self.enhancementPowerSeries.getaxis('power'))*(1./659.33)
         self.kSigmaCCurve = nmrfit.ksp(self.kSigmaCCurve)
         self.kSigmaCCurve.fit()
@@ -994,7 +1084,7 @@ class workupODNP(): #{{{ The ODNP Experiment
                 dim = self.kSigmaCCurve.dimlabels[0]
                 dataDict.update({'kSigma':{'data':self.kSigmaCCurve.runcopy(real).data.tolist(),'error':self.kSigmaCCurve.get_error().tolist(),'dim0':self.kSigmaCCurve.getaxis(dim).tolist(),'dimNames':self.kSigmaCCurve.dimlabels,'value':self.kSigmaCCurve.output(r'ksmax'),'valueError':sqrt(self.kSigmaCCurve.covar(r'ksmax'))}})
             if self.eprExp:
-                self.specDict = {'epr':{'data':self.spec.data.tolist(),'dataDI':self.doubleIntZC.data.tolist(),'dim0':self.spec.getaxis('field').tolist(),'dimNames':self.spec.dimlabels[0],'centerField':str(self.centerField),'lineWidths':list(self.lineWidths),'spectralWidth':str(self.spectralWidth),'doubleIntegral':str(self.doubleIntZC.data.max()),'expDict':self.spec.other_info}}
+                self.specDict = {'epr':{'data':self.spec.data.tolist(),'dataDI':self.doubleIntZC.data.tolist(),'dim0':self.spec.getaxis('field').tolist(),'dimNames':self.spec.dimlabels[0],'centerField':str(self.centerField),'lineWidths':list(self.lineWidths),'spectralWidth':str(self.spectralWidth),'doubleIntegral':str(self.diValue),'spinConcentration':str(self.spinConc),'expDict':self.spec.other_info}}
                 dataDict.update(self.specDict)
         ### For the T10 experiment just write the T1 experiment series.
         if self.nmrExp: # Save the T10 values
@@ -1031,9 +1121,9 @@ class workupODNP(): #{{{ The ODNP Experiment
                 dataToCSV(kSigmaWriter,self.odnpName+'kSigma.csv')
         ### Write the EPR
         if self.eprExp:
-            eprWriter = zip(list(self.spec.getaxis('field')),list(self.spec.data))
+            eprWriter = zip(list(self.spec.getaxis('field')),list(self.spec.data),list(self.doubleIntZC.data))
             dataToASC(eprWriter,self.odnpName+'eprSpec')
-            self.specDict = {'epr':{'data':self.spec.data.tolist(),'dataDI':self.doubleIntZC.data.tolist(),'dim0':self.spec.getaxis('field').tolist(),'dimNames':self.spec.dimlabels[0],'centerField':str(self.centerField),'lineWidths':list(self.lineWidths),'spectralWidth':str(self.spectralWidth),'doubleIntegral':str(self.doubleIntZC.data.max()),'expDict':self.spec.other_info}}
+            self.specDict = {'epr':{'centerField':str(self.centerField),'lineWidths':list(self.lineWidths),'spectralWidth':str(self.spectralWidth),'doubleIntegral':str(self.diValue),'spinConcentration':str(self.spinConc),'expDict':self.spec.other_info}}
             dictToCSV(self.odnpName+'eprParams',self.specDict)
 
         if self.nmrExp:
@@ -1048,16 +1138,19 @@ class workupODNP(): #{{{ The ODNP Experiment
     def writeExpParams(self): ##{{{ Write out the relevant values from the DNP experiment
         if self.dnpexp: # DNP is True, T10 is False
             self.fl.figurelist.append({'print_string':'\n\n' + r'\subparagraph{DNP parameters} \\' + '\n\n'})
-            self.fl.figurelist.append({'print_string':r'$k_{\sigma} S_{max} = \frac{%0.5f}{Conc} \pm %0.5f \ (s^{-1} M^{-1})$ \\'%(self.kSigmaC.data,self.kSigmaC.get_error())})
-            self.fl.figurelist.append({'print_string':r'$E_{max} = %0.3f \pm %0.3f \ (Unitless)$ \\'%(self.enhancementPowerSeries.output(r'E_{max}'),self.enhancementPowerSeries.covar(r'E_{max}')) + '\n\n'})
-            self.fl.figurelist.append({'print_string':r'$T_{1}(p=0) = %0.3f \pm %0.3f \ (Seconds) \\$'%(self.R1.data,self.R1.get_error()) + '\n\n'})
+            self.fl.figurelist.append({'print_string':r'$\mathtt{k_{\sigma} S_{max} = \frac{%0.5f}{Conc} \pm %0.5f \ (s^{-1} M^{-1})$}\\'%(self.kSigmaC.data,self.kSigmaC.get_error())})
+            self.fl.figurelist.append({'print_string':r'$\mathtt{E_{max} = %0.3f \pm %0.3f \ (Unitless)}$\\'%(self.enhancementPowerSeries.output(r'E_{max}'),self.enhancementPowerSeries.covar(r'E_{max}')) + '\n\n'})
+            self.fl.figurelist.append({'print_string':r'$\mathtt{T_{1}(p=0) = %0.3f \pm %0.3f \ (Seconds)}$\\'%(self.R1.data,self.R1.get_error()) + '\n\n'})
         elif self.nmrExp:
             self.fl.figurelist.append({'print_string':r'\subparagraph{$T_{1,0}$ Parameters}\\' + '\n\n'})
             for i in range(len(self.t1Series.data)):
-                self.fl.figurelist.append({'print_string':r'$T_{1}(p=0) = %0.3f \pm %0.3f\ (Seconds) \\$'%(self.t1Series.data[i],self.t1Series.get_error()[i]) + '\n\n'})
+                self.fl.figurelist.append({'print_string':r'$\mathtt{T_{1}(p=0) = %0.3f\ \pm\ %0.3f\ (Seconds)}$\\'%(self.t1Series.data[i],self.t1Series.get_error()[i]) + '\n\n'})
         if self.eprExp: 
-            self.fl.figurelist.append({'print_string':r'EPR Double Integral. \\Spectral count normalized by receiver gain and number of averages. \\$EPR_{DI} = %0.3f\ \frac{SC}{RG NA}$'%(self.doubleIntZC.data.max()) + '\n\n'})
-            self.fl.figurelist.append({'print_string':r'EPR center field = %0.2f G, spectral width = %0.2f G, and linewidhts = %0.2f, %0.2f, %0.2f G (low to high field)'%(self.centerField,self.spectralWidth,self.lineWidths[0],self.lineWidths[1],self.lineWidths[2]) + '\n\n'})
+            self.fl.figurelist.append({'print_string':r'$\mathtt{EPR\ Double\ Integral.\ EPR_{DI}\ =\ %0.3f\ \frac{SC}{RG NA}}$\\'%(self.diValue) + '\n\n'})
+            self.fl.figurelist.append({'print_string':r'$\mathtt{EPR\ center\ field\ =\ %0.2f\ G,\ spectral\ width\ =\ %0.2f\ G,\ and\ linewidhts\ =\ %0.2f,\ %0.2f,\ %0.2f\ G\ (low\ to\ high\ field)}$\\'%(self.centerField,self.spectralWidth,self.lineWidths[0],self.lineWidths[1],self.lineWidths[2]) + '\n\n'})
+            if self.spinConc:
+                self.fl.figurelist.append({'print_string':r'$\mathtt{EPR\ Spin\ Concentration\ =\ %0.1f\ \mu\ M}$\\'%(self.spinConc) + '\n\n'})
+
     ##}}}
 #}}}
 

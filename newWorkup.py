@@ -8,6 +8,7 @@ import sys
 from PyQt4.QtGui import QApplication, QDialog
 from PyQt4 import QtGui, QtCore
 from MainWindow import Ui_mainWindow,_translate
+from databaseRunner import SelectionWindow
 import os
 import returnIntegralsDev # this is where all of the workup code is held.
 #}}}
@@ -32,7 +33,7 @@ class initialWindow(QDialog, Ui_mainWindow):
         self.dataDirFile = 'datadir.txt'
         self.DataDir = None
         self.calSaveFile = 'calFile.txt'
-        self.CalFile = None
+        self.EPRCalFile = False
         self.dataBaseList = ['Select Value','Yes','No']#}}}
 
         # Find data directory and EPR calibration file#{{{
@@ -44,8 +45,8 @@ class initialWindow(QDialog, Ui_mainWindow):
         # Locate the calibration file
         if os.path.isfile(self.calSaveFile):
             opened = open(self.calSaveFile,'r')
-            self.CalFile =  opened.readline()
-            self.EPRCalFileDisplay.setText(_translate("Form",str(self.CalFile),None))#}}}
+            self.EPRCalFile =  opened.readline()
+            self.EPRCalFileDisplay.setText(_translate("Form",str(self.EPRCalFile),None))#}}}
 
         # load the database combo box with choices and make it editable#{{{
         self.databaseComboBox.addItems(self.dataBaseList)
@@ -77,8 +78,15 @@ class initialWindow(QDialog, Ui_mainWindow):
             self.dataBase = True
         elif text == 'No':
             self.dataBase = False
-        else:
-            self.dataBase = True#}}}
+        if self.dataBase:
+            frame = SelectionWindow(parent = self)
+            frame.exec_()
+            self.collection = frame.collection
+            self.databaseParamsDict = frame.databaseParamsDict
+            self.textBrowser.clear()
+            for key in self.databaseParamsDict.keys():
+                self.textBrowser.append(str(key) + ' ' + str(self.databaseParamsDict.get(key)))
+            #}}}
     def ODNPOpened(self):#{{{
         """ Handling for the ODNP file browser button """
         if self.DataDir:
@@ -108,8 +116,7 @@ class initialWindow(QDialog, Ui_mainWindow):
         else:
             self.EPRCalFile = str(QtGui.QFileDialog.getOpenFileName(self, 'Open file',os.getcwd()))
         self.EPRCalFile = os.path.abspath(self.EPRCalFile)
-        self.EPRCalFileDisplay.setText(_translate("Form",str(self.EPRCalFile),None))
-        self.eprExpBox.setChecked(True)#}}}
+        self.EPRCalFileDisplay.setText(_translate("Form",str(self.EPRCalFile),None)) #}}}
     def saveDataDir(self):#{{{
         """ Handling for the save data directory button """
         if self.DataDir:
@@ -118,10 +125,23 @@ class initialWindow(QDialog, Ui_mainWindow):
             opened.close()#}}}
     def saveCalFile(self):#{{{
         """ Handling for the save calibration data button """
-        if self.CalFile:
+        if self.EPRCalFile:
             opened = open(self.calSaveFile,'w')
-            opened.write(str(self.CalFile))
+            opened.write(str(self.EPRCalFile))
             opened.close()#}}}
+    def refreshDisplay(self):#{{{
+        """ Reset all display stuff for another go """
+        self.runButton.setEnabled(True)
+        self.databaseComboBox.clear()
+        self.databaseComboBox.addItems(self.dataBaseList)
+        self.databaseComboBox.setEditable(True)
+        self.dataBase = False
+        self.EPRFile = False
+        self.ODNPFile = False
+        self.T1File = False
+        self.ODNPDisplay.setText(_translate("Form",str("Enter File Name"),None))
+        self.T1Display.setText(_translate("Form",str("Enter File Name"),None))
+        self.EPRFileDisplay.setText(_translate("Form",str("Enter File Name"),None))#}}}
     def exitProgram(self):#{{{
         """ Handling for to exit the program """
         self.close()#}}}
@@ -137,18 +157,33 @@ class initialWindow(QDialog, Ui_mainWindow):
             odnpPath = str(self.ODNPFile)
         else:
             odnpPath = False
-        returnToProgram = returnIntegralsDev.workupODNP(self) # Call to work up the script
-        self.runButton.setEnabled(True)
-        self.databaseComboBox.clear()
-        self.databaseComboBox.addItems(self.dataBaseList)
-        self.databaseComboBox.setEditable(True)
-        self.dataBase = False
-        self.EPRFile = False
-        self.ODNPFile = False
-        self.T1File = False
-        self.ODNPDisplay.setText(_translate("Form",str("Enter File Name"),None))
-        self.T1Display.setText(_translate("Form",str("Enter File Name"),None))
-        self.EPRFileDisplay.setText(_translate("Form",str("Enter File Name"),None))
+        self.runExperiment()
+        self.refreshDisplay()
+
+    def runExperiment(self):
+        """ Make the calls to run the odnp experimental workup from returnIntegralsDev """
+        retInt = returnIntegralsDev.workupODNP(self) # Call to work up the script
+        if retInt.nmrExp: retInt.returnExpNumbers()
+        if retInt.nmrExp: retInt.returnNMRExpParamsDict() 
+        ### # if retInt.nmrExp: retInt.determineExperiment() # Should no longer be needed, hang on to incase you need something.
+        ### # else: print "EPR Experiment"
+        ### # retInt.determineDatabase()
+        ### On windows you cannot run from the command line any interaction with raw_input is rejected
+        if retInt.nmrExp: retInt.readSpecType()
+        if retInt.dnpexp: retInt.findFirstAtten() 
+        if retInt.nmrExp: retInt.editExpDict()
+        #if retInt.writeToDB: retInt.editDatabaseDict()
+        returnIntegralsDev.makeTitle("  Running Workup  ")
+        if retInt.eprExp: retInt.returnEPRData()
+        if retInt.dnpexp: retInt.dnpPowers()
+        if retInt.dnpexp: retInt.enhancementIntegration()
+        if retInt.nmrExp: retInt.T1Integration()
+        if retInt.dnpexp: retInt.makeT1PowerSeries()
+        if retInt.dnpexp: retInt.compKsigma()
+        if retInt.writeToDB: retInt.writeToDatabase()
+        retInt.dumpAllToCSV()
+        retInt.writeExpParams()
+        returnIntegralsDev.compilePDF(retInt.odnpName.split(retInt.odnpName[-1])[0],retInt.fl)#}}}
         #}}}
 #}}}
 #}}}

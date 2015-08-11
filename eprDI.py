@@ -62,6 +62,29 @@ def returnEPRExpDict(fileName,verbose=False):#{{{
             pass
     return expDict#}}}
 
+def returnEPRExpDictDSC(fileName):#{{{
+    """
+    This returns the exp dict stored in the dsc files written by xepr
+    """
+    openFile = open(fileName + '.DSC','r') # read the par
+    lines = openFile.readlines()
+    expDict = {}
+    for count,line in enumerate(lines):
+        cut = line.split('\n')[0]
+        try:
+            key,value = cut.split('\t')
+            expDict.update({key:value})
+        except:
+            pass
+        try:
+            splits = cut.split(' ')
+            key = splits[0]
+            value = splits[-2]+' '+splits[-1]
+            expDict.update({key:value})
+        except:
+            pass
+    return expDict#}}}
+
 def returnEPRSpec(fileName,doNormalize = True): #{{{
     """ 
     Return the cw-EPR derivative spectrum from the spc and par files output by the winEPR program.
@@ -76,14 +99,22 @@ def returnEPRSpec(fileName,doNormalize = True): #{{{
     1-D nddata dimensioned by field values of spectrum, and containing the EPR experimental parameters as other_info.
     """
     # Open the spc and par files and pull the data and relevant parameters
-    specData = fromfile(fileName+'.spc','<f') # read the spc
+    try:
+        expDict = returnEPRExpDict(fileName)
+        specData = fromfile(fileName+'.spc','<f') # read the spc
+        centerSet = float(expDict.get('HCF'))
+        sweepWidth = float(expDict.get('HSW'))
+        numScans = float(expDict.get('JNS')) # I'm not sure if this is right
+        rg = float(expDict.get('RRG'))
+    except:
+        expDict = returnEPRExpDictDSC(fileName)
+        specData = fromfile(fileName+'.DTA','>d') # or if it is a DTA file read that instead
+        centerSet = float(expDict.get('CenterField').split(' ')[0])
+        sweepWidth = float(expDict.get('SweepWidth').split(' ')[0])
+        numScans = float(expDict.get('NbScansAcc')) # Yea bruker just changes things...
+        rg = float(expDict.get('RCAG'))
     # calculate the field values and normalize by the number of scans and the receiver gain and return an nddata
-    expDict = returnEPRExpDict(fileName)
-    centerSet = float(expDict.get('HCF'))
-    sweepWidth = float(expDict.get('HSW'))
     fieldVals = pys.r_[centerSet-sweepWidth/2.:centerSet+sweepWidth/2.:len(specData)*1j]
-    numScans = float(expDict.get('JNS')) # I'm not sure if this is right
-    rg = float(expDict.get('RRG'))
     # normalize the data so there is coherence between different scans.
     if doNormalize:
         specData /= rg
@@ -177,12 +208,13 @@ def findPeaks(spec,numberOfPeaks):
 #}}}
 
 ### Import the files - for now this is hard coded and this only works with ASCII files, you need to change this so you can use the par files as well.
-eprPath = '/Users/StupidRobot/exp_data/ryan_emx/epr/150615_CheYSeries/'
-eprName = 'A80C_MTSL_386uM_10-1mm'
+eprPath = '/Users/StupidRobot/exp_data/ryan_rub/epr/'
+eprName = '970uM_4OHT'
 
 #{{{ EPR Workup stuff
 # Pull the specs, Find peaks, valleys, and calculate things with the EPR spectrum.#{{{
-spec = returnEPRSpec(eprPath+eprName)
+specData = fromfile(eprPath + eprName + '.DTA','>f')
+#spec = returnEPRSpec(eprPath+eprName)
 peak,valley = findPeaks(spec,3)
 lineWidths = valley.getaxis('field') - peak.getaxis('field') 
 spectralWidth = peak.getaxis('field').max() - peak.getaxis('field').min() 

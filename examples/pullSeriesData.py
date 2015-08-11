@@ -19,10 +19,10 @@ dispersionList = []
 listOfSets = list(collection.find(searchDict))
 dataTag = 'tau'
 fig = figure(figsize=(15,8))
-for count,dataSet in enumerate(listOfSets[0:-1]):
+for count,dataSet in enumerate(listOfSets[0:1]):
     tau = dtb.dictToNdData(dataTag,dataSet) # setting retValue to True gives me the fit value instead of the power data. Note this only works for kSigma and nothing else for now.
     tau.sort('site')
-    #plot(tau*1e12,'--.',alpha = 0.6,markersize=20,label='native state')
+    plot(tau*1e12,'--.',alpha = 0.6,markersize=20,label='native state')
     dispersionList.append(float(std(tau.data))/float(average(tau.data)))
 
 searchDict = {'setType':'seriesData','macroMolecule':'CheY','bindingPartner':'None','osmolyte':'urea','osmolyteConcentration':'5M'}
@@ -32,7 +32,7 @@ dataTag = 'tau'
 for count,dataSet in enumerate(listOfSets):
     tau = dtb.dictToNdData(dataTag,dataSet) # setting retValue to True gives me the fit value instead of the power data. Note this only works for kSigma and nothing else for now.
     tau.sort('site')
-    #plot(tau*1e12,'--.',alpha = 0.6,markersize=20,label='native 5M Urea')
+    plot(tau*1e12,'--.',alpha = 0.6,markersize=20,label='native 5M Urea')
     dispersionList.append(float(std(tau.data))/float(average(tau.data)))
 
 searchDict = {'setType':'seriesData','macroMolecule':'CheY','bindingPartner':'None','osmolyte':'urea','osmolyteConcentration':'8M'}
@@ -42,7 +42,7 @@ dataTag = 'tau'
 for count,dataSet in enumerate(listOfSets):
     tau = dtb.dictToNdData(dataTag,dataSet) # setting retValue to True gives me the fit value instead of the power data. Note this only works for kSigma and nothing else for now.
     tau.sort('site')
-    #plot(tau*1e12,'--.',alpha = 0.6,markersize=20,label='native 8M Urea')
+    plot(tau*1e12,'--.',alpha = 0.6,markersize=20,label='native 8M Urea')
     dispersionList.append(float(std(tau.data))/float(average(tau.data)))
 
 searchDict = {'setType':'seriesData','macroMolecule':'CheYPep','bindingPartner':'None','osmolyte':'None','osmolyteConcentration':'None'}

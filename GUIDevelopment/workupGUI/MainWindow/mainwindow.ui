@@ -138,18 +138,11 @@
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout_2">
-       <item>
-        <widget class="QLabel" name="label_6">
-         <property name="text">
-          <string>Add to Database?</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QComboBox" name="databaseComboBox"/>
-       </item>
-      </layout>
+      <widget class="QPushButton" name="addToDatabaseButton">
+       <property name="text">
+        <string>Add To Database</string>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QPushButton" name="DataDirSaveButton">
@@ -188,10 +181,6 @@
      </item>
     </layout>
    </widget>
-   <zorder>gridLayoutWidget</zorder>
-   <zorder>label</zorder>
-   <zorder>titleLabel</zorder>
-   <zorder>verticalLayoutWidget</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

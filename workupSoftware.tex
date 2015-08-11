@@ -64,6 +64,16 @@ Here go through how to get up and running once everything is installed.
 \chapter{Database Information}
 I'm using mongodb to database all the worked up data according to a hierarchical scheme. This will allow a user to search the database for entries based on certain parameters. \\
 
+\section{New and Improved Scheme}
+I learned from the last scheme that it was utterly imperitive to hold all keys and values very constrained such that one could search by a certain key value pair and get meaningful data.
+
+What I want to do with this scheme is add more structure in entering key values such that it's not as difficult for the end user to make sure they're doing it correctly. This means breaking keys into categories; (1) measurable keys (such as concentration), (2) definition keys (such as spin label site or macromolecule), (3) silent keys (such as setType - ones the end user does not interact with), and (4) searchable keys (ones that can be queried in the database).
+
+To identify each key I'm going to use a special character (*!@) and so fourth, the end user wont see this. I'll layout the scheme below.
+
+{\bf Now that I'm thinking about this i'm not sure I want to lay things out like this. I think treating every key as measurable is best that way somethign that I don't think is measurable can be treated that way. and so fourth} \o[I'm working this new script key Testing.py that I will use to optimize my method]{}
+
+\section{Old Scheme}
 What I've learned after spending sometime working with the database is that organization is bloody necessary! Ultimately the key addition to the database needs to be strictly controlled, if it isn't then it's going to turn into a huge mess. The database keys that I currently am using are listed below.\\
 
 Also note that when storing a value in the database use the full name of the protein and specify units for instance CheY should be written as 'Chemotaxis Y' and concentration should be '180 uM' or '1.65 mg/ml'. \\
@@ -72,23 +82,23 @@ I save the data in the database in this format
 # {'data':{'t1':{'data':listOfData,'error':listOfError,'dim1':listOfDim1Vals,'dimNames':listOfDimNames},'enhancement':{'data':listOfData,'error':listOfError,'dim1':listOfDim1Vals,'dimNames':listOfDimNames}}}
 This allows me to nicely store the data without clogging the database keys with a bunch of crap.
 
-\section{Proper Databasing Format}
+\subsection{Proper Databasing Format}
 Following proper format is {\bf BLOODY FUCKING NECESSARY!!!} That being said let I outline below what proper format should be.
 
-\subsection{Macromolecule}
+\subsubsection{Macromolecule}
 Any macromolecule such as a protein or liposome should be entered in full chemical name. For instance CheY should be entered in as Chemotaxis Y, with the appropriate capitalization and spacing!
 
 The first letter should be capitalized and the spacing between words should be adhered to.
 
 A liposome such as DOPC should be entered is as 1,2-Dioleoyl-sn-glycero-3phosphocholine. 
 
-I realize this is a pain in the ass but this is why the workup script pulls your last entry for the databasing section of the code in hopes that you don't need to enter this in many times.
+I realize this is a pain in the ass but this is why the workup script pulls your last entry for the databasing subsection of the code in hopes that you don't need to enter this in many times.
 
-\subsection{Concentration}
+\subsubsection{Concentration}
 
 
 
-\section{Database Key Definitions}
+\subsection{Database Key Definitions}
 Currently the search headings include:
 \begin{enumerate}
     \item \o{operator} - this is the experimenter's name e.g. Ryan Barnes.
@@ -102,7 +112,7 @@ Currently the search headings include:
     \item \o{solvent} - this is the solvent for the experiment.
     \item \o{otherNotes} - this is other notes useful for the experiment such as what the hell binding partner is or what series measurement this is part of. For instance I measure CheY in absence and presence of Urea to see what happens when I denature CheY. I say in other notes 'part of CheY denaturation experiment'.
 \end{enumerate}
-\section{Pulling Data from the Database}
+\subsection{Pulling Data from the Database}
 
 Right now this is notes to Ryan. 
 I make a first attempt at pulling the ODNP data, specifically $k_{\sigma}$ data from the database in the script \o['returnDatabaseCheY.py']{}.
@@ -137,6 +147,15 @@ I start a gui for browsing the database in browseDatabase/main.py.
 
 
 
+
+I keep new files for developing the workupGUI software in a folder GUIDevelopment/workupGUI/.
+
+\chapter{To work on Today}
+This is a list of things I am currently working on / need to work on.
+\begin{enumerate}
+    \item $\Box$ {\bf Integrate} You need to fix this so it lines up all of the peaks accordingly. You can add something to allow max drift to vary in the GUI front end but a more thorough fix would be to make integrate work correctly. \o[15/07/20]{}
+    \item $\checkmark$ Add a GUI impleentation to constrain options of choice for entering in database values.
+\end{enumerate}
 \chapter{Development}
 \section{New Implementations:}
 \begin{enumerate}
