@@ -446,8 +446,6 @@ class workupODNP(): #{{{ The ODNP Experiment
             self.odnpPath = self.guiParent.ODNPFile
             self.nmrExp = True
             self.dnpexp = True
-            self.t1AddInitialPower = False
-            self.dnpAddInitialPower = False
             self.setType = 'dnpExp'
         elif self.guiParent.T1File:
             self.odnpPath = self.guiParent.T1File
@@ -627,31 +625,11 @@ class workupODNP(): #{{{ The ODNP Experiment
             #}}}
         #}}}
 
-    def findFirstAtten(self):#{{{
-        ### This is where the actual code starts
-        for count in range(len(self.parameterDict['dnpExps'])):
-            titleString = self.expTitles[self.parameterDict['dnpExps'][count]-1][0]
-            if 'DNP' in titleString:
-                self.dnpFirstAtten = float(titleString.split(' ')[2])
-                break
-        for count in range(len(self.parameterDict['t1Exp'])):
-            titleString = self.expTitles[self.parameterDict['t1Exp'][count]-1][0]
-            if 'T1' in titleString:
-                self.t1FirstAtten = float(titleString.split(' ')[3])
-                break
-        print "DNP first attenuation", self.dnpFirstAtten
-        print "T1 first attenuation", self.t1FirstAtten
-        if float(self.dnpFirstAtten) == float(31.5):
-            self.dnpAddInitialPower = True
-        if self.t1FirstAtten == float(31.5):
-            self.t1AddInitialPower = True
-        print self.dnpAddInitialPower#}}}
-
     def editExpDict(self):#{{{
         """ Instead of using raw input you need to use this gettext functionality from Qt. This will work until you make a dialog to do this.
         Edit the experimental parameters dict
         """
-        paramsToEdit = [['t1StartingGuess','Enter the T1 Guess (s):'],['integrationWidth','Enter the Integration Width (Hz):'],['t1SeparatePhaseCycle','separate phase cycle yes = 1, no = 0:'],['thresholdE','Enter the threshold for enhancement powers:'],['thresholdT1','Enter the threshold for T1 powers:']]
+        paramsToEdit = [['t1StartingGuess','Enter the T1 Guess (s):'],['integrationWidth','Enter the Integration Width (Hz):'],['t1SeparatePhaseCycle','separate phase cycle yes = 1, no = 0:']]
         for dictKey,textToWrite in paramsToEdit:
             text, ok = QtGui.QInputDialog.getText(self.guiParent, 'Experimental Parameters', textToWrite,QtGui.QLineEdit.Normal,str(self.parameterDict.get(dictKey)))
             if ok:
@@ -674,8 +652,6 @@ class workupODNP(): #{{{ The ODNP Experiment
         t1StartingGuess = 2.5 # best guess for T1
         ReturnKSigma = True ### This needs to be False because my code is broken
         t1SeparatePhaseCycle = 1.0 ### Did you save the phase cycles separately?
-        thresholdE = 0.05
-        thresholdT1 = 0.3
         maxDrift = 10000.
         badT1 = []
         # Write parameters to dict if file exists or pull params from existing file
@@ -687,8 +663,6 @@ class workupODNP(): #{{{ The ODNP Experiment
                             't1StartingGuess':t1StartingGuess,
                             'ReturnKSigma':ReturnKSigma,
                             't1SeparatePhaseCycle':t1SeparatePhaseCycle,
-                            'thresholdE':thresholdE,
-                            'thresholdT1':thresholdT1,
                             'badT1':badT1,
                             'maxDrift':maxDrift,
                             }
@@ -846,7 +820,7 @@ class workupODNP(): #{{{ The ODNP Experiment
             for expTitle in self.expTitles:
                 print expTitle 
             raise ValueError("\n\nThe experiment numbers are not set appropriately, please scroll through the experiment titles above and set values appropriately")
-        enhancementPowers,self.fl.figurelist = nmr.returnSplitPowers(self.odnpPath,'power',expTimeMin = expTimeMin.data,expTimeMax = expTimeMin.data + 20.0,timeDropStart = 10,addInitialPower = self.dnpAddInitialPower,threshold = self.parameterDict['thresholdE'],titleString = 'Enhancement Powers',firstFigure = self.fl.figurelist)
+        enhancementPowers,self.fl.figurelist = nmr.returnSplitPowers(self.odnpPath,'power',absTime = absTime,threshold = 0.5,titleString = r'Enhancement\ Powers',firstFigure = self.fl.figurelist)
         enhancementPowers = list(enhancementPowers)
         enhancementPowers.insert(0,-100)
         enhancementPowers = array(enhancementPowers)
@@ -859,24 +833,8 @@ class workupODNP(): #{{{ The ODNP Experiment
             for title in self.expTitles:
                 self.fl.figurelist.append({'print_string':r"%s, exp number %s"%(title[0].split('\n')[0],title[1])})#}}}
             compilePDF(self.name,self.fl)
-            #answer = raw_input("\n\n --> Do you need to adjust the thresholdE parameter? Currently thresholdE = %0.2f. (If no, type 'no'. If yes, type the new threshold value e.g. '0.5') \n\n ->> "%self.parameterDict['thresholdE'])
-            #if answer != 'no':
-            #    self.parameterDict.update({'thresholdE':eval(answer)})
-            #    print"\n\n Parameter Saved \n\n"
-            #answer = raw_input("\n\n --> Do you need to adjust the DNP experiment numbers? (If no, type 'no'. If yes, type the new experiment numbers.) \n\n An appropriate answer would be r_[5:27] (this gives an array of values from 5 upto but not including 27) \n\n ->> ")
-            #if answer != 'no':
-            #    self.parameterDict.update({'dnpExps':eval(answer)})
-            #    print"\n\n Parameter Saved \n\n"
-            #dtb.writeDict(self.expParametersFile,self.parameterDict)
             raise ValueError("\n\n Something is weird with your powers file. Take a look at the pdf and see if you can make changes. Or just paste in a working powers file. Hint you might also find adjusting the threshold parameters helps.")
             #}}}
-            # Open the enhancement powers file and dump to csv
-            powerFile = loadmat(self.odnpPath + '/power.mat')
-            powersE = powerFile.pop('powerlist')
-            powersE = nmr.dbm_to_power(powersE)
-            powersE = [x for i in powersE for x in i]
-            timesE = powerFile.pop('timelist')
-            timesE = [x for i in timesE for x in i]
             #}}}
 
         # The T1 Power Series#{{{
@@ -886,7 +844,7 @@ class workupODNP(): #{{{ The ODNP Experiment
             print self.expTitles
             raise ValueError("\n\nThe experiment numbers are not set appropriately, please scroll through the experiment titles above and set values appropriately")
         # I have the same problem with the dnp powers, if the starting attenuation is full attenuation '31.5' then there is no initial jump and we need to deal with it the same way. Right now I pull from constant 24 in the aquisition parameters. This should now work without having to ask the user.
-        t1Power,self.fl.figurelist = nmr.returnSplitPowers(self.odnpPath,'t1_powers',expTimeMin = expTimes.min(),expTimeMax=expTimeMin.data + expTimeMin.data/2,addInitialPower = self.t1AddInitialPower,threshold = self.parameterDict['thresholdT1'],titleString = 'T1 ',firstFigure = self.fl.figurelist)
+        t1Power,self.fl.figurelist = nmr.returnSplitPowers(self.odnpPath,'t1_powers',absTime = absTime,threshold = 0.5,titleString = r'T_1\ Powers',firstFigure = self.fl.figurelist)
         t1Power = list(t1Power)
         t1Power.append(-99.0) # Add the zero power for experiment 304
         t1Power = array(t1Power)
@@ -899,26 +857,9 @@ class workupODNP(): #{{{ The ODNP Experiment
             for titleName in self.expTitles:
                 self.fl.figurelist.append({'print_string':r"%s"%titleName})#}}}
             compilePDF(self.name,self.fl)
-            #answer = raw_input("\n\n --> Do you need to adjust the thresholdT1 parameter? Currently thresholdT1 = %0.2f. (If no, type 'no'. If yes, type the new threshold value e.g. '0.5') \n\n ->> "%self.parameterDict['thresholdT1'])
-            #if answer != 'no':
-            #    self.parameterDict.update({'thresholdT1':eval(answer)})
-            #    print"\n\n Parameter Saved \n\n"
-            #answer = raw_input("\n\n --> Do you need to adjust the T1 experiment numbers? (If no, type 'no'. If yes, type the new experiment numbers.) \n\n An appropriate answer would be r_[28:38,304] (this gives an array of values from 28 upto but not including 38 and adds the number 304 to the end of the array.) \n\n ->> ")
-            #if answer != 'no':
-            #    self.parameterDict.update({'t1Exp':eval(answer)})
-            #    print"\n\n Parameter Saved \n\n"
-            #dtb.writeDict(self.expParametersFile,self.parameterDict)
-            #print"\n\n Updated parameters are saved \n\n"
             raise ValueError("\n\n Something is weird with your powers file. Take a look at the pdf and see if you can make changes. Or just paste in a working powers file. Hint you might also find adjusting the threshold parameters helps.")
         #}}}
 
-            # Open the t1 powers file and dump to csv
-            powerFile = loadmat(self.odnpPath + '/t1_powers.mat')
-            powersT1 = powerFile.pop('powerlist')
-            powersT1 = dbm_to_power(powersT1)
-            powersT1 = [x for i in powersT1 for x in i]
-            timesT1 = powerFile.pop('timelist')
-            timesT1 = [x for i in timesT1 for x in i]
             #}}}
     #}}}
 

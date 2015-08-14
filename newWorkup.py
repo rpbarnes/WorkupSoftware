@@ -170,7 +170,6 @@ class initialWindow(QDialog, Ui_mainWindow):
         ### # retInt.determineDatabase()
         ### On windows you cannot run from the command line any interaction with raw_input is rejected
         if retInt.nmrExp: retInt.readSpecType()
-        if retInt.dnpexp: retInt.findFirstAtten() 
         if retInt.nmrExp: retInt.editExpDict()
         #if retInt.writeToDB: retInt.editDatabaseDict()
         returnIntegralsDev.makeTitle("  Running Workup  ")
