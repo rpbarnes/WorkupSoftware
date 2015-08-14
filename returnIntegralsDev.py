@@ -841,7 +841,7 @@ class workupODNP(): #{{{ The ODNP Experiment
     def dnpPowers(self): ### Work up the power files#{{{
         # The enhancement series#{{{
         self.fl.figurelist.append({'print_string':r'\subparagraph{Enhancement Power Measurement}' + '\n\n'})
-        expTimes,expTimeMin = nmr.returnExpTimes(self.odnpPath,self.parameterDict['dnpExps'],dnpExp = True,operatingSys = self.systemOpt) # this is not a good way because the experiment numbers must be set right.
+        expTimes,expTimeMin,absTime = nmr.returnExpTimes(self.odnpPath,self.parameterDict['dnpExps'],dnpExp = True,operatingSys = self.systemOpt) # this is not a good way because the experiment numbers must be set right.
         if not expTimeMin:
             for expTitle in self.expTitles:
                 print expTitle 
@@ -881,7 +881,7 @@ class workupODNP(): #{{{ The ODNP Experiment
 
         # The T1 Power Series#{{{
         self.fl.figurelist.append({'print_string':r'\subparagraph{$T_1$ Power Measurement}' + '\n\n'})
-        expTimes,expTimeMin = nmr.returnExpTimes(self.odnpPath,self.parameterDict['t1Exp'],dnpExp = False,operatingSys = self.systemOpt) # this is not a good way because the experiment numbers must be set right.
+        expTimes,expTimeMin,absTime = nmr.returnExpTimes(self.odnpPath,self.parameterDict['t1Exp'],dnpExp = False,operatingSys = self.systemOpt) # this is not a good way because the experiment numbers must be set right.
         if not expTimeMin:
             print self.expTitles
             raise ValueError("\n\nThe experiment numbers are not set appropriately, please scroll through the experiment titles above and set values appropriately")
@@ -1138,7 +1138,7 @@ class workupODNP(): #{{{ The ODNP Experiment
     def writeExpParams(self): ##{{{ Write out the relevant values from the DNP experiment
         if self.dnpexp: # DNP is True, T10 is False
             self.fl.figurelist.append({'print_string':'\n\n' + r'\subparagraph{DNP parameters} \\' + '\n\n'})
-            self.fl.figurelist.append({'print_string':r'$\mathtt{k_{\sigma} S_{max} = \frac{%0.5f}{Conc} \pm %0.5f \ (s^{-1} M^{-1})$}\\'%(self.kSigmaC.data,self.kSigmaC.get_error())})
+            self.fl.figurelist.append({'print_string':r'$\mathtt{k_{\sigma} S_{max} = \frac{%0.5f}{Conc} \pm %0.5f \ (s^{-1} M^{-1})}$\\'%(self.kSigmaC.data,self.kSigmaC.get_error())})
             self.fl.figurelist.append({'print_string':r'$\mathtt{E_{max} = %0.3f \pm %0.3f \ (Unitless)}$\\'%(self.enhancementPowerSeries.output(r'E_{max}'),self.enhancementPowerSeries.covar(r'E_{max}')) + '\n\n'})
             self.fl.figurelist.append({'print_string':r'$\mathtt{T_{1}(p=0) = %0.3f \pm %0.3f \ (Seconds)}$\\'%(self.R1.data,self.R1.get_error()) + '\n\n'})
         elif self.nmrExp:
