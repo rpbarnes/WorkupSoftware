@@ -24,6 +24,7 @@ class initialWindow(QDialog, Ui_mainWindow):
         QDialog.__init__(self)
         # Setup the user interface from designer
         self.setupUi(self)
+        self.retInt = returnIntegralsDev.workupODNP(self) # Initialize the workup script
 
         # variable definitions#{{{
         self.EPRFile = False
@@ -72,20 +73,7 @@ class initialWindow(QDialog, Ui_mainWindow):
         self.DataDirDisplay.setText(_translate("Form",str(self.DataDir),None))#}}}
     def dbComboChanged(self):#{{{
         """ Handling for the database combo box """
-        text = str(self.databaseComboBox.currentText())
-        print text
-        if text == 'Yes':
-            self.dataBase = True
-        elif text == 'No':
-            self.dataBase = False
-        if self.dataBase:
-            frame = SelectionWindow(parent = self)
-            frame.exec_()
-            self.collection = frame.collection
-            self.databaseParamsDict = frame.databaseParamsDict
-            self.textBrowser.clear()
-            for key in self.databaseParamsDict.keys():
-                self.textBrowser.append(str(key) + ' ' + str(self.databaseParamsDict.get(key)))
+        print "This does nothing anymore."
             #}}}
     def ODNPOpened(self):#{{{
         """ Handling for the ODNP file browser button """
@@ -142,6 +130,7 @@ class initialWindow(QDialog, Ui_mainWindow):
         self.ODNPDisplay.setText(_translate("Form",str("Enter File Name"),None))
         self.T1Display.setText(_translate("Form",str("Enter File Name"),None))
         self.EPRFileDisplay.setText(_translate("Form",str("Enter File Name"),None))#}}}
+        self.textBrowser.clear()
     def exitProgram(self):#{{{
         """ Handling for to exit the program """
         self.close()#}}}
@@ -149,40 +138,32 @@ class initialWindow(QDialog, Ui_mainWindow):
         """ Handling for the run program button to launch the return integrals workup program """
         # Read the check boxes to determine the type of experiment and database desire.
         self.runButton.setDisabled(True)
-        if self.EPRFile:
-            eprName = str(self.EPRFile).split('.')[0]
-        else:
-            eprName = False
-        if self.ODNPFile:
-            odnpPath = str(self.ODNPFile)
-        else:
-            odnpPath = False
         self.runExperiment()
-        self.refreshDisplay()
-
-    def runExperiment(self):
+        self.refreshDisplay()#}}}
+    def runExperiment(self):#{{{
         """ Make the calls to run the odnp experimental workup from returnIntegralsDev """
-        retInt = returnIntegralsDev.workupODNP(self) # Call to work up the script
-        if retInt.nmrExp: retInt.returnExpNumbers()
-        if retInt.nmrExp: retInt.returnNMRExpParamsDict() 
-        ### # if retInt.nmrExp: retInt.determineExperiment() # Should no longer be needed, hang on to incase you need something.
+        self.retInt.determineExpType()
+        self.retInt.editDatabase()
+        if self.retInt.nmrExp: self.retInt.returnExpNumbers()
+        if self.retInt.nmrExp: self.retInt.returnNMRExpParamsDict() 
+        ### # if self.retInt.nmrExp: self.retInt.determineExperiment() # Should no longer be needed, hang on to incase you need something.
         ### # else: print "EPR Experiment"
-        ### # retInt.determineDatabase()
+        ### # self.retInt.determineDatabase()
         ### On windows you cannot run from the command line any interaction with raw_input is rejected
-        if retInt.nmrExp: retInt.readSpecType()
-        if retInt.nmrExp: retInt.editExpDict()
-        #if retInt.writeToDB: retInt.editDatabaseDict()
+        if self.retInt.nmrExp: self.retInt.readSpecType()
+        if self.retInt.nmrExp: self.retInt.editExpDict()
+        #if self.retInt.writeToDB: self.retInt.editDatabaseDict()
         returnIntegralsDev.makeTitle("  Running Workup  ")
-        if retInt.eprExp: retInt.returnEPRData()
-        if retInt.dnpexp: retInt.dnpPowers()
-        if retInt.dnpexp: retInt.enhancementIntegration()
-        if retInt.nmrExp: retInt.T1Integration()
-        if retInt.dnpexp: retInt.makeT1PowerSeries()
-        if retInt.dnpexp: retInt.compKsigma()
-        if retInt.writeToDB: retInt.writeToDatabase()
-        retInt.dumpAllToCSV()
-        retInt.writeExpParams()
-        returnIntegralsDev.compilePDF(retInt.odnpName.split(retInt.odnpName[-1])[0],retInt.fl)#}}}
+        if self.retInt.eprExp: self.retInt.returnEPRData()
+        if self.retInt.dnpexp: self.retInt.dnpPowers()
+        if self.retInt.dnpexp: self.retInt.enhancementIntegration()
+        if self.retInt.nmrExp: self.retInt.T1Integration()
+        if self.retInt.dnpexp: self.retInt.makeT1PowerSeries()
+        if self.retInt.dnpexp: self.retInt.compKsigma()
+        if self.dataBase: self.retInt.writeToDatabase()
+        self.retInt.dumpAllToCSV()
+        self.retInt.writeExpParams()
+        returnIntegralsDev.compilePDF(self.retInt.name,self.retInt.odnpName,self.retInt.fl)#}}}
         #}}}
 #}}}
 #}}}

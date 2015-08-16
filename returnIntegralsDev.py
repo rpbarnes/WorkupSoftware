@@ -7,6 +7,7 @@ The goal is to implement this code as is in the new GUI format.
 import time
 from scipy.interpolate import interp1d
 from lmfit import minimize,Parameters ### This makes another hoop for installing software that you don't really use... I actually really think this should be implemented as nddata functions. Or as fit classes.
+from databaseRunner import SelectionWindow
 import shutil
 import nmrfit
 import nmr
@@ -383,7 +384,7 @@ class Capturing(list):
 #}}}
 
 #{{{ Compile the pdf output
-def compilePDF(name,fl):
+def compilePDF(name,folder,fl):
     print "\n\nCompiling pdf"
     systemOpt = os.name 
     with Capturing() as output:
@@ -410,16 +411,16 @@ def compilePDF(name,fl):
         process=subprocess.Popen(['pdflatex','plots.tex'],shell=True)
         process.wait()
         print "sleeping because windows yells at me"
-        process=subprocess.Popen(['move','plots.tex',name],shell=True)
-        process=subprocess.Popen(['move','plots.pdf',name],shell=True)
+        process=subprocess.Popen(['move','plots.tex',folder],shell=True)
+        process=subprocess.Popen(['move','plots.pdf',folder],shell=True)
         process.wait()
-        subprocess.Popen(['SumatraPDF.exe',r'%s\plots.pdf'%name],shell=True)
+        subprocess.Popen(['SumatraPDF.exe',r'%s\plots.pdf'%folder],shell=True)
     elif systemOpt == 'posix':
         process=subprocess.call(['pdflatex','plots.tex'])
         #process.wait()
-        shutil.copy('plots.tex',name)
-        shutil.copy('plots.pdf',name)
-        subprocess.call(['open','-a','/Applications/Preview.app','%s/plots.pdf'%name])
+        shutil.copy('plots.tex',folder)
+        shutil.copy('plots.pdf',folder)
+        subprocess.call(['open','-a','/Applications/Preview.app','%s/plots.pdf'%folder])
     #Need to add extension for linux support!
 #}}}
 #}}}
@@ -428,14 +429,16 @@ odnpPath = '/Users/StupidRobot/exp_data/ryan_emx/nmr/150616_CheY_T71C_NaPi_RT_OD
 eprName = '/Users/StupidRobot/exp_data/ryan_emx/epr/150615_CheYSeries/A97C_MTSL_5MUrea_12-9mm.spc'
 
 class workupODNP(): #{{{ The ODNP Experiment
-    def __init__(self,guiParent):
+    def __init__(self,guiParent): # note this is not the way to pass the program a parent instance as this will not work in the current configuration. 
         self.guiParent = guiParent # import everything from the parent gui into this child class. This way we can manipulate the gui from here.
         self.runningDir = os.getcwd()
         self.systemOpt = os.name
-        self.writeToDB = self.guiParent.dataBase
-        if self.writeToDB:
-            self.databaseParamsDict = self.guiParent.databaseParamsDict
-        self.dnpexp = self.guiParent.ODNPFile
+        self.fl = fnb.figlist()
+
+
+    # Class Specific Functions (Children) #{{{
+    def determineExpType(self): #{{{
+        """ Determine the experiment type and label variables accordingly. Also make the directory for the file to go. """
         if self.guiParent.EPRFile:
             self.eprName = self.guiParent.EPRFile.split('.')[0]
             self.eprExp = True
@@ -459,41 +462,29 @@ class workupODNP(): #{{{ The ODNP Experiment
                 self.setType = 'eprExp'
             else:
                 raise ValueError("You didn't give me an NMR experiment or an EPR experiment. What the hell do you want from me??")
-        self.fl = fnb.figlist()
-        self.MONGODB_URI = 'mongodb://rbarnes:tgb47atgb47a@ds047040.mongolab.com:47040/magresdata' 
-
         # Some file handling stuff for cross platform compatibility - Any OS specific change should be made here#{{{
         if self.systemOpt == 'nt':
             self.name = self.odnpPath.split('\\')[-1]
             self.runningDir += '\\'
-            self.odnpName = self.name + '\\'
+            self.odnpName = self.odnpPath + '\\Workup\\'
             if self.eprName:
                 self.eprFileName = self.eprName.split('\\')[-1]
-            # ### Debugging ###
-            # print '*'*80
-            # print 'Debug'
-            # print '*'*80
-            # print 'name = ',self.name
-            # print 'runningDir = ', self.runningDir
-            # print 'odnpName = ', self.odnpName
-            # print 'eprName = ',self.eprName
-            # print 'eprFileName = ',self.eprFileName
         elif self.systemOpt == 'posix':
             self.name = self.odnpPath.split('/')[-1]
             self.runningDir += '/'
-            self.odnpName = self.name + '/'
+            self.odnpName = self.odnpPath + '/Workup/'
             if self.eprName:
                 self.eprFileName = self.eprName.split('/')[-1]#}}}
-
-        # make the experiment directory to dump all of the high level data#{{{
+        # Write parameters to the parent 
+        self.guiParent.name = self.name
+        self.guiParent.setType = self.setType
+        # make the experiment directory to dump all of the high level data
         try:
             os.mkdir(self.odnpName)
         except:
             print "file exists"
             pass#}}}
 
-
-    # Class Specific Functions (Children) #{{{
     def readSpecType(self):#{{{
         """ Read the proc file to find which spectrometer the ODNP experiment was run on. Used for the dBm to watt conversion. """
         filetoread = os.path.abspath(self.odnpPath + '/5/pdata/1/proc') # this should return os specific filetype
@@ -625,9 +616,27 @@ class workupODNP(): #{{{ The ODNP Experiment
             #}}}
         #}}}
 
+    def editDatabase(self):#{{{
+        """ Query to edit the database parameters """
+        msg = 'Do you want to write your data to the database?'
+        reply = QtGui.QMessageBox.question(self.guiParent, 'Database Information', msg, QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
+        if reply == QtGui.QMessageBox.Yes: # you want to save the data so edit the databaseParamsDict and set database to true.
+            self.guiParent.dataBase = True
+            frame = SelectionWindow(parent = self.guiParent)
+            frame.exec_()
+            self.collection = frame.collection
+            self.databaseParamsDict = frame.databaseParamsDict
+            self.guiParent.textBrowser.clear()
+            for key in self.databaseParamsDict.keys():
+                self.guiParent.textBrowser.append(str(key) + ' ' + str(self.databaseParamsDict.get(key)))
+        else:
+            self.guiParent.dataBase = False#}}}
+
     def editExpDict(self):#{{{
         """ Instead of using raw input you need to use this gettext functionality from Qt. This will work until you make a dialog to do this.
         Edit the experimental parameters dict
+
+        Cancel should stop the workup.
         """
         paramsToEdit = [['t1StartingGuess','Enter the T1 Guess (s):'],['integrationWidth','Enter the Integration Width (Hz):'],['t1SeparatePhaseCycle','separate phase cycle yes = 1, no = 0:']]
         for dictKey,textToWrite in paramsToEdit:
@@ -773,15 +782,8 @@ class workupODNP(): #{{{ The ODNP Experiment
                 print "\nI did not understand your answer. Please try again.\n" + "*"*80
         #}}}
 
-    def configDatabase(self):#{{{
-        self.conn = pymongo.MongoClient('localhost',27017) 
-        db = self.conn.homeDB 
-        self.collection = db.localData # This is my test collection
-        self.collection = self.guiParent.collection
-        self.databaseParamsDict = self.guiParent.databaseParamsDict#}}}
-
     def editDatabaseDict(self): #{{{ Modify the database parameters dictionary
-        """ No longer used """
+        """ No longer used. Dead function"""
         makeTitle("  Database Parameters  ")
         # Make the connection to the server as client
         self.conn = pymongo.MongoClient(self.MONGODB_URI) # Connect to the database that I purchased
@@ -820,7 +822,7 @@ class workupODNP(): #{{{ The ODNP Experiment
             for expTitle in self.expTitles:
                 print expTitle 
             raise ValueError("\n\nThe experiment numbers are not set appropriately, please scroll through the experiment titles above and set values appropriately")
-        enhancementPowers,self.fl.figurelist = nmr.returnSplitPowers(self.odnpPath,'power',absTime = absTime,threshold = 0.5,titleString = r'Enhancement\ Powers',firstFigure = self.fl.figurelist)
+        enhancementPowers,self.fl.figurelist = nmr.returnSplitPowers(self.odnpPath,'power',absTime = absTime,bufferVal = 3*self.parameterDict['t1StartingGuess'],threshold = 0.5,titleString = r'Enhancement\ Powers',firstFigure = self.fl.figurelist)
         enhancementPowers = list(enhancementPowers)
         enhancementPowers.insert(0,-100)
         enhancementPowers = array(enhancementPowers)
@@ -844,7 +846,7 @@ class workupODNP(): #{{{ The ODNP Experiment
             print self.expTitles
             raise ValueError("\n\nThe experiment numbers are not set appropriately, please scroll through the experiment titles above and set values appropriately")
         # I have the same problem with the dnp powers, if the starting attenuation is full attenuation '31.5' then there is no initial jump and we need to deal with it the same way. Right now I pull from constant 24 in the aquisition parameters. This should now work without having to ask the user.
-        t1Power,self.fl.figurelist = nmr.returnSplitPowers(self.odnpPath,'t1_powers',absTime = absTime,threshold = 0.5,titleString = r'T_1\ Powers',firstFigure = self.fl.figurelist)
+        t1Power,self.fl.figurelist = nmr.returnSplitPowers(self.odnpPath,'t1_powers',absTime = absTime,bufferVal = 3*self.parameterDict['t1StartingGuess'],threshold = 0.5,titleString = r'T_1\ Powers',firstFigure = self.fl.figurelist)
         t1Power = list(t1Power)
         t1Power.append(-99.0) # Add the zero power for experiment 304
         t1Power = array(t1Power)
@@ -899,7 +901,9 @@ class workupODNP(): #{{{ The ODNP Experiment
     def makeT1PowerSeries(self): #{{{  The T1 power series
         self.t1PowerSeries = self.t1Series.copy().rename('expNum','power').labels(['power'],[array(self.t1Power)])
         self.fl.figurelist = pys.nextfigure(self.fl.figurelist,'T1PowerSeries')
+        self.t1PowerFitVal,self.t1PowerFit = self.t1PowerSeries.polyfit('power')
         pys.plot(self.t1PowerSeries,'r.')
+        pys.plot(self.t1PowerFit,'b-')
         pys.giveSpace()
         pys.ylabel('$T_{1}\\ (s)$')
         pys.title('$T_1$ Power Series')
@@ -1010,35 +1014,38 @@ class workupODNP(): #{{{ The ODNP Experiment
                 print "I just removed ", idNum," from the collection."
         print "I'm writing your current data to the collection"
         ### Here write in the data set information. 
-        self.databaseParamsDict.pop('_id')
+        try:
+            # remove the idnumber if it exists.
+            self.databaseParamsDict.pop('_id')
+        except:
+            pass
         # dump the metadata to a csv for viewing.
-        dictToCSV(self.name +'/metadata',self.databaseParamsDict)
+        dictToCSV(self.odnpName +'metadata',self.databaseParamsDict)
         dataDict = {}
         if self.dnpexp:
-            if self.enhancementPowerSeries:
+            if self.enhancementPowerSeries: 
                 dim = self.enhancementPowerSeries.dimlabels[0]
-                dataDict.update({'enhancement':{'data':self.enhancementPowerSeries.data.tolist(),'error':self.enhancementPowerSeries.get_error().tolist(),'dim0':self.enhancementPowerSeries.getaxis(dim).tolist(),'dimNames':self.enhancementPowerSeries.dimlabels}})
+                fitList = [self.enhancementPowerSeries.output(r'E_{max}'),self.enhancementPowerSeries.output(r'v'),self.enhancementPowerSeries.output(r'A')]
+                dataDict.update({'enhancementODNP':{'data':self.enhancementPowerSeries.data.tolist(),'error':self.enhancementPowerSeries.get_error().tolist(),'dim0':self.enhancementPowerSeries.getaxis(dim).tolist(),'dimNames':list(self.enhancementPowerSeries.dimlabels),'fitList':fitList}})
             if self.t1PowerSeries:
                 dim = self.t1PowerSeries.dimlabels[0]
-                dataDict.update({'t1Power':{'data':self.t1PowerSeries.data.tolist(),'error':self.t1PowerSeries.get_error().tolist(),'dim0':self.t1PowerSeries.getaxis(dim).tolist(),'dimNames':self.t1PowerSeries.dimlabels}})
-            if self.parameterDict['ReturnKSigma']:     
+                dataDict.update({'t1PowerODNP':{'data':self.t1PowerSeries.data.tolist(),'error':self.t1PowerSeries.get_error().tolist(),'dim0':self.t1PowerSeries.getaxis(dim).tolist(),'dimNames':list(self.t1PowerSeries.dimlabels),'fitList':self.t1PowerFitVal.tolist()}})
+            if self.parameterDict['ReturnKSigma']:  ### Need fit!!
                 dim = self.kSigmaCCurve.dimlabels[0]
-                dataDict.update({'kSigma':{'data':self.kSigmaCCurve.runcopy(real).data.tolist(),'error':self.kSigmaCCurve.get_error().tolist(),'dim0':self.kSigmaCCurve.getaxis(dim).tolist(),'dimNames':self.kSigmaCCurve.dimlabels,'value':self.kSigmaCCurve.output(r'ksmax'),'valueError':sqrt(self.kSigmaCCurve.covar(r'ksmax'))}})
+                fitList = [self.kSigmaCCurve.output(r'ksmax'),self.kSigmaCCurve.output(r'phalf')]
+                dataDict.update({'kSigmaODNP':{'data':self.kSigmaCCurve.runcopy(real).data.tolist(),'error':self.kSigmaCCurve.get_error().tolist(),'dim0':self.kSigmaCCurve.getaxis(dim).tolist(),'dimNames':list(self.kSigmaCCurve.dimlabels),'value':self.kSigmaCCurve.output(r'ksmax'),'valueError':sqrt(self.kSigmaCCurve.covar(r'ksmax')),'fitList':fitList}})
             if self.eprExp:
-                self.specDict = {'epr':{'data':self.spec.data.tolist(),'dataDI':self.doubleIntZC.data.tolist(),'dim0':self.spec.getaxis('field').tolist(),'dimNames':self.spec.dimlabels[0],'centerField':str(self.centerField),'lineWidths':list(self.lineWidths),'spectralWidth':str(self.spectralWidth),'doubleIntegral':str(self.diValue),'spinConcentration':str(self.spinConc),'expDict':self.spec.other_info}}
-                dataDict.update(self.specDict)
+                dataDict.update({'cwEPR':{'data':self.spec.data.tolist(),'dataDI':self.doubleIntZC.data.tolist(),'dim0':self.spec.getaxis('field').tolist(),'dimNames':list(self.spec.dimlabels),'centerField':str(self.centerField),'mwFreq':str(self.spec.other_info.get('MF')),'lineWidths':list(self.lineWidths),'spectralWidth':str(self.spectralWidth),'doubleIntegral':str(self.doubleIntZC.data.max()),'expDict':self.spec.other_info}})
         ### For the T10 experiment just write the T1 experiment series.
-        if self.nmrExp: # Save the T10 values
+        elif self.nmrExp: # Save the T10 values
             if self.t1Series:
                 dim = self.t1Series.dimlabels[0]
-                dataDict.update({'t1':{'data':self.t1Series.data.tolist(),'error':self.t1Series.get_error().tolist(),'dim0':self.t1Series.getaxis(dim).tolist(),'dimNames':self.t1Series.dimlabels}})
-        if self.eprExp:
-            self.specDict = {'epr':{'data':self.spec.data.tolist(),'dataDI':self.doubleIntZC.data.tolist(),'dim0':self.spec.getaxis('field').tolist(),'dimNames':self.spec.dimlabels[0],'centerField':str(self.centerField),'lineWidths':list(self.lineWidths),'spectralWidth':str(self.spectralWidth),'doubleIntegral':str(self.doubleIntZC.data.max()),'expDict':self.spec.other_info}}
-            dataDict.update(self.specDict)
+                dataDict.update({'t1ODNP':{'data':self.t1Series.data.tolist(),'error':self.t1Series.get_error().tolist(),'dim0':self.t1Series.getaxis(dim).tolist(),'dimNames':list(self.t1Series.dimlabels)}})
+        elif self.eprExp:
+            dataDict.update({'cwEPR':{'data':self.spec.data.tolist(),'dataDI':self.doubleIntZC.data.tolist(),'dim0':self.spec.getaxis('field').tolist(),'dimNames':list(self.spec.dimlabels[0]),'centerField':str(self.centerField),'mwFreq':str(self.spec.other_info.get('MF')),'lineWidths':list(self.lineWidths),'spectralWidth':str(self.spectralWidth),'doubleIntegral':str(self.doubleIntZC.data.max()),'expDict':self.spec.other_info}})
 
         self.databaseParamsDict.update({'data':dataDict})
         self.collection.insert(self.databaseParamsDict) # Save the database parameters to the database in case the code crashes
-        self.conn.close()
         #}}}
 
     def dumpAllToCSV(self): #{{{ Write everything to a csv file as well

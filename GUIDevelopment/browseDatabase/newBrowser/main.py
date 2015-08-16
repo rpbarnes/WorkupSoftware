@@ -124,7 +124,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.connectDatabase()
 
         self.databaseParamsDict = dtb.returnDatabaseDictionary(self.collection)
-        self.databaseParamsDict.pop('otherNotes')
+        try:
+            self.databaseParamsDict.pop('otherNotes')
+        except:
+            pass
         self.databaseParamsDict.pop('setType')
         self.mainFrame.browseDatabaseButton.clicked.connect(self.on_pushButton_clicked)
         self.databaseBrowser = MyDatabaseBrowser(self,setType = 'dnpExp')
@@ -209,7 +212,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.mainFrame.PlotErrorTextEdit.append(stringToWrite)
 
 
-    def drawSeriesPlot(self):
+    def drawSeriesPlot(self):#{{{
         """ Draw the plot for the series data sets. This function figures out what plot to draw based on self.plotType . For now just draws kSigma"""
         self.mainFrame.seriesPlotWidget.axes.clear()
         self.titleString = ''
@@ -231,9 +234,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.mainFrame.seriesPlotWidget.axes.set_title(r'$\mathtt{%s}$'%self.titleString)
         pys.giveSpace()
         self.mainFrame.seriesPlotWidget.fig.tight_layout()
-        self.mainFrame.seriesPlotWidget.canvas.draw()
+        self.mainFrame.seriesPlotWidget.canvas.draw()#}}}
 
-    def retSeriesData(self):
+    def retSeriesData(self):#{{{
         """ This is going to pull the kSigma value, T1 zero power value, EPR DI value. If T10 is available it should also return T10, kRho, xi, and tau. 
         
         To Do: 
@@ -263,7 +266,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 indepDim = float(dataSet.get(self.seriesXDim))
             indepDimList.append(indepDim)
         self.kSigma = pys.concat(kSigmaList,'value').rename('value',self.seriesXDim).labels(self.seriesXDim,pys.array(indepDimList))
-        self.t1 = pys.concat(t1List,'power').rename('power',self.seriesXDim).labels(self.seriesXDim,pys.array(indepDimList))
+        self.t1 = pys.concat(t1List,'power').rename('power',self.seriesXDim).labels(self.seriesXDim,pys.array(indepDimList))#}}}
 
     def findAndAddSets(self):#{{{
         """ Find the sets that are defined by the selections in the combo boxes and populates the dataListWidget with the expNames.
@@ -321,18 +324,28 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def calculateFits(self):#{{{
         """ Calculate the fits to both the T1 set and the kSigma set 
+
+        This will change to just returning the fit values given the parameters of the fit.
         """
         dataSet = list(self.collection.find({'expName':self.currentListSelection}))[0]
-        t1Data = dtb.dictToNdData('t1Power',dataSet)
+        # t1
+        t1Data = dtb.dictToNdData('t1PowerODNP',dataSet)
         t1Data.sort('power')
-        # weighted fit as function of power
-        out = minimize(residualLinear, params, args=(t1Data.getaxis('power'), t1Data.runcopy(pys.real).data, t1Data.get_error()))
-        t1Fit = pys.nddata(analyticLinear(out.params,t1Data.getaxis('power'))).rename('value','power').labels('power',t1Data.getaxis('power'))
-        kSigmaData = dtb.dictToNdData('kSigma',dataSet,retValue = False) 
-        kSigmaData = nmrfit.ksp(kSigmaData)
+        t1fits = dataSet.get('data').get('t1PowerODNP').get('fitList')
+        powerArray = pys.r_[t1Data.getaxis('power').min():t1Data.getaxis('power').max():100j]
+        t1Fit = pys.nddata(t1fits[0] + t1fits[1]*powerArray).rename('value','power').labels('power',powerArray)
+        # kSigma
+        kSigmaData = dtb.dictToNdData('kSigmaODNP',dataSet,retValue = False) 
+        powerArray = pys.r_[kSigmaData.getaxis('power').min():kSigmaData.getaxis('power').max():100j]
+        ksFits = dataSet.get('data').get('kSigmaODNP').get('fitList')
+        kSigmaFit = pys.nddata(ksFits[0]/(ksFits[1]+powerArray)*powerArray).rename('value','power').labels('power',powerArray)
         ### This just takes way too fing long!!
-        kSigmaData.fit()
-        self.dataDict.update({self.currentListSelection:{'kSigma':kSigmaData,'t1Set':t1Data,'t1SetFit':t1Fit}})
+        try:
+            eprData = dtb.dictToNdData('cwEPR',dataSet)
+        except:
+            eprData = False
+        dataToPlot = {'kSigma':kSigmaData,'kSigmaFit':kSigmaFit,'t1Set':t1Data,'t1SetFit':t1Fit,'cwEPR':eprData}
+        self.dataDict.update({self.currentListSelection:dataToPlot})
         #}}}
 
     def onPlot(self):#{{{
@@ -370,28 +383,44 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         t1Data = self.dataDict.get(self.dataToPlot).get('t1Set')
         t1Fit = self.dataDict.get(self.dataToPlot).get('t1SetFit')
         kSigmaData = self.dataDict.get(self.dataToPlot).get('kSigma')
+        kSigmaFit = self.dataDict.get(self.dataToPlot).get('kSigmaFit')
         self.mainFrame.plotWidget1.axes.plot(t1Data.getaxis('power'),t1Data.data, '.',color = self.colorToPlot)
         self.mainFrame.plotWidget1.axes.plot(t1Fit.getaxis('power'),t1Fit.data, '-',color = self.colorToPlot)
         self.mainFrame.plotWidget.axes.plot(kSigmaData.getaxis('power'),kSigmaData.data, '.',color = self.colorToPlot)
-        self.mainFrame.plotWidget.axes.plot(kSigmaData.eval(100).getaxis('power'),kSigmaData.eval(100).data, '-',color = self.colorToPlot)
+        self.mainFrame.plotWidget.axes.plot(kSigmaFit.getaxis('power'),kSigmaFit.data, '-',color = self.colorToPlot)
+        eprData = self.dataDict.get(self.dataToPlot).get('cwEPR')
+        if eprData:
+            self.mainFrame.plotWidget2.axes.plot(eprData.getaxis('field'),eprData.data, '-',color = self.colorToPlot)
+        else:
+            self.appendPlotError('EPR data for %s is not available'%self.dataToPlot)
         #}}}
 
     def drawDataPlotAxes(self):#{{{
         """ Draw the axes for the data plots """
+        # T1 Plot
         self.mainFrame.plotWidget1.axes.legend()
         self.mainFrame.plotWidget1.axes.tick_params(axis='both',which='both',top='off',right='off')
         self.mainFrame.plotWidget1.axes.set_xlabel(r'$\mathtt{power\ (W)}$')
         self.mainFrame.plotWidget1.axes.set_ylabel(r'$\mathtt{time\ (s)}$')
         self.mainFrame.plotWidget1.axes.set_title(r'$\mathtt{T1(p)\ series}$')
-        self.mainFrame.plotWidget1.canvas.draw()
         self.mainFrame.plotWidget1.fig.tight_layout()
+        self.mainFrame.plotWidget1.canvas.draw()
+        # K Sigma Plot
         self.mainFrame.plotWidget.axes.legend()
         self.mainFrame.plotWidget.axes.tick_params(axis='both',which='both',top='off',right='off')
         self.mainFrame.plotWidget.axes.set_xlabel(r'$\mathtt{power\ (W)}$')
         self.mainFrame.plotWidget.axes.set_ylabel(r'$\mathtt{k_{\sigma}\ (M/s)}$')
         self.mainFrame.plotWidget.axes.set_title(r'$\mathtt{k_{\sigma}(p)\ Series}$')
-        self.mainFrame.plotWidget.canvas.draw()
         self.mainFrame.plotWidget.fig.tight_layout()
+        self.mainFrame.plotWidget.canvas.draw()
+        # EPR Plot
+        self.mainFrame.plotWidget2.axes.legend()
+        self.mainFrame.plotWidget2.axes.tick_params(axis='both',which='both',top='off',right='off')
+        self.mainFrame.plotWidget2.axes.set_xlabel(r'$\mathtt{field\ (G)}$')
+        self.mainFrame.plotWidget2.axes.set_ylabel(r'$\mathtt{spectral\ intensity}$')
+        self.mainFrame.plotWidget2.axes.set_title(r'$\mathtt{CW\ EPR}$')
+        self.mainFrame.plotWidget2.fig.tight_layout()
+        self.mainFrame.plotWidget2.canvas.draw()
         #}}}
 
     def createPlotBox(self,plotObject):#{{{
@@ -435,7 +464,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         #self.collection = db.hanLabODNPTest # This is my test collection
         self.conn = pymongo.MongoClient('localhost',27017) # Connect to the database that I purchased
         db = self.conn.homeDB # 'dynamicalTransition' is the name of my test database
-        self.collection = db.localData # This is my test collection#}}}
+        self.collection = db.localDataRevisedDataLayout # This is my test collection#}}}
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
