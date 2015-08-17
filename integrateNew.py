@@ -26,11 +26,12 @@ close('all')
 
 from matlablike import *
 import fornotebook 
+
 import nmr
 file = '/Users/StupidRobot/exp_data/ryan_rub/nmr/150804_ODNPTEST/'
 expno = 101
-#file = '/Users/StupidRobot/exp_data/ryan_cnsi/nmr/150228_CheY_D41C_None_271uM_NoUrea_RT_ODNP/'
-#expno = r_[5:27]
+file = '/Users/StupidRobot/exp_data/ryan_cnsi/nmr/150228_CheY_D41C_None_271uM_NoUrea_RT_ODNP/'
+expno = r_[5:27]
 #{{{ Definitions
 integration_width=1e3
 dimname = 'delay'
@@ -56,8 +57,28 @@ phchannel = [-1]
 returnIntData= False
 offset_corr = 0#}}}
 timeZeroGlitch = True
+fl = fornotebook.figlistl()
 
 
+data,fl.figurelist = nmr.integrate(file,expno,phnum=[4],phchannel=[-1],first_figure=fl.figurelist,pdfstring='no glitch removal')
+fl.figurelist = nextfigure(fl.figurelist,'integralsnoRem')
+plot(data.runcopy(real),label='real')
+plot(data.runcopy(imag),label='imag')
+plot(data.runcopy(abs),label='abs')
+title('No Zero Glitch Removal')
+legend(loc=3)
+
+data,fl.figurelist = nmr.integrate(file,expno,phnum=[4],phchannel=[-1],first_figure=fl.figurelist,forceGlitch=100,pdfstring='glitch removal')
+fl.figurelist = nextfigure(fl.figurelist,'integralsRem')
+plot(data.runcopy(real),label='real')
+plot(data.runcopy(imag),label='imag')
+plot(data.runcopy(abs),label='abs')
+title('Yes Zero Glitch Removal')
+legend(loc=3)
+
+
+show()
+y=poop
 
 ### Canned nmr methods. the load_file needs to be modified to accept the old filetype of bruker formats
 phcycdims = ['phcyc%d'%j for j in range(1,len(phnum)+1)]

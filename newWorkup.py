@@ -127,10 +127,10 @@ class initialWindow(QDialog, Ui_mainWindow):
         self.EPRFile = False
         self.ODNPFile = False
         self.T1File = False
+        self.textBrowser.clear()
         self.ODNPDisplay.setText(_translate("Form",str("Enter File Name"),None))
         self.T1Display.setText(_translate("Form",str("Enter File Name"),None))
         self.EPRFileDisplay.setText(_translate("Form",str("Enter File Name"),None))#}}}
-        self.textBrowser.clear()
     def exitProgram(self):#{{{
         """ Handling for to exit the program """
         self.close()#}}}
