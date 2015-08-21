@@ -4,6 +4,7 @@ This is a modularized version of returnIntegrals
 The goal is to implement this code as is in the new GUI format.
 """
 # Functions to import #{{{
+import fornotebook as fnb
 import time
 from scipy.interpolate import interp1d
 from lmfit import minimize,Parameters ### This makes another hoop for installing software that you don't really use... I actually really think this should be implemented as nddata functions. Or as fit classes.
@@ -21,7 +22,6 @@ import database as dtb
 import sys
 import subprocess
 import pickle
-import fornotebook as fnb
 from scipy.io import loadmat,savemat
 from numpy import *#}}}
 
@@ -480,10 +480,15 @@ class workupODNP(): #{{{ The ODNP Experiment
         self.guiParent.setType = self.setType
         # make the experiment directory to dump all of the high level data
         try:
+            os.mkdir(self.odnpPath)
+        except:
+            print "folder exists"
+            pass#}}}
+        try:
             os.mkdir(self.odnpName)
         except:
             print "file exists"
-            pass#}}}
+            pass
 
     def readSpecType(self):#{{{
         """ Read the proc file to find which spectrometer the ODNP experiment was run on. Used for the dBm to watt conversion. """
