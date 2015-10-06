@@ -13,8 +13,6 @@ To Do:
     ** 1) You should funtionalize this so that you're not copying code from one location to the other!
     ** 3) Fit the ends of the absorption spec to a line and subtract the line from the spectrum.
     ** 4) Calculate the double integrated value and check to make sure the end is flat
-    ** 13) Carefully go over databasing scheme! - this seems correct for now although I am not currently writing anything to the database
-    ** 14) Dump data to a csv file.
 """
 
 import matlablike as pys
@@ -26,6 +24,34 @@ pys.close('all')
 fl = fnb.figlist()
 
 # Various Definitions and classes#{{{
+def calcSpinConc(calibrationFile):#{{{
+    """
+    Use the EPR Double integral value to calculate the sample concentration given a calibration file.
+    Format of the calibration file (csv).
+    Concentration (uM) X Double Integral Value
+    ConcVal              DI Val
+
+    Args:
+    CalibrationFile - csv of calibration
+
+    returns:
+    calibration - the estimated concentration of the spin system
+    """
+    openFile = open(calibrationFile,'rt')
+    lines = openFile.readlines()
+    lines = lines[0].split('\r')
+    lines.pop(0)
+    concL = []
+    diL = []
+    for line in lines:
+        conc,di = line.split(',')
+        concL.append(float(conc))
+        diL.append(float(di))
+    openFile.close()
+
+    calib = pys.nddata(pys.array(diL)).rename('value','concentration').labels('concentration',pys.array(concL))
+    return calib#}}}
+
 def returnEPRExpDict(fileName,verbose=False):#{{{
     """
     Return all of the experiment parameters stored in the '.par' file output by the Bruker
@@ -210,51 +236,55 @@ def findPeaks(spec,numberOfPeaks,verbose = False):#{{{
 #}}}
 
 ### Import the files - for now this is hard coded and this only works with ASCII files, you need to change this so you can use the par files as well.
-eprPath = '/Users/StupidRobot/exp_data/ryan_rub/epr/'
-eprName = '970uM_4OHT'
+eprPath = '/Users/StupidRobot/exp_data/ryan_cnsi/epr/151002CheYConcentrationSeries/'
+eprName = 'CheYT71C-ASC'
+eprName = eprPath + eprName
 
 ### This should be a function.
-def returnEPRData(eprFileName,eprPath,firstFigure): #{{{ EPR Workup stuff
+def workupCwEpr(eprName,spectralWidthMultiplier = 1.,EPRCalFile=False,firstFigure=[]): #{{{ EPR Workup stuff
     """
     Perform the epr baseline correction and double integration.
 
     Args:
-    self.eprName - string - full name of the EPR file.
+    eprName - string - full name of the EPR file.
 
     Returns:
-    self.spec - nddata - the EPR spectra with other info set to the EPR params dict.
-    self.lineWidths - list - the EPR linewidths
-    self.spectralWidth - double - the EPR peak to peak spectral width
-    self.centerField - double - the centerfield
-    self.doubleIntZC - nddata - the double integral spectrum
+    spec - nddata - the EPR spectra with other info set to the EPR params dict.
+    lineWidths - list - the EPR linewidths
+    spectralWidth - double - the EPR peak to peak spectral width
+    centerField - double - the centerfield
+    doubleIntZC - nddata - the double integral spectrum
     """
     firstFigure.append({'print_string':r'\subparagraph{EPR Spectra %s}'%eprName + '\n\n'})
+    eprFileName = eprName.split('\\')[-1]
     # Pull the specs, Find peaks, valleys, and calculate things with the EPR spectrum.#{{{
-    self.spec = eprDi.returnEPRSpec(self.eprName)
-    peak,valley = eprDi.findPeaks(self.spec,3)
-    self.lineWidths = valley.getaxis('field') - peak.getaxis('field') 
-    self.spectralWidth = peak.getaxis('field').max() - peak.getaxis('field').min() 
-    self.centerField = peak.getaxis('field')[1] + self.lineWidths[1]/2.# assuming the center point comes out in the center. The way the code is built this should be robust
-    specStart = self.centerField - self.spectralWidth
-    specStop = self.centerField + self.spectralWidth
-    print "\nI calculate the spectral width to be: ",self.spectralWidth," G \n"
-    print "I calculate the center field to be: ",self.centerField," G \n"
+    spec = returnEPRSpec(eprName)
+    peak,valley = findPeaks(spec,3)
+    lineWidths = valley.getaxis('field') - peak.getaxis('field') 
+    spectralWidth = peak.getaxis('field').max() - peak.getaxis('field').min() 
+    centerField = peak.getaxis('field')[1] + lineWidths[1]/2.# assuming the center point comes out in the center. The way the code is built this should be robust
+    specStart = centerField - spectralWidthMultiplier*spectralWidth
+    specStop = centerField + spectralWidthMultiplier*spectralWidth
+    print "\nI calculate the spectral width to be: ",spectralWidth," G \n"
+    print "I calculate the center field to be: ",centerField," G \n"
     print "I set spectral bounds of: ", specStart," and ", specStop," G \n"#}}}
 
     # Baseline correct the spectrum #{{{
-    baseline1 = self.spec['field',lambda x: x < specStart].copy().mean('field')
-    baseline2 = self.spec['field',lambda x: x > specStop].copy().mean('field')
+    baseline1 = spec['field',lambda x: x < specStart].copy()
+    baseline2 = spec['field',lambda x: x > specStop].copy()
     specBase = array(list(baseline1.data) + list(baseline2.data))
     fieldBase = array(list(baseline1.getaxis('field')) + list(baseline2.getaxis('field')))
-    baseline = average(specBase)
-    self.spec.data -= baseline
+    specBase = pys.nddata(specBase).rename('value','field').labels('field',fieldBase)
+    ### Calculate 0th, 1st, and 3rd order baselines
+    baseline = average(specBase.data)
+    spec.data -= baseline # zeroth order correct the spectrum
 
     # Plot the results
     firstFigure = pys.nextfigure(firstFigure,'EPRSpectra')
-    pys.plot(self.spec,'m',alpha=0.6)
+    pys.plot(spec,'m',alpha=0.6)
     pys.plot(peak,'ro',markersize=10)
     pys.plot(valley,'ro',markersize=10)
-    pys.plot(self.spec['field',lambda x: logical_and(x>specStart,x<specStop)],'b')
+    pys.plot(spec['field',lambda x: logical_and(x>specStart,x<specStop)],'b')
     pys.title('Integration Window')
     pys.ylabel('Spectral Intensity')
     pys.xlabel('Field (G)')
@@ -262,7 +292,7 @@ def returnEPRData(eprFileName,eprPath,firstFigure): #{{{ EPR Workup stuff
     #}}}
 
     ### Take the first integral #{{{
-    absorption = self.spec.copy().integrate('field')#}}}
+    absorption = spec.copy().integrate('field')#}}}
 
     # Fit the bounds of the absorption spec to a line and subtract from absorption spectrum.#{{{
     baseline1 = absorption['field',lambda x: x < specStart]
@@ -270,38 +300,48 @@ def returnEPRData(eprFileName,eprPath,firstFigure): #{{{ EPR Workup stuff
     fieldBaseline = array(list(baseline1.getaxis('field')) + list(baseline2.getaxis('field')))
     baseline = pys.concat([baseline1,baseline2],'field')
     baseline.labels('field',fieldBaseline)
-    c,fit = baseline.polyfit('field',order = 1)
-    fit = pys.nddata(array(c[0] + absorption.getaxis('field')*c[1])).rename('value','field').labels('field',absorption.getaxis('field'))
-    correctedAbs = absorption - fit#}}}
+    # Do the first order correction
+    c1,fit1 = baseline.polyfit('field',order = 1)
+    fit1 = pys.nddata(array(c1[0] + absorption.getaxis('field')*c1[1])).rename('value','field').labels('field',absorption.getaxis('field'))
+    correctedAbs1st = absorption - fit1
+    c3,fit3 = baseline.polyfit('field',order = 3)
+    fit3 = pys.nddata(array(c3[0] + absorption.getaxis('field')*c3[1] + (absorption.getaxis('field')**2)*c3[2] + (absorption.getaxis('field')**3)*c3[3])).rename('value','field').labels('field',absorption.getaxis('field'))
+    correctedAbs3rd = absorption - fit3
+    #}}}
 
     # Set the values of absorption spec outside of int window to zero.#{{{
-    zeroCorr = correctedAbs.copy()
+    zeroCorr = correctedAbs1st.copy()
     zeroCorr['field',lambda x: x < specStart] = 0.0
     zeroCorr['field',lambda x: x > specStop] = 0.0#}}}
 
     # Plot absorption results#{{{
     firstFigure = pys.nextfigure(firstFigure,'Absorption')
-    pys.plot(absorption)
-    pys.plot(fit)
-    pys.plot(correctedAbs)
-    pys.plot(zeroCorr)
+    pys.plot(absorption,label='uncorrected')
+    pys.plot(fit1,label='1st order fit')
+    pys.plot(fit3,label='3rd order fit')
+    pys.plot(correctedAbs1st,label='1st corr')
+    pys.plot(correctedAbs3rd,label='3rd corr')
+    pys.plot(zeroCorr,label='zero cut')
     pys.title('Absorption Spectrum')
     pys.ylabel('Absorptive Signal')
     pys.xlabel('Field (G)')
     pys.giveSpace(spaceVal=0.001)
+    pys.legend()
     #}}}
 
     # Calculate and plot the double integral for the various corrections you've made #{{{
     doubleInt = absorption.copy().integrate('field')
-    doubleIntC = correctedAbs.copy().integrate('field')
-    self.doubleIntZC = zeroCorr.copy().integrate('field')
-    self.diValue = self.doubleIntZC.data.max()
-    print "\nI calculate the double integral to be: %0.2f\n"%self.diValue
+    doubleIntC1 = correctedAbs1st.copy().integrate('field')
+    doubleIntC3 = correctedAbs3rd.copy().integrate('field')
+    doubleIntZC = zeroCorr.copy().integrate('field')
+    diValue = doubleIntZC.data.max()
+    print "\nI calculate the double integral to be: %0.2f\n"%diValue
 
     firstFigure = pys.nextfigure(firstFigure,'DoubleIntegral')
     pys.plot(doubleInt,label='uncorrected')
-    pys.plot(doubleIntC,label='corrected')
-    pys.plot(self.doubleIntZC,label='zero corrected')
+    pys.plot(doubleIntC1,label='1st corrected')
+    pys.plot(doubleIntC3,label='3rd corrected')
+    pys.plot(doubleIntZC,label='zero corrected')
     pys.legend(loc=2)
     pys.title('Double Integral Results')
     pys.ylabel('Second Integral (arb)')
@@ -310,25 +350,28 @@ def returnEPRData(eprFileName,eprPath,firstFigure): #{{{ EPR Workup stuff
     #}}}
     
     # If the calibration file is present use that to calculate spin concentration#{{{
-    if self.guiParent.EPRCalFile:
-        self.calib = calcSpinConc(self.guiParent.EPRCalFile)
+    if EPRCalFile:
+        calib = calcSpinConc(EPRCalFile)
         ### Fit the series and calculate concentration
-        c,fit = self.calib.polyfit('concentration')
-        self.spinConc = (self.diValue - c[0])/c[1]
+        c,fit = calib.polyfit('concentration')
+        spinConc = (diValue - c[0])/c[1]
         # Plotting 
         firstFigure = pys.nextfigure(firstFigure,'SpinConcentration')
-        pys.plot(self.calib,'r.',markersize = 15)
+        pys.plot(calib,'r.',markersize = 15)
         pys.plot(fit,'g')
-        pys.plot(self.spinConc,self.diValue,'b.',markersize=20)
+        pys.plot(spinConc,diValue,'b.',markersize=20)
         pys.title('Estimated Spin Concentration')
         pys.xlabel('Spin Concentration')
         pys.ylabel('Double Integral')
         ax = pys.gca()
-        ax.text(self.spinConc,self.diValue - (0.2*self.diValue),'%0.2f uM'%self.spinConc,color='blue',fontsize=15)
+        ax.text(spinConc,diValue - (0.2*diValue),'%0.2f uM'%spinConc,color='blue',fontsize=15)
         pys.giveSpace()
     else:
-        self.spinConc = None
+        spinConc = None
         #}}}
+    return spec,lineWidths,spectralWidth,centerField,doubleIntZC,diValue,spinConc
     #}}}
+
+#spec,lineWidths,spectralWidth,centerField,doubleIntZC = workupCwEpr(eprName)
 
 

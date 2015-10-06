@@ -145,13 +145,14 @@ class initialWindow(QDialog, Ui_mainWindow):
         self.retInt.determineExpType()
         self.retInt.editDatabase()
         if self.retInt.nmrExp: self.retInt.returnExpNumbers()
-        if self.retInt.nmrExp: self.retInt.returnNMRExpParamsDict() 
+        self.retInt.returnExpParamsDict()
         ### # if self.retInt.nmrExp: self.retInt.determineExperiment() # Should no longer be needed, hang on to incase you need something.
         ### # else: print "EPR Experiment"
         ### # self.retInt.determineDatabase()
         ### On windows you cannot run from the command line any interaction with raw_input is rejected
         if self.retInt.nmrExp: self.retInt.readSpecType()
         if self.retInt.nmrExp: self.retInt.editExpDict()
+        if self.retInt.eprExp: self.retInt.editExpDictEPR()
         #if self.retInt.writeToDB: self.retInt.editDatabaseDict()
         returnIntegralsDev.makeTitle("  Running Workup  ")
         if self.retInt.eprExp: self.retInt.returnEPRData()

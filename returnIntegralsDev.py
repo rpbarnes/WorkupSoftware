@@ -27,33 +27,6 @@ from scipy.io import loadmat,savemat
 from numpy import *#}}}
 
 #{{{ Various definitions and classes
-def calcSpinConc(calibrationFile):#{{{
-    """
-    Use the EPR Double integral value to calculate the sample concentration given a calibration file.
-    Format of the calibration file (csv).
-    Concentration (uM) X Double Integral Value
-    ConcVal              DI Val
-
-    Args:
-    CalibrationFile - csv of calibration
-
-    returns:
-    calibration - the estimated concentration of the spin system
-    """
-    openFile = open(calibrationFile,'rt')
-    lines = openFile.readlines()
-    lines = lines[0].split('\r')
-    lines.pop(0)
-    concL = []
-    diL = []
-    for line in lines:
-        conc,di = line.split(',')
-        concL.append(float(conc))
-        diL.append(float(di))
-    openFile.close()
-
-    calib = pys.nddata(pys.array(diL)).rename('value','concentration').labels('concentration',pys.array(concL))
-    return calib#}}}
 
 def dictToCSV(fileName, dataDict): #{{{
     """
@@ -329,6 +302,7 @@ class workupODNP(): #{{{ The ODNP Experiment
                     #}}}
 
     def returnEPRData(self): #{{{ EPR Workup stuff
+        self.spec,self.lineWidths,self.spectralWidth,self.centerField,self.doubleIntZC,self.diValue,self.spinConc = eprDI.workupCwEpr(self.eprName,self.parameterDict.get('spectralWidthMultiplier'),EPRCalFile=self.guiParent.EPRCalFile,firstFigure=self.fl.figurelist)
         """
         Perform the epr baseline correction and double integration.
 
@@ -342,108 +316,108 @@ class workupODNP(): #{{{ The ODNP Experiment
         self.centerField - double - the centerfield
         self.doubleIntZC - nddata - the double integral spectrum
         """
-        self.fl.figurelist.append({'print_string':r'\subparagraph{EPR Spectra %s}'%self.eprFileName + '\n\n'})
-        # Pull the specs, Find peaks, valleys, and calculate things with the EPR spectrum.#{{{
-        self.spec = eprDI.returnEPRSpec(self.eprName)
-        peak,valley = eprDI.findPeaks(self.spec,3)
-        self.lineWidths = valley.getaxis('field') - peak.getaxis('field') 
-        self.spectralWidth = peak.getaxis('field').max() - peak.getaxis('field').min() 
-        self.centerField = peak.getaxis('field')[1] + self.lineWidths[1]/2.# assuming the center point comes out in the center. The way the code is built this should be robust
-        specStart = self.centerField - self.spectralWidth
-        specStop = self.centerField + self.spectralWidth
-        print "\nI calculate the spectral width to be: ",self.spectralWidth," G \n"
-        print "I calculate the center field to be: ",self.centerField," G \n"
-        print "I set spectral bounds of: ", specStart," and ", specStop," G \n"#}}}
+        #self.fl.figurelist.append({'print_string':r'\subparagraph{EPR Spectra %s}'%self.eprFileName + '\n\n'})
+        ## Pull the specs, Find peaks, valleys, and calculate things with the EPR spectrum.#{{{
+        #self.spec = eprDI.returnEPRSpec(self.eprName)
+        #peak,valley = eprDI.findPeaks(self.spec,3)
+        #self.lineWidths = valley.getaxis('field') - peak.getaxis('field') 
+        #self.spectralWidth = peak.getaxis('field').max() - peak.getaxis('field').min() 
+        #self.centerField = peak.getaxis('field')[1] + self.lineWidths[1]/2.# assuming the center point comes out in the center. The way the code is built this should be robust
+        #specStart = self.centerField - self.spectralWidth
+        #specStop = self.centerField + self.spectralWidth
+        #print "\nI calculate the spectral width to be: ",self.spectralWidth," G \n"
+        #print "I calculate the center field to be: ",self.centerField," G \n"
+        #print "I set spectral bounds of: ", specStart," and ", specStop," G \n"#}}}
 
-        # Baseline correct the spectrum #{{{
-        baseline1 = self.spec['field',lambda x: x < specStart].copy().mean('field')
-        baseline2 = self.spec['field',lambda x: x > specStop].copy().mean('field')
-        #specBase = array(list(baseline1.data) + list(baseline2.data))
-        #fieldBase = array(list(baseline1.getaxis('field')) + list(baseline2.getaxis('field')))
-        baseline = average(array([baseline1.data,baseline2.data]))
-        self.spec.data -= baseline
+        ## Baseline correct the spectrum #{{{
+        #baseline1 = self.spec['field',lambda x: x < specStart].copy().mean('field')
+        #baseline2 = self.spec['field',lambda x: x > specStop].copy().mean('field')
+        ##specBase = array(list(baseline1.data) + list(baseline2.data))
+        ##fieldBase = array(list(baseline1.getaxis('field')) + list(baseline2.getaxis('field')))
+        #baseline = average(array([baseline1.data,baseline2.data]))
+        #self.spec.data -= baseline
 
-        # Plot the results
-        self.fl.figurelist = pys.nextfigure(self.fl.figurelist,'EPRSpectra')
-        pys.plot(self.spec,'m',alpha=0.6)
-        pys.plot(peak,'ro',markersize=10)
-        pys.plot(valley,'ro',markersize=10)
-        pys.plot(self.spec['field',lambda x: logical_and(x>specStart,x<specStop)],'b')
-        pys.title('Integration Window')
-        pys.ylabel('Spectral Intensity')
-        pys.xlabel('Field (G)')
-        pys.giveSpace(spaceVal=0.001)
-        #}}}
+        ## Plot the results
+        #self.fl.figurelist = pys.nextfigure(self.fl.figurelist,'EPRSpectra')
+        #pys.plot(self.spec,'m',alpha=0.6)
+        #pys.plot(peak,'ro',markersize=10)
+        #pys.plot(valley,'ro',markersize=10)
+        #pys.plot(self.spec['field',lambda x: logical_and(x>specStart,x<specStop)],'b')
+        #pys.title('Integration Window')
+        #pys.ylabel('Spectral Intensity')
+        #pys.xlabel('Field (G)')
+        #pys.giveSpace(spaceVal=0.001)
+        ##}}}
 
-        ### Take the first integral #{{{
-        absorption = self.spec.copy().integrate('field')#}}}
+        #### Take the first integral #{{{
+        #absorption = self.spec.copy().integrate('field')#}}}
 
-        # Fit the bounds of the absorption spec to a line and subtract from absorption spectrum.#{{{
-        baseline1 = absorption['field',lambda x: x < specStart]
-        baseline2 = absorption['field',lambda x: x > specStop]
-        fieldBaseline = array(list(baseline1.getaxis('field')) + list(baseline2.getaxis('field')))
-        baseline = pys.concat([baseline1,baseline2],'field')
-        baseline.labels('field',fieldBaseline)
-        c,fit = baseline.polyfit('field',order = 1)
-        fit = pys.nddata(array(c[0] + absorption.getaxis('field')*c[1])).rename('value','field').labels('field',absorption.getaxis('field'))
-        correctedAbs = absorption - fit#}}}
+        ## Fit the bounds of the absorption spec to a line and subtract from absorption spectrum.#{{{
+        #baseline1 = absorption['field',lambda x: x < specStart]
+        #baseline2 = absorption['field',lambda x: x > specStop]
+        #fieldBaseline = array(list(baseline1.getaxis('field')) + list(baseline2.getaxis('field')))
+        #baseline = pys.concat([baseline1,baseline2],'field')
+        #baseline.labels('field',fieldBaseline)
+        #c,fit = baseline.polyfit('field',order = 1)
+        #fit = pys.nddata(array(c[0] + absorption.getaxis('field')*c[1])).rename('value','field').labels('field',absorption.getaxis('field'))
+        #correctedAbs = absorption - fit#}}}
 
-        # Set the values of absorption spec outside of int window to zero.#{{{
-        zeroCorr = correctedAbs.copy()
-        zeroCorr['field',lambda x: x < specStart] = 0.0
-        zeroCorr['field',lambda x: x > specStop] = 0.0#}}}
+        ## Set the values of absorption spec outside of int window to zero.#{{{
+        #zeroCorr = correctedAbs.copy()
+        #zeroCorr['field',lambda x: x < specStart] = 0.0
+        #zeroCorr['field',lambda x: x > specStop] = 0.0#}}}
 
-        # Plot absorption results#{{{
-        self.fl.figurelist = pys.nextfigure(self.fl.figurelist,'Absorption')
-        pys.plot(absorption)
-        pys.plot(fit)
-        pys.plot(correctedAbs)
-        pys.plot(zeroCorr)
-        pys.title('Absorption Spectrum')
-        pys.ylabel('Absorptive Signal')
-        pys.xlabel('Field (G)')
-        pys.giveSpace(spaceVal=0.001)
-        #}}}
+        ## Plot absorption results#{{{
+        #self.fl.figurelist = pys.nextfigure(self.fl.figurelist,'Absorption')
+        #pys.plot(absorption)
+        #pys.plot(fit)
+        #pys.plot(correctedAbs)
+        #pys.plot(zeroCorr)
+        #pys.title('Absorption Spectrum')
+        #pys.ylabel('Absorptive Signal')
+        #pys.xlabel('Field (G)')
+        #pys.giveSpace(spaceVal=0.001)
+        ##}}}
 
-        # Calculate and plot the double integral for the various corrections you've made #{{{
-        doubleInt = absorption.copy().integrate('field')
-        doubleIntC = correctedAbs.copy().integrate('field')
-        self.doubleIntZC = zeroCorr.copy().integrate('field')
-        self.diValue = self.doubleIntZC.data.max()
-        print "\nI calculate the double integral to be: %0.2f\n"%self.diValue
+        ## Calculate and plot the double integral for the various corrections you've made #{{{
+        #doubleInt = absorption.copy().integrate('field')
+        #doubleIntC = correctedAbs.copy().integrate('field')
+        #self.doubleIntZC = zeroCorr.copy().integrate('field')
+        #self.diValue = self.doubleIntZC.data.max()
+        #print "\nI calculate the double integral to be: %0.2f\n"%self.diValue
 
-        self.fl.figurelist = pys.nextfigure(self.fl.figurelist,'DoubleIntegral')
-        pys.plot(doubleInt,label='uncorrected')
-        pys.plot(doubleIntC,label='corrected')
-        pys.plot(self.doubleIntZC,label='zero corrected')
-        pys.legend(loc=2)
-        pys.title('Double Integral Results')
-        pys.ylabel('Second Integral (arb)')
-        pys.xlabel('Field (G)')
-        pys.giveSpace(spaceVal=0.001)
-        #}}}
-        
-        # If the calibration file is present use that to calculate spin concentration#{{{
-        if self.guiParent.EPRCalFile:
-            self.calib = calcSpinConc(self.guiParent.EPRCalFile)
-            ### Fit the series and calculate concentration
-            c,fit = self.calib.polyfit('concentration')
-            self.spinConc = (self.diValue - c[0])/c[1]
-            # Plotting 
-            self.fl.figurelist = pys.nextfigure(self.fl.figurelist,'SpinConcentration')
-            pys.plot(self.calib,'r.',markersize = 15)
-            pys.plot(fit,'g')
-            pys.plot(self.spinConc,self.diValue,'b.',markersize=20)
-            pys.title('Estimated Spin Concentration')
-            pys.xlabel('Spin Concentration')
-            pys.ylabel('Double Integral')
-            ax = pys.gca()
-            ax.text(self.spinConc,self.diValue - (0.2*self.diValue),'%0.2f uM'%self.spinConc,color='blue',fontsize=15)
-            pys.giveSpace()
-        else:
-            self.spinConc = None
-            #}}}
-        #}}}
+        #self.fl.figurelist = pys.nextfigure(self.fl.figurelist,'DoubleIntegral')
+        #pys.plot(doubleInt,label='uncorrected')
+        #pys.plot(doubleIntC,label='corrected')
+        #pys.plot(self.doubleIntZC,label='zero corrected')
+        #pys.legend(loc=2)
+        #pys.title('Double Integral Results')
+        #pys.ylabel('Second Integral (arb)')
+        #pys.xlabel('Field (G)')
+        #pys.giveSpace(spaceVal=0.001)
+        ##}}}
+        #
+        ## If the calibration file is present use that to calculate spin concentration#{{{
+        #if self.guiParent.EPRCalFile:
+        #    self.calib = calcSpinConc(self.guiParent.EPRCalFile)
+        #    ### Fit the series and calculate concentration
+        #    c,fit = self.calib.polyfit('concentration')
+        #    self.spinConc = (self.diValue - c[0])/c[1]
+        #    # Plotting 
+        #    self.fl.figurelist = pys.nextfigure(self.fl.figurelist,'SpinConcentration')
+        #    pys.plot(self.calib,'r.',markersize = 15)
+        #    pys.plot(fit,'g')
+        #    pys.plot(self.spinConc,self.diValue,'b.',markersize=20)
+        #    pys.title('Estimated Spin Concentration')
+        #    pys.xlabel('Spin Concentration')
+        #    pys.ylabel('Double Integral')
+        #    ax = pys.gca()
+        #    ax.text(self.spinConc,self.diValue - (0.2*self.diValue),'%0.2f uM'%self.spinConc,color='blue',fontsize=15)
+        #    pys.giveSpace()
+        #else:
+        #    self.spinConc = None
+        #    #}}}
+        ##}}}
 
     def editDatabase(self):#{{{
         """ Query to edit the database parameters """
@@ -476,14 +450,23 @@ class workupODNP(): #{{{ The ODNP Experiment
         dtb.writeDict(self.expParametersFile,self.parameterDict)
 #}}}
 
-    def returnNMRExpParamsDict(self): #{{{
+    def editExpDictEPR(self):#{{{
+        """ Instead of using raw input you need to use this gettext functionality from Qt. This will work until you make a dialog to do this.
+        Edit the experimental parameters dict
+        """
+        paramsToEdit = [['spectralWidthMultiplier','Enter the multiplier for the EPR spectral width.']]
+        for dictKey,textToWrite in paramsToEdit:
+            text, ok = QtGui.QInputDialog.getText(self.guiParent, 'Experimental Parameters', textToWrite,QtGui.QLineEdit.Normal,str(self.parameterDict.get(dictKey)))
+            if ok:
+                self.parameterDict[dictKey]=float(text)
+                print self.parameterDict[dictKey]
+        dtb.writeDict(self.expParametersFile,self.parameterDict)
+#}}}
+
+    def returnExpParamsDict(self): #{{{
         # Parameter files
         self.expParametersFile = self.odnpName + 'parameters.pkl'
         self.defaultExpParamsFile = 'parameters.pkl'
-
-        temp = nmr.load_acqu(pys.dirformat(pys.dirformat(self.odnpPath))+'1',return_s = False)# this pull all of the aquisition data
-        self.cnst = temp.get('CNST')
-        t1StartingAttenuation = self.cnst[24]
 
         # Default Experiment parameters#{{{
         integrationWidth = 75
@@ -491,18 +474,19 @@ class workupODNP(): #{{{ The ODNP Experiment
         ReturnKSigma = True ### This needs to be False because my code is broken
         t1SeparatePhaseCycle = 1.0 ### Did you save the phase cycles separately?
         maxDrift = 100.
+        spectralWidthMultiplier = 1.
         badT1 = []
         # Write parameters to dict if file exists or pull params from existing file
         expExists = os.path.isfile(self.expParametersFile)
         if not expExists:
-            self.parameterDict = {'dnpExps':self.dnpExps,
-                            't1Exp':self.t1Exps,
-                            'integrationWidth':integrationWidth,
+            ### dnpExps, and t1Exp should be possible to remove from this...
+            self.parameterDict = {'integrationWidth':integrationWidth,
                             't1StartingGuess':t1StartingGuess,
                             'ReturnKSigma':ReturnKSigma,
                             't1SeparatePhaseCycle':t1SeparatePhaseCycle,
                             'badT1':badT1,
                             'maxDrift':maxDrift,
+                            'spectralWidthMultiplier':spectralWidthMultiplier
                             }
             dtb.writeDict(self.expParametersFile,self.parameterDict)
         else:
@@ -646,7 +630,7 @@ class workupODNP(): #{{{ The ODNP Experiment
     def dnpPowers(self): ### Work up the power files#{{{
         # The enhancement series#{{{
         self.fl.figurelist.append({'print_string':r'\subparagraph{Enhancement Power Measurement}' + '\n\n'})
-        expTimes,expTimeMin,absTime = nmr.returnExpTimes(self.odnpPath,self.parameterDict['dnpExps'],dnpExp = True,operatingSys = self.systemOpt) # this is not a good way because the experiment numbers must be set right.
+        expTimes,expTimeMin,absTime = nmr.returnExpTimes(self.odnpPath,self.dnpExps,dnpExp = True,operatingSys = self.systemOpt) # this is not a good way because the experiment numbers must be set right.
         if not expTimeMin:
             for expTitle in self.expTitles:
                 print expTitle 
@@ -659,7 +643,7 @@ class workupODNP(): #{{{ The ODNP Experiment
         ### Error handling for the enhancement powers and integration file#{{{
         if len(self.enhancementPowers) != len(self.dnpExps): ### There is something wrong. Show the power series plot and print the dnpExps
             self.fl.figurelist.append({'print_string':r'\subsection{\large{ERROR: Read Below to fix!!}}' + '\n\n'})#{{{ Error text
-            self.fl.figurelist.append({'print_string':"Before you start, the terminal (commandline) is still alive and will walk you through making edits to the necessary parameters to resolve this issue. \n\n \large(Issue) The number of power values, %d, and the number of enhancement experiments, %d, does not match. This is either because \n\n (1) I didn't return the correct number of powers or \n\n (2) You didn't enter the correct number of dnp experiments. \n\n If case (1) look at plot 'Enhancement Derivative powers' the black line is determined by 'parameterDict['thresholdE']' in the code. Adjust the threshold value such that the black line is below all of the blue peaks that you suspect are valid power jumps. \n\n If case (2) look through the experiment titles, listed below and make sure you have set 'dnpExps' correctly. Also shown below. Recall that the last experiment in both the DNP and T1 sets is empty."%(len(self.enhancementPowers),len(self.parameterDict['dnpExps'])) + '\n\n'})
+            self.fl.figurelist.append({'print_string':"Before you start, the terminal (commandline) is still alive and will walk you through making edits to the necessary parameters to resolve this issue. \n\n \large(Issue) The number of power values, %d, and the number of enhancement experiments, %d, does not match. This is either because \n\n (1) I didn't return the correct number of powers or \n\n (2) You didn't enter the correct number of dnp experiments. \n\n If case (1) look at plot 'Enhancement Derivative powers' the black line is determined by 'parameterDict['thresholdE']' in the code. Adjust the threshold value such that the black line is below all of the blue peaks that you suspect are valid power jumps. \n\n If case (2) look through the experiment titles, listed below and make sure you have set 'dnpExps' correctly. Also shown below. Recall that the last experiment in both the DNP and T1 sets is empty."%(len(self.enhancementPowers),len(self.dnpExps)) + '\n\n'})
             self.fl.figurelist.append({'print_string':r'\subsection{Experiment Titles and Experiment Number}' + '\n\n'})
             for title in self.expTitles:
                 self.fl.figurelist.append({'print_string':r"%s, exp number %s"%(title[0].split('\n')[0],title[1])})#}}}
@@ -672,7 +656,7 @@ class workupODNP(): #{{{ The ODNP Experiment
 
         # The T1 Power Series#{{{
         self.fl.figurelist.append({'print_string':r'\subparagraph{$T_1$ Power Measurement}' + '\n\n'})
-        expTimes,expTimeMin,absTime = nmr.returnExpTimes(self.odnpPath,self.parameterDict['t1Exp'],dnpExp = False,operatingSys = self.systemOpt) # this is not a good way because the experiment numbers must be set right.
+        expTimes,expTimeMin,absTime = nmr.returnExpTimes(self.odnpPath,self.t1Exps,dnpExp = False,operatingSys = self.systemOpt) # this is not a good way because the experiment numbers must be set right.
         if not expTimeMin:
             print self.expTitles
             raise ValueError("\n\nThe experiment numbers are not set appropriately, please scroll through the experiment titles above and set values appropriately")
@@ -685,7 +669,7 @@ class workupODNP(): #{{{ The ODNP Experiment
         ### Error handling for the T1 powers and integration file#{{{
         if len(self.t1Power) != len(self.t1Exps): ### There is something wrong. Show the power series plot and print the dnpExps
             self.fl.figurelist.append({'print_string':r'\subsection{\large{ERROR: Read Below to fix!!}}' + '\n\n'})#{{{ Error text
-            self.fl.figurelist.append({'print_string':"Before you start, the terminal (commandline) is still alive and will walk you through making edits to the necessary parameters to resolve this issue. \n\n \large(Issue:) The number of power values, %d, and the number of $T_1$ experiments, %d, does not match. This is either because \n\n (1) I didn't return the correct number of powers or \n\n (2) You didn't enter the correct number of T1 experiments. \n\n If case (1) look at plot 'T1 Derivative powers' the black line is determined by 'thresholdT1' in the code. Adjust the threshold value such that the black line is below all of the blue peaks that you suspect are valid power jumps. \n\n If case (2) look through the experiment titles, listed below and make sure you have set 't1Exp' correctly. Also shown below. Recall that the last experiment in both the DNP and T1 sets is empty."%(len(self.t1Power),len(self.parameterDict['t1Exp'])) + '\n\n'})
+            self.fl.figurelist.append({'print_string':"Before you start, the terminal (commandline) is still alive and will walk you through making edits to the necessary parameters to resolve this issue. \n\n \large(Issue:) The number of power values, %d, and the number of $T_1$ experiments, %d, does not match. This is either because \n\n (1) I didn't return the correct number of powers or \n\n (2) You didn't enter the correct number of T1 experiments. \n\n If case (1) look at plot 'T1 Derivative powers' the black line is determined by 'thresholdT1' in the code. Adjust the threshold value such that the black line is below all of the blue peaks that you suspect are valid power jumps. \n\n If case (2) look through the experiment titles, listed below and make sure you have set 't1Exp' correctly. Also shown below. Recall that the last experiment in both the DNP and T1 sets is empty."%(len(self.t1Power),len(self.t1Exps)) + '\n\n'})
             self.fl.figurelist.append({'print_string':r'\subsection{Experiment Titles and Experiment Number}' + '\n\n'})
             for titleName in self.expTitles:
                 self.fl.figurelist.append({'print_string':r"%s"%titleName})#}}}
@@ -697,8 +681,8 @@ class workupODNP(): #{{{ The ODNP Experiment
 
     def enhancementIntegration(self): #{{{ Enhancement Integration
         self.fl.figurelist.append({'print_string':r'\subparagraph{Enhancement Series}' + '\n\n'})
-        enhancementSeries,self.fl.figurelist = nmr.integrate(self.odnpPath,self.parameterDict['dnpExps'],integration_width = self.parameterDict['integrationWidth'],max_drift = self.parameterDict['maxDrift'],phchannel = [-1],phnum = [4],first_figure = self.fl.figurelist)
-        enhancementSeries.rename('power','expNum').labels(['expNum'],[self.parameterDict['dnpExps']])
+        enhancementSeries,self.fl.figurelist = nmr.integrate(self.odnpPath,self.dnpExps,integration_width = self.parameterDict['integrationWidth'],max_drift = self.parameterDict['maxDrift'],phchannel = [-1],phnum = [4],first_figure = self.fl.figurelist)
+        enhancementSeries.rename('power','expNum').labels(['expNum'],[self.dnpExps])
         ### Fit and plot the Enhancement
         self.enhancementSeries = enhancementSeries.runcopy(real)
         self.fl.figurelist = pys.nextfigure(self.fl.figurelist,'EnhancementExpSeries')
@@ -747,7 +731,7 @@ class workupODNP(): #{{{ The ODNP Experiment
         t1ErrList = []
         print "Running your T1 series"
         self.fl.figurelist.append({'print_string':r'\subparagraph{T_1 Series}' + '\n\n'})
-        for count,expNum in enumerate(self.parameterDict['t1Exp']):
+        for count,expNum in enumerate(self.t1Exps):
             print "integrating data from expno %0.2f"%expNum
             if self.dnpexp:
                 self.fl.figurelist.append({'print_string':r'$T_1$ experiment %d at power %0.2f dBm'%(expNum,self.t1Power[count]) + '\n\n'})
@@ -780,7 +764,7 @@ class workupODNP(): #{{{ The ODNP Experiment
             self.t1SeriesList.append(rawT1)
             self.fl.figurelist.append({'print_string':r'\large{$T_1 = %0.3f \pm %0.3f\ s$}'%(rawT1.output(r'T_1'),sqrt(rawT1.covar(r'T_1'))) + '\n\n'})
         # The t1 of experiment series
-        self.t1Series = pys.nddata(array(t1DataList)).rename('value','expNum').labels(['expNum'],array([self.parameterDict['t1Exp']])).set_error(array(t1ErrList))
+        self.t1Series = pys.nddata(array(t1DataList)).rename('value','expNum').labels(['expNum'],array([self.t1Exps])).set_error(array(t1ErrList))
         #}}}
 
     def compKsigma(self): # Compute kSigma #{{{
@@ -913,7 +897,7 @@ class workupODNP(): #{{{ The ODNP Experiment
             dataToCSV(t1SeriesWriter,self.odnpName+'t1Series.csv')
             for count,t1Set in enumerate(self.t1SeriesList):
                 t1SetWriter = [('integrationVal','error','delay')] + zip(list(t1Set.data),list(t1Set.get_error()),list(t1Set.getaxis('delay')))
-                dataToCSV(t1SetWriter,self.odnpName+'t1Integral%d.csv'%self.parameterDict['t1Exp'][count])
+                dataToCSV(t1SetWriter,self.odnpName+'t1Integral%d.csv'%self.t1Exps[count])
     #}}}
 
     def writeExpParams(self): ##{{{ Write out the relevant values from the DNP experiment
