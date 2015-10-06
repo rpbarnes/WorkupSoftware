@@ -5,6 +5,7 @@ The goal is to implement this code as is in the new GUI format.
 """
 # Functions to import #{{{
 import fornotebook as fnb
+import eprDI
 import time
 from scipy.interpolate import interp1d
 from lmfit import minimize,Parameters ### This makes another hoop for installing software that you don't really use... I actually really think this should be implemented as nddata functions. Or as fit classes.
@@ -54,102 +55,6 @@ def calcSpinConc(calibrationFile):#{{{
     calib = pys.nddata(pys.array(diL)).rename('value','concentration').labels('concentration',pys.array(concL))
     return calib#}}}
 
-def returnEPRExpDict(fileName,verbose=False):#{{{
-    """
-    Return all of the experiment parameters stored in the '.par' file output by the Bruker
-
-    Args:
-    fileName - string - full file name from top directory.
-
-    Returns:
-    expDict - dictionary - Keys are keys from bruker par files, values are everything else matched to the corresponding key.
-    """
-    openFile = open(fileName + '.par','r') # read the par
-    lines = openFile.readlines()
-    expDict = {}
-    for line in lines[0].split('\r'):
-        try:
-            if verbose:
-                print "Debug: ",line
-            splitData = line.split(' ')
-            key = splitData.pop(0)
-            value = splitData.pop(0)
-            for data in splitData:
-                value += data
-            expDict.update({key:value})
-        except:
-            pass
-    return expDict#}}}
-
-def returnEPRExpDictDSC(fileName):#{{{
-    """
-    This returns the exp dict stored in the dsc files written by xepr
-    """
-    openFile = open(fileName + '.DSC','r') # read the par
-    lines = openFile.readlines()
-    expDict = {}
-    for count,line in enumerate(lines):
-        cut = line.split('\n')[0]
-        try:
-            key,value = cut.split('\t')
-            expDict.update({key:value})
-        except:
-            pass
-        try:
-            splits = cut.split(' ')
-            key = splits[0]
-            value = splits[-2]+' '+splits[-1]
-            expDict.update({key:value})
-        except:
-            pass
-    return expDict#}}}
-
-def returnEPRSpec(fileName,doNormalize = True): #{{{
-    """ 
-    *** This code is crappy
-
-    Right now you try to incorporate stuff for xepr cw scans and you do it in a try except loop which is not the way to do this!!! This is bad code. Fix when you aren't in a rush!
-
-    ***
-
-    Return the cw-EPR derivative spectrum from the spc and par files output by the winEPR program.
-    If doNormalize is set to True (recommended) this will normalize the spectral values to the number of scans run as well as the receiver gain settings. This is a more reproducible value as is independent of the two settings which may vary.
-
-    args:
-
-    fileName - (sting) full file name not including extension. e.g. '/Users/StupidRobot/exp_data/ryan_cnsi/epr/150525_ConcentrationSeries/200uM_4OHT_14-7mm'
-
-    returns: 
-
-    1-D nddata dimensioned by field values of spectrum, and containing the EPR experimental parameters as other_info.
-    """
-    # Open the spc and par files and pull the data and relevant parameters
-    try:
-        expDict = returnEPRExpDict(fileName)
-        specData = fromfile(fileName+'.spc','<f') # read the spc
-        centerSet = float(expDict.get('HCF'))
-        sweepWidth = float(expDict.get('HSW'))
-        numScans = float(expDict.get('JNS')) # I'm not sure if this is right
-        rg = float(expDict.get('RRG'))
-        if doNormalize:
-            specData /= rg
-            specData /= numScans
-    except:
-        expDict = returnEPRExpDictDSC(fileName)
-        specData = fromfile(fileName+'.DTA','>d') # or if it is a DTA file read that instead
-        centerSet = float(expDict.get('CenterField').split(' ')[0])
-        sweepWidth = float(expDict.get('SweepWidth').split(' ')[0])
-        numScans = float(expDict.get('NbScansAcc')) # Yea bruker just changes things...
-        rg = float(expDict.get('RCAG'))
-        if doNormalize:
-            specData /= rg
-    # calculate the field values and normalize by the number of scans and the receiver gain and return an nddata
-    fieldVals = pys.r_[centerSet-sweepWidth/2.:centerSet+sweepWidth/2.:len(specData)*1j]
-    # normalize the data so there is coherence between different scans.
-    spec = pys.nddata(specData).rename('value','field').labels('field',fieldVals)
-    spec.other_info = expDict
-    return spec #}}}
-
 def dictToCSV(fileName, dataDict): #{{{
     """
     Write a dictionary object to a csv file. This currently can handle a dictionary containing strings, lists, and dictionaries.
@@ -188,90 +93,6 @@ def dictToCSV(fileName, dataDict): #{{{
             openFile.write('\n')
     openFile.close()
     print "Saved data to %s.csv"%fileName#}}}
-
-# Return the peaks and valleys of the EPR spectrum#{{{
-def findPeaks(spec,numberOfPeaks,verbose = False):
-    """
-    Find the position of the peaks and valleys of the EPR spectrum given the number of peaks to look for. 
-    The function returns the total peak to peak width of the spectrum, given more than one peak, as well as the center field and linewidth.
-
-    args:
-    spec - an nddata set of the EPR spectrum. The EPR spectrum should be the data and the field values should be placed in an axis named 'field'
-    numberOfPeaks - an integer. The number of peaks to find, for nitroxide this should be 3.
-
-    """
-    peaks = []
-    valleys = []
-    smash = spec.copy()
-    #smash -= average(spec.data)
-    for i in range(numberOfPeaks): 
-        peak = smash.data.argmax()
-        peaks.append(peak)
-        valley = smash.data.argmin()
-        valleys.append(valley)
-        # remove from peak
-        #find the high bound
-        notCrossed=True
-        count = 0
-        dimSize = len(smash.data)
-        while notCrossed:
-            if peak + count <= 0:
-                lowBound = peak+count
-                notCrossed = False
-            else:
-                if float(smash['field',peak+count].data) <= 0.0:
-                    lowBound = peak+count
-                    notCrossed = False
-            count-=1
-        # find the low bound
-        notCrossed=True
-        count=0
-        while notCrossed:
-            if peak + count >= dimSize: # check to make sure you haven't wandered off the spectrum
-                highBound = peak+count
-                notCrossed = False
-            else:
-                if float(smash['field',peak+count].data) <= 0.0:
-                    highBound = peak+count
-                    notCrossed = False
-            count+=1
-        smash['field',lowBound:highBound] = 0.0
-
-        # remove from valley
-        #find the high bound
-        notCrossed=True
-        count = 0
-        while notCrossed:
-            if valley + count <= 0:
-                lowBound = valley+count
-                notCrossed = False
-            else:
-                if float(smash['field',valley+count].data) >= 0.0:
-                    lowBound = valley+count
-                    notCrossed = False
-            count-=1
-        # find the low bound
-        notCrossed=True
-        count=0
-        while notCrossed:
-            if valley + count >= dimSize: # check to make sure you haven't wandered off the spectrum
-                highBound = valley+count
-                notCrossed = False
-            else:
-                if float(smash['field',valley+count].data) >= 0.0:
-                    highBound = valley+count
-                    notCrossed = False
-            count+=1
-        smash['field',lowBound:highBound] = 0.0
-        if verbose:
-            pys.plot(smash)
-    peak = pys.nddata(spec.data[peaks]).rename('value','field').labels('field',spec.getaxis('field')[peaks])
-    valley = pys.nddata(spec.data[valleys]).rename('value','field').labels('field',spec.getaxis('field')[valleys])
-    # Calculate relevant parameters
-    peak.sort('field')
-    valley.sort('field')
-    return peak,valley
-#}}}
 
 # Write data tuple to asc#{{{
 def dataToASC(dataWriter,fileName):
@@ -523,8 +344,8 @@ class workupODNP(): #{{{ The ODNP Experiment
         """
         self.fl.figurelist.append({'print_string':r'\subparagraph{EPR Spectra %s}'%self.eprFileName + '\n\n'})
         # Pull the specs, Find peaks, valleys, and calculate things with the EPR spectrum.#{{{
-        self.spec = returnEPRSpec(self.eprName)
-        peak,valley = findPeaks(self.spec,3)
+        self.spec = eprDI.returnEPRSpec(self.eprName)
+        peak,valley = eprDI.findPeaks(self.spec,3)
         self.lineWidths = valley.getaxis('field') - peak.getaxis('field') 
         self.spectralWidth = peak.getaxis('field').max() - peak.getaxis('field').min() 
         self.centerField = peak.getaxis('field')[1] + self.lineWidths[1]/2.# assuming the center point comes out in the center. The way the code is built this should be robust
@@ -537,6 +358,8 @@ class workupODNP(): #{{{ The ODNP Experiment
         # Baseline correct the spectrum #{{{
         baseline1 = self.spec['field',lambda x: x < specStart].copy().mean('field')
         baseline2 = self.spec['field',lambda x: x > specStop].copy().mean('field')
+        #specBase = array(list(baseline1.data) + list(baseline2.data))
+        #fieldBase = array(list(baseline1.getaxis('field')) + list(baseline2.getaxis('field')))
         baseline = average(array([baseline1.data,baseline2.data]))
         self.spec.data -= baseline
 
@@ -871,7 +694,6 @@ class workupODNP(): #{{{ The ODNP Experiment
         #}}}
 
             #}}}
-    #}}}
 
     def enhancementIntegration(self): #{{{ Enhancement Integration
         self.fl.figurelist.append({'print_string':r'\subparagraph{Enhancement Series}' + '\n\n'})

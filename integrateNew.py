@@ -28,10 +28,10 @@ from matlablike import *
 import fornotebook 
 
 import nmr
-file = '/Users/StupidRobot/exp_data/ryan_rub/nmr/150804_ODNPTEST/'
+file = '/Users/StupidRobot/exp_data/ryan_rub/nmr/150911_T1_EnhancedNoiseTest/'
 expno = 101
-file = '/Users/StupidRobot/exp_data/ryan_cnsi/nmr/150228_CheY_D41C_None_271uM_NoUrea_RT_ODNP/'
-expno = r_[5:27]
+#file = '/Users/StupidRobot/exp_data/ryan_cnsi/nmr/150228_CheY_D41C_None_271uM_NoUrea_RT_ODNP/'
+#expno = r_[5:27]
 #{{{ Definitions
 integration_width=1e3
 dimname = 'delay'
@@ -61,6 +61,7 @@ fl = fornotebook.figlistl()
 
 
 data,fl.figurelist = nmr.integrate(file,expno,phnum=[4],phchannel=[-1],first_figure=fl.figurelist,pdfstring='no glitch removal')
+delay = nmr.bruker_load_vdlist(file+ '/%d/' %expno)
 fl.figurelist = nextfigure(fl.figurelist,'integralsnoRem')
 plot(data.runcopy(real),label='real')
 plot(data.runcopy(imag),label='imag')
