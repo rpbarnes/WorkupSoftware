@@ -302,7 +302,7 @@ class workupODNP(): #{{{ The ODNP Experiment
                     #}}}
 
     def returnEPRData(self): #{{{ EPR Workup stuff
-        self.spec,self.lineWidths,self.spectralWidth,self.centerField,self.doubleIntZC,self.diValue,self.spinConc = eprDI.workupCwEpr(self.eprName,self.parameterDict.get('spectralWidthMultiplier'),EPRCalFile=self.guiParent.EPRCalFile,firstFigure=self.fl.figurelist)
+        self.spec,self.lineWidths,self.spectralWidth,self.centerField,self.doubleIntZC,self.doubleIntC3,self.diValue,self.spinConc = eprDI.workupCwEpr(self.eprName,self.parameterDict.get('spectralWidthMultiplier'),EPRCalFile=self.guiParent.EPRCalFile,firstFigure=self.fl.figurelist)
         """
         Perform the epr baseline correction and double integration.
 
@@ -852,14 +852,14 @@ class workupODNP(): #{{{ The ODNP Experiment
                 fitList = [self.kSigmaCCurve.output(r'ksmax'),self.kSigmaCCurve.output(r'phalf')]
                 dataDict.update({'kSigmaODNP':{'data':self.kSigmaCCurve.runcopy(real).data.tolist(),'error':self.kSigmaCCurve.get_error().tolist(),'dim0':self.kSigmaCCurve.getaxis(dim).tolist(),'dimNames':list(self.kSigmaCCurve.dimlabels),'value':self.kSigmaCCurve.output(r'ksmax'),'valueError':sqrt(self.kSigmaCCurve.covar(r'ksmax')),'fitList':fitList}})
             if self.eprExp:
-                dataDict.update({'cwEPR':{'data':self.spec.data.tolist(),'dataDI':self.doubleIntZC.data.tolist(),'dim0':self.spec.getaxis('field').tolist(),'dimNames':list(self.spec.dimlabels),'centerField':str(self.centerField),'mwFreq':str(self.spec.other_info.get('MF')),'lineWidths':list(self.lineWidths),'spectralWidth':str(self.spectralWidth),'doubleIntegral':str(self.doubleIntZC.data.max()),'expDict':self.spec.other_info}})
+                dataDict.update({'cwEPR':{'data':self.spec.data.tolist(),'dataDI':self.doubleIntC3.data.tolist(),'dim0':self.spec.getaxis('field').tolist(),'dimNames':list(self.spec.dimlabels),'centerField':str(self.centerField),'mwFreq':str(self.spec.other_info.get('MF')),'lineWidths':list(self.lineWidths),'spectralWidth':str(self.spectralWidth),'doubleIntegral':str(self.diValue),'expDict':self.spec.other_info}})
         ### For the T10 experiment just write the T1 experiment series.
         elif self.nmrExp: # Save the T10 values
             if self.t1Series:
                 dim = self.t1Series.dimlabels[0]
                 dataDict.update({'t1ODNP':{'data':self.t1Series.data.tolist(),'error':self.t1Series.get_error().tolist(),'dim0':self.t1Series.getaxis(dim).tolist(),'dimNames':list(self.t1Series.dimlabels)}})
         elif self.eprExp:
-            dataDict.update({'cwEPR':{'data':self.spec.data.tolist(),'dataDI':self.doubleIntZC.data.tolist(),'dim0':self.spec.getaxis('field').tolist(),'dimNames':list(self.spec.dimlabels[0]),'centerField':str(self.centerField),'mwFreq':str(self.spec.other_info.get('MF')),'lineWidths':list(self.lineWidths),'spectralWidth':str(self.spectralWidth),'doubleIntegral':str(self.doubleIntZC.data.max()),'expDict':self.spec.other_info}})
+            dataDict.update({'cwEPR':{'data':self.spec.data.tolist(),'dataDI':self.doubleIntC3.data.tolist(),'dim0':self.spec.getaxis('field').tolist(),'dimNames':list(self.spec.dimlabels[0]),'centerField':str(self.centerField),'mwFreq':str(self.spec.other_info.get('MF')),'lineWidths':list(self.lineWidths),'spectralWidth':str(self.spectralWidth),'doubleIntegral':str(self.diValue),'expDict':self.spec.other_info}})
 
         self.databaseParamsDict.update({'data':dataDict})
         self.collection.insert(self.databaseParamsDict) # Save the database parameters to the database in case the code crashes
@@ -886,7 +886,7 @@ class workupODNP(): #{{{ The ODNP Experiment
                 dataToCSV(kSigmaWriter,self.odnpName+'kSigma.csv')
         ### Write the EPR
         if self.eprExp:
-            eprWriter = zip(list(self.spec.getaxis('field')),list(self.spec.data),list(self.doubleIntZC.data))
+            eprWriter = zip(list(self.spec.getaxis('field')),list(self.spec.data),list(self.doubleIntC3.data))
             dataToASC(eprWriter,self.odnpName+'eprSpec')
             self.specDict = {'epr':{'centerField':str(self.centerField),'lineWidths':list(self.lineWidths),'spectralWidth':str(self.spectralWidth),'doubleIntegral':str(self.diValue),'spinConcentration':str(self.spinConc),'expDict':self.spec.other_info}}
             dictToCSV(self.odnpName+'eprParams',self.specDict)

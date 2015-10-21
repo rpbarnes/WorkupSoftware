@@ -236,12 +236,12 @@ def findPeaks(spec,numberOfPeaks,verbose = False):#{{{
 #}}}
 
 ### Import the files - for now this is hard coded and this only works with ASCII files, you need to change this so you can use the par files as well.
-eprPath = '/Users/StupidRobot/exp_data/ryan_cnsi/epr/151002CheYConcentrationSeries/'
-eprName = 'CheYT71C-ASC'
+eprPath = '/Users/StupidRobot/exp_data/ryan_cnsi/epr/150707_CheY_8MUreaSeries/'
+eprName = 'M17C_8MUrea_10-9mm'
 eprName = eprPath + eprName
 
 ### This should be a function.
-def workupCwEpr(eprName,spectralWidthMultiplier = 1.,EPRCalFile=False,firstFigure=[]): #{{{ EPR Workup stuff
+def workupCwEpr(eprName,spectralWidthMultiplier = 1.25,EPRCalFile=False,firstFigure=[]): #{{{ EPR Workup stuff
     """
     Perform the epr baseline correction and double integration.
 
@@ -334,7 +334,7 @@ def workupCwEpr(eprName,spectralWidthMultiplier = 1.,EPRCalFile=False,firstFigur
     doubleIntC1 = correctedAbs1st.copy().integrate('field')
     doubleIntC3 = correctedAbs3rd.copy().integrate('field')
     doubleIntZC = zeroCorr.copy().integrate('field')
-    diValue = doubleIntZC.data.max()
+    diValue = doubleIntC3.data.max()
     print "\nI calculate the double integral to be: %0.2f\n"%diValue
 
     firstFigure = pys.nextfigure(firstFigure,'DoubleIntegral')
@@ -369,9 +369,9 @@ def workupCwEpr(eprName,spectralWidthMultiplier = 1.,EPRCalFile=False,firstFigur
     else:
         spinConc = None
         #}}}
-    return spec,lineWidths,spectralWidth,centerField,doubleIntZC,diValue,spinConc
+    return spec,lineWidths,spectralWidth,centerField,doubleIntZC,doubleIntC3,diValue,spinConc
     #}}}
 
-#spec,lineWidths,spectralWidth,centerField,doubleIntZC = workupCwEpr(eprName)
+#spec,lineWidths,spectralWidth,centerField,doubleIntZC,doubleIntC3,diValue,spinConc = workupCwEpr(eprName)
 
 

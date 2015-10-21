@@ -459,12 +459,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def connectDatabase(self):#{{{
         self.MONGODB_URI = 'mongodb://rbarnes:tgb47atgb47a@ds047040.mongolab.com:47040/magresdata' 
-        #self.conn = pymongo.MongoClient(self.MONGODB_URI) # Connect to the database that I purchased
-        #db = self.conn.magresdata # 'dynamicalTransition' is the name of my test database
-        #self.collection = db.hanLabODNPTest # This is my test collection
-        self.conn = pymongo.MongoClient('localhost',27017) # Connect to the database that I purchased
-        db = self.conn.homeDB # 'dynamicalTransition' is the name of my test database
-        self.collection = db.localDataRevisedDataLayout # This is my test collection#}}}
+        self.conn = pymongo.MongoClient(self.MONGODB_URI) # Connect to the database that I purchased
+        db = self.conn.magresdata # 'dynamicalTransition' is the name of my test database
+        self.collection = db.hanLabODNPTest # This is my test collection
+        #self.conn = pymongo.MongoClient('localhost',27017) # Connect to the database that I purchased
+        #db = self.conn.homeDB # 'dynamicalTransition' is the name of my test database
+        #self.collection = db.localDataRevisedDataLayout # This is my test collection#}}}
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

@@ -94,9 +94,18 @@ class SelectionWindow(QtGui.QDialog, Ui_SelectionLayout):#{{{
 
     def loadDatabaseDict(self):#{{{
         """ Bring in the latest dictionary entry from database """
-        self.conn = pymongo.MongoClient('localhost',27017) # Connect to the database that I purchased
-        db = self.conn.homeDB # 'dynamicalTransition' is the name of my test database
-        self.collection = db.localDataRevisedDataLayout # This is my test collection
+        ### The external database
+        MONGODB_URI = 'mongodb://rbarnes:tgb47atgb47a@ds047040.mongolab.com:47040/magresdata' # This is the address to the database hosted at MongoLab.com
+        # Make the connection to the server as client
+        self.conn = pymongo.MongoClient(MONGODB_URI) # Connect to the database that I purchased
+        db = self.conn.magresdata 
+        self.collection = db.hanLabODNPTest # This is my test collection 
+
+        ## the home database
+        #self.conn = pymongo.MongoClient('localhost',27017) # Connect to the database that I purchased
+        #db = self.conn.homeDB # 'dynamicalTransition' is the name of my test database
+        #self.collection = db.localDataRevisedDataLayout # This is my test collection
+
         self.databaseParamsDict = dtb.returnDatabaseDictionary(self.collection)
         #self.databaseParamsDict.pop('otherNotes')#}}}
         self.databaseParamsDict.update({'expName':self.guiParent.name})
