@@ -335,7 +335,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         powerArray = pys.r_[t1Data.getaxis('power').min():t1Data.getaxis('power').max():100j]
         t1Fit = pys.nddata(t1fits[0] + t1fits[1]*powerArray).rename('value','power').labels('power',powerArray)
         # kSigma
-        t1Fit.other_info = {'fitValues':t1Fits}
+        t1Fit.other_info = {'fitValues':t1fits}
         kSigmaData = dtb.dictToNdData('kSigmaODNP',dataSet,retValue = False) 
         powerArray = pys.r_[kSigmaData.getaxis('power').min():kSigmaData.getaxis('power').max():100j]
         ksFits = dataSet.get('data').get('kSigmaODNP').get('fitList')
