@@ -250,7 +250,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         indepDimList = []
         for count,value in enumerate(self.itemsToPlot):
             currentData = self.dataDict.get(unicode(value))
-            kSigma = pys.nddata(pys.array([currentData.get('kSigma').output(r'ksmax')])).set_error(pys.array([pys.sqrt(currentData.get('kSigma').covar(r'ksmax'))]))
+            ### this needs to change to accomodate the new method of saving the fit values.
+            kSigma = pys.nddata(pys.array([currentData.get('kSigmaFit').other_info.get('fitVales')[0]])).set_error(pys.array([pys.sqrt(currentData.get('kSigma').covar(r'ksmax'))]))
             T1 = currentData.get('t1SetFit').copy().interp('power',pys.array([0.0])).set_error(pys.array([pys.average(currentData.get('t1Set').data)]))
             kSigmaList.append(kSigma)
             t1List.append(T1)
@@ -294,7 +295,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         i = 0
         while self.mainFrame.checkableList.item(i):
             if self.mainFrame.checkableList.item(i).checkState():
-                # the item is checked so update the plot and do things 
+                # the item is checked so update the plot and append the experiment name to the list of what to plot
                 self.itemsToPlot.append(unicode(self.mainFrame.checkableList.item(i).text()))
                 #self.mainFrame.checkableList.item(i).setBackground(QtGui.QColor(168, 34, 3))
                 self.mainFrame.checkableList.item(i).setBackground(QtGui.QColor(self.colorlist[i]))
@@ -323,9 +324,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         #}}}
 
     def calculateFits(self):#{{{
-        """ Calculate the fits to both the T1 set and the kSigma set 
-
-        This will change to just returning the fit values given the parameters of the fit.
+        """ 
+        Pulls the fit values saved along with the data set and draws the fit line.
         """
         dataSet = list(self.collection.find({'expName':self.currentListSelection}))[0]
         # t1
@@ -335,11 +335,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         powerArray = pys.r_[t1Data.getaxis('power').min():t1Data.getaxis('power').max():100j]
         t1Fit = pys.nddata(t1fits[0] + t1fits[1]*powerArray).rename('value','power').labels('power',powerArray)
         # kSigma
+        t1Fit.other_info = {'fitValues':t1fits}
         kSigmaData = dtb.dictToNdData('kSigmaODNP',dataSet,retValue = False) 
         powerArray = pys.r_[kSigmaData.getaxis('power').min():kSigmaData.getaxis('power').max():100j]
         ksFits = dataSet.get('data').get('kSigmaODNP').get('fitList')
         kSigmaFit = pys.nddata(ksFits[0]/(ksFits[1]+powerArray)*powerArray).rename('value','power').labels('power',powerArray)
-        ### This just takes way too fing long!!
         try:
             eprData = dtb.dictToNdData('cwEPR',dataSet)
         except:
