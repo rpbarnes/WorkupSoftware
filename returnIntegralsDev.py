@@ -473,7 +473,7 @@ class workupODNP(): #{{{ The ODNP Experiment
         t1StartingGuess = 2.5 # best guess for T1
         ReturnKSigma = True ### This needs to be False because my code is broken
         t1SeparatePhaseCycle = 1.0 ### Did you save the phase cycles separately?
-        maxDrift = 100.
+        maxDrift = 1000.
         spectralWidthMultiplier = 1.
         badT1 = []
         # Write parameters to dict if file exists or pull params from existing file
@@ -635,7 +635,7 @@ class workupODNP(): #{{{ The ODNP Experiment
             for expTitle in self.expTitles:
                 print expTitle 
             raise ValueError("\n\nThe experiment numbers are not set appropriately, please scroll through the experiment titles above and set values appropriately")
-        enhancementPowers,self.fl.figurelist = nmr.returnSplitPowers(self.odnpPath,'power',absTime = absTime,bufferVal = self.parameterDict['t1StartingGuess'],threshold = 0.5,titleString = r'Enhancement\ Powers',firstFigure = self.fl.figurelist)
+        enhancementPowers,self.fl.figurelist = nmr.returnSplitPowers(self.odnpPath,'power',absTime = absTime,bufferVal = self.parameterDict['t1StartingGuess'],threshold = 150,titleString = r'Enhancement\ Powers',firstFigure = self.fl.figurelist)
         enhancementPowers = list(enhancementPowers)
         enhancementPowers.insert(0,-100)
         enhancementPowers = array(enhancementPowers)
@@ -661,7 +661,7 @@ class workupODNP(): #{{{ The ODNP Experiment
             print self.expTitles
             raise ValueError("\n\nThe experiment numbers are not set appropriately, please scroll through the experiment titles above and set values appropriately")
         # I have the same problem with the dnp powers, if the starting attenuation is full attenuation '31.5' then there is no initial jump and we need to deal with it the same way. Right now I pull from constant 24 in the aquisition parameters. This should now work without having to ask the user.
-        t1Power,self.fl.figurelist = nmr.returnSplitPowers(self.odnpPath,'t1_powers',absTime = absTime,bufferVal = 20*self.parameterDict['t1StartingGuess'],threshold = 0.5,titleString = r'T_1\ Powers',firstFigure = self.fl.figurelist)
+        t1Power,self.fl.figurelist = nmr.returnSplitPowers(self.odnpPath,'t1_powers',absTime = absTime,bufferVal = 20*self.parameterDict['t1StartingGuess'],threshold = 150,titleString = r'T_1\ Powers',firstFigure = self.fl.figurelist)
         t1Power = list(t1Power)
         t1Power.append(-99.0) # Add the zero power for experiment 304
         t1Power = array(t1Power)
@@ -922,6 +922,7 @@ class workupODNP(): #{{{ The ODNP Experiment
     #}}}
 
 ## Call the class functionality
+### This wont work anymore as you moved all of the function calls to the newWorkup software.
 #x = workupODNP(False,eprName)
 #y = poop
 
