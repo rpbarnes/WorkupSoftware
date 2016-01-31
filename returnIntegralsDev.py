@@ -638,6 +638,16 @@ class workupODNP(): #{{{ The ODNP Experiment
                 print expTitle 
             raise ValueError("\n\nThe experiment numbers are not set appropriately, please scroll through the experiment titles above and set values appropriately")
         enhancementPowers,self.fl.figurelist = nmr.returnSplitPowers(self.odnpPath,'power',absTime = absTime,bufferVal = self.parameterDict['t1StartingGuess'],threshold = 150,titleString = r'Enhancement\ Powers',firstFigure = self.fl.figurelist)
+        """
+        Confusion / Clarification.
+        returnSplitPowers returns 1 less than the len of absTime. Abstime is all odnp experiments including #5 which is run with the amplifier off, thus when the code looks for a power during this time it finds that there is no data and returns Nan. I then insert a zero power value to the list below. This also occurs for the T1 measurements.
+
+        The problem is if any data exists during absTime the function will return a value -->>> This is now fixed.
+
+        I notice that if I change the T1 starting guess I can aggrevate this problem, this is because the function returnSplitPowers uses the t1StartingGuess to determine the buffer value between experiments as this value will scale nicely with the experiment length.
+        
+        """
+
         enhancementPowers = list(enhancementPowers)
         enhancementPowers.insert(0,-100)
         enhancementPowers = array(enhancementPowers)
