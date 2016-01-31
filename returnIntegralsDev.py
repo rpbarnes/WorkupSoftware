@@ -1,7 +1,8 @@
 """
 This is a modularized version of returnIntegrals
 
-The goal is to implement this code as is in the new GUI format.
+This is implemented in newWorkup and called exclusively there.
+
 """
 # Functions to import #{{{
 import fornotebook as fnb
@@ -631,6 +632,7 @@ class workupODNP(): #{{{ The ODNP Experiment
         # The enhancement series#{{{
         self.fl.figurelist.append({'print_string':r'\subparagraph{Enhancement Power Measurement}' + '\n\n'})
         expTimes,expTimeMin,absTime = nmr.returnExpTimes(self.odnpPath,self.dnpExps,dnpExp = True,operatingSys = self.systemOpt) # this is not a good way because the experiment numbers must be set right.
+        print "I read the length of absTime = %i"%len(absTime)
         if not expTimeMin:
             for expTitle in self.expTitles:
                 print expTitle 
