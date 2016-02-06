@@ -84,7 +84,7 @@ def dataToASC(dataWriter,fileName):
     #}}}
 
 # Write data tuple to csv#{{{
-def dataToCSV(dataWriter, fileName):
+def dataToCSV(dataWriter, fileName,flag = 'wb'):
     """
     Write a tuple of data to a csv. You need to pass the tuple to write to the csv.
 
@@ -92,13 +92,13 @@ def dataToCSV(dataWriter, fileName):
     dataWriter - tuple of data. eg. zip(list(enhancementPowerSeries.getaxis('power')),list(enhancementPowerSeries.data),list(enhancementSeries.getaxis('expNum'))) 
     fileName - string of the full filename
     """
-    with open(fileName,'wb') as csvFile:
+    with open(fileName,flag) as csvFile:
         writer = csv.writer(csvFile,delimiter =',')
         writer.writerows(dataWriter)
 #}}}
 
 # Save dict to csv #{{{
-def dictToCSV(fileName, dataDict): 
+def dictToCSV(fileName, dataDict,flag='w+'): 
     """
     Write a dictionary object to a csv file. This currently can handle a dictionary containing strings, lists, and dictionaries.
 
@@ -111,7 +111,7 @@ def dictToCSV(fileName, dataDict):
 
     None
     """
-    openFile = open(fileName+'.csv','w+')
+    openFile = open(fileName+'.csv',flag)
     ### Write to a csv given the dictionary entry
     for keyName in dataDict:
         if type(dataDict.get(keyName)) is list:
@@ -228,6 +228,7 @@ class workupODNP(): #{{{ The ODNP Experiment
         self.guiParent = guiParent # import everything from the parent gui into this child class. This way we can manipulate the gui from here.
         self.runningDir = os.getcwd()
         self.systemOpt = os.name
+        self.dataFile = 'ODNPOutput.csv'
         self.fl = fnb.figlist()
 
 
@@ -797,11 +798,12 @@ class workupODNP(): #{{{ The ODNP Experiment
         params.add('slope', value=1)
         params.add('intercept', value=0.5)
         out = minimize(residual, params, args=(rateSeries.getaxis('power'), rateSeries.data, rateSeries.get_error()))
-        powerAxis = pys.r_[rateSeries.getaxis('power').min():rateSeries.getaxis('power').max():100j]
-        rateFit = pys.nddata(analyticLinear(out.params,powerAxis)).rename('value','power').labels(['power'],[powerAxis])
+        powerAxis = pys.r_[0:rateSeries.getaxis('power').max():100j]
+        self.rateFit = pys.nddata(analyticLinear(out.params,powerAxis)).rename('value','power').labels(['power'],[powerAxis])
+        self.zeroPowerFit = out.params.get('intercept').value
         self.fl.figurelist = pys.nextfigure(self.fl.figurelist,'Rate Series')
         pys.plot(rateSeries,'r.')
-        pys.plot(rateFit)
+        pys.plot(self.rateFit)
         pys.giveSpace()
         pys.ylabel('$1/T_{1}\\ (s^{-1})$')
         pys.title('Rate Series')
@@ -815,7 +817,7 @@ class workupODNP(): #{{{ The ODNP Experiment
         self.kSigmaUC = self.kSigmaUC.alloc(dtype = 'float')
         self.kSigmaUC.data = pys.array([self.kSigmaUCCurve.output(r'ksmax')])
         self.kSigmaUC.set_error(sqrt(self.kSigmaUCCurve.covar(r'ksmax')))
-        self.kSigmaCCurve = (1- self.enhancementPowerSeries.copy())*rateFit.copy().interp('power',self.enhancementPowerSeries.getaxis('power'))*(1./659.33)
+        self.kSigmaCCurve = (1- self.enhancementPowerSeries.copy())*self.rateFit.copy().interp('power',self.enhancementPowerSeries.getaxis('power'))*(1./659.33)
         self.kSigmaCCurve = nmrfit.ksp(self.kSigmaCCurve)
         self.kSigmaCCurve.fit()
         self.kSigmaC = pys.nddata(self.kSigmaCCurve.output(r'ksmax')).rename('value','').set_error(array([sqrt(self.kSigmaCCurve.covar(r'ksmax'))]))
@@ -896,6 +898,15 @@ class workupODNP(): #{{{ The ODNP Experiment
             if self.parameterDict['ReturnKSigma']:
                 kSigmaWriter = [('kSigma','error')] + zip(list(self.kSigmaC.data),list(self.kSigmaC.get_error())) + [('\n')] + [('kSigma','power')] + zip(list(self.kSigmaCCurve.runcopy(real).data),list(self.kSigmaCCurve.getaxis('power')))
                 dataToCSV(kSigmaWriter,self.odnpName+'kSigma.csv')
+              
+            # write all relaxation parameters to file
+            header = [('ODNP fileName','T1 (s)', 'T1 Error (s)', 'T1 Fit (s)','kSigma (s-1)','kSigma Error (s-1)')]
+            dataWriter = [(self.odnpPath,float(self.R1.data[0]),float(self.R1.get_error()[0]),float(self.t1PowerFitVal[0]),float(self.kSigmaC.data[0]),float(self.kSigmaC.get_error()[0]))]
+            fileExists = os.path.isfile(self.dataFile)
+            if fileExists:
+                dataToCSV(dataWriter,self.dataFile,flag='a')
+            else:
+                dataToCSV(header + dataWriter,self.dataFile,flag='a')
         ### Write the EPR
         if self.eprExp:
             eprWriter = zip(list(self.spec.getaxis('field')),list(self.spec.data),list(self.doubleIntC3.data))
@@ -915,9 +926,9 @@ class workupODNP(): #{{{ The ODNP Experiment
     def writeExpParams(self): ##{{{ Write out the relevant values from the DNP experiment
         if self.dnpexp: # DNP is True, T10 is False
             self.fl.figurelist.append({'print_string':'\n\n' + r'\subparagraph{DNP parameters} \\' + '\n\n'})
-            self.fl.figurelist.append({'print_string':r'$\mathtt{k_{\sigma} S_{max} = \frac{%0.5f}{Conc} \pm %0.5f \ (s^{-1} M^{-1})}$\\'%(self.kSigmaC.data,self.kSigmaC.get_error())})
+            self.fl.figurelist.append({'print_string':r'$\mathtt{k_{\sigma} S_{max} C = %0.5f \pm %0.5f \ (s^{-1})}$\\'%(self.kSigmaC.data,self.kSigmaC.get_error())})
             self.fl.figurelist.append({'print_string':r'$\mathtt{E_{max} = %0.3f \pm %0.3f \ (Unitless)}$\\'%(self.enhancementPowerSeries.output(r'E_{max}'),self.enhancementPowerSeries.covar(r'E_{max}')) + '\n\n'})
-            self.fl.figurelist.append({'print_string':r'$\mathtt{T_{1}(p=0) = %0.3f \pm %0.3f \ (Seconds)}$\\'%(self.R1.data,self.R1.get_error()) + '\n\n'})
+            self.fl.figurelist.append({'print_string':r'$\mathtt{T_{1}(p=0) = %0.3f \pm %0.3f \ (Seconds)\ From fit T_1(p=0) = %0.3f (Seconds)}$\\'%(self.R1.data,self.R1.get_error(),self.t1PowerFitVal[0]) + '\n\n'})
         elif self.nmrExp:
             self.fl.figurelist.append({'print_string':r'\subparagraph{$T_{1,0}$ Parameters}\\' + '\n\n'})
             for i in range(len(self.t1Series.data)):
