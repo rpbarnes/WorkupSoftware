@@ -638,7 +638,7 @@ class workupODNP(): #{{{ The ODNP Experiment
             for expTitle in self.expTitles:
                 print expTitle 
             raise ValueError("\n\nThe experiment numbers are not set appropriately, please scroll through the experiment titles above and set values appropriately")
-        enhancementPowers,self.fl.figurelist = nmr.returnSplitPowers(self.odnpPath,'power',absTime = absTime,bufferVal = self.parameterDict['t1StartingGuess'],threshold = 150,titleString = r'Enhancement\ Powers',firstFigure = self.fl.figurelist)
+        enhancementPowers,self.fl.figurelist = nmr.returnSplitPowers(self.odnpPath,'power',absTime = absTime,bufferVal = self.parameterDict['t1StartingGuess'],threshold = 20,titleString = r'Enhancement\ Powers',firstFigure = self.fl.figurelist)
         """
         Confusion / Clarification.
         returnSplitPowers returns 1 less than the len of absTime. Abstime is all odnp experiments including #5 which is run with the amplifier off, thus when the code looks for a power during this time it finds that there is no data and returns Nan. I then insert a zero power value to the list below. This also occurs for the T1 measurements.
@@ -674,7 +674,7 @@ class workupODNP(): #{{{ The ODNP Experiment
             print self.expTitles
             raise ValueError("\n\nThe experiment numbers are not set appropriately, please scroll through the experiment titles above and set values appropriately")
         # I have the same problem with the dnp powers, if the starting attenuation is full attenuation '31.5' then there is no initial jump and we need to deal with it the same way. Right now I pull from constant 24 in the aquisition parameters. This should now work without having to ask the user.
-        t1Power,self.fl.figurelist = nmr.returnSplitPowers(self.odnpPath,'t1_powers',absTime = absTime,bufferVal = 20*self.parameterDict['t1StartingGuess'],threshold = 150,titleString = r'T_1\ Powers',firstFigure = self.fl.figurelist)
+        t1Power,self.fl.figurelist = nmr.returnSplitPowers(self.odnpPath,'t1_powers',absTime = absTime,bufferVal = 20*self.parameterDict['t1StartingGuess'],threshold = 20,titleString = r'T_1\ Powers',firstFigure = self.fl.figurelist)
         t1Power = list(t1Power)
         t1Power.append(-99.0) # Add the zero power for experiment 304
         t1Power = array(t1Power)
