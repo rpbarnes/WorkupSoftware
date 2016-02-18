@@ -545,6 +545,12 @@ class workupODNP(): #{{{ The ODNP Experiment
                     self.t1Exps.append(int(name))
                 except:
                     print "Not a valid experiment."
+            if '$T_1$' in title:
+                try:
+                    temp = nmr.load_file(self.odnpPath+'/'+name)
+                    self.t1Exps.append(int(name))
+                except:
+                    print "Not a valid experiment."
             if 'T_{1,0}' in title:
                 try:
                     temp = nmr.load_file(self.odnpPath+'/'+name)
@@ -553,7 +559,11 @@ class workupODNP(): #{{{ The ODNP Experiment
                     print "Not a valid experiment."
         self.dnpExps.sort()
         self.t1Exps.sort()
-        self.dnpExps = self.dnpExps[0:-2] # just drop 700 and 701 as they're no longer used.
+        for i in [700,701]:
+            try:
+                self.dnpExps.remove(i)
+            except:
+                print "already removed"
         #}}}
 
     def determineExperiment(self): #{{{ What Type of Experiment? 
