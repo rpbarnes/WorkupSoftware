@@ -737,16 +737,6 @@ class workupODNP(): #{{{ The ODNP Experiment
         #}}}
     #}}}
 
-    def makeT1PowerSeries(self): #{{{  The T1 power series
-        self.t1PowerSeries = self.t1Series.copy().rename('expNum','power').labels(['power'],[array(self.t1Power)])
-        self.fl.figurelist = pys.nextfigure(self.fl.figurelist,'T1PowerSeries')
-        self.t1PowerFitVal,self.t1PowerFit = self.t1PowerSeries.polyfit('power')
-        pys.plot(self.t1PowerSeries,'r.')
-        pys.plot(self.t1PowerFit,'b-')
-        pys.giveSpace()
-        pys.ylabel('$T_{1}\\ (s)$')
-        pys.title('$T_1$ Power Series')
-    #}}}
 
     def T1Integration(self):#{{{ T1 Integration
         self.t1SeriesList = [] 
@@ -760,38 +750,78 @@ class workupODNP(): #{{{ The ODNP Experiment
                 self.fl.figurelist.append({'print_string':r'$T_1$ experiment %d at power %0.2f dBm'%(expNum,self.t1Power[count]) + '\n\n'})
             else:
                 self.fl.figurelist.append({'print_string':r'$T_1$ experiment %d'%(expNum) + '\n\n'})
-            if self.parameterDict['t1SeparatePhaseCycle']: # The phase cycles are saved separately 
-                rawT1,self.fl.figurelist = nmr.integrate(self.odnpPath,expNum,integration_width = self.parameterDict['integrationWidth'],phchannel = [-1],phnum = [4],max_drift = self.parameterDict['maxDrift'],first_figure = self.fl.figurelist,pdfstring = 't1Expno_%d'%(expNum))
-            else: # the phase cycle is already performed on the Bruker
-                rawT1,self.fl.figurelist = nmr.integrate(self.odnpPath,expNum,integration_width = self.parameterDict['integrationWidth'],phchannel = [],phnum = [],max_drift = self.parameterDict['maxDrift'],first_figure = self.fl.figurelist,pdfstring = 't1Expno_%d'%(expNum))
-            rawT1.rename('power','delay')
-            print "pulling delay from expno %0.2f"%expNum
-            delay = nmr.bruker_load_vdlist(self.odnpPath + '/%d/' %expNum)
-            rawT1 = rawT1['delay',0:len(delay)]
-            rawT1.labels(['delay'],[delay])
-            rawT1 = nmrfit.t1curve(rawT1.runcopy(real),verbose = False) 
-            s2 = float(rawT1['delay',-1].data)
-            s1 = -s2
-            rawT1.starting_guesses.insert(0,array([s1,s2,self.parameterDict['t1StartingGuess']]))
-            rawT1.fit()
-            self.fl.figurelist = pys.nextfigure(self.fl.figurelist,'t1RawDataExp%d'%(expNum))
-            ax = pys.gca()
-            pys.title('T1 Exp %0.2f'%(expNum))
-            pys.text(0.5,0.75,rawT1.latex(),transform = ax.transAxes,size = 'x-large', horizontalalignment = 'center',color = 'k')
-            pys.plot(rawT1,'r.')
-            pys.plot(rawT1.eval(100))
-            pys.plot(rawT1.runcopy(imag),'g.')
-            #pys.plot(rawT1 - rawT1.eval(100).interp('delay',rawT1.getaxis('delay')).runcopy(real),'g.')
-            t1DataList.append(rawT1.output(r'T_1'))
-            t1ErrList.append(sqrt(rawT1.covar(r'T_1')))
-            self.t1SeriesList.append(rawT1)
-            self.fl.figurelist.append({'print_string':r'\large{$T_1 = %0.3f \pm %0.3f\ s$}'%(rawT1.output(r'T_1'),sqrt(rawT1.covar(r'T_1'))) + '\n\n'})
+            try:
+                if self.parameterDict['t1SeparatePhaseCycle']: # The phase cycles are saved separately 
+                    rawT1,self.fl.figurelist = nmr.integrate(self.odnpPath,expNum,integration_width = self.parameterDict['integrationWidth'],phchannel = [-1],phnum = [4],max_drift = self.parameterDict['maxDrift'],first_figure = self.fl.figurelist,pdfstring = 't1Expno_%d'%(expNum))
+                else: # the phase cycle is already performed on the Bruker
+                    rawT1,self.fl.figurelist = nmr.integrate(self.odnpPath,expNum,integration_width = self.parameterDict['integrationWidth'],phchannel = [],phnum = [],max_drift = self.parameterDict['maxDrift'],first_figure = self.fl.figurelist,pdfstring = 't1Expno_%d'%(expNum))
+                rawT1.rename('power','delay')
+                print "pulling delay from expno %0.2f"%expNum
+                delay = nmr.bruker_load_vdlist(self.odnpPath + '/%d/' %expNum)
+                rawT1 = rawT1['delay',0:len(delay)]
+                rawT1.labels(['delay'],[delay])
+                rawT1 = nmrfit.t1curve(rawT1.runcopy(real),verbose = False) 
+                s2 = float(rawT1['delay',-1].data)
+                s1 = -s2
+                rawT1.starting_guesses.insert(0,array([s1,s2,self.parameterDict['t1StartingGuess']]))
+                try:
+                    rawT1.fit()
+                    self.fl.figurelist = pys.nextfigure(self.fl.figurelist,'t1RawDataExp%d'%(expNum))
+                    ax = pys.gca()
+                    pys.title('T1 Exp %0.2f'%(expNum))
+                    pys.text(0.5,0.75,rawT1.latex(),transform = ax.transAxes,size = 'x-large', horizontalalignment = 'center',color = 'k')
+                    pys.plot(rawT1,'r.')
+                    pys.plot(rawT1.eval(100))
+                    pys.plot(rawT1.runcopy(imag),'g.')
+                    #pys.plot(rawT1 - rawT1.eval(100).interp('delay',rawT1.getaxis('delay')).runcopy(real),'g.')
+                    t1DataList.append(rawT1.output(r'T_1'))
+                    t1ErrList.append(sqrt(rawT1.covar(r'T_1')))
+                    self.t1SeriesList.append(rawT1)
+                    self.fl.figurelist.append({'print_string':r'\large{$T_1 = %0.3f \pm %0.3f\ s$}'%(rawT1.output(r'T_1'),sqrt(rawT1.covar(r'T_1'))) + '\n\n'})
+                except:
+                    # Catch all exception - Maybe not the best 
+                    self.fl.figurelist = pys.nextfigure(self.fl.figurelist,'t1RawDataExp%d'%(expNum))
+                    ax = pys.gca()
+                    pys.title('T1 Exp %0.2f'%(expNum))
+                    pys.plot(rawT1,'r.')
+                    pys.plot(rawT1.runcopy(imag),'g.')
+                    self.fl.figurelist.append({'print_string':r'Was not able to fit the $T_1$ data for experiment %i'%expNum + '\n\n'})
+                    t1DataList.append(NaN)
+                    t1ErrList.append(NaN)
+            except:
+                # Catch all exception - Maybe not the best 
+                self.fl.figurelist.append({'print_string':r'Was not able to read the $T_1$ data for experiment %i'%expNum + '\n\n'})
+                t1DataList.append(NaN)
+                t1ErrList.append(NaN)
+                
         # The t1 of experiment series
         self.t1Series = pys.nddata(array(t1DataList)).rename('value','expNum').labels(['expNum'],array([self.t1Exps])).set_error(array(t1ErrList))
         #}}}
 
-    def compKsigma(self): # Compute kSigma #{{{
-        self.R1 = pys.nddata(self.t1Series['expNum',lambda x: x == 304].data).set_error(self.t1Series['expNum',lambda x: x == 304].get_error())
+    def makeT1PowerSeries(self): #{{{  The T1 power series
+        self.t1PowerSeries = self.t1Series.copy().rename('expNum','power').labels(['power'],[array(self.t1Power)])
+        self.fl.figurelist = pys.nextfigure(self.fl.figurelist,'T1PowerSeries')
+        self.t1PowerFitVal,self.t1PowerFit = self.t1PowerSeries.polyfit('power')
+        pys.plot(self.t1PowerSeries,'r.')
+        pys.plot(self.t1PowerFit,'b-')
+        pys.giveSpace()
+        pys.ylabel('$T_{1}\\ (s)$')
+        pys.title('$T_1$ Power Series')
+
+        ### Go through and check for NaN value.
+        p = []
+        t1 = []
+        e = []
+        for count,value in enumerate(self.t1PowerSeries.data):
+            if isnan(value):
+                self.fl.figurelist.append({'print_string':'\n\n' + r'T1 Value is NaN, Meaning Fit or Experiment did not run properly. You need to check this out!! \\' + '\n\n'})
+            else:
+                p.append(self.t1PowerSeries.getaxis('power')[count])
+                e.append(self.t1PowerSeries.get_error()[count])
+                t1.append(value)
+        self.t1PowerSeries = pys.nddata(array(t1)).rename('value','power').labels('power',array(p)).set_error(array(e))
+
+
         #{{{ Fit the relaxation rate power series
         rateSeries = 1/self.t1PowerSeries.runcopy(real)
         powers = pys.linspace(0,self.t1PowerSeries.getaxis('power').max(),100)
@@ -818,6 +848,10 @@ class workupODNP(): #{{{ The ODNP Experiment
         pys.ylabel('$1/T_{1}\\ (s^{-1})$')
         pys.title('Rate Series')
         #}}}
+    #}}}
+
+    def compKsigma(self): # Compute kSigma #{{{
+        self.R1 = pys.nddata(self.t1Series['expNum',lambda x: x == 304].data).set_error(self.t1Series['expNum',lambda x: x == 304].get_error())
         self.kSigmaUCCurve = (1-self.enhancementPowerSeries.copy())*(1./self.R1)*(1./659.33)
         self.kSigmaUCCurve.popdim('value') # For some reason it picks this up from R1, I'm not sure how to do the above nicely 
         self.kSigmaUCCurve.set_error(None)
@@ -826,7 +860,10 @@ class workupODNP(): #{{{ The ODNP Experiment
         self.kSigmaUC = pys.ndshape([1],[''])
         self.kSigmaUC = self.kSigmaUC.alloc(dtype = 'float')
         self.kSigmaUC.data = pys.array([self.kSigmaUCCurve.output(r'ksmax')])
-        self.kSigmaUC.set_error(sqrt(self.kSigmaUCCurve.covar(r'ksmax')))
+        try:
+            self.kSigmaUC.set_error(sqrt(self.kSigmaUCCurve.covar(r'ksmax')))
+        except:
+            pass
         self.kSigmaCCurve = (1- self.enhancementPowerSeries.copy())*self.rateFit.copy().interp('power',self.enhancementPowerSeries.getaxis('power'))*(1./659.33)
         self.kSigmaCCurve = nmrfit.ksp(self.kSigmaCCurve)
         self.kSigmaCCurve.fit()
@@ -837,8 +874,9 @@ class workupODNP(): #{{{ The ODNP Experiment
         pys.plot(self.kSigmaCCurve.eval(100),'r-')
         pys.text(0.5,0.5,self.kSigmaCCurve.latex(),transform = ax.transAxes,size = 'x-large', horizontalalignment = 'center',color = 'r')
         pys.plot(self.kSigmaUCCurve.copy().set_error(None),'b.',label = 'un-corr')
-        pys.plot(self.kSigmaUCCurve.eval(100),'b-')
-        pys.text(0.5,0.25,self.kSigmaUCCurve.latex(),transform = ax.transAxes,size = 'x-large', horizontalalignment = 'center',color = 'b')
+        if self.kSigmaUC.get_error() is not None:
+            pys.plot(self.kSigmaUCCurve.eval(100),'b-')
+            pys.text(0.5,0.25,self.kSigmaUCCurve.latex(),transform = ax.transAxes,size = 'x-large', horizontalalignment = 'center',color = 'b')
         pys.ylabel('$k_{\\sigma}\\ (M s^{-1}$)')
         pys.title('$k_{\\sigma} \\ S_{max}\\ Conc$')
         pys.legend(loc=4)
