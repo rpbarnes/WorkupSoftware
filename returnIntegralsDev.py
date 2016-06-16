@@ -737,7 +737,6 @@ class workupODNP(): #{{{ The ODNP Experiment
         #}}}
     #}}}
 
-
     def T1Integration(self):#{{{ T1 Integration
         self.t1SeriesList = [] 
         t1DataList = []
@@ -800,6 +799,18 @@ class workupODNP(): #{{{ The ODNP Experiment
 
     def makeT1PowerSeries(self): #{{{  The T1 power series
         self.t1PowerSeries = self.t1Series.copy().rename('expNum','power').labels(['power'],[array(self.t1Power)])
+        ### Go through and check for NaN value.
+        p = []
+        t1 = []
+        e = []
+        for count,value in enumerate(self.t1PowerSeries.data):
+            if isnan(value):
+                self.fl.figurelist.append({'print_string':'\n\n' + r'T1 Value is NaN, Meaning Fit or Experiment did not run properly. You should check this out!! i.e. TALK TO RYAN!! \\' + '\n\n'})
+            else:
+                p.append(self.t1PowerSeries.getaxis('power')[count])
+                e.append(self.t1PowerSeries.get_error()[count])
+                t1.append(value)
+        self.t1PowerSeries = pys.nddata(array(t1)).rename('value','power').labels('power',array(p)).set_error(array(e))
         self.fl.figurelist = pys.nextfigure(self.fl.figurelist,'T1PowerSeries')
         self.t1PowerFitVal,self.t1PowerFit = self.t1PowerSeries.polyfit('power')
         pys.plot(self.t1PowerSeries,'r.')
@@ -807,20 +818,6 @@ class workupODNP(): #{{{ The ODNP Experiment
         pys.giveSpace()
         pys.ylabel('$T_{1}\\ (s)$')
         pys.title('$T_1$ Power Series')
-
-        ### Go through and check for NaN value.
-        p = []
-        t1 = []
-        e = []
-        for count,value in enumerate(self.t1PowerSeries.data):
-            if isnan(value):
-                self.fl.figurelist.append({'print_string':'\n\n' + r'T1 Value is NaN, Meaning Fit or Experiment did not run properly. You need to check this out!! \\' + '\n\n'})
-            else:
-                p.append(self.t1PowerSeries.getaxis('power')[count])
-                e.append(self.t1PowerSeries.get_error()[count])
-                t1.append(value)
-        self.t1PowerSeries = pys.nddata(array(t1)).rename('value','power').labels('power',array(p)).set_error(array(e))
-
 
         #{{{ Fit the relaxation rate power series
         rateSeries = 1/self.t1PowerSeries.runcopy(real)
@@ -851,7 +848,11 @@ class workupODNP(): #{{{ The ODNP Experiment
     #}}}
 
     def compKsigma(self): # Compute kSigma #{{{
-        self.R1 = pys.nddata(self.t1Series['expNum',lambda x: x == 304].data).set_error(self.t1Series['expNum',lambda x: x == 304].get_error())
+        if isnan(self.t1Series['expNum',lambda x: x == 304].data):
+            # If 304 didn't come out pull the value from the fit.
+            self.R1 = pys.nddata(self.t1PowerFit['power',0].data).set_error(average(self.t1PowerSeries.get_error()))
+        else:
+            self.R1 = pys.nddata(self.t1Series['expNum',lambda x: x == 304].data).set_error(self.t1Series['expNum',lambda x: x == 304].get_error())
         self.kSigmaUCCurve = (1-self.enhancementPowerSeries.copy())*(1./self.R1)*(1./659.33)
         self.kSigmaUCCurve.popdim('value') # For some reason it picks this up from R1, I'm not sure how to do the above nicely 
         self.kSigmaUCCurve.set_error(None)
