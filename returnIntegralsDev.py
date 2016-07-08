@@ -304,7 +304,7 @@ class workupODNP(): #{{{ The ODNP Experiment
                     #}}}
 
     def returnEPRData(self): #{{{ EPR Workup stuff
-        self.spec,self.lineWidths,self.spectralWidth,self.centerField,self.doubleIntZC,self.doubleIntC3,self.diValue,self.spinConc = eprDI.workupCwEpr(self.eprName,self.parameterDict.get('spectralWidthMultiplier'),EPRCalFile=self.guiParent.EPRCalFile,firstFigure=self.fl.figurelist)
+        self.spec,self.lineWidths,self.spectralWidth,self.centerField,self.doubleIntZC,self.doubleIntC3,self.diValue,self.spinConc = eprDI.workupCwEpr(self.eprName,self.parameterDict.get('spectralWidthMultiplier'),numPeaks=int(self.parameterDict.get('numPeaks')),EPRCalFile=self.guiParent.EPRCalFile,firstFigure=self.fl.figurelist)
         """
         Perform the epr baseline correction and double integration.
 
@@ -456,7 +456,7 @@ class workupODNP(): #{{{ The ODNP Experiment
         """ Instead of using raw input you need to use this gettext functionality from Qt. This will work until you make a dialog to do this.
         Edit the experimental parameters dict
         """
-        paramsToEdit = [['spectralWidthMultiplier','Enter the multiplier for the EPR spectral width.']]
+        paramsToEdit = [['spectralWidthMultiplier','Enter the multiplier for the EPR spectral width.'],['numPeaks','Enter the number of peaks in you EPR spectra.']]
         for dictKey,textToWrite in paramsToEdit:
             text, ok = QtGui.QInputDialog.getText(self.guiParent, 'Experimental Parameters', textToWrite,QtGui.QLineEdit.Normal,str(self.parameterDict.get(dictKey)))
             if ok:
@@ -477,6 +477,7 @@ class workupODNP(): #{{{ The ODNP Experiment
         t1SeparatePhaseCycle = 1.0 ### Did you save the phase cycles separately?
         maxDrift = 100.
         spectralWidthMultiplier = 1.
+        numPeaks = 3.
         badT1 = []
         # Write parameters to dict if file exists or pull params from existing file
         expExists = os.path.isfile(self.expParametersFile)
@@ -488,7 +489,8 @@ class workupODNP(): #{{{ The ODNP Experiment
                             't1SeparatePhaseCycle':t1SeparatePhaseCycle,
                             'badT1':badT1,
                             'maxDrift':maxDrift,
-                            'spectralWidthMultiplier':spectralWidthMultiplier
+                            'spectralWidthMultiplier':spectralWidthMultiplier,
+                            'numPeaks':numPeaks
                             }
             dtb.writeDict(self.expParametersFile,self.parameterDict)
         else:
