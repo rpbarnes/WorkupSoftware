@@ -11,7 +11,9 @@ def analyticLinear(params,x):
     return slope * x + intercept
 
 def residual(params, x, data, error):
-    return (data-analyticLinear(params,x))/error # this is where I weight the error.
+    return (data-analyticLinear(params,x))#/error # this is where I weight the error.
+def residualError(params, x, data, error):
+    return (data-analyticLinear(params,x))/error # this is where I weight the error.	
 
 params = Parameters()
 # you can add attributes to the fitting dictionary in such a way
@@ -29,14 +31,23 @@ data.sort('power') # sort the data according to the dimension labeled power.
 
 # Call the minimize function
 out = minimize(residual, params, args=(data.getaxis('power'), data.data, data.get_error())) # here eps_data is a weighting factor for the data, I think the best way is to weight by the error
-
 # make a new x-dimension for calculating the fit line.
 powerAxis = r_[data.getaxis('power').min():data.getaxis('power').max():100j] 
 fit = nddata(analyticLinear(out.params,powerAxis)).rename('value','power').labels(['power'],[powerAxis])
 
+# Call the minimize function
+out = minimize(residualError, params, args=(data.getaxis('power'), data.data, data.get_error())) # here eps_data is a weighting factor for the data, I think the best way is to weight by the error
+# make a new x-dimension for calculating the fit line.
+powerAxis = r_[data.getaxis('power').min():data.getaxis('power').max():100j] 
+fitError = nddata(analyticLinear(out.params,powerAxis)).rename('value','power').labels(['power'],[powerAxis])
+
+
 figure()
 plot(data,'r.')
-plot(fit,'g')
+plot(fit,'g',label='Unweighted')
+plot(fitError,'b',label='ErrorWeighted')
+giveSpace()
+legend()
 show()
 
 
