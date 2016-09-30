@@ -791,6 +791,7 @@ class workupODNP(): #{{{ The ODNP Experiment
             except:
                 # Catch all exception - Maybe not the best 
                 self.fl.figurelist.append({'print_string':r'Was not able to read the $T_1$ data for experiment %i'%expNum + '\n\n'})
+                print "bad T1 data"
                 t1DataList.append(NaN)
                 t1ErrList.append(NaN)
                 
@@ -801,9 +802,10 @@ class workupODNP(): #{{{ The ODNP Experiment
     def makeT1PowerSeries(self): #{{{  The T1 power series
         self.t1PowerSeries = self.t1Series.copy().rename('expNum','power').labels(['power'],[array(self.t1Power)])
         ### Go through and check for NaN value.
+        print self.t1PowerSeries.data
         p = []
-        t1 = []
         e = []
+        t1 = []
         for count,value in enumerate(self.t1PowerSeries.data):
             if isnan(value):
                 self.fl.figurelist.append({'print_string':'\n\n' + r'T1 Value is NaN, Meaning Fit or Experiment did not run properly. You should check this out!! i.e. TALK TO RYAN!! \\' + '\n\n'})
