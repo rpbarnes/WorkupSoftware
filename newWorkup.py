@@ -143,7 +143,7 @@ class initialWindow(QDialog, Ui_mainWindow):
     def runExperiment(self):#{{{
         """ Make the calls to run the odnp experimental workup from returnIntegralsDev """
         self.retInt.determineExpType()
-        self.retInt.editDatabase()
+        #self.retInt.editDatabase()
         if self.retInt.nmrExp: self.retInt.returnExpNumbers()
         self.retInt.returnExpParamsDict()
         ### # if self.retInt.nmrExp: self.retInt.determineExperiment() # Should no longer be needed, hang on to incase you need something.
