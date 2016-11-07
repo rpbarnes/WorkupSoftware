@@ -443,7 +443,7 @@ class workupODNP(): #{{{ The ODNP Experiment
 
         Cancel should stop the workup.
         """
-        paramsToEdit = [['t1StartingGuess','Enter the T1 Guess (s):'],['integrationWidth','Enter the Integration Width (Hz):'],['t1SeparatePhaseCycle','separate phase cycle yes = 1, no = 0:']]
+        paramsToEdit = [['t1StartingGuess','Enter the T1 Guess (s):'],['maxDrift','Enter the maximum drift of the NMR line (Hz)'],['integrationWidth','Enter the Integration Width (Hz):'],['t1SeparatePhaseCycle','separate phase cycle yes = 1, no = 0:']]
         for dictKey,textToWrite in paramsToEdit:
             text, ok = QtGui.QInputDialog.getText(self.guiParent, 'Experimental Parameters', textToWrite,QtGui.QLineEdit.Normal,str(self.parameterDict.get(dictKey)))
             if ok:
@@ -705,7 +705,7 @@ class workupODNP(): #{{{ The ODNP Experiment
 
     def enhancementIntegration(self): #{{{ Enhancement Integration
         self.fl.figurelist.append({'print_string':r'\subparagraph{Enhancement Series}' + '\n\n'})
-        enhancementSeries,self.fl.figurelist = nmr.integrate(self.odnpPath,self.dnpExps,integration_width = self.parameterDict['integrationWidth'],max_drift = self.parameterDict['maxDrift'],phchannel = [-1],phnum = [4],first_figure = self.fl.figurelist)
+        enhancementSeries,self.fl.figurelist = nmr.integrate(self.odnpPath,self.dnpExps,integration_width = self.parameterDict['integrationWidth'],max_drift = self.parameterDict['maxDrift'],phchannel = [-1],phnum = [4],test_drift_limit=True,first_figure = self.fl.figurelist)
         enhancementSeries.rename('power','expNum').labels(['expNum'],[self.dnpExps])
         ### Fit and plot the Enhancement
         self.enhancementSeries = enhancementSeries.runcopy(real)
@@ -752,9 +752,9 @@ class workupODNP(): #{{{ The ODNP Experiment
                 self.fl.figurelist.append({'print_string':r'$T_1$ experiment %d'%(expNum) + '\n\n'})
             try:
                 if self.parameterDict['t1SeparatePhaseCycle']: # The phase cycles are saved separately 
-                    rawT1,self.fl.figurelist = nmr.integrate(self.odnpPath,expNum,integration_width = self.parameterDict['integrationWidth'],phchannel = [-1],phnum = [4],max_drift = self.parameterDict['maxDrift'],first_figure = self.fl.figurelist,pdfstring = 't1Expno_%d'%(expNum))
+                    rawT1,self.fl.figurelist = nmr.integrate(self.odnpPath,expNum,test_drift_limit=True,integration_width = self.parameterDict['integrationWidth'],phchannel = [-1],phnum = [4],max_drift = self.parameterDict['maxDrift'],first_figure = self.fl.figurelist,pdfstring = 't1Expno_%d'%(expNum))
                 else: # the phase cycle is already performed on the Bruker
-                    rawT1,self.fl.figurelist = nmr.integrate(self.odnpPath,expNum,integration_width = self.parameterDict['integrationWidth'],phchannel = [],phnum = [],max_drift = self.parameterDict['maxDrift'],first_figure = self.fl.figurelist,pdfstring = 't1Expno_%d'%(expNum))
+                    rawT1,self.fl.figurelist = nmr.integrate(self.odnpPath,expNum,test_drift_limit=True,integration_width = self.parameterDict['integrationWidth'],phchannel = [],phnum = [],max_drift = self.parameterDict['maxDrift'],first_figure = self.fl.figurelist,pdfstring = 't1Expno_%d'%(expNum))
                 rawT1.rename('power','delay')
                 print "pulling delay from expno %0.2f"%expNum
                 delay = nmr.bruker_load_vdlist(self.odnpPath + '/%d/' %expNum)
@@ -791,6 +791,7 @@ class workupODNP(): #{{{ The ODNP Experiment
             except:
                 # Catch all exception - Maybe not the best 
                 self.fl.figurelist.append({'print_string':r'Was not able to read the $T_1$ data for experiment %i'%expNum + '\n\n'})
+                print "bad T1 data"
                 t1DataList.append(NaN)
                 t1ErrList.append(NaN)
                 
@@ -801,9 +802,10 @@ class workupODNP(): #{{{ The ODNP Experiment
     def makeT1PowerSeries(self): #{{{  The T1 power series
         self.t1PowerSeries = self.t1Series.copy().rename('expNum','power').labels(['power'],[array(self.t1Power)])
         ### Go through and check for NaN value.
+        print self.t1PowerSeries.data
         p = []
-        t1 = []
         e = []
+        t1 = []
         for count,value in enumerate(self.t1PowerSeries.data):
             if isnan(value):
                 self.fl.figurelist.append({'print_string':'\n\n' + r'T1 Value is NaN, Meaning Fit or Experiment did not run properly. You should check this out!! i.e. TALK TO RYAN!! \\' + '\n\n'})
@@ -976,9 +978,18 @@ class workupODNP(): #{{{ The ODNP Experiment
     def writeExpParams(self): ##{{{ Write out the relevant values from the DNP experiment
         if self.dnpexp: # DNP is True, T10 is False
             self.fl.figurelist.append({'print_string':'\n\n' + r'\subparagraph{DNP parameters} \\' + '\n\n'})
-            self.fl.figurelist.append({'print_string':r'$\mathtt{k_{\sigma} S_{max} C = %0.5f \pm %0.5f \ (s^{-1})}$\\'%(self.kSigmaC.data,self.kSigmaC.get_error())})
-            self.fl.figurelist.append({'print_string':r'$\mathtt{E_{max} = %0.3f \pm %0.3f \ (Unitless)}$\\'%(self.enhancementPowerSeries.output(r'E_{max}'),self.enhancementPowerSeries.covar(r'E_{max}')) + '\n\n'})
-            self.fl.figurelist.append({'print_string':r'$\mathtt{T_{1}(p=0) = %0.3f \pm %0.3f \ (Seconds)\ From fit T_1(p=0) = %0.3f (Seconds)}$\\'%(self.R1.data,self.R1.get_error(),self.t1PowerFitVal[0]) + '\n\n'})
+            if self.enhancementPowerSeries.output(r'E_{max}') is float:
+                self.fl.figurelist.append({'print_string':r'$\mathtt{k_{\sigma} S_{max} C = %0.5f \pm %0.5f \ (s^{-1})}$\\'%(self.kSigmaC.data,self.kSigmaC.get_error())})
+                self.fl.figurelist.append({'print_string':r'$\mathtt{E_{max} = %0.3f \pm %0.3f \ (Unitless)}$\\'%(self.enhancementPowerSeries.output(r'E_{max}'),self.enhancementPowerSeries.covar(r'E_{max}')) + '\n\n'})
+            else:
+                self.fl.figurelist.append({'print_string':r"Couldn't fit enhancement data, check out the enhancement plots. You might need to set max drift wider or narrower. Try one then the other, like 1000 or 10.\\" + '\n\n'})
+
+            if self.R1.data is not None:
+                self.fl.figurelist.append({'print_string':r'$\mathtt{T_{1}(p=0) = %0.3f \pm %0.3f \ (Seconds)\ From fit T_1(p=0) = %0.3f (Seconds)}$\\'%(self.R1.data,self.R1.get_error(),self.t1PowerFitVal[0]) + '\n\n'})
+            else:
+                self.fl.figurelist.append({'print_string':r"Couldn't fit zero power T_1\\" + '\n\n'})
+
+
         elif self.nmrExp:
             self.fl.figurelist.append({'print_string':r'\subparagraph{$T_{1,0}$ Parameters}\\' + '\n\n'})
             for i in range(len(self.t1Series.data)):
