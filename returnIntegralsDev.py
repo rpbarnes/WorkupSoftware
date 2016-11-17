@@ -997,7 +997,10 @@ class workupODNP(): #{{{ The ODNP Experiment
                 self.fl.figurelist.append({'print_string':r'$\mathtt{T_{1}(p=0) = %0.3f\ \pm\ %0.3f\ (Seconds)}$\\'%(self.t1Series.data[i],self.t1Series.get_error()[i]) + '\n\n'})
         if self.eprExp: 
             self.fl.figurelist.append({'print_string':r'$\mathtt{EPR\ Double\ Integral.\ EPR_{DI}\ =\ %0.3f\ \frac{SC}{RG NA}}$\\'%(self.diValue) + '\n\n'})
-            self.fl.figurelist.append({'print_string':r'$\mathtt{EPR\ center\ field\ =\ %0.2f\ G,\ spectral\ width\ =\ %0.2f\ G,\ and\ linewidhts\ =\ %0.2f,\ %0.2f,\ %0.2f\ G\ (low\ to\ high\ field)}$\\'%(self.centerField,self.spectralWidth,self.lineWidths[0],self.lineWidths[1],self.lineWidths[2]) + '\n\n'})
+            if int(self.parameterDict.get('numPeaks')) == int(3):
+                self.fl.figurelist.append({'print_string':r'$\mathtt{EPR\ center\ field\ =\ %0.2f\ G,\ spectral\ width\ =\ %0.2f\ G,\ and\ linewidhts\ =\ %0.2f,\ %0.2f,\ %0.2f\ G\ (low\ to\ high\ field)}$\\'%(self.centerField,self.spectralWidth,self.lineWidths[0],self.lineWidths[1],self.lineWidths[2]) + '\n\n'})
+            elif int(self.parameterDict.get('numPeaks')) == int(2):
+                self.fl.figurelist.append({'print_string':r'$\mathtt{EPR\ center\ field\ =\ %0.2f\ G,\ spectral\ width\ =\ %0.2f\ G,\ and\ linewidhts\ =\ %0.2f,\ %0.2f,\ G\ (low\ to\ high\ field)}$\\'%(self.centerField,self.spectralWidth,self.lineWidths[0],self.lineWidths[1]) + '\n\n'})
             if self.spinConc:
                 self.fl.figurelist.append({'print_string':r'$\mathtt{EPR\ Spin\ Concentration\ =\ %0.1f\ \mu\ M}$\\'%(self.spinConc) + '\n\n'})
             elif self.spinConc == None:
