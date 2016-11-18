@@ -190,6 +190,7 @@ def compilePDF(name,folder,fl):
         r'\usepackage{mynotebook}',
         r'\usepackage{mysoftware_style}',
         r'\newcommand{\autoDir}{/Users/StupidRobot/Projects/WorkupSoftware/notebook/auto_figures/}',
+        r'\nonstopmode',
         r'\usepackage{cite}', 
         r'\usepackage{ulem}',
         r'\title{workup %s}'%name,
@@ -443,7 +444,7 @@ class workupODNP(): #{{{ The ODNP Experiment
 
         Cancel should stop the workup.
         """
-        paramsToEdit = [['t1StartingGuess','Enter the T1 Guess (s):'],['integrationWidth','Enter the Integration Width (Hz):'],['t1SeparatePhaseCycle','separate phase cycle yes = 1, no = 0:']]
+        paramsToEdit = [['t1StartingGuess','Enter the T1 Guess (s):'],['maxDrift','Enter the maximum drift of the NMR line (Hz)'],['integrationWidth','Enter the Integration Width (Hz):'],['t1SeparatePhaseCycle','separate phase cycle yes = 1, no = 0:']]
         for dictKey,textToWrite in paramsToEdit:
             text, ok = QtGui.QInputDialog.getText(self.guiParent, 'Experimental Parameters', textToWrite,QtGui.QLineEdit.Normal,str(self.parameterDict.get(dictKey)))
             if ok:
@@ -705,7 +706,7 @@ class workupODNP(): #{{{ The ODNP Experiment
 
     def enhancementIntegration(self): #{{{ Enhancement Integration
         self.fl.figurelist.append({'print_string':r'\subparagraph{Enhancement Series}' + '\n\n'})
-        enhancementSeries,self.fl.figurelist = nmr.integrate(self.odnpPath,self.dnpExps,integration_width = self.parameterDict['integrationWidth'],max_drift = self.parameterDict['maxDrift'],phchannel = [-1],phnum = [4],first_figure = self.fl.figurelist)
+        enhancementSeries,self.fl.figurelist = nmr.integrate(self.odnpPath,self.dnpExps,integration_width = self.parameterDict['integrationWidth'],max_drift = self.parameterDict['maxDrift'],phchannel = [-1],phnum = [4],test_drift_limit=True,first_figure = self.fl.figurelist)
         enhancementSeries.rename('power','expNum').labels(['expNum'],[self.dnpExps])
         ### Fit and plot the Enhancement
         self.enhancementSeries = enhancementSeries.runcopy(real)
@@ -752,9 +753,9 @@ class workupODNP(): #{{{ The ODNP Experiment
                 self.fl.figurelist.append({'print_string':r'$T_1$ experiment %d'%(expNum) + '\n\n'})
             try:
                 if self.parameterDict['t1SeparatePhaseCycle']: # The phase cycles are saved separately 
-                    rawT1,self.fl.figurelist = nmr.integrate(self.odnpPath,expNum,integration_width = self.parameterDict['integrationWidth'],phchannel = [-1],phnum = [4],max_drift = self.parameterDict['maxDrift'],first_figure = self.fl.figurelist,pdfstring = 't1Expno_%d'%(expNum))
+                    rawT1,self.fl.figurelist = nmr.integrate(self.odnpPath,expNum,test_drift_limit=True,integration_width = self.parameterDict['integrationWidth'],phchannel = [-1],phnum = [4],max_drift = self.parameterDict['maxDrift'],first_figure = self.fl.figurelist,pdfstring = 't1Expno_%d'%(expNum))
                 else: # the phase cycle is already performed on the Bruker
-                    rawT1,self.fl.figurelist = nmr.integrate(self.odnpPath,expNum,integration_width = self.parameterDict['integrationWidth'],phchannel = [],phnum = [],max_drift = self.parameterDict['maxDrift'],first_figure = self.fl.figurelist,pdfstring = 't1Expno_%d'%(expNum))
+                    rawT1,self.fl.figurelist = nmr.integrate(self.odnpPath,expNum,test_drift_limit=True,integration_width = self.parameterDict['integrationWidth'],phchannel = [],phnum = [],max_drift = self.parameterDict['maxDrift'],first_figure = self.fl.figurelist,pdfstring = 't1Expno_%d'%(expNum))
                 rawT1.rename('power','delay')
                 print "pulling delay from expno %0.2f"%expNum
                 delay = nmr.bruker_load_vdlist(self.odnpPath + '/%d/' %expNum)
@@ -977,20 +978,28 @@ class workupODNP(): #{{{ The ODNP Experiment
 
     def writeExpParams(self): ##{{{ Write out the relevant values from the DNP experiment
         if self.dnpexp: # DNP is True, T10 is False
-			try:
-				self.fl.figurelist.append({'print_string':'\n\n' + r'\subparagraph{DNP parameters} \\' + '\n\n'})
-				self.fl.figurelist.append({'print_string':r'$\mathtt{k_{\sigma} S_{max} C = %0.5f \pm %0.5f \ (s^{-1})}$\\'%(self.kSigmaC.data,self.kSigmaC.get_error())})
-				self.fl.figurelist.append({'print_string':r'$\mathtt{E_{max} = %0.3f \pm %0.3f \ (Unitless)}$\\'%(self.enhancementPowerSeries.output(r'E_{max}'),self.enhancementPowerSeries.covar(r'E_{max}')) + '\n\n'})
-				self.fl.figurelist.append({'print_string':r'$\mathtt{T_{1}(p=0) = %0.3f \pm %0.3f \ (Seconds)\ From fit T_1(p=0) = %0.3f (Seconds)}$\\'%(self.R1.data,self.R1.get_error(),self.t1PowerFitVal[0]) + '\n\n'})
-			except:
-				pass
+            self.fl.figurelist.append({'print_string':'\n\n' + r'\subparagraph{DNP parameters} \\' + '\n\n'})
+            if self.enhancementPowerSeries.output(r'E_{max}') is float:
+                self.fl.figurelist.append({'print_string':r'$\mathtt{k_{\sigma} S_{max} C = %0.5f \pm %0.5f \ (s^{-1})}$\\'%(self.kSigmaC.data,self.kSigmaC.get_error())})
+                self.fl.figurelist.append({'print_string':r'$\mathtt{E_{max} = %0.3f \pm %0.3f \ (Unitless)}$\\'%(self.enhancementPowerSeries.output(r'E_{max}'),self.enhancementPowerSeries.covar(r'E_{max}')) + '\n\n'})
+            else:
+                self.fl.figurelist.append({'print_string':r"Couldn't fit enhancement data, check out the enhancement plots. You might need to set max drift wider or narrower. Try one then the other, like 1000 or 10.\\" + '\n\n'})
+
+            if self.R1.data is not None:
+                self.fl.figurelist.append({'print_string':r'$\mathtt{T_{1}(p=0) = %0.3f \pm %0.3f \ (Seconds)\ From fit T_1(p=0) = %0.3f (Seconds)}$\\'%(self.R1.data,self.R1.get_error(),self.t1PowerFitVal[0]) + '\n\n'})
+            else:
+                self.fl.figurelist.append({'print_string':r"Couldn't fit zero power T_1\\" + '\n\n'})
+
         elif self.nmrExp:
             self.fl.figurelist.append({'print_string':r'\subparagraph{$T_{1,0}$ Parameters}\\' + '\n\n'})
             for i in range(len(self.t1Series.data)):
                 self.fl.figurelist.append({'print_string':r'$\mathtt{T_{1}(p=0) = %0.3f\ \pm\ %0.3f\ (Seconds)}$\\'%(self.t1Series.data[i],self.t1Series.get_error()[i]) + '\n\n'})
         if self.eprExp: 
             self.fl.figurelist.append({'print_string':r'$\mathtt{EPR\ Double\ Integral.\ EPR_{DI}\ =\ %0.3f\ \frac{SC}{RG NA}}$\\'%(self.diValue) + '\n\n'})
-            self.fl.figurelist.append({'print_string':r'$\mathtt{EPR\ center\ field\ =\ %0.2f\ G,\ spectral\ width\ =\ %0.2f\ G,\ and\ linewidhts\ =\ %0.2f,\ %0.2f,\ %0.2f\ G\ (low\ to\ high\ field)}$\\'%(self.centerField,self.spectralWidth,self.lineWidths[0],self.lineWidths[1],self.lineWidths[2]) + '\n\n'})
+            if int(self.parameterDict.get('numPeaks')) == int(3):
+                self.fl.figurelist.append({'print_string':r'$\mathtt{EPR\ center\ field\ =\ %0.2f\ G,\ spectral\ width\ =\ %0.2f\ G,\ and\ linewidhts\ =\ %0.2f,\ %0.2f,\ %0.2f\ G\ (low\ to\ high\ field)}$\\'%(self.centerField,self.spectralWidth,self.lineWidths[0],self.lineWidths[1],self.lineWidths[2]) + '\n\n'})
+            elif int(self.parameterDict.get('numPeaks')) == int(2):
+                self.fl.figurelist.append({'print_string':r'$\mathtt{EPR\ center\ field\ =\ %0.2f\ G,\ spectral\ width\ =\ %0.2f\ G,\ and\ linewidhts\ =\ %0.2f,\ %0.2f,\ G\ (low\ to\ high\ field)}$\\'%(self.centerField,self.spectralWidth,self.lineWidths[0],self.lineWidths[1]) + '\n\n'})
             if self.spinConc:
                 self.fl.figurelist.append({'print_string':r'$\mathtt{EPR\ Spin\ Concentration\ =\ %0.1f\ \mu\ M}$\\'%(self.spinConc) + '\n\n'})
             elif self.spinConc == None:
