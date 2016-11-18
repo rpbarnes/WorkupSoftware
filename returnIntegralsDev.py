@@ -977,10 +977,13 @@ class workupODNP(): #{{{ The ODNP Experiment
 
     def writeExpParams(self): ##{{{ Write out the relevant values from the DNP experiment
         if self.dnpexp: # DNP is True, T10 is False
-            self.fl.figurelist.append({'print_string':'\n\n' + r'\subparagraph{DNP parameters} \\' + '\n\n'})
-            self.fl.figurelist.append({'print_string':r'$\mathtt{k_{\sigma} S_{max} C = %0.5f \pm %0.5f \ (s^{-1})}$\\'%(self.kSigmaC.data,self.kSigmaC.get_error())})
-            self.fl.figurelist.append({'print_string':r'$\mathtt{E_{max} = %0.3f \pm %0.3f \ (Unitless)}$\\'%(self.enhancementPowerSeries.output(r'E_{max}'),self.enhancementPowerSeries.covar(r'E_{max}')) + '\n\n'})
-            self.fl.figurelist.append({'print_string':r'$\mathtt{T_{1}(p=0) = %0.3f \pm %0.3f \ (Seconds)\ From fit T_1(p=0) = %0.3f (Seconds)}$\\'%(self.R1.data,self.R1.get_error(),self.t1PowerFitVal[0]) + '\n\n'})
+			try:
+				self.fl.figurelist.append({'print_string':'\n\n' + r'\subparagraph{DNP parameters} \\' + '\n\n'})
+				self.fl.figurelist.append({'print_string':r'$\mathtt{k_{\sigma} S_{max} C = %0.5f \pm %0.5f \ (s^{-1})}$\\'%(self.kSigmaC.data,self.kSigmaC.get_error())})
+				self.fl.figurelist.append({'print_string':r'$\mathtt{E_{max} = %0.3f \pm %0.3f \ (Unitless)}$\\'%(self.enhancementPowerSeries.output(r'E_{max}'),self.enhancementPowerSeries.covar(r'E_{max}')) + '\n\n'})
+				self.fl.figurelist.append({'print_string':r'$\mathtt{T_{1}(p=0) = %0.3f \pm %0.3f \ (Seconds)\ From fit T_1(p=0) = %0.3f (Seconds)}$\\'%(self.R1.data,self.R1.get_error(),self.t1PowerFitVal[0]) + '\n\n'})
+			except:
+				pass
         elif self.nmrExp:
             self.fl.figurelist.append({'print_string':r'\subparagraph{$T_{1,0}$ Parameters}\\' + '\n\n'})
             for i in range(len(self.t1Series.data)):
