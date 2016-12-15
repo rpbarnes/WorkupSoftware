@@ -191,7 +191,6 @@ def compilePDF(name,folder,fl):
         r'\usepackage{mynotebook}',
         r'\usepackage{mysoftware_style}',
         r'\newcommand{\autoDir}{/Users/StupidRobot/Projects/WorkupSoftware/notebook/auto_figures/}',
-        r'\nonstopmode',
         r'\usepackage{cite}', 
         r'\usepackage{ulem}',
         r'\title{workup %s}'%name,

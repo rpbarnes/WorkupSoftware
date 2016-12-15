@@ -7,7 +7,7 @@ import nmrfit
 from matlablike import *
 
 fileName = '/Users/StupidRobot/Desktop/20161213_CK_35ul_9db/'
-totalIntegration = True# This will break up the integration of the NMR data.
+totalIntegration = True # This will break up the integration of the NMR data.
 close('all')
 
 expNum = r_[5:27]
