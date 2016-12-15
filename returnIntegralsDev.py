@@ -191,6 +191,7 @@ def compilePDF(name,folder,fl):
         r'\usepackage{mynotebook}',
         r'\usepackage{mysoftware_style}',
         r'\newcommand{\autoDir}{/Users/StupidRobot/Projects/WorkupSoftware/notebook/auto_figures/}',
+        r'\nonstopmode',
         r'\usepackage{cite}', 
         r'\usepackage{ulem}',
         r'\title{workup %s}'%name,
@@ -709,7 +710,7 @@ class workupODNP(): #{{{ The ODNP Experiment
         enhancementSeries,self.fl.figurelist = nmr.integrate(self.odnpPath,self.dnpExps,integration_width = self.parameterDict['integrationWidth'],max_drift = self.parameterDict['maxDrift'],phchannel = [-1],phnum = [4],test_drift_limit=True,first_figure = self.fl.figurelist)
         enhancementSeries.rename('power','expNum').labels(['expNum'],[self.dnpExps])
         ### Fit and plot the Enhancement
-        self.enhancementSeries = enhancementSeries.runcopy(real)
+        self.enhancementSeries = enhancementSeries.copy()
         self.fl.figurelist = pys.nextfigure(self.fl.figurelist,'EnhancementExpSeries')
         ax = pys.gca()
         pys.plot(self.enhancementSeries.copy().set_error(None),'r.',alpha = 0.5)
@@ -721,7 +722,7 @@ class workupODNP(): #{{{ The ODNP Experiment
             enhancementPowerSeries = self.enhancementSeries.copy()
             enhancementPowerSeries.rename('expNum','power').labels(['power'],[self.enhancementPowers])
             ### Fit and plot the Enhancement
-            self.enhancementPowerSeries = enhancementPowerSeries.runcopy(real)
+            self.enhancementPowerSeries = enhancementPowerSeries.copy()
             self.enhancementPowerSeries.data /= self.enhancementPowerSeries.data[0]
             self.enhancementPowerSeries = nmrfit.emax(self.enhancementPowerSeries,verbose = False)
             self.enhancementPowerSeries.fit()
@@ -730,7 +731,7 @@ class workupODNP(): #{{{ The ODNP Experiment
             pys.text(0.5,0.5,self.enhancementPowerSeries.latex(),transform = ax.transAxes,size = 'x-large', horizontalalignment = 'center',color = 'b')
             pys.plot_updown(self.enhancementPowerSeries.copy().set_error(None),'power','r','b',alpha = 0.5)
             pys.plot_updown(self.enhancementPowerSeries.runcopy(imag).set_error(None),'power','k','k',alpha = 0.5)
-            pys.plot(self.enhancementPowerSeries.eval(100))
+            pys.plot(self.enhancementPowerSeries.runcopy(real).eval(100))
             pys.title('NMR Enhancement')
             pys.giveSpace()
         except:
@@ -857,7 +858,7 @@ class workupODNP(): #{{{ The ODNP Experiment
             self.R1 = pys.nddata(self.t1PowerFit['power',0].data).set_error(average(self.t1PowerSeries.get_error()))
         else:
             self.R1 = pys.nddata(self.t1Series['expNum',lambda x: x == 304].data).set_error(self.t1Series['expNum',lambda x: x == 304].get_error())
-        self.kSigmaUCCurve = (1-self.enhancementPowerSeries.copy())*(1./self.R1)*(1./659.33)
+        self.kSigmaUCCurve = (1-self.enhancementPowerSeries.runcopy(real))*(1./self.R1)*(1./659.33)
         self.kSigmaUCCurve.popdim('value') # For some reason it picks this up from R1, I'm not sure how to do the above nicely 
         self.kSigmaUCCurve.set_error(None)
         self.kSigmaUCCurve = nmrfit.ksp(self.kSigmaUCCurve)
@@ -869,7 +870,7 @@ class workupODNP(): #{{{ The ODNP Experiment
             self.kSigmaUC.set_error(sqrt(self.kSigmaUCCurve.covar(r'ksmax')))
         except:
             pass
-        self.kSigmaCCurve = (1- self.enhancementPowerSeries.copy())*self.rateFit.copy().interp('power',self.enhancementPowerSeries.getaxis('power'))*(1./659.33)
+        self.kSigmaCCurve = (1- self.enhancementPowerSeries.runcopy(real))*self.rateFit.copy().interp('power',self.enhancementPowerSeries.getaxis('power'))*(1./659.33)
         self.kSigmaCCurve = nmrfit.ksp(self.kSigmaCCurve)
         self.kSigmaCCurve.fit()
         self.kSigmaC = pys.nddata(self.kSigmaCCurve.output(r'ksmax')).rename('value','').set_error(array([sqrt(self.kSigmaCCurve.covar(r'ksmax'))]))
@@ -935,7 +936,7 @@ class workupODNP(): #{{{ The ODNP Experiment
     def dumpAllToCSV(self): #{{{ Write everything to a csv file as well
         if self.dnpexp:
             if self.enhancementPowerSeries:
-                enhancementPowersWriter = [('power (W)','Integral','Exp Num')] + zip(list(self.enhancementPowerSeries.getaxis('power')),list(self.enhancementPowerSeries.data),list(self.enhancementSeries.getaxis('expNum'))) + [('\n')]
+                enhancementPowersWriter = [('power (W)','Integral (real)','Integral (imag)','Exp Num')] + zip(list(self.enhancementPowerSeries.getaxis('power')),list(self.enhancementPowerSeries.runcopy(real).data),list(self.enhancementPowerSeries.runcopy(imag).data),list(self.enhancementSeries.getaxis('expNum'))) + [('\n')]
                 dataToCSV(enhancementPowersWriter,self.odnpName+'enhancementPowers.csv')
 
             ### Write the T1 power file 
@@ -989,7 +990,6 @@ class workupODNP(): #{{{ The ODNP Experiment
                 self.fl.figurelist.append({'print_string':r'$\mathtt{T_{1}(p=0) = %0.3f \pm %0.3f \ (Seconds)\ From fit T_1(p=0) = %0.3f (Seconds)}$\\'%(self.R1.data,self.R1.get_error(),self.t1PowerFitVal[0]) + '\n\n'})
             else:
                 self.fl.figurelist.append({'print_string':r"Couldn't fit zero power T_1\\" + '\n\n'})
-
 
         elif self.nmrExp:
             self.fl.figurelist.append({'print_string':r'\subparagraph{$T_{1,0}$ Parameters}\\' + '\n\n'})
