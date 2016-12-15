@@ -187,6 +187,7 @@ def compilePDF(name,folder,fl):
     texFile = open('plots.tex','wb')
     header = [
         r'\documentclass[10pt]{book}',
+        r'\nonstopmode',
         r'\usepackage{mynotebook}',
         r'\usepackage{mysoftware_style}',
         r'\newcommand{\autoDir}{/Users/StupidRobot/Projects/WorkupSoftware/notebook/auto_figures/}',
