@@ -758,12 +758,16 @@ class workupODNP(): #{{{ The ODNP Experiment
                 rawT1.rename('power','delay')
                 print "pulling delay from expno %0.2f"%expNum
                 delay = nmr.bruker_load_vdlist(self.odnpPath + '/%d/' %expNum)
+                # chop the data if longer than delay... I'm not sure how this one happens.
                 rawT1 = rawT1['delay',0:len(delay)]
-                rawT1.labels(['delay'],[delay])
+                # Chop the delay array if longer than data.
+                rawT1.labels(['delay'],[delay[0:len(rawT1.data)]])
+                print "attached delay axis"
                 rawT1 = nmrfit.t1curve(rawT1.runcopy(real),verbose = False) 
                 s2 = float(rawT1['delay',-1].data)
                 s1 = -s2
                 rawT1.starting_guesses.insert(0,array([s1,s2,self.parameterDict['t1StartingGuess']]))
+                print "Fitting T1"
                 try:
                     rawT1.fit()
                     self.fl.figurelist = pys.nextfigure(self.fl.figurelist,'t1RawDataExp%d'%(expNum))
@@ -790,6 +794,11 @@ class workupODNP(): #{{{ The ODNP Experiment
                     t1ErrList.append(NaN)
             except:
                 # Catch all exception - Maybe not the best 
+                self.fl.figurelist = pys.nextfigure(self.fl.figurelist,'t1RawDataExp%d'%(expNum))
+                ax = pys.gca()
+                pys.title('T1 Exp %0.2f'%(expNum))
+                pys.plot(rawT1,'r.')
+                pys.plot(rawT1.runcopy(imag),'g.')
                 self.fl.figurelist.append({'print_string':r'Was not able to read the $T_1$ data for experiment %i'%expNum + '\n\n'})
                 print "bad T1 data"
                 t1DataList.append(NaN)
