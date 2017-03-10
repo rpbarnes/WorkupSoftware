@@ -692,13 +692,7 @@ class workupODNP(): #{{{ The ODNP Experiment
         self.t1Power = nmr.dbm_to_power(t1Power,cavity_setup=self.specType)
         ### Error handling for the T1 powers and integration file#{{{
         if len(self.t1Power) != len(self.t1Exps): ### There is something wrong. Show the power series plot and print the dnpExps
-            self.fl.figurelist.append({'print_string':r'\subsection{\large{ERROR: Read Below to fix!!}}' + '\n\n'})#{{{ Error text
-            self.fl.figurelist.append({'print_string':"Before you start, the terminal (commandline) is still alive and will walk you through making edits to the necessary parameters to resolve this issue. \n\n \large(Issue:) The number of power values, %d, and the number of $T_1$ experiments, %d, does not match. This is either because \n\n (1) I didn't return the correct number of powers or \n\n (2) You didn't enter the correct number of T1 experiments. \n\n If case (1) look at plot 'T1 Derivative powers' the black line is determined by 'thresholdT1' in the code. Adjust the threshold value such that the black line is below all of the blue peaks that you suspect are valid power jumps. \n\n If case (2) look through the experiment titles, listed below and make sure you have set 't1Exp' correctly. Also shown below. Recall that the last experiment in both the DNP and T1 sets is empty."%(len(self.t1Power),len(self.t1Exps)) + '\n\n'})
-            self.fl.figurelist.append({'print_string':r'\subsection{Experiment Titles and Experiment Number}' + '\n\n'})
-            for titleName in self.expTitles:
-                self.fl.figurelist.append({'print_string':r"%s"%titleName})#}}}
-            compilePDF(self.name,self.odnpName,self.fl)
-            raise ValueError("\n\n Something is weird with your powers file. Take a look at the pdf and see if you can make changes. Or just paste in a working powers file. Hint you might also find adjusting the threshold parameters helps.")
+            self.t1Power = False # we don't have t1 powers and lets just skip this.
         #}}}
 
             #}}}
@@ -746,7 +740,7 @@ class workupODNP(): #{{{ The ODNP Experiment
         self.fl.figurelist.append({'print_string':r'\subparagraph{T_1 Series}' + '\n\n'})
         for count,expNum in enumerate(self.t1Exps):
             print "integrating data from expno %0.2f"%expNum
-            if self.dnpexp:
+            if self.dnpexp and self.t1Power:
                 self.fl.figurelist.append({'print_string':r'$T_1$ experiment %d at power %0.2f dBm'%(expNum,self.t1Power[count]) + '\n\n'})
             else:
                 self.fl.figurelist.append({'print_string':r'$T_1$ experiment %d'%(expNum) + '\n\n'})
@@ -956,10 +950,11 @@ class workupODNP(): #{{{ The ODNP Experiment
             dataToCSV(enhancementSeriesWriter,self.odnpName+'enhancementSeries.csv')
 
             ### Write Ksigma
-            if self.parameterDict['ReturnKSigma']:
-                kSigmaWriter = [('kSigma','error')] + zip(list(self.kSigmaC.data),list(self.kSigmaC.get_error())) + [('\n')] + [('kSigma','power')] + zip(list(self.kSigmaCCurve.runcopy(real).data),list(self.kSigmaCCurve.getaxis('power')))
-                dataToCSV(kSigmaWriter,self.odnpName+'kSigma.csv')
-              
+            if self.t1PowerSeries:
+                if self.parameterDict['ReturnKSigma']:
+                    kSigmaWriter = [('kSigma','error')] + zip(list(self.kSigmaC.data),list(self.kSigmaC.get_error())) + [('\n')] + [('kSigma','power')] + zip(list(self.kSigmaCCurve.runcopy(real).data),list(self.kSigmaCCurve.getaxis('power')))
+                    dataToCSV(kSigmaWriter,self.odnpName+'kSigma.csv')
+                  
             # write all relaxation parameters to file
             header = [('ODNP fileName','T1 (s)', 'T1 Error (s)', 'T1 Fit (s)','kSigma (s-1)','kSigma Error (s-1)')]
             dataWriter = [(self.odnpPath,float(self.R1.data[0]),float(self.R1.get_error()[0]),float(self.t1PowerFitVal[0]),float(self.kSigmaC.data[0]),float(self.kSigmaC.get_error()[0]))]
