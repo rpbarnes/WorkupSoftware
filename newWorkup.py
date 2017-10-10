@@ -159,9 +159,9 @@ class initialWindow(QDialog, Ui_mainWindow):
         if self.retInt.dnpexp: self.retInt.dnpPowers()
         if self.retInt.dnpexp: self.retInt.enhancementIntegration()
         if self.retInt.nmrExp: self.retInt.T1Integration()
-        if self.retInt.dnpexp and self.retInt.t1Power: self.retInt.makeT1PowerSeries()
+        if self.retInt.dnpexp and self.retInt.t1PowerCorrect: self.retInt.makeT1PowerSeries()
         else: self.retInt.t1PowerSeries = False
-        if self.retInt.dnpexp and self.retInt.t1Power: self.retInt.compKsigma()
+        if self.retInt.dnpexp and self.retInt.t1PowerCorrect: self.retInt.compKsigma()
         if self.dataBase: self.retInt.writeToDatabase()
         self.retInt.dumpAllToCSV()
         self.retInt.writeExpParams()

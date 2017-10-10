@@ -305,7 +305,7 @@ class workupODNP(): #{{{ The ODNP Experiment
                     #}}}
 
     def returnEPRData(self): #{{{ EPR Workup stuff
-        self.spec,self.lineWidths,self.spectralWidth,self.centerField,self.doubleIntZC,self.doubleIntC3,self.diValue,self.spinConc = eprDI.workupCwEpr(self.eprName,self.parameterDict.get('spectralWidthMultiplier'),numPeaks=int(self.parameterDict.get('numPeaks')),EPRCalFile=self.guiParent.EPRCalFile,firstFigure=self.fl.figurelist)
+        self.spec,self.lineWidths,self.spectralWidth,self.centerField,self.doubleIntZC,self.doubleIntC3,self.diValue,self.spinConc,self.amplitudes = eprDI.workupCwEpr(self.eprName,self.parameterDict.get('spectralWidthMultiplier'),numPeaks=int(self.parameterDict.get('numPeaks')),EPRCalFile=False,firstFigure=self.fl.figurelist)
         """
         Perform the epr baseline correction and double integration.
 
@@ -693,7 +693,9 @@ class workupODNP(): #{{{ The ODNP Experiment
         self.t1Power = nmr.dbm_to_power(t1Power,cavity_setup=self.specType)
         ### Error handling for the T1 powers and integration file#{{{
         if len(self.t1Power) != len(self.t1Exps): ### There is something wrong. Show the power series plot and print the dnpExps
-            self.t1Power = False # we don't have t1 powers and lets just skip this.
+            self.t1PowerCorrect = False # we don't have t1 powers and lets just skip this.
+        else:
+            self.t1PowerCorrect = True
         #}}}
 
             #}}}
@@ -741,7 +743,7 @@ class workupODNP(): #{{{ The ODNP Experiment
         self.fl.figurelist.append({'print_string':r'\subparagraph{T_1 Series}' + '\n\n'})
         for count,expNum in enumerate(self.t1Exps):
             print "integrating data from expno %0.2f"%expNum
-            if self.dnpexp and self.t1Power:
+            if self.dnpexp and self.t1PowerCorrect:
                 self.fl.figurelist.append({'print_string':r'$T_1$ experiment %d at power %0.2f dBm'%(expNum,self.t1Power[count]) + '\n\n'})
             else:
                 self.fl.figurelist.append({'print_string':r'$T_1$ experiment %d'%(expNum) + '\n\n'})
