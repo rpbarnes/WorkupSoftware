@@ -1,7 +1,7 @@
 from nmr import *
 import fornotebook as fnb
 
-fullPath = '/Users/StupidRobot/exp_data/ryan_emx/nmr/141204Tests/'
+fullPath = '/Users/stupidrobot/ActiveProjects/exp_data/ryan_cnsi/nmr/151012_Annex_162C_Tris_RT_ODNP/'
 close('all')
 fl = fnb.figlist()
 
