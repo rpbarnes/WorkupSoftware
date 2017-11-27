@@ -305,7 +305,7 @@ class workupODNP(): #{{{ The ODNP Experiment
                     #}}}
 
     def returnEPRData(self): #{{{ EPR Workup stuff
-        self.spec,self.lineWidths,self.spectralWidth,self.centerField,self.doubleIntZC,self.doubleIntC3,self.diValue,self.spinConc = eprDI.workupCwEpr(self.eprName,self.parameterDict.get('spectralWidthMultiplier'),numPeaks=int(self.parameterDict.get('numPeaks')),EPRCalFile=self.guiParent.EPRCalFile,firstFigure=self.fl.figurelist)
+        self.spec,self.lineWidths,self.spectralWidth,self.centerField,self.doubleIntZC,self.doubleIntC3,self.diValue,self.spinConc, self.amplitudes = eprDI.workupCwEpr(self.eprName,self.parameterDict.get('spectralWidthMultiplier'),numPeaks=int(self.parameterDict.get('numPeaks')),EPRCalFile=self.guiParent.EPRCalFile,firstFigure=self.fl.figurelist)
         """
         Perform the epr baseline correction and double integration.
 
