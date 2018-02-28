@@ -970,7 +970,7 @@ class workupODNP(): #{{{ The ODNP Experiment
         if self.eprExp:
             eprWriter = zip(list(self.spec.getaxis('field')),list(self.spec.data),list(self.doubleIntC3.data))
             dataToASC(eprWriter,self.odnpName+'eprSpec')
-            self.specDict = {'epr':{'centerField':str(self.centerField),'lineWidths':list(self.lineWidths),'spectralWidth':str(self.spectralWidth),'doubleIntegral':str(self.diValue),'spinConcentration':str(self.spinConc),'expDict':self.spec.other_info}}
+            self.specDict = {'epr':{'centerField':str(self.centerField),'lineWidths':list(self.lineWidths),'amplitudes':list(self.amplitudes),'spectralWidth':str(self.spectralWidth),'doubleIntegral':str(self.diValue),'spinConcentration':str(self.spinConc),'expDict':self.spec.other_info}}
             dictToCSV(self.odnpName+'eprParams',self.specDict)
 
         if self.nmrExp:
