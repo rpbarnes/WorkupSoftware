@@ -722,16 +722,16 @@ class workupODNP(): #{{{ The ODNP Experiment
             # correct the phase roll
             enP = 1-self.enhancementPowerSeries.copy()
             enP = enP.runcopy(abs)
-            #self.enhancementPowerSeriesCorrected = 1 + -1*enP
-            self.enhancementPowerSeriesCorrected = self.enhancementPowerSeries.copy()
-            self.enhancementPowerSeriesCorrected = nmrfit.emax(self.enhancementPowerSeriesCorrected,verbose = False)
-            self.enhancementPowerSeriesCorrected.fit()
+            # this is a correction for the phase roll but isn't currently plotted. just used in the kSigma calculation.
+            self.enhancementPowerSeriesCorrected = 1 + -1*enP
+            self.enhancementPowerSeries = nmrfit.emax(self.enhancementPowerSeries,verbose = False)
+            self.enhancementPowerSeries.fit()
             self.fl.figurelist = pys.nextfigure(self.fl.figurelist,'EnhancementPowerSeries')
             ax = pys.gca()
-            pys.text(0.5,0.5,self.enhancementPowerSeriesCorrected.latex(),transform = ax.transAxes,size = 'x-large', horizontalalignment = 'center',color = 'b')
-            pys.plot_updown(self.enhancementPowerSeriesCorrected.copy().set_error(None),'power','r','b',alpha = 0.5)
-            pys.plot_updown(self.enhancementPowerSeriesCorrected.runcopy(imag).set_error(None),'power','k','k',alpha = 0.5)
-            pys.plot(self.enhancementPowerSeriesCorrected.runcopy(real).eval(100))
+            pys.text(0.5,0.5,self.enhancementPowerSeries.latex(),transform = ax.transAxes,size = 'x-large', horizontalalignment = 'center',color = 'b')
+            pys.plot_updown(self.enhancementPowerSeries.copy().set_error(None),'power','r','b',alpha = 0.5)
+            pys.plot_updown(self.enhancementPowerSeries.runcopy(imag).set_error(None),'power','k','k',alpha = 0.5)
+            pys.plot(self.enhancementPowerSeries.runcopy(real).eval(100))
             pys.title('NMR Enhancement')
             pys.giveSpace()
         except:
@@ -867,8 +867,16 @@ class workupODNP(): #{{{ The ODNP Experiment
             self.R1 = pys.nddata(self.t1PowerFit['power',0].data).set_error(average(self.t1PowerSeries.get_error()))
         else:
             self.R1 = pys.nddata(self.t1Series['expNum',lambda x: x == 304].data).set_error(self.t1Series['expNum',lambda x: x == 304].get_error())
+        # which enhancement series should you use? If the last point is less than the first point then use the corrected else use the uncorrected.
+        maxPower = self.enhancementPowerSeries.getaxis('power').argmax()
+        if (self.enhancementPowerSeriesCorrected['power',0].runcopy(real).data > self.enhancementPowerSeriesCorrected['power',maxPower].runcopy(real).data):
+            enhancementToUse = self.enhancementPowerSeriesCorrected
+            self.fl.figurelist.append({'print_string':'\n\n' + r'Using the phase corrected enhacement to calculate kSigma' + '\n\n'})
+        else:
+            enhancementToUse = self.enhancementPowerSeries
+            self.fl.figurelist.append({'print_string':'\n\n' + r'Using the un-phase corrected enhacement to calculate kSigma' + '\n\n'})
         # get rid of phase roll in enhancement
-        self.kSigmaUCCurve = (1-self.enhancementPowerSeriesCorrected.runcopy(real))*(1./self.R1)*(1./659.33)
+        self.kSigmaUCCurve = (1-enhancementToUse.runcopy(real))*(1./self.R1)*(1./659.33)
         self.kSigmaUCCurve.popdim('value') # For some reason it picks this up from R1, I'm not sure how to do the above nicely 
         self.kSigmaUCCurve.set_error(None)
         self.kSigmaUCCurve = nmrfit.ksp(self.kSigmaUCCurve)
@@ -880,7 +888,7 @@ class workupODNP(): #{{{ The ODNP Experiment
             self.kSigmaUC.set_error(sqrt(self.kSigmaUCCurve.covar(r'ksmax')))
         except:
             pass
-        self.kSigmaCCurve = (1- self.enhancementPowerSeriesCorrected.runcopy(real))*self.rateFit.copy().interp('power',self.enhancementPowerSeries.getaxis('power'))*(1./659.33)
+        self.kSigmaCCurve = (1- enhancementToUse.runcopy(real))*self.rateFit.copy().interp('power',self.enhancementPowerSeries.getaxis('power'))*(1./659.33)
         self.kSigmaCCurve = nmrfit.ksp(self.kSigmaCCurve)
         self.kSigmaCCurve.fit()
         self.kSigmaC = pys.nddata(self.kSigmaCCurve.output(r'ksmax')).rename('value','').set_error(array([sqrt(self.kSigmaCCurve.covar(r'ksmax'))]))
