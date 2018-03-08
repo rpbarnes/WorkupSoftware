@@ -305,7 +305,7 @@ class workupODNP(): #{{{ The ODNP Experiment
                     #}}}
 
     def returnEPRData(self): #{{{ EPR Workup stuff
-        self.spec,self.lineWidths,self.spectralWidth,self.centerField,self.doubleIntZC,self.doubleIntC3,self.diValue,self.spinConc,self.amplitudes = eprDI.workupCwEpr(self.eprName,self.parameterDict.get('spectralWidthMultiplier'),numPeaks=int(self.parameterDict.get('numPeaks')),EPRCalFile=False,firstFigure=self.fl.figurelist)
+        self.spec,self.lineWidths,self.spectralWidth,self.centerField,self.doubleIntZC,self.doubleIntC3,self.diValue,self.spinConc, self.amplitudes = eprDI.workupCwEpr(self.eprName,self.parameterDict.get('spectralWidthMultiplier'),numPeaks=int(self.parameterDict.get('numPeaks')),EPRCalFile=self.guiParent.EPRCalFile,firstFigure=self.fl.figurelist)
         """
         Perform the epr baseline correction and double integration.
 
@@ -748,7 +748,7 @@ class workupODNP(): #{{{ The ODNP Experiment
         self.fl.figurelist.append({'print_string':r'\subparagraph{T_1 Series}' + '\n\n'})
         for count,expNum in enumerate(self.t1Exps):
             print "integrating data from expno %0.2f"%expNum
-            if self.dnpexp and self.t1PowerCorrect:
+            if self.dnpexp and self.t1Power:
                 self.fl.figurelist.append({'print_string':r'$T_1$ experiment %d at power %0.2f dBm'%(expNum,self.t1Power[count]) + '\n\n'})
             else:
                 self.fl.figurelist.append({'print_string':r'$T_1$ experiment %d'%(expNum) + '\n\n'})
