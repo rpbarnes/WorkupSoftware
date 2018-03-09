@@ -748,7 +748,7 @@ class workupODNP(): #{{{ The ODNP Experiment
         self.fl.figurelist.append({'print_string':r'\subparagraph{T_1 Series}' + '\n\n'})
         for count,expNum in enumerate(self.t1Exps):
             print "integrating data from expno %0.2f"%expNum
-            if self.dnpexp and self.t1Power:
+            if self.dnpexp and self.t1Power.all():
                 self.fl.figurelist.append({'print_string':r'$T_1$ experiment %d at power %0.2f dBm'%(expNum,self.t1Power[count]) + '\n\n'})
             else:
                 self.fl.figurelist.append({'print_string':r'$T_1$ experiment %d'%(expNum) + '\n\n'})
