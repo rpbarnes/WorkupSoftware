@@ -1022,8 +1022,6 @@ class workupODNP(): #{{{ The ODNP Experiment
                 self.fl.figurelist.append({'print_string':r'$\mathtt{EPR\ center\ field\ =\ %0.2f\ G,\ spectral\ width\ =\ %0.2f\ G,\ and\ linewidhts\ =\ %0.2f,\ %0.2f,\ G\ (low\ to\ high\ field)}$\\'%(self.centerField,self.spectralWidth,self.lineWidths[0],self.lineWidths[1]) + '\n\n'})
             if self.spinConc:
                 self.fl.figurelist.append({'print_string':r'$\mathtt{EPR\ Spin\ Concentration\ =\ %0.1f\ \mu\ M}$\\'%(self.spinConc) + '\n\n'})
-            elif self.spinConc == None:
-                self.fl.figurelist.append({'print_string':r'$\mathtt{EPR\ Spin\ Concentration\ not\ determined\ rg\ and\ mod\ amplitude\ not\ written\ to\ file.}$\\' + '\n\n'})
 
     ##}}}
 #}}}
